@@ -1,7 +1,13 @@
 {
-    "id": "sample",
-    "name": "sample",
-    "title": "MakeCode Editor Sample",
+    "id": "samlabs-pxt-target",
+    "name": "Sam Blockly",
+    "title": "Sam Blockly - Blocks / Javascript editor",
+    "description": "A Custom Blocks / JavaScript code editor based on MakeCode for Sam Blockly Devices",
+    "versions":{
+        "target":"0.1.1",
+        "pxt":""
+    },
+
     "corepkg": "core",
     "cloud": {
         "workspace": false,
@@ -18,9 +24,6 @@
       "textBlocks": false,
       "functionBlocks": false,
       "listsBlocks": false
-    },
-    "simulator": {
-        "autoRun": true
     },
     "appTheme": {
         "logoUrl": "https://github.com/Microsoft/pxt-sample",
@@ -62,5 +65,92 @@
         "monacoColors": {
             "editor.background": "#ecf0f1"
         }
+    },
+    "simulator": {
+        "autoRun": true,
+        "stopOnChange":true,
+        "streams": true,
+        "aspectRatio": 1.22,
+        "parts": true,
+        "partsAspectRatio": 0.69,
+        "headless":true,
+        "partsEnabled":true,
+        "boardDefinition":{
+            "visual":"sam_hub",
+            "gpioPinsBlocks":[
+                [
+                    "P0"
+                ],
+                [
+                    "P1"
+                ],
+                [
+                    "P2"
+                ],
+                [
+                    "P3"
+                ],
+                [
+                    "P4"
+                ],
+                [
+                    "P5"
+                ],
+                [
+                    "P6"
+                ],
+                [
+                    "P7"
+                ],
+                [
+                    "P8"
+                ],
+                [
+                    "P9"
+                ],
+                [
+                    "P10"
+                ],
+                [
+                    "P11"
+                ],
+                [
+                    "P12"
+                ],
+                [
+                    "P13"
+                ],
+                [
+                    "P14"
+                ],
+                [
+                    "P15"
+                ],
+                [
+                    "P16"
+                ]
+            ],
+            "gpioPinMap":{
+                "Port 0": "P0",
+                "Port 1": "P1",
+                "Port 2": "P2",
+                "Port 3": "P3",
+                "Port 4": "P4",
+                "Port 5": "P5",
+                "Port 6": "P6",
+                "Port 7": "P7",
+                "Port 8": "P8",
+                "Port 9": "P9",
+                "Port 10": "P10",
+                "Port 11": "P11",
+                "Port 12": "P12",
+                "Port 13": "P13",
+                "Port 14": "P14",
+                "Port 15": "P15",
+                "Port 16": "P16"
+            }
+
+        }
+
     }
 }
