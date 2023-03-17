@@ -35,16 +35,16 @@
 @grey             : #636e72;
 @orange           : #fab1a0;
 @pink             : #fd79a8;
-@purple           : #a29bfe;
+@purple           : #26d0c4;
 @red              : #ff7675;
-@teal             : #81ecec;
+@teal             : #26d0c4;
 @yellow           : #ffeaa7;
 
 /*-------------------
     Brand Colors
 --------------------*/
 
-@primaryColor        : @blue;
+@primaryColor        : @teal;
 @secondaryColor      : @grey;
 
 @lightPrimaryColor   : @lightBlue;
