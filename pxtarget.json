@@ -1,7 +1,9 @@
 {
-    "id": "sample",
-    "name": "sample",
-    "title": "MakeCode Editor Sample",
+
+    "id": "samlabs-pxt-target",
+    "name": "Sam Blockly",
+    "title": "Sam Blockly - Blocks / Javascript editor",
+    "description": "A Custom Blocks / JavaScript code editor based on MakeCode for Sam Blockly Devices",
     "corepkg": "core",
     "cloud": {
         "workspace": false,
