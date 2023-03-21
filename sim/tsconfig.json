@@ -5,9 +5,11 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "declaration": true,
-        "out": "../built/sim.js",
+        "outFile": "../built/sim.js",
         "rootDir": ".",
         "newLine": "LF",
-        "sourceMap": false
+        "sourceMap": false,
+        "module": "system",
+        "jsx": "react", 
     }
 }
