@@ -3,13 +3,14 @@
         "target": "es2017",
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "noImplicitThis": true,
         "declaration": true,
-        "outFile": "../built/sim.js",
+        "out": "../built/sim.js",
         "rootDir": ".",
         "newLine": "LF",
         "sourceMap": false,
-        "module": "system",
-        "jsx": "react", 
-    }
+        "skipLibCheck": true
+    },
+    "exclude": [
+        "app"
+      ]
 }

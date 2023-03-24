@@ -1,10 +1,10 @@
 /* Import all components */
+@import 'pxtsemantic';
 @import 'pxt';
 @import 'blockly-toolbox';
 @import 'themes/default/globals/site.variables';
 @import 'themes/pxt/globals/site.variables';
 @import 'site/globals/site.variables';
-@import 'pxtsemantic';
 
 /* Reference import */
 @import (reference) "semantic.less";
@@ -21,6 +21,13 @@
     text-transform: uppercase;
     margin-left: 1rem;
 }
+
+.ui.embed {
+    min-height: ~"calc(100vh - 220px)" !important; /* simulatorMinHeight*/
+    min-width: 300px !important;
+  }
+
+  /* floating simulator height - review aspect ratio thing*/
 
 /* Mobile */
 @media only screen and (max-width: @largestMobileScreen) {
