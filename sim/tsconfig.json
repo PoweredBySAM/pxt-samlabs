@@ -3,11 +3,14 @@
         "target": "es2017",
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "noImplicitThis": true,
         "declaration": true,
         "out": "../built/sim.js",
         "rootDir": ".",
         "newLine": "LF",
-        "sourceMap": false
-    }
+        "sourceMap": false,
+        "skipLibCheck": true
+    },
+    "exclude": [
+        "app"
+      ]
 }
