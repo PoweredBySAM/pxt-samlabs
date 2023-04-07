@@ -12,6 +12,7 @@ import Slider from "./Devices/Slider";
 import Tilt from "./Devices/Tilt";
 import VibrationMotor from "./Devices/VibrationMotor";
 import React from "react";
+import SelectorComponent from "./Components/selector/SelectorComponent";
 
 
 type devicesType = {[key:string]:JSX.Element}
@@ -31,16 +32,17 @@ const devices =  [
     // VibrationMotor
 ]
 
-function AllDevices() {
-  return (
-    <div>
-        {devices.map((Device,index) =>(
-            <div key={index}>
-                <Device/>
-            </div>
-        ))}
-    </div>
-  )
-}
+// function AllDevices() {
+//   return (
+//     <div>
+//         {devices.map((Device,index) =>(
+//             <div key={index}>
+//                 {/* <Device/> */}
+//                 <SelectorComponent devices={devices}/>
+//             </div>
+//         ))}
+//     </div>
+//   )
+// }
 
-export default AllDevices
+export default devices
