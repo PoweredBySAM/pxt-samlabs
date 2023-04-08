@@ -29,7 +29,7 @@ const devices =  [
     // Servo,
     // Slider,
     // Tilt,
-    // VibrationMotor
+    // 
 ]
 
 // function AllDevices() {

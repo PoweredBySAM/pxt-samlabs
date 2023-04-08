@@ -13,33 +13,61 @@ import SliderIcon from "./SliderIcon";
 import TiltIcon from "./TiltIcon";
 import VibrationMotorIcon from "./VibrationMotorIcon";
 import { deviceNameType } from "./deviceIconTypes";
-
 interface IconDecoratorProps extends React.SVGProps<SVGSVGElement> {
-  icon: React.ReactElement;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  style?: React.CSSProperties
 }
 
-const IconDecorator = (props: IconDecoratorProps) => {
-  const { icon, ...rest } = props;
-  return React.cloneElement(icon, rest);
-};
 
 const deviceIcons = {
-  button: ButtonIcon,
-  buzzer: BuzzerIcon,
-  dcmotor: DCMotorIcon,
-  dimmer: DimmerIcon,
-  ledicon: LEDIcon,
-  lightsensor: LightSensorIcon,
-  pressuresensor: PressureSensorIcon,
-  proximitysensor: ProximitySensor,
-  temperaturesensor: TemperatureSensorIcon,
-  servomotor: ServoMotorIcon,
-  slider: SliderIcon,
-  tilt: TiltIcon,
-  vibrationmotor: VibrationMotorIcon,
+    Button: ButtonIcon,
+    Buzzer: BuzzerIcon,
+    DCMotor: DCMotorIcon,
+    RGBLight: LEDIcon,
+    LightSensor: LightSensorIcon,
+    PressureSensor: PressureSensorIcon,
+    ProximitySensor: ProximitySensor,
+    HeatSensor: TemperatureSensorIcon,
+    ServoMotor: ServoMotorIcon,
+    Slider: SliderIcon,
+    Tilt: TiltIcon,
 };
+
+const IconDecorator = (props: IconDecoratorProps) => {
+    const { icon: Icon, style, ...rest } = props;
+    const customStyle = {
+      width: "5rem",
+      height: "5rem",
+      ...style,
+    };
+    return (
+        <div>
+        <svg width="0" height="0" style={{ display: 'none' }}>
+        <defs>
+          <filter id="colorChangeFilter">
+            <feFlood floodColor={"#fff"} floodOpacity="1" result="newFill" />
+            <feFlood floodColor={"#fff"} floodOpacity="1" result="newStroke" />
+            <feComposite in="newFill" in2="SourceGraphic" operator="in" result="fillChanged" />
+            <feComposite in="newStroke" in2="SourceGraphic" operator="in" result="strokeChanged" />
+            <feMerge>
+              <feMergeNode in="fillChanged" />
+              <feMergeNode in="strokeChanged" />
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+      <Icon style={{...customStyle,filter: 'url(#colorChangeFilter)' }} {...rest} />
+      </div>
+    );
+  };
 
 export const getDeviceIcon = (name: deviceNameType) => {
   const Icon = deviceIcons[name as keyof typeof deviceIcons];
-  return <IconDecorator icon={<Icon />} />;
+  return <IconDecorator icon={Icon} />;
+};
+
+export const getAllDeviceIcons = () => {
+  return Object.keys(deviceIcons).map((name) =>
+    getDeviceIcon(name as deviceNameType)
+  );
 };
