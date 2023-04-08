@@ -1,0 +1,15 @@
+export type deviceNameType =
+  | "button"
+  | "buzzer"
+  | "dcmotor"
+  | "dimmer"
+  | "ledicon"
+  | "lightsensor"
+  | "proximitysensor"
+  | "pressuresensor"
+  | "servomotor"
+  | "slider"
+  | "heatsensor"
+  | "tilt"
+  | "temperaturesensor"
+  | "vibrationmotor";
