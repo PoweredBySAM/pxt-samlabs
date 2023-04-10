@@ -26,7 +26,7 @@ export const deviceLabels = {
     },
     ProximitySensor:{
         name:"Proximity Sensor",
-        info:"Sense how close you aor objects are and communicate that to  other devices",
+        info:"Sense how close other objects are and communicate that to  other devices",
         maker:"SAM Labs"
     },
     PressureSensor:{
@@ -55,7 +55,5 @@ export const deviceLabels = {
         info:"Detect motion and tell other devices how to react",
         maker:"SAM Labs"
     }
-
-
 
 }
