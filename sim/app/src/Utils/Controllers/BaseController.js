@@ -1,5 +1,5 @@
 import EventEmitter from 'event-emitter'
-import { parameterValidator } from '../utilities'
+import { parameterValidator } from '../index'
 
 const standardServiceUUID = '3b989460-975f-11e4-a9fb-0002a5d5c51b'
 const batteryServiceUUID = '0000180f-0000-1000-8000-00805f9b34fb'
