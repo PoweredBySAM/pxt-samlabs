@@ -41,6 +41,9 @@
     "@react-spring/web": "^9.1.2",
     "@samlabs/samblocks": "^1.0.3",
     "event-emitter": "^0.3.5",
+    "mobx": "^6.9.0",
+    "mobx-react": "^7.6.0",
+    "mobx-react-lite": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-svg": "^16.1.7"

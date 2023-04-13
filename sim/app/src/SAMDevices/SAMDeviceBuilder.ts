@@ -1,3 +1,4 @@
+import DeviceDependencies from "./DeviceDependencies";
 import { getInitialProps } from "./InitialDeviceProps";
 
 class SAMDeviceBuilder {
@@ -17,25 +18,15 @@ class SAMDeviceBuilder {
 
   build() { 
       return {
+        dependencies:DeviceDependencies.getDeviceInitDepencies(this.deviceName),
         id: this.deviceId,
         deviceName: this.deviceName,
         deviceAnimation: this.deviceAnimation,
         labels: this.deviceType?.label,
-        data:this.initialData(this.deviceName),
         props:this.initialProps
       }
   }
-  initialData = (deviceName: any)=> {
-    // TODO: return initial data for each device
-       return {data:{}}
-   
-   }
-}
-
-
-const getInitialData = (deviceName: any)=> {
- // TODO: return initial data for each device
-    return {data:{}}
 
 }
+
 export default SAMDeviceBuilder;

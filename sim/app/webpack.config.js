@@ -4,34 +4,37 @@ const path = require('path');
 module.exports = {
   entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname,"..", 'public', 'dist'),
+    path: path.resolve(__dirname, '..', 'public', 'dist'),
     filename: 'bundle.js',
-    publicPath: 'dist/', // Update this according to your project's structure
+    publicPath: 'dist/',
   },
-  mode:"development",
+  mode: 'development',
   watch: true,
   experiments: {
-    outputModule: true, // Enable output module experiment
+    outputModule: true,
   },
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(tsx?|jsx?)$/,
         exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [
+                ['@babel/plugin-proposal-decorators', { legacy: true }],
+                ['@babel/plugin-proposal-class-properties', { loose: true }],
+              ],
             },
           },
           'ts-loader',
-        ]
+        ],
       },
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          
           'style-loader',
           {
             loader: 'css-loader',
@@ -42,20 +45,19 @@ module.exports = {
             },
           },
           'sass-loader',
-
-
         ],
-        
       },
     ],
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
+  },
+};
+
+
 //   plugins: [
 //     new HtmlWebpackPlugin({
 //       template: 'src/index.html',
 //       inject: false, // Set to false to manually inject the bundle
 //     }),
 //   ],
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
-};
