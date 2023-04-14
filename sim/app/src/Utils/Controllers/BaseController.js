@@ -10,7 +10,7 @@ const colorCharacteristicUUID = '5baab0a0-980c-11e4-b5e9-0002a5d5c51b'
 class BaseController extends EventEmitter {
     constructor(appManager, namePrefix) {
         super()
-        this._getDefaultDeviceColor = () => appManager.defaultDeviceColor
+        this._getDefaultDeviceColor = () => appManager.defaultDeviceColor 
         this._namePrefix = namePrefix
         this._device
         this._colorCharacteristic

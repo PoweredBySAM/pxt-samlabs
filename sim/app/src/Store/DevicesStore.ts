@@ -31,4 +31,4 @@ class DevicesStore {
   }
 }
 
-export default DevicesStore;
+export default new DevicesStore();

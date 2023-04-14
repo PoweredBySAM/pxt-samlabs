@@ -4,12 +4,14 @@ import ButtonInit from "./Animatable/Button/ButtonInit";
 class DeviceDependencies
 {
 
-    getDeviceInitDepencies(deviceName:string) {
+    getDeviceControlUtilities(deviceName:string) {
         switch (deviceName){
             case "SAM Button":
                 return {
-                    controller: ButtonInit,
+                    controlUtilities: ButtonInit,
                 }
+            default:
+                return {}
         }
     }
 
