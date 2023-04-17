@@ -1,28 +1,45 @@
-import { Button as SamButton} from "@samlabs/samblocks";
-import { observer } from 'mobx-react'; // Import the observer
-import React, { useEffect } from 'react';
+import { Button as SamButton } from "@samlabs/samblocks";
+import { observer } from "mobx-react"; // Import the observer
+import React, { useEffect } from "react";
+import useEventsController from "../../../Hooks/useEventsController";
 
-function Button(props: any) {
+function Button({ device }: { device?: any }) {
+  const { handleEvents, addEvents, removeEvents } = useEventsController(device);
+  const bluetoothEvents = [
+    "connecting",
+    "connected",
+    "batteryLevelChange",
+    "disconnected",
+  ];
+  const virtualEvents = ["valueChanged"];
 
-  const {controller, virtualController} = props;
-  const bluetoothEvents = ['connecting', 'connected', 'batteryLevelChange', 'disconnected']
-  const virtualEvents = ['valueChanged']
-  const combinedEvents = ['pressed', 'released']
+  const handleButtonPress = () => {
+    device.updateState("pressed");
+  };
 
-  useEffect(()=>{
-
-  },[])
+  const handleButtonRelease = () => {
+    device.updateState("released");
+  };
+  
+  useEffect(() => {
+    addEvents(bluetoothEvents, virtualEvents);
+    return () => {
+      removeEvents(bluetoothEvents, virtualEvents);
+    };
+  }, []);
 
   return (
-    <div style={{}}>
-      <SamButton 
-        buttonPressed
-        wireFrame
-        getColor={() => ({r: 0, g: 0, b: 0, a: 0})}
-        getBatteryLevel={() => 0}
+    <div
+      onPointerDown={handleButtonPress}
+      onPointerLeave={handleButtonRelease}
+      onPointerUp={handleButtonRelease}
+    >
+      <SamButton
+        buttonPressed={device.currentState === "pressed"}
+        // getColor={() => (device.Color)}
       />
     </div>
   );
 }
 
-export default observer(Button); // Wrap the component with observer
+export default observer(Button);

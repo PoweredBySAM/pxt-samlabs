@@ -1,25 +1,54 @@
 import { observable, action, makeObservable } from 'mobx';
 
 class Device {
-  id;
+  private _virtualController: any;
+  private _bluetoothController: any;
+  private _deviceId: string;
+  possibleStates: any;
+  restProps: any;
+  virtualInteractionComponentName: string;
+
+  @observable currentState = "";
   @observable isConnected = false;
-  @observable state = false;
+  @observable isConnecting = false;
+  @observable batteryLevel = 0;
+  @observable Color = '';
 
-  constructor(id: any) {
+  constructor(deviceData: any) {
     makeObservable(this);
-    this.id = id;
+    const {
+      deviceIdOnCreate,
+      meta,
+      virtualInteractionComponentName,
+      virtualController,
+      controller,
+      ...restprops
+    } = deviceData;
+    this._deviceId = deviceIdOnCreate;
+    this.possibleStates = meta?.possibleStates;
+    this.virtualInteractionComponentName = virtualInteractionComponentName;
+    this._virtualController = virtualController;
+    this._bluetoothController = controller;
+    this.restProps = restprops;
+    this.currentState = meta?.defaultState;
+    this.Color=meta?.hue;
   }
+
   @action
-  updateState(newState:any) {
-    this.state = newState;
+  updateState(newState: string) {
+    if (this.possibleStates.includes(newState)) {
+      this.currentState = newState;
+    }
   }
 
-  @action connect() {
-    this.isConnected = true;
+  get virtualController() {
+    return this._virtualController;
   }
-
-  @action disconnect() {
-    this.isConnected = false;
+  get bluetoothController() {
+    return this._bluetoothController;
+  }
+  set virtualController(controller: any) {
+    this._virtualController = controller;
   }
 }
 

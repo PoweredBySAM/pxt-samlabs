@@ -6,7 +6,7 @@ class DeviceDependencies
 
     getDeviceControlUtilities(deviceName:string) {
         switch (deviceName){
-            case "SAM Button":
+            case "Button":
                 return {
                     controlUtilities: ButtonInit,
                 }

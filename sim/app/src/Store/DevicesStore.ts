@@ -2,29 +2,30 @@ import { observable, action, makeObservable } from 'mobx';
 import Device from './Device';
 
 class DevicesStore {
-  @observable devices = new Map();
+  @observable devices:any[] = [];
 
   constructor() {
     makeObservable(this);
   }
 
-  @action addDevice(id: any) {
-    this.devices.set(id, new Device(id));
+  @action addDevice(deviceData: any) {
+    const device = new Device(deviceData);
+      this.devices.push(device);
   }
 
-  @action removeDevice(id: any) {
-    this.devices.delete(id);
+  @action removeDevice(id: string) {
+    this.devices = this.devices.filter(device => device.id !== id);
   }
 
-  @action connectDevice(id: any) {
-    const device = this.devices.get(id);
+  @action connectDevice(id: string) {
+    const device = this.devices.find(device => device.id === id);
     if (device) {
       device.connect();
     }
   }
 
-  @action disconnectDevice(id: any) {
-    const device = this.devices.get(id);
+  @action disconnectDevice(id: string) {
+    const device = this.devices.find(device => device.id === id);
     if (device) {
       device.disconnect();
     }

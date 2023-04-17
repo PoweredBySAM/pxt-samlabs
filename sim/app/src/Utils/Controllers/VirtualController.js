@@ -2,9 +2,8 @@ import EventEmitter from 'event-emitter'
 import {
     observable,
 } from 'mobx'
-import {
-    parameterValidator,
-} from '../parameterValidator'
+import { parameterValidator } from '../index'
+
 
 class Color {
     @observable
@@ -20,9 +19,9 @@ class Color {
 class VirtualController extends EventEmitter {
     color = new Color()
 
-    constructor(appManager, namePrefix) {
+    constructor(defaultDeviceColor, namePrefix) {
         super()
-        this._getDefaultDeviceColor = () => appManager.defaultDeviceColor
+        this._getDefaultDeviceColor = () => defaultDeviceColor
         this.setColor(this._getDefaultDeviceColor())
         this._namePrefix = namePrefix
         this._device

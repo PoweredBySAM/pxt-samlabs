@@ -8,9 +8,9 @@ const writeCharacteristicUUID = '84fc1520-980c-11e4-8bed-0002a5d5c51b'
 const colorCharacteristicUUID = '5baab0a0-980c-11e4-b5e9-0002a5d5c51b'
 
 class BaseController extends EventEmitter {
-    constructor(appManager, namePrefix) {
+    constructor(defaultDeviceColor, namePrefix) {
         super()
-        this._getDefaultDeviceColor = () => appManager.defaultDeviceColor 
+        this._getDefaultDeviceColor = () => defaultDeviceColor 
         this._namePrefix = namePrefix
         this._device
         this._colorCharacteristic

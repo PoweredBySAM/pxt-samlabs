@@ -1,13 +1,16 @@
 import { Box } from '@mui/material';
 import React from 'react'
+import { getVirtualDevice } from '../../SAMDevices/Animatable';
 
 function ActiveDeviceItem({device}:{device?:any}) {
-    const {deviceAnimation: DeviceAnimation, deviceId, deviceName,deviceType,initialProps} = device || {};
+    const {virtualInteractionComponentName} = device || {};
+
+    const VirtualInteractionComponent = getVirtualDevice(virtualInteractionComponentName);
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center",my:5 }}>
         <div>
-            <DeviceAnimation {...initialProps}/>
+            {virtualInteractionComponentName && <VirtualInteractionComponent device={device}/>}
         </div>
     </Box>
   );

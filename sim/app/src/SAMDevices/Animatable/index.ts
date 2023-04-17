@@ -1,18 +1,17 @@
 import * as SAMDevices from "@samlabs/samblocks";
-// import Buzzer from "./Buzzer";
-// import DCMotor from "./DCMotor";
-// import Dimmer from "./Dimmer";
-// import LED from "./LED";
-// import LightSensor from "./LightSensor";
-// import PressureSensor from "./PressureSensor";
-// import ProximitySensor from "./ProximitySensor";
-// import TemperatureSensor from "./TemperatureSensor";
-// import Servo from "./Servo";
-// import Slider from "./Slider";
-// import Tilt from "./Tilt";
-// import VibrationMotor from "./VibrationMotor";
+import Buzzer from "./Buzzer/Buzzer";
+import DCMotor from "./DCMotor/DCMotor";
+import LED from "./LED/LED";
+import LightSensor from "./LightSensor/LightSensor";
+import ProximitySensor from "./ProximitySensor/ProximitySensor";
+import TemperatureSensor from "./TemperatureSensor/TemperatureSensor";
+import Servo from "./Servo/Servo";
+import Slider from "./Slider/Slider";
+import Tilt from "./Tilt/Tilt";
 import React from "react";
 import { deviceNameType } from "../Icons/deviceIconTypes";
+import Button from "./Button/Button";
+import PressureSensor from "./PresureSensor/PressureSensor";
 
 type devicesType = { [key: string]: JSX.Element };
 export default {
@@ -30,19 +29,20 @@ export default {
   Tilt:SAMDevices.Tilt,
   VibrationMotor:SAMDevices.VibrationMotor,
 };
-const deviceAnimation = {
-  Button: SAMDevices.Button,
-  Buzzer: SAMDevices.Buzzer,
-  DCMotor: SAMDevices.DCMotor,
-  RGBLight: SAMDevices.LED,
-  LightSensor: SAMDevices.LightSensor,
-  PressureSensor: SAMDevices.PressureSensor,
-  ProximitySensor: SAMDevices.ProximitySensor,
-  HeatSensor: SAMDevices.TemperatureSensor,
-  ServoMotor: SAMDevices.Servo,
-  Slider: SAMDevices.Slider,
-  Tilt: SAMDevices.Tilt,
+
+const virtualDevices = {
+  Button: Button,
+  Buzzer: Buzzer,
+  DCMotor: DCMotor,
+  RGBLight: LED,
+  LightSensor: LightSensor,
+  PressureSensor: PressureSensor,
+  ProximitySensor: ProximitySensor,
+  HeatSensor: TemperatureSensor,
+  ServoMotor: Servo,
+  Slider: Slider,
+  Tilt: Tilt,
 };
-export const getDeviceAnimation = (deviceName: deviceNameType) => {
-  return deviceAnimation[deviceName];
+export const getVirtualDevice = (deviceName: deviceNameType) => {
+  return virtualDevices[deviceName];
 };
