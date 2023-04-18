@@ -2,9 +2,12 @@ import { Button as SamButton } from "@samlabs/samblocks";
 import { observer } from "mobx-react"; // Import the observer
 import React, { useEffect } from "react";
 import useEventsController from "../../../Hooks/useEventsController";
+import useButtonEvents from "../../../Hooks/useBasicEvents";
 
 function Button({ device }: { device?: any }) {
-  const { handleEvents, addEvents, removeEvents } = useEventsController(device);
+  
+  const {handleBasicControllerEvents} = useButtonEvents(device)
+  const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents);
   const bluetoothEvents = [
     "connecting",
     "connected",
@@ -20,7 +23,7 @@ function Button({ device }: { device?: any }) {
   const handleButtonRelease = () => {
     device.updateState("released");
   };
-  
+
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {

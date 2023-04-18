@@ -1,7 +1,6 @@
 import DeviceDependencies from "./DeviceDependencies";
 import { v4 as uuidv4 } from "uuid";
 export const defaultDeviceColor = "#000000";
-const defaultDeviceName = "SAM Button";
 
 class SAMDeviceBuilder {
   deviceName: any;
@@ -9,10 +8,12 @@ class SAMDeviceBuilder {
   deviceType: any;
   initialProps: any;
   store: any;
+  defaultDeviceName:string
 
   constructor(deviceType: any) {
     this.deviceType = deviceType;
     this.deviceName = deviceType?.label?.name;
+    this.defaultDeviceName = deviceType?.label?.defaultDeviceName
     this.deviceId = deviceType?.deviceId;
   }
 
@@ -20,7 +21,7 @@ class SAMDeviceBuilder {
     const deviceIdOnCreate = uuidv4();
     const {
       VirtualController,
-      Controller,
+      Controller, 
       VirtualInteractionComponent,
       ...rest
     } =
@@ -28,7 +29,7 @@ class SAMDeviceBuilder {
         ?.controlUtilities || {};
     const virtualController = new VirtualController(
       defaultDeviceColor,
-      defaultDeviceName
+      this.defaultDeviceName
     );
     const controller = new Controller(defaultDeviceColor);
 
@@ -43,5 +44,4 @@ class SAMDeviceBuilder {
     };
   }
 }
-
 export default SAMDeviceBuilder;

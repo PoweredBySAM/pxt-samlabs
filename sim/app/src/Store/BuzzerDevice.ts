@@ -1,6 +1,6 @@
-import { observable, action, makeObservable } from 'mobx';
+import { observable, action, makeObservable } from "mobx";
 
-class Device {
+class BuzzerDevice {
   private _virtualController: any;
   private _bluetoothController: any;
   private _deviceId: string;
@@ -8,11 +8,13 @@ class Device {
   restProps: any;
   virtualInteractionComponentName: string;
 
-  @observable currentState = "";
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = '';
+  @observable Color = "";
+  pitch: any;
+  volume: number;
+  @observable  isActive: boolean;
 
   constructor(deviceData: any) {
     makeObservable(this);
@@ -25,20 +27,14 @@ class Device {
       ...restprops
     } = deviceData;
     this._deviceId = deviceIdOnCreate;
-    this.possibleStates = meta?.possibleStates;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this._bluetoothController = controller;
     this.restProps = restprops;
-    this.currentState = meta?.defaultState;
-    this.Color=meta?.hue;
-  }
-
-  @action
-  updateState(newState: string) {
-    if (this.possibleStates.includes(newState)) {
-      this.currentState = newState;
-    }
+    this.pitch = virtualController?.pitch;
+    this.volume = 100;
+    this.Color = meta?.hue;
+    this.isActive = false;
   }
 
   @action
@@ -46,19 +42,46 @@ class Device {
     this.batteryLevel = level;
   }
   @action
-  updateIsConnected(value:boolean) {
+  updateIsConnected(value: boolean) {
     this.isConnecting = false;
     this.isConnected = value;
   }
   @action
-  updateIsConnecting(value:boolean) {
+  updateIsConnecting(value: boolean) {
     this.isConnected = value;
   }
   @action
-  updateColor(value:string) {
+  updateColor(value: string) {
     this.Color = value;
   }
 
+  @action
+  setPitch(value: number) {
+    this.pitch = value;
+    this._virtualController?._toneGenerator?.setPitch(value);
+    this.isConnected && this._bluetoothController?.setPitch(value);
+  }
+
+  @action
+  setVolume(value: number) {
+    this.volume = value;
+    this._virtualController?._toneGenerator?.setVolume(value);
+    this.isConnected && this._bluetoothController?.setVolume(value);
+  }
+  @action
+  start() {
+    this.isActive = true
+    this._virtualController?._toneGenerator?.start();
+  }
+  @action
+  clear() {
+    this.isConnected && this._bluetoothController?.clear();
+  }
+
+  @action
+  reset() {
+    this.isConnected && this._bluetoothController?._reset();
+  }
 
   get virtualController() {
     return this._virtualController;
@@ -69,7 +92,6 @@ class Device {
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
-
 }
 
-export default Device;
+export default BuzzerDevice;

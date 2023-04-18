@@ -1,12 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { observer } from 'mobx-react';
 import { Buzzer as SamBuzzer} from "@samlabs/samblocks";
+import useEventsController from '../../../Hooks/useEventsController';
+import useBasicEvents from '../../../Hooks/useBasicEvents';
+function Buzzer({device}:{device?:any}) {
+  const {handleBasicControllerEvents} = useBasicEvents(device)
+  const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents);
 
-function Buzzer() {
+
+  const bluetoothEvents = [
+    "connecting",
+    "connected",
+    "batteryLevelChange",
+    "disconnected",
+  ];
+  const virtualEvents = ["valueChanged"];
+
+  useEffect(() => {
+    addEvents(bluetoothEvents, virtualEvents);
+    return () => {
+      removeEvents(bluetoothEvents, virtualEvents);
+    };
+  }, []);
   return (
     <div>
-        <SamBuzzer/>
+        <SamBuzzer getIsActive={device.isActive}/>
     </div>
   )
 }
 
-export default Buzzer
+export default observer(Buzzer) 

@@ -1,5 +1,5 @@
 import { observable, action, makeObservable } from 'mobx';
-import Device from './Device';
+import { storeMap } from '.';
 
 class DevicesStore {
   @observable devices:any[] = [];
@@ -9,7 +9,7 @@ class DevicesStore {
   }
 
   @action addDevice(deviceData: any) {
-    const device = new Device(deviceData);
+    const device = this.buildStore(deviceData);
       this.devices.push(device);
   }
 
@@ -28,6 +28,14 @@ class DevicesStore {
     const device = this.devices.find(device => device.id === id);
     if (device) {
       device.disconnect();
+    }
+  }
+  buildStore(deviceData:any){
+    console.log(deviceData.labels.name,"labels....")
+    const store = storeMap[deviceData.labels.defaultName as keyof typeof storeMap];
+    console.log(store)
+    if (store) {
+      return new store(deviceData);
     }
   }
 }
