@@ -41,7 +41,7 @@ const IconDecorator = (props: IconDecoratorProps) => {
       ...style,
     };
     return (
-        <div>
+        <div style = {{marginBottom:"-0.4rem"}}>
         <svg width="0" height="0" style={{ display: 'none' }}>
         <defs>
           <filter id="colorChangeFilter">
@@ -61,9 +61,9 @@ const IconDecorator = (props: IconDecoratorProps) => {
     );
   };
 
-export const getDeviceIcon = (name: deviceNameType) => {
+export const getDeviceIcon = (name: deviceNameType, style?:object) => {
   const Icon = deviceIcons[name as keyof typeof deviceIcons];
-  return <IconDecorator icon={Icon} />;
+  return <IconDecorator icon={Icon} style = {style ? style: {}}  />;
 };
 
 export const getAllDeviceIcons = () => {

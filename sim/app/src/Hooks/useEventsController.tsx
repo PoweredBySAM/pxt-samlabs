@@ -6,7 +6,6 @@ function useControllerEvents(device: any, customDeviceEventsHandler: any) {
 
   const addEvents = (bluetoothEvents: string[], virtualEvents: string[]) => {
     bluetoothEvents.forEach((event: string) => {
-      console.log(event, "event")
       bluetoothController.on(event, (value: any) => {
         customDeviceEventsHandler(event, value);
       });

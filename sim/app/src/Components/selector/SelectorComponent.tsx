@@ -6,7 +6,7 @@ import { deviceLabels } from '../../Constants/DeviceLabel';
 import DeviceMenuItem from './DeviceMenuItem';
 import AddIcon from '@mui/icons-material/Add';
 
-function SelectorComponent({devices,addDevice}:{devices?:any, addDevice?:any}) {
+function SelectorComponent({devices,addDevice, toggleActiveDevicesVisibility}:{devices?:any, addDevice?:any, toggleActiveDevicesVisibility?:any}) {
   const [showOptions, setShowOptions] = React.useState<boolean>(false);
   const deviceKeys = Object.keys(deviceLabels)
   const menuItemData = deviceKeys.map((key) => {
@@ -19,6 +19,7 @@ function SelectorComponent({devices,addDevice}:{devices?:any, addDevice?:any}) {
 
   const handleshowOptions = () => {
     setShowOptions(prev=>!prev);
+    toggleActiveDevicesVisibility()
   }
   return (
     <div className={styles.dropdown}>

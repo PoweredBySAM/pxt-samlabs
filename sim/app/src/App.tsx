@@ -10,13 +10,18 @@ import { useStores } from './Hooks/useStores';
 
 const App: React.FC = observer(() => {
   const { devicesStore } = useStores();
+  const [showActiveDevices, setShowActiveDevices] = React.useState(true);
+
 
   const addDeviceHandler = (device: any) => {
     const newDevice = new SAMDeviceBuilder(device);
-    const builtDevice = newDevice.build();
-    console.log(builtDevice, 'builtDevice');
-      devicesStore.addDevice(builtDevice);
+    const builtDevice = newDevice.build();      
+    devicesStore.addDevice(builtDevice);
   };
+
+  const toggleActiveDevicesVisibility = () => {
+    setShowActiveDevices(prev=>!prev);
+  }
 
   return (
     <MuiThemeLayout>
@@ -28,8 +33,8 @@ const App: React.FC = observer(() => {
           m: 2,
         }}
       >
-        <SelectorComponent devices={devices} addDevice={addDeviceHandler} />
-        <ActiveDevices />
+        <SelectorComponent devices={devices} addDevice={addDeviceHandler} toggleActiveDevicesVisibility={toggleActiveDevicesVisibility} />
+        {<ActiveDevices showActiveDevices={showActiveDevices} />}
       </Box>
     </MuiThemeLayout>
   );

@@ -1,19 +1,26 @@
-import { Box } from '@mui/material';
-import React from 'react'
-import { getVirtualDevice } from '../../SAMDevices/Animatable';
+import { Box } from "@mui/material";
+import React from "react";
+import { getVirtualDevice } from "../../SAMDevices/Animatable";
+import FullSimDeviceWrapper from "../../SAMDevices/Common/FullSimDeviceWrapper";
 
-function ActiveDeviceItem({device}:{device?:any}) {
-    const {virtualInteractionComponentName} = device || {};
+function ActiveDeviceItem({ device }: { device?: any }) {
+  const { virtualInteractionComponentName } = device || {};
 
-    const VirtualInteractionComponent = getVirtualDevice(virtualInteractionComponentName);
+  const VirtualInteractionComponent = getVirtualDevice(
+    virtualInteractionComponentName
+  );
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center",my:5 }}>
+    <FullSimDeviceWrapper device={device}>
+      <Box sx={{ display: "flex", justifyContent: "center",  }}>
         <div>
-            {virtualInteractionComponentName && <VirtualInteractionComponent device={device}/>}
+          {virtualInteractionComponentName && (
+            <VirtualInteractionComponent device={device} />
+          )}
         </div>
-    </Box>
+      </Box>
+    </FullSimDeviceWrapper>
   );
 }
 
-export default ActiveDeviceItem
+export default ActiveDeviceItem;

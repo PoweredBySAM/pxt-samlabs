@@ -1,4 +1,4 @@
-import { observable, action, makeObservable } from 'mobx';
+import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
 import { storeMap } from '.';
 
 class DevicesStore {
@@ -29,11 +29,16 @@ class DevicesStore {
     if (device) {
       device.disconnect();
     }
+  }  
+  @action toggleDeviceFullVisibility(id: string) {
+    const device:any = this.devices.find(device=>(device.id === id))
+    console.log(device)
+    device?.toggleVisibility();
   }
+
+  
   buildStore(deviceData:any){
-    console.log(deviceData.labels.name,"labels....")
     const store = storeMap[deviceData.labels.defaultName as keyof typeof storeMap];
-    console.log(store)
     if (store) {
       return new store(deviceData);
     }

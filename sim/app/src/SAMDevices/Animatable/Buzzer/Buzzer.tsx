@@ -3,10 +3,16 @@ import { observer } from 'mobx-react';
 import { Buzzer as SamBuzzer} from "@samlabs/samblocks";
 import useEventsController from '../../../Hooks/useEventsController';
 import useBasicEvents from '../../../Hooks/useBasicEvents';
+import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
+import { Box } from '@mui/material';
 function Buzzer({device}:{device?:any}) {
-  const {handleBasicControllerEvents} = useBasicEvents(device)
-  const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents);
+  const { handleBasicControllerEvents } = useBasicEvents(device);
+  const { singleDeviceStore } = useSingleDeviceStore(device);
 
+  const { addEvents, removeEvents } = useEventsController(
+    device,
+    handleBasicControllerEvents
+  );
 
   const bluetoothEvents = [
     "connecting",
@@ -23,10 +29,15 @@ function Buzzer({device}:{device?:any}) {
     };
   }, []);
   return (
-    <div>
-        <SamBuzzer getIsActive={device.isActive}/>
-    </div>
-  )
+    <>
+      {singleDeviceStore.blockVisibility && (
+        <Box>
+          <SamBuzzer getIsActive={device.isActive} />
+        </Box>
+      )}
+    </>
+  );
 }
+
 
 export default observer(Buzzer) 

@@ -1,4 +1,4 @@
-import { observable, action, makeObservable } from 'mobx';
+import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
 
 class Device {
   private _virtualController: any;
@@ -13,9 +13,10 @@ class Device {
   @observable isConnecting = false;
   @observable batteryLevel = 0;
   @observable Color = '';
+  @observable blockVisibility: boolean;
 
   constructor(deviceData: any) {
-    makeObservable(this);
+    ;
     const {
       deviceIdOnCreate,
       meta,
@@ -31,7 +32,9 @@ class Device {
     this._bluetoothController = controller;
     this.restProps = restprops;
     this.currentState = meta?.defaultState;
+    this.blockVisibility = true
     this.Color=meta?.hue;
+    makeAutoObservable(this)
   }
 
   @action
@@ -58,7 +61,10 @@ class Device {
   updateColor(value:string) {
     this.Color = value;
   }
-
+  @action
+  toggleVisibility() {
+    this.blockVisibility = !this.blockVisibility;
+  }
 
   get virtualController() {
     return this._virtualController;
@@ -69,6 +75,7 @@ class Device {
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
+  
 
 }
 

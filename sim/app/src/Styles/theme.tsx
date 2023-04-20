@@ -7,6 +7,11 @@ let theme = createTheme({
         asterisk: { color: "red" },
       },
     },
+    MuiButtonBase: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    }
   },
   palette: {
     primary: {

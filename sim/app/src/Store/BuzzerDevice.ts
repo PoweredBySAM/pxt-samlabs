@@ -1,4 +1,4 @@
-import { observable, action, makeObservable } from "mobx";
+import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 
 class BuzzerDevice {
   private _virtualController: any;
@@ -15,9 +15,9 @@ class BuzzerDevice {
   pitch: any;
   volume: number;
   @observable  isActive: boolean;
+  @observable blockVisibility: boolean;
 
   constructor(deviceData: any) {
-    makeObservable(this);
     const {
       deviceIdOnCreate,
       meta,
@@ -35,6 +35,13 @@ class BuzzerDevice {
     this.volume = 100;
     this.Color = meta?.hue;
     this.isActive = false;
+    this.blockVisibility = true;
+    makeAutoObservable(this);
+
+  }
+  @action
+  toggleVisibility() {
+    this.blockVisibility = !this.blockVisibility;
   }
 
   @action
