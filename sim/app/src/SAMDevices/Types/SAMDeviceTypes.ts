@@ -76,7 +76,7 @@ export interface IBuiltDevice {
     deviceIdOnCreate: string;
     virtualInteractionComponentName: string;
     deviceAnimation: any;
-    labels: any;
+    labels: IDeviceLabelObject;
     virtualController: any;
     controller: any;
     rest ?: any;

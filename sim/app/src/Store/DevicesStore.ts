@@ -39,6 +39,7 @@ class DevicesStore {
   
   buildStore(deviceData:IBuiltDevice){
     const store = storeMap[deviceData.labels.defaultName as keyof typeof storeMap];
+    console.log(deviceData.labels.defaultName,"store")
     if (store) {
       return new store(deviceData);
     }

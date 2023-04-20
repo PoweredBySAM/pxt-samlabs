@@ -1,12 +1,13 @@
 import React from 'react'
 import {  Card, Grid, Typography } from '@mui/material'
 import styles from './SelectorComponent.module.css'
+import { DeviceMenuItemType } from '../../SAMDevices/Types/SAMDeviceTypes';
 
 
 function DeviceMenuItem({deviceData, addDevice,closeOptions}:{deviceData?:any, addDevice?:any, closeOptions?:any}) {
     const {label,icon:Icon} = deviceData;
 
-    const handleSelect = (data:any) => {
+    const handleSelect = (data:DeviceMenuItemType) => {
       addDevice(data);
       closeOptions();
     }

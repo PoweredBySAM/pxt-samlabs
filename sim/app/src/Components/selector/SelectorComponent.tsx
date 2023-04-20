@@ -24,7 +24,7 @@ const localStyles = ()=>(
   }}
 )
 
-function SelectorComponent({addDevice, toggleActiveDevicesVisibility}:{ addDevice?:(arg0:IDeviceLabelObject)=>void, toggleActiveDevicesVisibility:()=>void}) {
+function SelectorComponent({addDevice, toggleActiveDevicesVisibility}:{ addDevice?:(arg0:DeviceMenuItemType)=>void, toggleActiveDevicesVisibility:()=>void}) {
   const [showOptions, setShowOptions] = React.useState<boolean>(false);
   const deviceKeys:deviceNameType[] = Object.keys(deviceLabels) as deviceNameType[];
   const menuItemData:DeviceMenuItemType[] = deviceKeys.map((key:deviceNameType) => {

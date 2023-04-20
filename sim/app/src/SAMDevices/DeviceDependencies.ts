@@ -1,11 +1,13 @@
-import Device from "../Store/ButtonDevice";
 import ButtonInit from "./Animatable/Button/ButtonInit";
 import BuzzerInit from "./Animatable/Buzzer/BuzzerInit";
+import DCMotorInit from "./Animatable/DCMotor/DCMotorInit";
+import { LEDInit } from "./Animatable/LED/LEDInit";
+import { deviceNameType } from "./Icons/deviceIconTypes";
 
 class DeviceDependencies
 {
 
-    getDeviceControlUtilities(deviceName:string) {
+    getDeviceControlUtilities(deviceName:deviceNameType) {
         switch (deviceName){
             case "Button":
                 return {
@@ -15,8 +17,17 @@ class DeviceDependencies
                 return {
                     controlUtilities: BuzzerInit,
                 }
+            case "DCMotor":
+                return {
+                    controlUtilities: DCMotorInit,
+                }
+            case 'RGBLight':
+                return {
+                    controlUtilities: LEDInit,
+                }
             default:
-                return {}
+                throw new Error("Device dependencies not in getDeviceControlUtilities");
+                
         }
     }
 

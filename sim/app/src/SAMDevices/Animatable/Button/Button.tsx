@@ -2,16 +2,14 @@ import { Button as SamButton } from "@samlabs/samblocks";
 import { observer } from "mobx-react"; // Import the observer
 import React, { useEffect } from "react";
 import useEventsController from "../../../Hooks/useEventsController";
-import useButtonEvents from "../../../Hooks/useBasicEvents";
-import { getDeviceIcon } from "../../Icons";
-import { deviceNameType } from "../../Icons/deviceIconTypes";
 import { Box } from "@mui/material";
 import { useSingleDeviceStore } from "../../../Hooks/useSingleDeviceStore";
 import ButtonDevice from "../../../Store/ButtonDevice";
+import useBasicEvents from "../../../Hooks/useBasicEvents";
 
 const Button =  observer(({ device }: { device: ButtonDevice })=> {
 
-  const {handleBasicControllerEvents} = useButtonEvents(device)
+  const {handleBasicControllerEvents} = useBasicEvents(device)
   const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents);
   const {singleDeviceStore} = useSingleDeviceStore(device)
   const bluetoothEvents = [
@@ -20,10 +18,8 @@ const Button =  observer(({ device }: { device: ButtonDevice })=> {
     "batteryLevelChange",
     "disconnected",
   ];
-  const deviceName = device.restProps?.labels?.name as deviceNameType
-  const DeviceIcon = getDeviceIcon(deviceName)
+  
   const virtualEvents = ["valueChanged"];
-
   const handleButtonPress = () => {
     device.updateState("pressed");
   };

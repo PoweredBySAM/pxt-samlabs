@@ -24,6 +24,7 @@ let theme = createTheme({
   typography: {
     fontFamily: ["Nunito", "Roboto", "Helvetica"].join(","),
   },
+  
 });
 theme = responsiveFontSizes(theme);
 export default theme;

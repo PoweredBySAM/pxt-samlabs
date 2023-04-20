@@ -1,8 +1,9 @@
 import { parameterValidator } from "../../../Utils"
 
-export default (SuperController: any) => (
+
+export default (SuperController:any) => (
     class Controller extends SuperController {
-        constructor(appManager: any) {
+        constructor(appManager:any) {
             super(appManager, 'SAM RGB LED')
             this._ledColor = '#000000'
             this._ledBrightness = 100
@@ -42,8 +43,8 @@ export default (SuperController: any) => (
 
         turnLEDOff = () => this.setLEDColor('#000000')
 
-        setLEDColor = parameterValidator(['string'], (hexColor: any) => {
-            let rgb = this._hexToRgB(hexColor)
+        setLEDColor = parameterValidator(['string'], (hexColor: string) => {
+            var rgb = this._hexToRgB(hexColor)
             if(!rgb) throw new Error(`"${hexColor}" is not a valid color.`)
             this._ledColor = hexColor
             this._setWriteCharacteristicValue([rgb.r, rgb.g, rgb.b])

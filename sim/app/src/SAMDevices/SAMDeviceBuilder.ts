@@ -1,21 +1,17 @@
 import DeviceDependencies from "./DeviceDependencies";
 import { v4 as uuidv4 } from "uuid";
-import { IBuiltDevice } from "./Types/SAMDeviceTypes";
+import { DeviceMenuItemType, IBuiltDevice, IDeviceLabelObject } from "./Types/SAMDeviceTypes";
 export const defaultDeviceColor = "#000000";
 
 class SAMDeviceBuilder {
   deviceName: any;
-  deviceId: any;
   deviceType: any;
-  initialProps: any;
-  store: any;
   defaultDeviceName:string
 
-  constructor(deviceType: any) {
+  constructor(deviceType: DeviceMenuItemType) {
     this.deviceType = deviceType;
     this.deviceName = deviceType?.label?.name;
-    this.defaultDeviceName = deviceType?.label?.defaultDeviceName
-    this.deviceId = deviceType?.deviceId;
+    this.defaultDeviceName = deviceType?.label?.defaultName;
   }
 
   build(): IBuiltDevice {
