@@ -1,4 +1,4 @@
-import Device from "../Store/Device";
+import Device from "../Store/ButtonDevice";
 import ButtonInit from "./Animatable/Button/ButtonInit";
 import BuzzerInit from "./Animatable/Buzzer/BuzzerInit";
 

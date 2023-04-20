@@ -4,7 +4,7 @@ import DCMotor from "./DCMotor/DCMotor";
 import LED from "./LED/LED";
 import LightSensor from "./LightSensor/LightSensor";
 import ProximitySensor from "./ProximitySensor/ProximitySensor";
-import TemperatureSensor from "./TemperatureSensor/TemperatureSensor";
+import TemperatureSensor from "./TemperatureSensor/HeatSensor";
 import Servo from "./Servo/Servo";
 import Slider from "./Slider/Slider";
 import Tilt from "./Tilt/Tilt";
@@ -12,8 +12,8 @@ import React from "react";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import Button from "./Button/Button";
 import PressureSensor from "./PresureSensor/PressureSensor";
+import { ISamVirtualDevices, SamVirtualDeviceType } from "../Types/SAMDeviceTypes";
 
-type devicesType = { [key: string]: JSX.Element };
 export default {
   Button:SAMDevices.Button,
   Buzzer:SAMDevices.Buzzer,
@@ -30,7 +30,7 @@ export default {
   VibrationMotor:SAMDevices.VibrationMotor,
 };
 
-const virtualDevices = {
+const virtualDevices:ISamVirtualDevices = {
   Button: Button,
   Buzzer: Buzzer,
   DCMotor: DCMotor,
@@ -43,6 +43,6 @@ const virtualDevices = {
   Slider: Slider,
   Tilt: Tilt,
 };
-export const getVirtualDevice = (deviceName: deviceNameType) => {
+export const getVirtualDevice = (deviceName: deviceNameType):SamVirtualDeviceType => {
   return virtualDevices[deviceName];
 };

@@ -1,4 +1,7 @@
-export const deviceLabels = {
+import { deviceNameType } from "../SAMDevices/Icons/deviceIconTypes";
+import { IDeviceLabels } from "../SAMDevices/Types/SAMDeviceTypes";
+
+export const deviceLabels:IDeviceLabels<deviceNameType> = {
     Button:{
         name:"Button",
         defaultName:"SAM Button",

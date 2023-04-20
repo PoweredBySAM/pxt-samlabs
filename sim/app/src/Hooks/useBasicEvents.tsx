@@ -1,5 +1,6 @@
 import React from "react";
-import { buttonEventType } from "../SAMDevices/Animatable/Button/types";
+import { BasicEventType } from "../SAMDevices/Animatable/Button/types";
+import { SamDeviceStoreType } from "../SAMDevices/Types/SAMDeviceTypes";
 enum BasicEvents {
   BATTERY_LEVEL_CHANGE = "batteryLevelChange",
   CONNECTED = "connected",
@@ -8,8 +9,8 @@ enum BasicEvents {
   VALUE_CHANGED = "valueChanged",
 }
 
-function useBasicEvents(device: any) {
-  const handleBasicControllerEvents = (event: buttonEventType, value: any) => {
+function useBasicEvents(device:SamDeviceStoreType) {
+  const handleBasicControllerEvents = (event: BasicEventType, value: any) => {
     switch (event) {
       case BasicEvents.BATTERY_LEVEL_CHANGE: {
         return device.updateBatteryLevel(value);

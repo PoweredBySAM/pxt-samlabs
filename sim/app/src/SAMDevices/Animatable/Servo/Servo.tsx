@@ -2,7 +2,7 @@ import React from 'react'
 import { Servo as SamServo} from "@samlabs/samblocks";
 
 
-function Servo() {
+function Servo({device}:{device:any}) {
   return (
     <div>
       <SamServo getPosition={function (): number {

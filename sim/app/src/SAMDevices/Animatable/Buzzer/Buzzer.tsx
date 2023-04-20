@@ -5,7 +5,8 @@ import useEventsController from '../../../Hooks/useEventsController';
 import useBasicEvents from '../../../Hooks/useBasicEvents';
 import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
 import { Box } from '@mui/material';
-function Buzzer({device}:{device?:any}) {
+import BuzzerDevice from '../../../Store/BuzzerDevice';
+function Buzzer({device}:{device:BuzzerDevice}) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
 
@@ -32,7 +33,7 @@ function Buzzer({device}:{device?:any}) {
     <>
       {singleDeviceStore.blockVisibility && (
         <Box>
-          <SamBuzzer getIsActive={device.isActive} />
+          <SamBuzzer getIsActive={()=>device.isActive} />
         </Box>
       )}
     </>

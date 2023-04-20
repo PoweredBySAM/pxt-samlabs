@@ -2,7 +2,7 @@ import React from 'react'
 import { TemperatureSensor as SamTemperatureSensor} from "@samlabs/samblocks";
 
 
-function TemperatureSensor() {
+function HeatSensor({device}:{device:any}) {
   return (
     <div>
       <SamTemperatureSensor />
@@ -10,4 +10,4 @@ function TemperatureSensor() {
   )
 }
 
-export default TemperatureSensor
+export default HeatSensor

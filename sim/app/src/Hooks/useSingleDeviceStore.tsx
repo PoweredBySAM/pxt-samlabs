@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { SingleDeviceStoreContext } from '../Store/SingleDeviceStoreContext';
-export const useSingleDeviceStore = (device: any) => {
+import { SamDeviceStoreType } from '../SAMDevices/Types/SAMDeviceTypes';
+
+export const useSingleDeviceStore = (device: SamDeviceStoreType) => {
   const singleDeviceStore = useContext( SingleDeviceStoreContext({deviceContext:device}));
 
   if (!singleDeviceStore) {

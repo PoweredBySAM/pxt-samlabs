@@ -1,3 +1,3 @@
 
 
-export type buttonEventType = "connecting"|"connected"|"batteryLevelChange"|"disconnected"
+export type BasicEventType = "connecting"|"connected"|"batteryLevelChange"|"disconnected"

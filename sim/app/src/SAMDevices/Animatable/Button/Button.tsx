@@ -7,8 +7,9 @@ import { getDeviceIcon } from "../../Icons";
 import { deviceNameType } from "../../Icons/deviceIconTypes";
 import { Box } from "@mui/material";
 import { useSingleDeviceStore } from "../../../Hooks/useSingleDeviceStore";
+import ButtonDevice from "../../../Store/ButtonDevice";
 
-const Button =  observer(({ device }: { device?: any })=> {
+const Button =  observer(({ device }: { device: ButtonDevice })=> {
 
   const {handleBasicControllerEvents} = useButtonEvents(device)
   const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents);

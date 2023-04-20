@@ -2,7 +2,7 @@ import React from 'react'
 import { PressureSensor as SamPressureSensor} from "@samlabs/samblocks";
 
 
-function PressureSensor() {
+function PressureSensor({device}:{device:any}) {
   return (
     <div>
       <SamPressureSensor />

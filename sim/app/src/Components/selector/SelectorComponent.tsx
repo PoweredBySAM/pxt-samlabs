@@ -5,19 +5,35 @@ import {  getDeviceIcon } from '../../SAMDevices/Icons';
 import { deviceLabels } from '../../Constants/DeviceLabel';
 import DeviceMenuItem from './DeviceMenuItem';
 import AddIcon from '@mui/icons-material/Add';
+import { DeviceMenuItemType, IDeviceLabelObject } from '../../SAMDevices/Types/SAMDeviceTypes';
+import { deviceNameType } from '../../SAMDevices/Icons/deviceIconTypes';
 
-function SelectorComponent({devices,addDevice, toggleActiveDevicesVisibility}:{devices?:any, addDevice?:any, toggleActiveDevicesVisibility?:any}) {
+const localStyles = ()=>(
+  {inputToggle:{
+      display: "flex",
+      justifyContent: "center",
+      width:"100%",
+      borderRadius: 5,
+      border: "solid 1px #c8c8c8",
+      boxShadow:"4px",
+      backgroundColor: "#26D0C4",
+      color: "#ffffff",
+      py: 1,
+      px: 2,
+      alignItems: "center",
+  }}
+)
+
+function SelectorComponent({addDevice, toggleActiveDevicesVisibility}:{ addDevice?:(arg0:IDeviceLabelObject)=>void, toggleActiveDevicesVisibility:()=>void}) {
   const [showOptions, setShowOptions] = React.useState<boolean>(false);
-  const deviceKeys = Object.keys(deviceLabels)
-  const menuItemData = deviceKeys.map((key) => {
+  const deviceKeys:deviceNameType[] = Object.keys(deviceLabels) as deviceNameType[];
+  const menuItemData:DeviceMenuItemType[] = deviceKeys.map((key:deviceNameType) => {
       return {
-          label: deviceLabels[key as keyof typeof deviceLabels],
-          icon: getDeviceIcon(key as keyof typeof deviceLabels)
+          label: deviceLabels[key],
+          icon: getDeviceIcon(key)
       }
   })
-  
-
-  const handleshowOptions = () => {
+  const handleshowOptions = ():void => {
     setShowOptions(prev=>!prev);
     toggleActiveDevicesVisibility()
   }
@@ -25,19 +41,7 @@ function SelectorComponent({devices,addDevice, toggleActiveDevicesVisibility}:{d
     <div className={styles.dropdown}>
       <div className={styles["selected-option"]} onClick={handleshowOptions}>
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width:"100%",
-            borderRadius: 5,
-            border: "solid 1px #c8c8c8",
-            boxShadow:"4px",
-            backgroundColor: "#26D0C4",
-            color: "#ffffff",
-            py: 1,
-            px: 2,
-            alignItems: "center",
-          }}
+          sx={localStyles().inputToggle}
         >
           <AddIcon sx={{fontSize:"1.6rem"}} />
           <Typography variant="h6">Add Device</Typography>
@@ -45,7 +49,7 @@ function SelectorComponent({devices,addDevice, toggleActiveDevicesVisibility}:{d
       </div>
       <div className={showOptions ? styles.options : styles["options-none"]}>
         <Box className={styles.scrollable}>
-          {menuItemData.map((deviceData: any) => (
+          {menuItemData.map((deviceData: DeviceMenuItemType) => (
             <DeviceMenuItem
               deviceData={deviceData}
               addDevice={addDevice}

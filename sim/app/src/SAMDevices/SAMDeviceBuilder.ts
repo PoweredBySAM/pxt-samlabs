@@ -1,5 +1,6 @@
 import DeviceDependencies from "./DeviceDependencies";
 import { v4 as uuidv4 } from "uuid";
+import { IBuiltDevice } from "./Types/SAMDeviceTypes";
 export const defaultDeviceColor = "#000000";
 
 class SAMDeviceBuilder {
@@ -17,7 +18,7 @@ class SAMDeviceBuilder {
     this.deviceId = deviceType?.deviceId;
   }
 
-  build() {
+  build(): IBuiltDevice {
     const deviceIdOnCreate = uuidv4();
     const {
       VirtualController,
@@ -45,3 +46,5 @@ class SAMDeviceBuilder {
   }
 }
 export default SAMDeviceBuilder;
+
+

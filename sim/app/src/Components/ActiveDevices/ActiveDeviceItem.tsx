@@ -2,11 +2,12 @@ import { Box } from "@mui/material";
 import React from "react";
 import { getVirtualDevice } from "../../SAMDevices/Animatable";
 import FullSimDeviceWrapper from "../../SAMDevices/Common/FullSimDeviceWrapper";
+import { SamDeviceStoreType, SamVirtualDeviceType } from "../../SAMDevices/Types/SAMDeviceTypes";
 
-function ActiveDeviceItem({ device }: { device?: any }) {
+function ActiveDeviceItem({ device }: { device: SamDeviceStoreType }) {
   const { virtualInteractionComponentName } = device || {};
 
-  const VirtualInteractionComponent = getVirtualDevice(
+  const VirtualInteractionComponent:SamVirtualDeviceType = getVirtualDevice(
     virtualInteractionComponentName
   );
 

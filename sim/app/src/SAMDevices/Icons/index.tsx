@@ -61,7 +61,7 @@ const IconDecorator = (props: IconDecoratorProps) => {
     );
   };
 
-export const getDeviceIcon = (name: deviceNameType, style?:object) => {
+export const getDeviceIcon = (name: deviceNameType, style?:object):JSX.Element => {
   const Icon = deviceIcons[name as keyof typeof deviceIcons];
   return <IconDecorator icon={Icon} style = {style ? style: {}}  />;
 };

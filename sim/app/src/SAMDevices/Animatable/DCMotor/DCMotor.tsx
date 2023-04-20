@@ -2,7 +2,7 @@ import React from 'react'
 import { DCMotor as SamDCMotor} from "@samlabs/samblocks";
 
 
-function DCMotor() {
+function DCMotor({device}:{device:any}) {
   return (
     <div>
       <SamDCMotor/>

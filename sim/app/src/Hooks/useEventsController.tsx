@@ -1,6 +1,7 @@
 import React from "react";
+import { SamDeviceStoreType } from "../SAMDevices/Types/SAMDeviceTypes";
 
-function useControllerEvents(device: any, customDeviceEventsHandler: any) {
+function useControllerEvents(device: SamDeviceStoreType, customDeviceEventsHandler: any) {
   const bluetoothController: any = device.bluetoothController;
   const virtualController: any = device.virtualController;
 

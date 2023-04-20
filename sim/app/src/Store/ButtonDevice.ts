@@ -1,6 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
 
-class Device {
+class ButtonDevice {
   private _virtualController: any;
   private _bluetoothController: any;
   private _deviceId: string;
@@ -79,4 +79,4 @@ class Device {
 
 }
 
-export default Device;
+export default ButtonDevice;

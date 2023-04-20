@@ -2,7 +2,7 @@ import React from 'react'
 import { Tilt as SamTilt} from "@samlabs/samblocks";
 
 
-function Tilt() {
+function Tilt({device}:{device:any}) {
   return (
     <div>
       <SamTilt/>

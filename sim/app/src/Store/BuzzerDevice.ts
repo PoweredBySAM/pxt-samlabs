@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { IBuzzerDevice } from "./types";
 
 class BuzzerDevice {
   private _virtualController: any;
