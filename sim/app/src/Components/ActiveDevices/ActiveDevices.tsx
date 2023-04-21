@@ -10,6 +10,7 @@ const additionalStyles = {
     scrollbarWidth: 'thin',
     '&::-webkit-scrollbar': {
       width: '0.4em',
+      borderRadius:"2px"
     },
     '&::-webkit-scrollbar-track': {
       background: "#f1f1f1",

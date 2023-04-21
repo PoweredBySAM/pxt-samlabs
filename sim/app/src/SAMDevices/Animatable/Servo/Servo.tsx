@@ -1,15 +1,41 @@
-import React from 'react'
-import { Servo as SamServo} from "@samlabs/samblocks";
+import React, { useEffect } from "react";
+import { Servo as SamServo } from "@samlabs/samblocks";
+import ServoMotorDevice from "../../../Store/ServoMotorDevice";
+import useBasicEvents from "../../../Hooks/useBasicEvents";
+import { useSingleDeviceStore } from "../../../Hooks/useSingleDeviceStore";
+import useEventsController from "../../../Hooks/useEventsController";
+import { observer } from "mobx-react";
 
+function Servo({ device }: { device: ServoMotorDevice }) {
+  const { handleBasicControllerEvents } = useBasicEvents(device);
+  const { singleDeviceStore } = useSingleDeviceStore(device);
+  const { addEvents, removeEvents } = useEventsController(
+    device,
+    handleBasicControllerEvents
+  );
 
-function Servo({device}:{device:any}) {
+  const bluetoothEvents = [
+    "connecting",
+    "connected",
+    "batteryLevelChange",
+    "disconnected",
+  ];
+  const virtualEvents = ["valueChanged"];
+  useEffect(() => {
+    addEvents(bluetoothEvents, virtualEvents);
+    return () => {
+      removeEvents(bluetoothEvents, virtualEvents);
+    };
+  }, []);
   return (
-    <div>
-      <SamServo getPosition={function (): number {
-        throw new Error('Function not implemented.');
-      } } />
-    </div>
-  )
+    <>
+      {singleDeviceStore.blockVisibility && (
+        <div>
+          <SamServo getPosition={() => device.getPosition()} />
+        </div>
+      )}
+    </>
+  );
 }
 
-export default Servo
+export default observer(Servo);
