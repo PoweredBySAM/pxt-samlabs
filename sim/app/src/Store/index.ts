@@ -3,6 +3,7 @@ import BuzzerDevice from "./BuzzerDevice";
 import DCMotorDevice from "./DCMotorDevice";
 import LEDDevice from "./LEDDevice";
 import LightSensorDevice from "./LightSensorDevice";
+import PressureSensorDevice from "./PressureSensorDevice";
 import ServoMotorDevice from "./ServoMotorDevice";
 
 export const storeMap = {
@@ -12,4 +13,5 @@ export const storeMap = {
   "SAM DC Motor": DCMotorDevice,
   "SAM Light Sensor": LightSensorDevice,
   "SAM Servo Motor":ServoMotorDevice,
+  "SAM Pressure Sensor":PressureSensorDevice
 };
