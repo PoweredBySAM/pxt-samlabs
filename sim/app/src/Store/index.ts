@@ -5,6 +5,7 @@ import LEDDevice from "./LEDDevice";
 import LightSensorDevice from "./LightSensorDevice";
 import PressureSensorDevice from "./PressureSensorDevice";
 import ServoMotorDevice from "./ServoMotorDevice";
+import SliderDevice from "./SliderDevice";
 
 export const storeMap = {
   "SAM Button": ButtonDevice,
@@ -13,5 +14,7 @@ export const storeMap = {
   "SAM DC Motor": DCMotorDevice,
   "SAM Light Sensor": LightSensorDevice,
   "SAM Servo Motor":ServoMotorDevice,
-  "SAM Pressure Sensor":PressureSensorDevice
+  "SAM Pressure Sensor":PressureSensorDevice,
+  "SAM Proximity Sensor":PressureSensorDevice,
+  "SAM Slider": SliderDevice
 };
