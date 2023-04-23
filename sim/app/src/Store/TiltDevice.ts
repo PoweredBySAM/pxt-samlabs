@@ -1,6 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 
-class SliderDevice {
+class TiltDevice {
   private _virtualController: any;
   private _bluetoothController: any;
   private _deviceId: string;
@@ -14,7 +14,8 @@ class SliderDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
-  @observable value: number;
+  @observable isTilted: boolean;
+  @observable _value: number;
 
   constructor(deviceData: any) {
     const {
@@ -33,7 +34,8 @@ class SliderDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.value = 0
+    this._value = 0
+    this.isTilted = false
     makeAutoObservable(this);
 
   }
@@ -61,12 +63,18 @@ class SliderDevice {
   }
 
   @action
-  getValue():number {
-   return this._virtualController.getValue() || this._bluetoothController?.getValue();
+  getValue() {
+    this._virtualController.getValue() || this._bluetoothController?.getValue();
   }
-  setValue(value: number) {
-    this.value = value;
-  }
+  @action
+  setIsTilted(value: boolean) {
+    this.isTilted = value;
+    }
+
+  getIsTilted() {
+    return this.isTilted;
+    }
+  
 
   get virtualController() {
     return this._virtualController;
@@ -79,4 +87,4 @@ class SliderDevice {
   }
 }
 
-export default SliderDevice;
+export default TiltDevice;

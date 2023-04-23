@@ -1,25 +1,27 @@
 import DeviceDependencies from "./DeviceDependencies";
 import { v4 as uuidv4 } from "uuid";
-import { DeviceMenuItemType, IBuiltDevice, IDeviceLabelObject } from "./Types/SAMDeviceTypes";
+import {
+  DeviceMenuItemType,
+  IBuiltDevice,
+} from "./Types/SAMDeviceTypes";
 import { deviceNameType } from "./Icons/deviceIconTypes";
 export const defaultDeviceColor = "#000000";
 
 class SAMDeviceBuilder {
   deviceName: deviceNameType;
   deviceType: any;
-  defaultDeviceName:string
+  defaultDeviceName: string;
 
   constructor(deviceType: DeviceMenuItemType) {
     this.deviceType = deviceType;
     this.deviceName = deviceType?.label?.name;
     this.defaultDeviceName = deviceType?.label?.defaultName;
   }
-
   build(): IBuiltDevice {
     const deviceIdOnCreate = uuidv4();
     const {
       VirtualController,
-      Controller, 
+      Controller,
       VirtualInteractionComponent,
       ...rest
     } =
@@ -30,7 +32,6 @@ class SAMDeviceBuilder {
       this.defaultDeviceName
     );
     const controller = new Controller(defaultDeviceColor);
-
     return {
       deviceIdOnCreate: deviceIdOnCreate,
       virtualInteractionComponentName: this.deviceName,
@@ -43,5 +44,3 @@ class SAMDeviceBuilder {
   }
 }
 export default SAMDeviceBuilder;
-
-

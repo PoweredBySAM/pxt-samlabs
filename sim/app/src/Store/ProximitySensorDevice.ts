@@ -15,7 +15,7 @@ class ProximitySensorDevice {
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
 
-    _value: number;
+  @observable  value: number;
 
   constructor(deviceData: any) {
     const {
@@ -34,7 +34,7 @@ class ProximitySensorDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._value = 0
+    this.value = 0
     makeAutoObservable(this);
 
   }
@@ -59,6 +59,9 @@ class ProximitySensorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+  }
+  updateValue(value: number) {
+    this.value = value;
   }
 
   @action

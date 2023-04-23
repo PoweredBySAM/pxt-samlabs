@@ -1,6 +1,6 @@
 import * as React from "react";
 const TiltIcon = (props: JSX.IntrinsicAttributes & React.SVGProps<SVGSVGElement>) => (
-  <svg width={364} height={313} viewBox="0 0 364 313" {...props}>
+  <svg viewBox="0 0 364 313" {...props}>
     <path d="M181.611 28.2797L181.63 28.28H181.59L181.611 28.2797Z" />
     <path
       fillRule="evenodd"

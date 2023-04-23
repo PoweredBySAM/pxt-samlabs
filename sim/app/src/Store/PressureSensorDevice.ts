@@ -14,8 +14,7 @@ class PressureSensorDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
-
-    _value: number;
+  @observable value: number;
 
   constructor(deviceData: any) {
     const {
@@ -34,7 +33,7 @@ class PressureSensorDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._value = 0
+    this.value = 0
     makeAutoObservable(this);
 
   }
@@ -64,6 +63,10 @@ class PressureSensorDevice {
   @action
   getValue() {
     this._virtualController.getValue() || this._bluetoothController?.getValue();
+  }
+  @action
+  setValue(value: number) {
+    this.value = value;
   }
 
   get virtualController() {

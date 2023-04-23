@@ -1,11 +1,13 @@
 import ButtonDevice from "./ButtonDevice";
 import BuzzerDevice from "./BuzzerDevice";
 import DCMotorDevice from "./DCMotorDevice";
+import HeatSensorDevice from "./HeatSensorDevice";
 import LEDDevice from "./LEDDevice";
 import LightSensorDevice from "./LightSensorDevice";
 import PressureSensorDevice from "./PressureSensorDevice";
 import ServoMotorDevice from "./ServoMotorDevice";
 import SliderDevice from "./SliderDevice";
+import TiltDevice from "./TiltDevice";
 
 export const storeMap = {
   "SAM Button": ButtonDevice,
@@ -16,5 +18,7 @@ export const storeMap = {
   "SAM Servo Motor":ServoMotorDevice,
   "SAM Pressure Sensor":PressureSensorDevice,
   "SAM Proximity Sensor":PressureSensorDevice,
-  "SAM Slider": SliderDevice
+  "SAM Slider": SliderDevice,
+  "SAM Heat Sensor": HeatSensorDevice,
+  "SAM Tilt": TiltDevice,
 };

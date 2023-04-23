@@ -1,6 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 
-class SliderDevice {
+class HeatSensorDevice {
   private _virtualController: any;
   private _bluetoothController: any;
   private _deviceId: string;
@@ -14,8 +14,8 @@ class SliderDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
-  @observable value: number;
-
+    _ledColor: string;
+    _ledBrightness: number;
   constructor(deviceData: any) {
     const {
       deviceIdOnCreate,
@@ -33,7 +33,8 @@ class SliderDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.value = 0
+    this._ledColor = '#000000'
+    this._ledBrightness = 100
     makeAutoObservable(this);
 
   }
@@ -61,12 +62,22 @@ class SliderDevice {
   }
 
   @action
-  getValue():number {
-   return this._virtualController.getValue() || this._bluetoothController?.getValue();
+  getCelsiusValue() {
+    return this._virtualController.getCelsiusValue || ( this.isConnected && this._bluetoothController?.getCelsiusValue());
   }
-  setValue(value: number) {
-    this.value = value;
+
+  @action
+  getFarenheitValue() {
+    return this._virtualController.getFarenheitValue || ( this.isConnected && this._bluetoothController?.getFarenheitValue());
   }
+
+
+  @action
+  reset() {
+    this._virtualController._reset();
+    this.isConnected && this._bluetoothController?._reset();
+  } 
+
 
   get virtualController() {
     return this._virtualController;
@@ -79,4 +90,4 @@ class SliderDevice {
   }
 }
 
-export default SliderDevice;
+export default HeatSensorDevice;

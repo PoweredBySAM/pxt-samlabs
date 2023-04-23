@@ -7,6 +7,7 @@ import PressureSensorInit from "./Animatable/PresureSensor/PressureSensorInit";
 import ProximitySensorInit from "./Animatable/ProximitySensor/ProximitySensorInit";
 import ServoMotorInit from "./Animatable/Servo/ServoMotorInit";
 import SliderInit from "./Animatable/Slider/SliderInit";
+import HeatSensorInit from "./Animatable/TemperatureSensor/HeatSensorInit";
 import { deviceNameType } from "./Icons/deviceIconTypes";
 
 class DeviceDependencies
@@ -49,6 +50,14 @@ class DeviceDependencies
             case 'Slider':
                 return {
                     controlUtilities: SliderInit,
+                }
+            case 'HeatSensor':
+                return {
+                    controlUtilities: HeatSensorInit,
+                }
+            case 'Tilt':
+                return {
+                    controlUtilities: HeatSensorInit,
                 }
             default:
                 throw new Error("Device dependencies not in getDeviceControlUtilities");

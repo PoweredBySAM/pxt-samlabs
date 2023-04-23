@@ -33,7 +33,7 @@ const FullSimDeviceWrapper = observer(({device,children,...rest}:{device:any,chi
           visibility={device.blockVisibility}
         />
       </Box>
-      <Box>
+      <Box sx={{width:"100%"}}>
         {children}
       </Box>
     </Card>

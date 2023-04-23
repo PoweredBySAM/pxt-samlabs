@@ -14,8 +14,7 @@ class LightSensorDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
-
-    _value: number;
+  @observable value: number;
 
   constructor(deviceData: any) {
     const {
@@ -34,7 +33,7 @@ class LightSensorDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._value = 0
+    this.value = 0
     makeAutoObservable(this);
 
   }
@@ -62,9 +61,14 @@ class LightSensorDevice {
   }
 
   @action
-  getValue(value: number) {
-    this._virtualController.setSpeed = value;
-    this.isConnected && this._bluetoothController?.setSpeed(value);
+  setValue(newValue: number) {
+    this.value = newValue;
+    console.log(newValue, "value in store")
+  }
+
+  @action
+  getValue() {
+    return (this.isConnected && this._bluetoothController?.getValue)||this.value;
   }
 
   @action

@@ -6,6 +6,7 @@ import useEventsController from '../../../Hooks/useEventsController';
 import { observer } from 'mobx-react';
 import SliderDevice from '../../../Store/SliderDevice';
 import { Box } from '@mui/material';
+import SliderWithDisplayHOC from '../../Common/SliderWithDisplayHOC';
 
 
 function Slider({device}:{device:SliderDevice}) {
@@ -23,6 +24,10 @@ function Slider({device}:{device:SliderDevice}) {
   ];
   const virtualEvents = ["valueChanged"];
 
+  const handleChange = (event: any, newValue: number | number[]) => {
+    singleDeviceStore.setValue(newValue as number);
+  }
+
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
@@ -32,13 +37,19 @@ function Slider({device}:{device:SliderDevice}) {
 
   return (
     <>
-      {singleDeviceStore.blockVisibility && (
-        <Box sx={{mt:4}}>
-          <SamSlider getValue = {()=>device.getValue()} />
-        </Box>
-      )}
+      <SliderWithDisplayHOC
+        setValue={handleChange}
+        currentValue={singleDeviceStore.value}
+        controlsVisibility={singleDeviceStore.blockVisibility}
+      >
+        {singleDeviceStore.blockVisibility && (
+          <Box sx={{ mt: 4 }}>
+            <SamSlider getValue={() => singleDeviceStore.value} />
+          </Box>
+        )}
+      </SliderWithDisplayHOC>
     </>
-  )
+  );
 }
 
 export default observer( Slider)

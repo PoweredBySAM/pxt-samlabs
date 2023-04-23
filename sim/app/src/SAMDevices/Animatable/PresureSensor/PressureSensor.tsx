@@ -5,6 +5,8 @@ import useBasicEvents from '../../../Hooks/useBasicEvents';
 import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
 import useEventsController from '../../../Hooks/useEventsController';
 import { observer } from 'mobx-react';
+import SliderWithDisplayHOC from '../../Common/SliderWithDisplayHOC';
+import { Box } from '@mui/material';
 
 
 function PressureSensor({device}:{device:PressureSensorDevice}) {
@@ -21,6 +23,10 @@ function PressureSensor({device}:{device:PressureSensorDevice}) {
     "disconnected",
   ];
   const virtualEvents = ["valueChanged"];
+  
+  const handleChange = (event: any, newValue: number | number[]) => {
+    singleDeviceStore.setValue(newValue as number);
+  }
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
@@ -31,13 +37,19 @@ function PressureSensor({device}:{device:PressureSensorDevice}) {
 
   return (
     <>
-      {singleDeviceStore.blockVisibility && (
-        <div>
-          <SamPressureSensor />
-        </div>
-      )}
+      <SliderWithDisplayHOC
+        setValue={handleChange}
+        currentValue={singleDeviceStore.value}
+        controlsVisibility={singleDeviceStore.blockVisibility}
+      >
+        {singleDeviceStore.blockVisibility && (
+          <Box sx={{ display: "flex", justifyItems: "center" }}>
+            <SamPressureSensor />
+          </Box>
+        )}
+      </SliderWithDisplayHOC>
     </>
-  )
+  );
 }
 
 export default observer( PressureSensor)
