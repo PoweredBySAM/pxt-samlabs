@@ -15,6 +15,8 @@ class SliderDevice {
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   constructor(deviceData: any) {
     const {
@@ -34,6 +36,8 @@ class SliderDevice {
     this.isActive = false;
     this.blockVisibility = true;
     this.value = 0
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -66,6 +70,14 @@ class SliderDevice {
   }
   setValue(value: number) {
     this.value = value;
+  }
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
   }
 
   get virtualController() {

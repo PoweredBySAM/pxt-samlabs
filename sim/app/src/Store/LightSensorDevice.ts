@@ -15,6 +15,8 @@ class LightSensorDevice {
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   constructor(deviceData: any) {
     const {
@@ -34,6 +36,8 @@ class LightSensorDevice {
     this.isActive = false;
     this.blockVisibility = true;
     this.value = 0
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -76,6 +80,16 @@ class LightSensorDevice {
     this._virtualController._reset();
     this.isConnected && this._bluetoothController?._reset();
   } 
+
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+
+  @action
+  deleteDevice() {
+    this.deleted = true;
+  }
 
   get virtualController() {
     return this._virtualController;

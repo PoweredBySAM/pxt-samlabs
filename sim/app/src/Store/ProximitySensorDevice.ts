@@ -14,6 +14,8 @@ class ProximitySensorDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   @observable  value: number;
 
@@ -35,6 +37,8 @@ class ProximitySensorDevice {
     this.isActive = false;
     this.blockVisibility = true;
     this.value = 0
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -67,6 +71,14 @@ class ProximitySensorDevice {
   @action
   getValue() {
     this._virtualController.getValue() || this._bluetoothController?.getValue();
+  }
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
   }
 
   get virtualController() {

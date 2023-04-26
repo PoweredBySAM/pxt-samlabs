@@ -26,7 +26,7 @@ function LED({device}:{device:LEDDevice}) {
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
 

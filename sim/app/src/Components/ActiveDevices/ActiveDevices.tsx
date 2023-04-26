@@ -25,6 +25,7 @@ const additionalStyles = {
 const ActiveDevices = observer(({showActiveDevices}:{showActiveDevices?:boolean}) => {
   const devicesStore = React.useContext(StoreContext);
   const devices:SamDeviceStoreType[] = devicesStore.devices;
+  console.log(devices.length,'devices length')
 
   return (
     <Box sx = {showActiveDevices? {overflowY: "scroll",height:"95vh",pb:10,...additionalStyles} : {visibility:"hidden"}}>

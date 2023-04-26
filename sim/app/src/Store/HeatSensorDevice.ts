@@ -14,6 +14,9 @@ class HeatSensorDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
+
     _ledColor: string;
     _ledBrightness: number;
   constructor(deviceData: any) {
@@ -35,6 +38,8 @@ class HeatSensorDevice {
     this.blockVisibility = true;
     this._ledColor = '#000000'
     this._ledBrightness = 100
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -78,6 +83,14 @@ class HeatSensorDevice {
     this.isConnected && this._bluetoothController?._reset();
   } 
 
+  @action
+  deleteDevice() {
+    this.deleted = true;
+  }
+
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
 
   get virtualController() {
     return this._virtualController;

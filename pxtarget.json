@@ -5,6 +5,10 @@
     "title": "Sam Blockly - Blocks / Javascript editor",
     "description": "A Custom Blocks / JavaScript code editor based on MakeCode for Sam Blockly Devices",
     "corepkg": "core",
+    "dependencies": {
+        "core": "https://github.com/microsoft/pxt-core",
+        "common": "https://github.com/microsoft/pxt-common-packages"
+    },
     "cloud": {
         "workspace": false,
         "packages": true

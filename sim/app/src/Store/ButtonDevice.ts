@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 
 class ButtonDevice {
   private _virtualController: any;
@@ -14,6 +15,9 @@ class ButtonDevice {
   @observable batteryLevel = 0;
   @observable Color = '';
   @observable blockVisibility: boolean;
+  @observable deviceInTestMode: boolean;
+  @observable deleted : boolean;
+
 
   constructor(deviceData: any) {
     ;
@@ -33,8 +37,12 @@ class ButtonDevice {
     this.restProps = restprops;
     this.currentState = meta?.defaultState;
     this.blockVisibility = true
+    this.deviceInTestMode = false
+    this.deleted = false
     this.Color=meta?.hue;
     makeAutoObservable(this)
+    makePersistable(this, { name: 'ButtonStore', properties: ['virtualController','bluetoothController'] });
+
   }
 
   @action
@@ -64,6 +72,14 @@ class ButtonDevice {
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
+  }
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
   }
 
   get virtualController() {

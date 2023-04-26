@@ -24,7 +24,7 @@ function Servo({ device }: { device: ServoMotorDevice }) {
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
   return (

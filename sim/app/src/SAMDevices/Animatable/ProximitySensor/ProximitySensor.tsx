@@ -30,7 +30,7 @@ function ProximitySensor({ device }: { device: PressureSensorDevice }) {
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
 

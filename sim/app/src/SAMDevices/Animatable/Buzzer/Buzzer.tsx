@@ -26,7 +26,7 @@ function Buzzer({device}:{device:BuzzerDevice}) {
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
   return (

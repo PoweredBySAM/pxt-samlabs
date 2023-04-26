@@ -31,7 +31,7 @@ function Slider({device}:{device:SliderDevice}) {
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
 

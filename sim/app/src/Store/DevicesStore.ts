@@ -1,21 +1,21 @@
 import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
+
 import { storeMap } from '.';
 import type { IBuiltDevice } from '../SAMDevices/Types/SAMDeviceTypes';
+import { makePersistable } from 'mobx-persist-store';
 
 class DevicesStore {
   @observable devices:any[] = [];
 
   constructor() {
     makeObservable(this);
+    makePersistable(this, { name: 'DevicesStore', properties: ['devices'] });
+
   }
 
   @action addDevice(deviceData: IBuiltDevice) {
     const device = this.buildStore(deviceData);
       this.devices.push(device);
-  }
-
-  @action removeDevice(id: string) {
-    this.devices = this.devices.filter(device => device.id !== id);
   }
 
   @action connectDevice(id: string) {

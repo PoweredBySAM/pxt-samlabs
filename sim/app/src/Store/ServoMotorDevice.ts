@@ -16,6 +16,8 @@ class ServoMotorDevice {
   @observable blockVisibility: boolean;
   @observable _position: number;
   @observable  _adjustedPosition: number;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   constructor(deviceData: any) {
     const {
@@ -36,6 +38,8 @@ class ServoMotorDevice {
     this.blockVisibility = true;
     this._position = 0
     this._adjustedPosition = 0
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -78,6 +82,15 @@ class ServoMotorDevice {
     this._virtualController._reset();
     this.isConnected && this._bluetoothController?._reset();
   } 
+
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
+  }
 
   get virtualController() {
     return this._virtualController;

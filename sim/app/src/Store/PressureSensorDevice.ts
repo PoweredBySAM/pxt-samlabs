@@ -15,6 +15,8 @@ class PressureSensorDevice {
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   constructor(deviceData: any) {
     const {
@@ -34,6 +36,8 @@ class PressureSensorDevice {
     this.isActive = false;
     this.blockVisibility = true;
     this.value = 0
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -67,6 +71,14 @@ class PressureSensorDevice {
   @action
   setValue(value: number) {
     this.value = value;
+  }
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
   }
 
   get virtualController() {

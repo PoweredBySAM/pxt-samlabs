@@ -4,14 +4,17 @@ import { SamDeviceStoreType } from "../SAMDevices/Types/SAMDeviceTypes";
 function useControllerEvents(device: SamDeviceStoreType, customDeviceEventsHandler: any) {
   const bluetoothController: any = device.bluetoothController;
   const virtualController: any = device.virtualController;
+  const hasCustomEvents = customDeviceEventsHandler !== undefined;
+  const addBluetoothEventsConditional = hasCustomEvents && bluetoothController
+  const addVirtualEventsConditional = hasCustomEvents && virtualController
 
   const addEvents = (bluetoothEvents: string[], virtualEvents: string[]) => {
-    bluetoothEvents.forEach((event: string) => {
+    !!customDeviceEventsHandler && bluetoothEvents.forEach((event: string) => {
       bluetoothController.on(event, (value: any) => {
         customDeviceEventsHandler(event, value);
       });
     });
-    virtualEvents.forEach((event: string) => {
+    !!customDeviceEventsHandler && virtualEvents.forEach((event: string) => {
       virtualController.on(event, (value: any) => {
         customDeviceEventsHandler(event, value);
       });
@@ -19,10 +22,10 @@ function useControllerEvents(device: SamDeviceStoreType, customDeviceEventsHandl
   };
 
   const removeEvents = (bluetoothEvents: string[], virtualEvents: string[]) => {
-    bluetoothEvents.forEach((event) => {
+    !!customDeviceEventsHandler && bluetoothEvents.forEach((event) => {
       bluetoothController.off(event);
     });
-    virtualEvents.forEach((event) => {
+    !!customDeviceEventsHandler && virtualEvents.forEach((event) => {
       virtualController.off(event);
     });
   };

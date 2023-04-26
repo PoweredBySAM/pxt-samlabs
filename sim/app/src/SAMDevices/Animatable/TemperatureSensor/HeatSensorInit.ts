@@ -1,7 +1,6 @@
 import Controller from './Controller'
 import BaseController from "../../../Utils/Controllers/BaseController"
 import VirtualController from '../../../Utils/Controllers/VirtualController'
-import PressureSensorDevice from '../../../Store/PressureSensorDevice'
 import HeatSensor from './HeatSensor'
 import HeatSensorDevice from '../../../Store/HeatSensorDevice'
 

@@ -9,9 +9,11 @@ import useBasicEvents from "../../../Hooks/useBasicEvents";
 
 const Button =  observer(({ device }: { device: ButtonDevice })=> {
 
-  const {handleBasicControllerEvents} = useBasicEvents(device)
-  const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents);
+  const {handleBasicControllerEvents} = useBasicEvents(device)||{};
+  const {addEvents, removeEvents } = useEventsController(device,handleBasicControllerEvents)||{};
   const {singleDeviceStore} = useSingleDeviceStore(device)
+  console.log(handleBasicControllerEvents,"handleBasicControllerEvents",)
+  const addEventsBoolean = !!handleBasicControllerEvents && !!addEvents && !!removeEvents
   const bluetoothEvents = [
     "connecting",
     "connected",
@@ -29,11 +31,13 @@ const Button =  observer(({ device }: { device: ButtonDevice })=> {
   };
 
   useEffect(() => {
-    addEvents(bluetoothEvents, virtualEvents);
+    addEventsBoolean && addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // console.log(handleBasicControllerEvents,"handleBasicControllerEvents",)
+
+      // addEventsBoolean &&  removeEvents(bluetoothEvents, virtualEvents);
     };
-  }, []);
+  }, [addEvents, removeEvents, handleBasicControllerEvents]);
 
   return (
     <>

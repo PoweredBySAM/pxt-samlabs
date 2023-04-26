@@ -17,6 +17,8 @@ class BuzzerDevice {
   volume: number;
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   constructor(deviceData: any) {
     const {
@@ -37,7 +39,8 @@ class BuzzerDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    makeAutoObservable(this);
+    this.deviceInTestMode = false;
+    this.deleted = false;
 
   }
   @action
@@ -89,6 +92,14 @@ class BuzzerDevice {
   @action
   reset() {
     this.isConnected && this._bluetoothController?._reset();
+  }
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
   }
 
   get virtualController() {

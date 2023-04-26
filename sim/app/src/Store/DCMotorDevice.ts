@@ -1,10 +1,9 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 
 class DCMotorDevice {
-  private _virtualController: any;
-  private _bluetoothController: any;
-  private _deviceId: string;
-  possibleStates: any;
+   _virtualController: any;
+   _bluetoothController: any;
+   _deviceId: string;
   restProps: any;
   virtualInteractionComponentName: string;
 
@@ -14,7 +13,11 @@ class DCMotorDevice {
   @observable Color = "";
   @observable  isActive: boolean;
   @observable blockVisibility: boolean;
-    _speed: number;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
+  @observable testModeSpeed:number;
+
+   @observable speed: number;
     _adjustedSpeed: number;
 
   constructor(deviceData: any) {
@@ -34,8 +37,11 @@ class DCMotorDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._speed = 0
+    this.speed = 0
     this._adjustedSpeed = 0
+    this.deviceInTestMode = false;
+    this.deleted = false;
+    this.testModeSpeed = 0
     makeAutoObservable(this);
 
   }
@@ -64,13 +70,19 @@ class DCMotorDevice {
 
   @action
   setSpeed(value: number) {
-    this._virtualController.setSpeed = value;
+    this.speed = value;
     this.isConnected && this._bluetoothController?.setSpeed(value);
   }
 
   @action
   getspeed() {
-    return this._virtualController.getspeed || ( this.isConnected && this._bluetoothController?.getspeed);
+    console.log(this._virtualController,'this._virtualController')
+    return this._virtualController.getSpeed || ( this.isConnected && this._bluetoothController?.getSpeed)|| 0;
+  }
+
+  @action
+  getTestspeed() {
+    return this.testModeSpeed;
   }
 
   @action
@@ -78,6 +90,22 @@ class DCMotorDevice {
     this._virtualController._reset();
     this.isConnected && this._bluetoothController?._reset();
   } 
+  @action
+  toggleTestMode() {
+    if(!this.deviceInTestMode){
+      this.testModeSpeed = 0
+    }
+    this.deviceInTestMode = !this.deviceInTestMode;
+
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
+  }
+  @action
+  setTestModeSpeed(value:number) {
+    this.testModeSpeed = value;
+  }
 
   get virtualController() {
     return this._virtualController;

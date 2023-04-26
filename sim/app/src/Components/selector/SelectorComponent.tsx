@@ -8,21 +8,21 @@ import AddIcon from '@mui/icons-material/Add';
 import { DeviceMenuItemType, IDeviceLabelObject } from '../../SAMDevices/Types/SAMDeviceTypes';
 import { deviceNameType } from '../../SAMDevices/Icons/deviceIconTypes';
 
-const localStyles = ()=>(
-  {inputToggle:{
-      display: "flex",
-      justifyContent: "center",
-      width:"100%",
-      borderRadius: 5,
-      border: "solid 1px #c8c8c8",
-      boxShadow:"4px",
-      backgroundColor: "#26D0C4",
-      color: "#ffffff",
-      py: 1,
-      px: 2,
-      alignItems: "center",
-  }}
-)
+const localStyles = () => ({
+  inputToggle: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    borderRadius: 5,
+    border: "solid 1px #c8c8c8",
+    boxShadow: "4px",
+    backgroundColor: "#26D0C4",
+    color: "#ffffff",
+    py: 1,
+    px: 2,
+    alignItems: "center",
+  },
+});
 
 function SelectorComponent({addDevice, toggleActiveDevicesVisibility}:{ addDevice?:(arg0:DeviceMenuItemType)=>void, toggleActiveDevicesVisibility:()=>void}) {
   const [showOptions, setShowOptions] = React.useState<boolean>(false);

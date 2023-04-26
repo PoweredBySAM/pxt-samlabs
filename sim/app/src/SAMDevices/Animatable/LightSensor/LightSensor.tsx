@@ -31,7 +31,7 @@ function LightSensor({ device }: { device: LightSensorDevice }) {
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
-      removeEvents(bluetoothEvents, virtualEvents);
+      // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
   return (

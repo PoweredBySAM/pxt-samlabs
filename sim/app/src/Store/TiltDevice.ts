@@ -16,6 +16,8 @@ class TiltDevice {
   @observable blockVisibility: boolean;
   @observable isTilted: boolean;
   @observable _value: number;
+  @observable deviceInTestMode: boolean;
+  @observable deleted: boolean;
 
   constructor(deviceData: any) {
     const {
@@ -36,6 +38,8 @@ class TiltDevice {
     this.blockVisibility = true;
     this._value = 0
     this.isTilted = false
+    this.deviceInTestMode = false;
+    this.deleted = false;
     makeAutoObservable(this);
 
   }
@@ -74,6 +78,14 @@ class TiltDevice {
   getIsTilted() {
     return this.isTilted;
     }
+  @action
+  toggleTestMode() {
+    this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  @action
+  deleteDevice() {
+    this.deleted = true;
+  }
   
 
   get virtualController() {
