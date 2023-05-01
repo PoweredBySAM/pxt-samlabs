@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <title>sample simulator</title>
     <link rel="stylesheet" type="text/css" href="/sim/sim.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
             background: transparent;
@@ -17,28 +22,39 @@
 
 <body>
 
-<div id="beepbop-simulator">
+<div id="beepboop-simulator">
 </div>
     <!-- Load React and ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobx/6.8.0/mobx.umd.production.min.js" integrity="sha512-UGsDOhs2yvEHd7ThkPz/ltj/OmhA9yBF0WefLotS69NLCmlcOcCvIOzVcfobn7h+3Wx/NFsK4IyDW0GGhNoATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="./dist/bundle.js "></script>
     <script>
-        // MobX store
-        const commonStore = (() => {
+        // // MobX store
+        // const commonStore = (() => {
             
-            class CommonStore {
-                constructor() {
-                    mobx.makeObservable(this, {
-                        // count: mobx.observable,
-                    });
-                }
+        //     class CommonStore {
+        //         constructor() {
+        //             mobx.makeObservable(this, {
+        //                 // count: mobx.observable,
+        //             });
+        //         }
 
-            }
-            return new CommonStore();
-        })();
-        // Attach the store to the window object
-        window.commonStore = commonStore;
+        //     }
+        //     return new CommonStore();
+        // })();
+        // // Attach the store to the window object
+        // window.commonStore = commonStore;
+        // Inside the iframe content (e.g., iframe-content.html)
+        window.addEventListener('message', (event) => {
+        // You can add a check for the origin if necessary
+        // if (event.origin !== 'https://your-expected-origin.com') {
+        //   return;
+        // }
+
+        // Handle the message received
+        const data = event.data;
+        // console.log('Message received:', data,event);
+        });
+
     </script>
 </body>

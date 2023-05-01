@@ -1,0 +1,3 @@
+[submodule "libs/pxt-common-packages"]
+	path = libs/pxt-common-packages
+	url = https://github.com/microsoft/pxt-common-packages.git

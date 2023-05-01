@@ -1,16 +1,42 @@
 import React from 'react';
-import Button from './Devices/Button';
-import ActiveDevices from './ActiveDevices';
-import AllDevices from './AllDevices';
+import SelectorComponent from './Components/selector/SelectorComponent';
+import MuiThemeLayout from './Layouts/MuiThemeLayout';
+import SAMDeviceBuilder from './SAMDevices/SAMDeviceBuilder';
+import ActiveDevices from './Components/ActiveDevices/ActiveDevices';
+import { Box } from '@mui/material';
+import { observer } from 'mobx-react-lite';
+import { useStores } from './Hooks/useStores';
+import { DeviceMenuItemType, IBuiltDevice, IDeviceLabelObject, IDeviceLabels } from './SAMDevices/Types/SAMDeviceTypes';
 
-const App: React.FC = () => {
+const App: React.FC = observer(() => {
+  const { devicesStore } = useStores();
+  const [showActiveDevices, setShowActiveDevices] = React.useState(true);
+
+  const addDeviceHandler = (device: DeviceMenuItemType):void => {
+    const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
+    const builtDevice:IBuiltDevice = newDevice.build();      
+    devicesStore.addDevice(builtDevice);
+  };
+
+  const toggleActiveDevicesVisibility = ():void => {
+    setShowActiveDevices(prev=>!prev);
+  }
+
   return (
-    <div style={{display:"flex",flexDirection:"column",justifyContent:"center", marginTop:"1rem"}} >
-      <Button/>
-      <AllDevices/>
-      {/* <ActiveDevices/> */}
-    </div>
+    <MuiThemeLayout>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          m: 2,
+        }}
+      >
+        <SelectorComponent addDevice={addDeviceHandler} toggleActiveDevicesVisibility={toggleActiveDevicesVisibility} />
+        {<ActiveDevices showActiveDevices={showActiveDevices} />}
+      </Box>
+    </MuiThemeLayout>
   );
-};
+});
 
 export default App;

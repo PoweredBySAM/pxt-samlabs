@@ -10,7 +10,7 @@
         "packages": true
     },
     "bundleddirs": [
-        "libs/core"
+        "libs/button"
     ],
     "runtime": {
       "mathBlocks": true,
