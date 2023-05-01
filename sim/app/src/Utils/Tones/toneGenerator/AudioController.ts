@@ -1,6 +1,6 @@
 const ZERO_VOLUME = 0.0001
-const AudioContext = window.AudioContext || false
-class Controller {
+const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+class AudioController {
     private _volume: number;
     _wave: string;
     _context: AudioContext;
@@ -85,4 +85,4 @@ class Controller {
     }
 }
 
-export default Controller
+export default AudioController;

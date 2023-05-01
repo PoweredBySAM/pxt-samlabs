@@ -6,9 +6,14 @@ import useBasicEvents from '../../../Hooks/useBasicEvents';
 import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
 import { Box } from '@mui/material';
 import BuzzerDevice from '../../../Store/BuzzerDevice';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop';
+
+
 function Buzzer({device}:{device:BuzzerDevice}) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
+  const { blockVisibility,deviceInTestMode } = singleDeviceStore||{};
 
   const { addEvents, removeEvents } = useEventsController(
     device,
@@ -23,6 +28,14 @@ function Buzzer({device}:{device:BuzzerDevice}) {
   ];
   const virtualEvents = ["valueChanged"];
 
+  const handleTestPlay = ()=>{
+    singleDeviceStore.testTone('start')
+    setTimeout(() => {
+      singleDeviceStore.testTone('stop')
+    }, 5000);
+  }
+  console.log(blockVisibility,'blockVisibility')
+
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
     return () => {
@@ -31,9 +44,23 @@ function Buzzer({device}:{device:BuzzerDevice}) {
   }, []);
   return (
     <>
-      {singleDeviceStore.blockVisibility && (
+    <Box>
+    {deviceInTestMode && blockVisibility && (
+        <Box sx={{ display: "flex", justifyContent: "center",mb:5 }}>
+          <Box>
+            <span onClick={handleTestPlay}>
+              <PlayArrowIcon
+                sx={{ fontSize: "1.6rem", ml: 1, cursor: "pointer" }}
+              />
+            </span>
+          </Box>
+        </Box>
+      )}
+
+    </Box>
+      {blockVisibility && (
         <Box>
-          <SamBuzzer getIsActive={()=>device.isActive} />
+          <SamBuzzer getIsActive={deviceInTestMode? ()=>singleDeviceStore.testSoundActive : ()=>singleDeviceStore.isActive} />
         </Box>
       )}
     </>

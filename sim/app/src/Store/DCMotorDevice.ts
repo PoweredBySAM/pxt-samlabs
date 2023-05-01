@@ -16,7 +16,6 @@ class DCMotorDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   @observable testModeSpeed:number;
-
    @observable speed: number;
     _adjustedSpeed: number;
 

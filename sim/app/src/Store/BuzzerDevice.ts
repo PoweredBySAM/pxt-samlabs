@@ -1,6 +1,5 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
-import { IBuzzerDevice } from "./types";
-
+import { observable, action,makeAutoObservable } from "mobx";
+import AudioController from "../Utils/Tones/toneGenerator/AudioController";
 class BuzzerDevice {
   private _virtualController: any;
   private _bluetoothController: any;
@@ -8,6 +7,7 @@ class BuzzerDevice {
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
+  testAudioController: AudioController = new AudioController();
 
   @observable isConnected = false;
   @observable isConnecting = false;
@@ -19,6 +19,7 @@ class BuzzerDevice {
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable testSoundActive: boolean = false;
 
   constructor(deviceData: any) {
     const {
@@ -41,6 +42,8 @@ class BuzzerDevice {
     this.blockVisibility = true;
     this.deviceInTestMode = false;
     this.deleted = false;
+    makeAutoObservable(this);
+
 
   }
   @action
@@ -85,6 +88,33 @@ class BuzzerDevice {
     this._virtualController?._toneGenerator?.start();
   }
   @action
+  testTone(key?:string,value?:number){
+    switch(key){
+      case 'start': {
+        this.testSoundActive = true;
+        this.testAudioController.start()
+        this.testAudioController.setVolume(100);
+        console.log('started',this.testAudioController)
+
+      }; 
+      break;
+      case 'stop': {
+        this.testSoundActive = false;
+        this.testAudioController.stop();
+        console.log('stopped')
+      }
+      break;
+      case 'volumeUp': value && this.testAudioController.setVolume(value);
+      break;
+      case 'volumeDown': value && this.testAudioController.setVolume(value);
+    }
+   if(!key){ 
+    this.testAudioController.start();
+  }else {
+    this.testAudioController.stop()
+  }
+  }
+  @action
   clear() {
     this.isConnected && this._bluetoothController?.clear();
   }
@@ -95,6 +125,7 @@ class BuzzerDevice {
   }
   @action
   toggleTestMode() {
+    console.log('recieved!',this.deviceInTestMode)
     this.deviceInTestMode = !this.deviceInTestMode;
   }
   @action

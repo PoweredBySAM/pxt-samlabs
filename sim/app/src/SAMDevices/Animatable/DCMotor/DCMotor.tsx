@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { DCMotor as SamDCMotor} from "@samlabs/samblocks";
 import DCMotorDevice from '../../../Store/DCMotorDevice';
 import useEventsController from '../../../Hooks/useEventsController';
 import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
 import useBasicEvents from '../../../Hooks/useBasicEvents';
 import { observer } from 'mobx-react';
-import { Box, Slider } from '@mui/material';
+import { Box, Slider, Typography } from '@mui/material';
 import { customSliderStyle } from '../../Common/commonJsStyles';
 
 
@@ -56,23 +56,31 @@ useEffect(()=>{
     <>
       <Box sx={{ width: "100% " }}>
         {deviceInTestMode && blockVisibility &&(
-          <Slider
-            size="small"
-            min={0}
-            max={100}
-            aria-label="Temperature"
-            value={singleDeviceStore.testModeSpeed}
-            onChange={handleTestValues}
-            sx={customSliderStyle}
-            step={10}
-            marks
-          />
+          <Box sx={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <Typography variant='subtitle2'>Min</Typography>
+              <Slider
+                size="small"
+                min={0}
+                max={100}
+                aria-label="Temperature"
+                value={singleDeviceStore.testModeSpeed}
+                onChange={handleTestValues}
+                sx={{...customSliderStyle,mx:2}}
+                step={10}
+                marks
+              />
+              <Typography variant='subtitle2'>Max</Typography>
+          </Box>
+
         )}
       </Box>
       {blockVisibility && showMotor && (
-        <div>
-          <SamDCMotor getMotorSpeed={motorSpeed} />
-        </div>
+        <Box sx={{display:"flex",justifyContent:"center"}}>
+          <div>
+            <SamDCMotor getMotorSpeed={motorSpeed} />
+          </div>
+        </Box>
+
       )}
     </>
   );

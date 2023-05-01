@@ -1,5 +1,5 @@
 import BaseVirtualController from "../../../Utils/Controllers/VirtualController"
-import ToneGenerator from "../../../Utils/Tones/toneGenerator/Controller"
+import ToneGenerator from "../../../Utils/Tones/toneGenerator/AudioController"
 const pitchToHertz = {
     0: 0,
     1: 440,

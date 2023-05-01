@@ -18,6 +18,7 @@ class ServoMotorDevice {
   @observable  _adjustedPosition: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable testPosition: number;
 
   constructor(deviceData: any) {
     const {
@@ -39,6 +40,7 @@ class ServoMotorDevice {
     this._position = 0
     this._adjustedPosition = 0
     this.deviceInTestMode = false;
+    this.testPosition = 0
     this.deleted = false;
     makeAutoObservable(this);
 
@@ -76,6 +78,10 @@ class ServoMotorDevice {
     this._virtualController.setPosition(value);
     this.isConnected && this._bluetoothController?.setSpeed(value);
   }
+  @action
+  setTestPosition(value: number) {
+    this.testPosition = this.testPosition + value;
+  }
 
   @action
   reset() {
@@ -85,6 +91,9 @@ class ServoMotorDevice {
 
   @action
   toggleTestMode() {
+    if(!this.deviceInTestMode){
+      this.testPosition = 0
+    }
     this.deviceInTestMode = !this.deviceInTestMode;
   }
   @action

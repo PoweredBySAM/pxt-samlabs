@@ -1,5 +1,5 @@
 export const customSliderStyle = {
-    minWidth: "10rem !important",
+    minWidth: "6rem !important",
     "& .MuiSlider-thumb": {
       color: "#101010",
     },

@@ -16,8 +16,9 @@ class LEDDevice {
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable testLEDColor: string
 
-    _ledColor: string;
+  @observable _ledColor: string;
     _ledBrightness: number;
 
   constructor(deviceData: any) {
@@ -37,9 +38,10 @@ class LEDDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._ledColor = '#000000'
+    this._ledColor = '#ffffff'
     this._ledBrightness = 100
     this.deviceInTestMode = false;
+    this.testLEDColor = '#ffffff'
     this.deleted = false;
     makeAutoObservable(this);
 
@@ -80,6 +82,11 @@ class LEDDevice {
     this._virtualController.setLEDColor = value;
     this.isConnected && this._bluetoothController?.setLEDColor(value);
   }
+  @action
+  setLEDTestColor(value: string) {
+    console.log(value,'sote',this.testLEDColor)
+    this.testLEDColor = value;
+  }
 
   @action
   isLEDOn() {
@@ -104,6 +111,9 @@ class LEDDevice {
   }
   @action
   toggleTestMode() {
+    if(!this.deviceInTestMode){
+      this.testLEDColor = "#ffffff"
+    }
     this.deviceInTestMode = !this.deviceInTestMode;
   }
   @action
