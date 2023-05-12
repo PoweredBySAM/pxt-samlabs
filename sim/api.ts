@@ -1,5 +1,6 @@
 /// <reference path="../libs/core/enums.d.ts"/>
 
+
 async function delay<T>(duration: number, value: T | Promise<T>): Promise<T>;
 async function delay(duration: number): Promise<void>
 async function delay<T>(duration: number, value?: T | Promise<T>): Promise<T> {
@@ -8,6 +9,7 @@ async function delay<T>(duration: number, value?: T | Promise<T>): Promise<T> {
     await new Promise<void>(resolve => setTimeout(() => resolve(), duration));
     return output;
 }
+
 
 namespace pxsim.hare {
     /**
