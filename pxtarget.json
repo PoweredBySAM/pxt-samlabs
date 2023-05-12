@@ -10,9 +10,10 @@
         "packages": true
     },
     "bundleddirs": [
-        "libs/button"
+        "libs/core"
     ],
     "runtime": {
+      "sim":true,
       "mathBlocks": true,
       "loopsBlocks": true,
       "logicBlocks": true,
@@ -25,7 +26,12 @@
         "autoRun": true,
         "aspectRatio": 1
     },
+    "compile": {
+        "isNative": false,
+        "hasHex": false
+    },
     "appTheme": {
+        "simulator": true,
         "logoUrl": "https://github.com/Microsoft/pxt-sample",
         "homeUrl": "http://microsoft.github.io/pxt-sample/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",

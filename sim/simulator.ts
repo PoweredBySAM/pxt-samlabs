@@ -14,8 +14,7 @@ namespace pxsim {
      */
     export function board() : Board {
         return runtime.board as Board;
-    }
-
+    } 
     /**
      * Represents the entire state of the executing program.
      * Do not store state anywhere else!
