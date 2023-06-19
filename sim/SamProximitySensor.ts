@@ -1,4 +1,4 @@
-//% color="#ff69b4" weight=100 icon= "\uf185" block="Button" subcategory="Sam Button"
+//% color="#08D0C4" weight=100 icon= "\uf185" block="Button" subcategory="Sam Button"
 namespace pxsim.ProximitySensor {
     /**
      * Wait until the proximity sensor value changes

@@ -92,7 +92,7 @@ namespace pxsim.loops {
     }
 }
 
-function logMsg(m:string) { console.log(m) }
+function logMsg(m:string) { console.log(m,"msg in api.ts") }
 
 namespace pxsim.console {
     /**
@@ -155,4 +155,65 @@ namespace pxsim.sprites {
     export function createSprite(): Sprite {
         return new Sprite();
     }
+}
+namespace samlabs{
+    export class SimulatorQueue {
+        private items: any[];
+        constructor() {
+            this.items = [];
+        }
+    
+        enqueue(element:string) {
+            this.items.push(element);
+        }
+    
+        dequeue() {
+            if(this.isEmpty()) 
+                throw "Underflow"; 
+            return this.items.shift();
+        }
+    
+        isEmpty() {
+            return this.items.length === 0;
+        }
+    
+        peek() {
+            if(this.isEmpty()) 
+                throw "No elements in Queue"; 
+            return this.items[0];
+        }
+    }
+
+export class WindowEventService {
+
+    private static instance: WindowEventService;
+
+    private constructor() {}
+
+    sendEvent(eventName: any, payload: any) {
+        const event = new CustomEvent(eventName, {
+            detail: payload,
+            bubbles: true,
+            cancelable: true
+        });
+        window.dispatchEvent(event);
+    }
+
+    receiveEvent(eventName: any, callback: (detail: any) => void) {
+        window.addEventListener(eventName, (event: CustomEvent) => {
+            callback(event.detail);
+        });
+    }
+
+    public static getInstance(): WindowEventService {
+        if (!WindowEventService.instance) {
+            WindowEventService.instance = new WindowEventService();
+        }
+        return WindowEventService.instance;
+    }
+}
+
+    
+    
+
 }

@@ -109,32 +109,26 @@ declare namespace sprites {
     function createSprite(): Sprite;
 
 }
-declare namespace Button {
+declare namespace button {
     /**
      * Registers a handler that runs when the button with the given ID is pressed
      * @param buttonId The ID of the button to listen for
      * @param handler The function to run when the button is pressed
      */
-    //% blockId="on_button_pressed" block="when button with ID $buttonId is pressed"
+    //% blockId="on_button_pressed" block="when Button with ID $buttonId is pressed"
     //% buttonId.defl=0
-    //% color="#e3008c"
-    //% shim=Button::onButtonPressed
+    //% weight=1 icon="\uf11b"
+    //% shim=button::onButtonPressed
     function onButtonPressed(buttonId: number, handler: () => void): void;
 
     /**
      * Wait until the button with the given ID is pressed
      * @param buttonId The ID of the button to wait for
      */
-    //% blockId="wait_until_button_pressed" block="wait until button with ID $buttonId is pressed"
+    //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
     //% buttonId.defl=0
-    /**
-     * Wait until the button with the given ID is pressed
-     * @param buttonId The ID of the button to wait for
-     */
-    //% blockId="wait_until_button_pressed" block="wait until button with ID $buttonId is pressed"
-    //% buttonId.defl=0
-    //% color="#ff69b4"
-    //% shim=Button::waitUntilButtonPressed
+    //% advanced=true
+    //% shim=button::waitUntilButtonPressed
     function waitUntilButtonPressed(buttonId: number): void;
 
     /**
@@ -142,35 +136,35 @@ declare namespace Button {
      * @param buttonId The ID of the button to change color
      * @param color The new color for the button
      */
-    //% blockId="set_button_color" block="set color of button with ID $buttonId to $color"
+    //% blockId="set_button_color" block="set color of Button with ID $buttonId to $color"
     //% buttonId.defl=0
     //% color.shadow="colorNumberPicker"
-    //% color="#ff69b4"
-    //% shim=Button::setButtonColor
+    //% advanced=true
+    //% shim=button::setButtonColor
     function setButtonColor(buttonId: number, color: string): void;
 
     /**
      * Get the state of the button with a given ID
      * @param buttonId The ID of the button to get the state of
      */
-    //% blockId="get_button_state" block="get state of button with ID $buttonId"
+    //% blockId="get_button_state" block="get state of Button with ID $buttonId"
     //% buttonId.defl=0
-    //% color="#ff69b4"
-    //% shim=Button::getButtonState
+    //% advanced=true
+    //% shim=button::getButtonState
     function getButtonState(buttonId: number): boolean;
 
 }
-declare namespace Buzzer {
+declare namespace buzzer {
     /**
      * Set the volume of the buzzer with the given ID
      * @param buzzerId The ID of the buzzer to set the volume for
      * @param volume The new volume for the buzzer (0-100)
      */
-    //% blockId="set_buzzer_volume" block="set volume of buzzer with ID $buzzerId to $volume"
+    //% blockId="set_buzzer_volume" block="set volume of Buzzer with ID $buzzerId to $volume"
     //% buzzerId.defl=0
     //% volume.min=0 volume.max=100
     //% color="#d400d4"
-    //% shim=Buzzer::setBuzzerVolume
+    //% shim=buzzer::setBuzzerVolume
     function setBuzzerVolume(buzzerId: number, volume: number): void;
 
     /**
@@ -178,21 +172,21 @@ declare namespace Buzzer {
      * @param buzzerId The ID of the buzzer to set the pitch for
      * @param pitch The new pitch for the buzzer (in Hz)
      */
-    //% blockId="set_buzzer_pitch" block="set pitch of buzzer with ID $buzzerId to $pitch Hz"
+    //% blockId="set_buzzer_pitch" block="set pitch of Buzzer with ID $buzzerId to $pitch Hz"
     //% buzzerId.defl=0
     //% pitch.min=20 pitch.max=20000
     //% color="#d400d4"
-    //% shim=Buzzer::setBuzzerPitch
+    //% shim=buzzer::setBuzzerPitch
     function setBuzzerPitch(buzzerId: number, pitch: number): void;
 
     /**
      * Clear the buzzer with the given ID by setting its volume and pitch to zero
      * @param buzzerId The ID of the buzzer to clear
      */
-    //% blockId="clear_buzzer" block="clear buzzer with ID $buzzerId"
+    //% blockId="clear_buzzer" block="clear Buzzer with ID $buzzerId"
     //% buzzerId.defl=0
     //% color="#d400d4"
-    //% shim=Buzzer::clearBuzzer
+    //% shim=buzzer::clearBuzzer
     function clearBuzzer(buzzerId: number): void;
 
     /**
@@ -200,11 +194,11 @@ declare namespace Buzzer {
      * @param buzzerId The ID of the buzzer to set the color for
      * @param color The new color for the buzzer
      */
-    //% blockId="set_buzzer_color" block="set color of buzzer with ID $buzzerId to $color"
+    //% blockId="set_buzzer_color" block="set color of Buzzer with ID $buzzerId to $color"
     //% buzzerId.defl=0
     //% color.shadow="colorNumberPicker"
     //% color="#d400d4"
-    //% shim=Buzzer::setBuzzerColor
+    //% shim=buzzer::setBuzzerColor
     function setBuzzerColor(buzzerId: number, color: string): void;
 
 }
@@ -214,7 +208,7 @@ declare namespace DCMotor {
      * @param motorId The ID of the DC motor to set the speed for
      * @param speed The new speed for the DC motor (-100 to 100)
      */
-    //% blockId="set_dc_motor_speed" block="set speed of DC motor with ID $motorId to $speed"
+    //% blockId="set_dc_motor_speed" block="set speed of DC Motor with ID $motorId to $speed"
     //% motorId.defl=0
     //% speed.min=-100 speed.max=100
     //% color="#32cd32"
@@ -226,7 +220,7 @@ declare namespace DCMotor {
      * @param motorId The ID of the DC motor to set the color for
      * @param color The new color for the DC motor
      */
-    //% blockId="set_dc_motor_color" block="set color of DC motor with ID $motorId to $color"
+    //% blockId="set_dc_motor_color" block="set color of DC Motor with ID $motorId to $color"
     //% motorId.defl=0
     //% color.shadow="colorNumberPicker"
     //% color="#32cd32"
@@ -237,7 +231,7 @@ declare namespace DCMotor {
      * Get the speed of the DC motor with the given ID
      * @param motorId The ID of the DC motor to get the speed of
      */
-    //% blockId="get_dc_motor_speed" block="get speed of DC motor with ID $motorId"
+    //% blockId="get_dc_motor_speed" block="get speed of DC Motor with ID $motorId"
     //% motorId.defl=0
     //% color="#32cd32"
     //% shim=DCMotor::getDCMotorSpeed
@@ -399,38 +393,39 @@ declare namespace LED {
 }
 declare namespace LightSensor {
     /**
-     * When the light sensor value changes
+     * Get the current value of the light sensor
      */
-    //% blockId="when_light_sensor_value_changes" block="when light sensor value changes"
-    //% shim=LightSensor::whenLightSensorValueChanges
-    function whenLightSensorValueChanges(handler: (newValue: number) => void): void;
+    //% blockId="get_light_sensor_value" block="get light sensor value"
+    //% color="#FF5733"
+    //% shim=LightSensor::getLightSensorValue
+    function getLightSensorValue(): number;
 
     /**
-     * Wait until the light sensor value changes
+     * Set the border color of the light sensor
+     * @param color The new color for the light sensor border
+     */
+    //% blockId="set_light_sensor_border_color" block="set light sensor border color to $color"
+    //% color.shadow="colorNumberPicker"
+    //% color="#FF5733"
+    //% shim=LightSensor::setLightSensorBorderColor
+    function setLightSensorBorderColor(color: string): void;
+
+    /**
+     * Wait until the light sensor's value changes
      */
     //% blockId="wait_until_light_sensor_value_changes" block="wait until light sensor value changes"
+    //% color="#FF5733"
     //% shim=LightSensor::waitUntilLightSensorValueChanges
     function waitUntilLightSensorValueChanges(): void;
 
     /**
-     * Set the border color of the light sensor
-     * @param sensorId The ID of the light sensor to change border color
-     * @param color The new border color for the light sensor
+     * Registers a handler that runs when the light sensor's value changes
+     * @param handler The function to run when the light sensor's value changes
      */
-    //% blockId="set_light_sensor_border_color" block="set border color of light sensor with ID $sensorId to $color"
-    //% sensorId.defl=0
-    //% color.shadow="colorNumberPicker"
-    //% shim=LightSensor::setLightSensorBorderColor
-    function setLightSensorBorderColor(sensorId: number, color: string): void;
-
-    /**
-     * Get the value of the light sensor with a given ID
-     * @param sensorId The ID of the light sensor to get the value of
-     */
-    //% blockId="get_light_sensor_value" block="get value of light sensor with ID $sensorId"
-    //% sensorId.defl=0
-    //% shim=LightSensor::getLightSensorValue
-    function getLightSensorValue(sensorId: number): number;
+    //% blockId="on_light_sensor_value_change" block="when light sensor value changes"
+    //% color="#FF5733"
+    //% shim=LightSensor::onLightSensorValueChange
+    function onLightSensorValueChange(handler: () => void): void;
 
 }
 declare namespace PressureSensor {
