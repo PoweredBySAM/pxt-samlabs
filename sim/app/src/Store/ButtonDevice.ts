@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
+import { CustomEventGenerator } from '../Features/CustomEventGenerator';
 
 class ButtonDevice {
   private _virtualController: any;
@@ -17,10 +18,11 @@ class ButtonDevice {
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted : boolean;
+  customEventGenerator: CustomEventGenerator;
 
 
   constructor(deviceData: any) {
-    ;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -49,6 +51,7 @@ class ButtonDevice {
   updateState(newState: string) {
     if (this.possibleStates.includes(newState)) {
       this.currentState = newState;
+      this.broadcastState();
     }
   }
 
@@ -68,6 +71,7 @@ class ButtonDevice {
   @action
   updateColor(value:string) {
     this.Color = value;
+    this.broadcastState();
   }
   @action
   toggleVisibility() {
@@ -80,6 +84,7 @@ class ButtonDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+    this.broadcastState();
   }
 
   get virtualController() {
@@ -87,6 +92,20 @@ class ButtonDevice {
   }
   get bluetoothController() {
     return this._bluetoothController;
+  }
+  broadcastState() {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
+  }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      deviceState:this.currentState,
+      deviceColor:this.Color,
+      isDeleted:this.deleted,
+    }
   }
   set virtualController(controller: any) {
     this._virtualController = controller;

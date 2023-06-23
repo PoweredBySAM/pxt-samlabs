@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class LightSensorDevice {
   private _virtualController: any;
@@ -17,6 +18,7 @@ class LightSensorDevice {
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  customEventGenerator: CustomEventGenerator;
 
   constructor(deviceData: any) {
     const {
@@ -38,6 +40,8 @@ class LightSensorDevice {
     this.value = 0
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+
     makeAutoObservable(this);
 
   }
@@ -89,6 +93,20 @@ class LightSensorDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+
+    }
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
   }
 
   get virtualController() {

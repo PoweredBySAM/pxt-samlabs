@@ -1,5 +1,6 @@
 import { observable, action,makeAutoObservable } from "mobx";
 import AudioController from "../Utils/Tones/toneGenerator/AudioController";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 class BuzzerDevice {
   private _virtualController: any;
   private _bluetoothController: any;
@@ -20,8 +21,11 @@ class BuzzerDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   @observable testSoundActive: boolean = false;
+  customEventGenerator: any;
 
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+
     const {
       deviceIdOnCreate,
       meta,
@@ -67,6 +71,7 @@ class BuzzerDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.broadcastState()
   }
 
   @action
@@ -74,18 +79,30 @@ class BuzzerDevice {
     this.pitch = value;
     this._virtualController?._toneGenerator?.setPitch(value);
     this.isConnected && this._bluetoothController?.setPitch(value);
+    this.broadcastState()
   }
-
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      deviceVlume:this.volume,
+      devicePitch:this.pitch,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+    }
+  }
   @action
   setVolume(value: number) {
     this.volume = value;
     this._virtualController?._toneGenerator?.setVolume(value);
     this.isConnected && this._bluetoothController?.setVolume(value);
+    this.broadcastState()
   }
   @action
   start() {
     this.isActive = true
     this._virtualController?._toneGenerator?.start();
+    this.broadcastState()
   }
   @action
   testTone(key?:string,value?:number){
@@ -131,6 +148,11 @@ class BuzzerDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  broadcastState() {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
   }
 
   get virtualController() {
