@@ -1,11 +1,51 @@
+import {makeAutoObservable, observable} from "mobx";
+
 class MicrobitDevice{
+    private _virtualController: any;
+    private _bluetoothController: any;
+    private _deviceId: string;
+    possibleStates: any;
+    restProps: any;
+    virtualInteractionComponentName: string;
+
+    @observable isConnected = false;
+    @observable isConnecting = false;
+    @observable  isActive: boolean;
+    @observable blockVisibility: boolean;
+    @observable deviceInTestMode: boolean;
+    @observable deleted: boolean;
     constructor(deviceData: any) {
         console.log(deviceData,"deviceData")
+        const {
+            deviceIdOnCreate,
+            meta,
+            virtualInteractionComponentName,
+            virtualController,
+            controller,
+            ...restprops
+        } = deviceData;
+        this._deviceId = deviceIdOnCreate;
+        this.virtualInteractionComponentName = virtualInteractionComponentName;
+        this._virtualController = virtualController;
+        this._bluetoothController = controller;
+        this.restProps = restprops;
+        this.isActive = false;
+        this.blockVisibility = true;
+        this.deviceInTestMode = false;
+        this.deleted = false;
+        makeAutoObservable(this);
+    }
+    get virtualController() {
+        return this._virtualController;
+    }
+    get bluetoothController() {
+        return this._bluetoothController;
+    }
+    set virtualController(controller: any) {
+        this._virtualController = controller;
     }
 
 }
 
-const device = new MicrobitDevice("Some data");
-console.log(device,"device koory out put")
 
 export default MicrobitDevice;

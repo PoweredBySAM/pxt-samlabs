@@ -14,7 +14,7 @@ interface IMicrobitInit {
         bluetooth: boolean,
     },
 }
-export const MicrobitInit: IMicrobitInit = {
+const MicrobitInit: IMicrobitInit = {
     id: 'Microbit',
     Controller: Controller,
     VirtualController: VirtualController,
@@ -25,3 +25,5 @@ export const MicrobitInit: IMicrobitInit = {
         bluetooth: true,
     },
 }
+
+export default MicrobitInit
