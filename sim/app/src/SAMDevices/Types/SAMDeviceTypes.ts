@@ -1,8 +1,9 @@
 import ButtonDevice from "../../Store/ButtonDevice";
 import BuzzerDevice from "../../Store/BuzzerDevice";
 import { deviceNameType } from "../Icons/deviceIconTypes";
+import {MicrobitProps} from "@samlabs/samblocks/dist/CustomDevices/Microbit";
 
-export type SamDeviceStoreType = any | ButtonDevice
+export type SamDeviceStoreType = any | ButtonDevice| MicrobitProps
 
 export interface IDeviceLabelObject {
     
@@ -26,6 +27,7 @@ export interface IDeviceLabels<deviceNameType> {
     Slider:IDeviceLabelObject;
     HeatSensor:IDeviceLabelObject;
     Tilt:IDeviceLabelObject
+    Microbit:IDeviceLabelObject
 }
 
 export type DeviceMenuItemType = {
@@ -70,7 +72,11 @@ export interface ISamVirtualDevices {
         Tilt: ({ device }: {
             device: any;
         }) => JSX.Element;
+}
 
+export type MicrobitDeviceType = IMicrobitVirtualDevice[keyof IMicrobitVirtualDevice]
+export interface IMicrobitVirtualDevice {
+    Microbit: ({device}:{device: MicrobitProps}) => JSX.Element;
 }
 export interface IBuiltDevice {
     deviceIdOnCreate: string;

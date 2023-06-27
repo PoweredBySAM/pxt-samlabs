@@ -9,7 +9,7 @@ module.exports = {
     publicPath: 'dist/',
   },
   mode: 'development',
-  // watch: true,
+  watch: true,
   experiments: {
     outputModule: true,
   },

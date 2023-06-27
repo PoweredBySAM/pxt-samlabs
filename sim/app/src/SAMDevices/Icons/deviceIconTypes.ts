@@ -9,4 +9,6 @@ export type deviceNameType =
   | "ServoMotor"
   | "Slider"
   | "HeatSensor"
-  | "Tilt";
+  | "Tilt"
+  | "Microbit"
+ ;

@@ -32,7 +32,8 @@
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.2",
     "webpack": "^5.76.2",
-    "webpack-cli": "^5.0.1"
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -40,7 +41,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
     "@react-spring/web": "^9.1.2",
-    "@samlabs/samblocks": "^1.0.3",
+    "@samlabs/samblocks": "^1.0.4",
     "event-emitter": "^0.3.5",
     "mobx": "^6.9.0",
     "mobx-persist-store": "^1.1.3",

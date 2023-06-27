@@ -1,4 +1,6 @@
 import * as SAMDevices from "@samlabs/samblocks";
+import {Microbit as MicrobitBlock} from "@samlabs/samblocks";
+import Microbit from "./Microbit/Microbit";
 import Buzzer from "./Buzzer/Buzzer";
 import DCMotor from "./DCMotor/DCMotor";
 import LED from "./LED/LED";
@@ -8,11 +10,16 @@ import TemperatureSensor from "./TemperatureSensor/HeatSensor";
 import Servo from "./Servo/Servo";
 import Slider from "./Slider/Slider";
 import Tilt from "./Tilt/Tilt";
-import React from "react";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import Button from "./Button/Button";
 import PressureSensor from "./PresureSensor/PressureSensor";
-import { ISamVirtualDevices, SamVirtualDeviceType } from "../Types/SAMDeviceTypes";
+import {
+  IMicrobitVirtualDevice,
+  ISamVirtualDevices,
+  MicrobitDeviceType,
+  SamVirtualDeviceType
+} from "../Types/SAMDeviceTypes";
+
 
 export default {
   Button:SAMDevices.Button,
@@ -28,9 +35,10 @@ export default {
   Slider:SAMDevices.Slider,
   Tilt:SAMDevices.Tilt,
   VibrationMotor:SAMDevices.VibrationMotor,
+  Microbit: MicrobitBlock
 };
 
-const virtualDevices:ISamVirtualDevices = {
+const samVirtualDevices: ISamVirtualDevices = {
   Button: Button,
   Buzzer: Buzzer,
   DCMotor: DCMotor,
@@ -43,6 +51,14 @@ const virtualDevices:ISamVirtualDevices = {
   Slider: Slider,
   Tilt: Tilt,
 };
-export const getVirtualDevice = (deviceName: deviceNameType):SamVirtualDeviceType => {
-  return virtualDevices[deviceName];
+const MicrobitVirtualDevice: IMicrobitVirtualDevice = {
+    Microbit: Microbit
+}
+export const getVirtualDevice = (deviceName: deviceNameType): SamVirtualDeviceType | MicrobitDeviceType   => {
+  if (deviceName === "Microbit") {
+    return MicrobitVirtualDevice['Microbit'];
+  }else{
+    return samVirtualDevices[deviceName];
+  }
+
 };

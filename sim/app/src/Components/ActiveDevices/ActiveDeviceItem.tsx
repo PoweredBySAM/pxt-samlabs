@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import { getVirtualDevice } from "../../SAMDevices/Animatable";
 import FullSimDeviceWrapper from "../../SAMDevices/Common/FullSimDeviceWrapper";
-import { SamDeviceStoreType, SamVirtualDeviceType } from "../../SAMDevices/Types/SAMDeviceTypes";
+import {MicrobitDeviceType, SamDeviceStoreType, SamVirtualDeviceType} from "../../SAMDevices/Types/SAMDeviceTypes";
 import { observer } from "mobx-react";
 import { useSingleDeviceStore } from "../../Hooks/useSingleDeviceStore";
 
@@ -10,7 +10,7 @@ function ActiveDeviceItem({ device }: { device: SamDeviceStoreType }) {
   const { virtualInteractionComponentName } = device || {};
   const {singleDeviceStore} = useSingleDeviceStore(device)
 
-  const VirtualInteractionComponent:SamVirtualDeviceType = getVirtualDevice(
+  const VirtualInteractionComponent:SamVirtualDeviceType | MicrobitDeviceType = getVirtualDevice(
     virtualInteractionComponentName
   );
 
