@@ -13,7 +13,8 @@ namespace pxsim.button {
 
     export function onButtonPressed(buttonId: number, handler: () => void): void {
       // add an event listener, use a hardware-specific method, or simulate the event in a loop
-      // This is a placeholder implementation that does not interact with any hardware or simulator
+// create a custom event with the name 'myEvent'
+
     }
 
     /**
@@ -23,7 +24,7 @@ namespace pxsim.button {
     //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
     //% buttonId.defl=0
     //% advanced=true
-    export function waitUntilButtonPressed(buttonId: number): void {
+    export function waitUntilButtonPressed(buttonId: number, handler: ()=> void): void {
       // For example, you could use an event listener, a loop, or a hardware-specific method
       // This is a placeholder implementation that does not interact with any hardware or simulator
       //TODO control.pause(1);

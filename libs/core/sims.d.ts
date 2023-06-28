@@ -129,7 +129,7 @@ declare namespace button {
     //% buttonId.defl=0
     //% advanced=true
     //% shim=button::waitUntilButtonPressed
-    function waitUntilButtonPressed(buttonId: number): void;
+    function waitUntilButtonPressed(buttonId: number, handler: () => void): void;
 
     /**
      * Set the color of the button
