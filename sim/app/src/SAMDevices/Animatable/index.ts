@@ -1,5 +1,5 @@
 import * as SAMDevices from "@samlabs/samblocks";
-import {Microbit as MicrobitBlock} from "@samlabs/samblocks";
+import { Microbit as MicrobitBlock } from "@samlabs/samblocks";
 import Microbit from "./Microbit/Microbit";
 import Buzzer from "./Buzzer/Buzzer";
 import DCMotor from "./DCMotor/DCMotor";
@@ -17,25 +17,24 @@ import {
   IMicrobitVirtualDevice,
   ISamVirtualDevices,
   MicrobitDeviceType,
-  SamVirtualDeviceType
+  SamVirtualDeviceType,
 } from "../Types/SAMDeviceTypes";
 
-
 export default {
-  Button:SAMDevices.Button,
-  Buzzer:SAMDevices.Buzzer,
-  DCMotor:SAMDevices.DCMotor,
-  Dimmer:SAMDevices.Dimmer,
-  LED:SAMDevices.LED,
-  LightSensor:SAMDevices.LightSensor,
-  PressureSensor:SAMDevices.PressureSensor,
-  ProximitySensor:SAMDevices.ProximitySensor,
-  TemperatureSensor:SAMDevices.TemperatureSensor,
-  Servo:SAMDevices.Servo,
-  Slider:SAMDevices.Slider,
-  Tilt:SAMDevices.Tilt,
-  VibrationMotor:SAMDevices.VibrationMotor,
-  Microbit: MicrobitBlock
+  Button: SAMDevices.Button,
+  Buzzer: SAMDevices.Buzzer,
+  DCMotor: SAMDevices.DCMotor,
+  Dimmer: SAMDevices.Dimmer,
+  LED: SAMDevices.LED,
+  LightSensor: SAMDevices.LightSensor,
+  PressureSensor: SAMDevices.PressureSensor,
+  ProximitySensor: SAMDevices.ProximitySensor,
+  TemperatureSensor: SAMDevices.TemperatureSensor,
+  Servo: SAMDevices.Servo,
+  Slider: SAMDevices.Slider,
+  Tilt: SAMDevices.Tilt,
+  VibrationMotor: SAMDevices.VibrationMotor,
+  Microbit: MicrobitBlock,
 };
 
 const samVirtualDevices: ISamVirtualDevices = {
@@ -52,13 +51,21 @@ const samVirtualDevices: ISamVirtualDevices = {
   Tilt: Tilt,
 };
 const MicrobitVirtualDevice: IMicrobitVirtualDevice = {
-    Microbit: Microbit
-}
-export const getVirtualDevice = (deviceName: deviceNameType): SamVirtualDeviceType | MicrobitDeviceType   => {
+  Microbit: Microbit,
+};
+
+export const bluetoothEvents = [
+  "connecting",
+  "connected",
+  "batteryLevelChange",
+  "disconnected",
+];
+export const getVirtualDevice = (
+  deviceName: deviceNameType
+): SamVirtualDeviceType | MicrobitDeviceType => {
   if (deviceName === "Microbit") {
-    return MicrobitVirtualDevice['Microbit'];
-  }else{
+    return MicrobitVirtualDevice["Microbit"];
+  } else {
     return samVirtualDevices[deviceName];
   }
-
 };

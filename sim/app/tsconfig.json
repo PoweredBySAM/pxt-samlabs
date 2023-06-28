@@ -6,6 +6,9 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "src/*": ["./src/*"],
+    },
     "jsx": "react",
     "module": "es2015",
     "moduleResolution": "node",

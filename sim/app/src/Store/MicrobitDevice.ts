@@ -1,4 +1,4 @@
-import {makeAutoObservable, observable} from "mobx";
+import {action, makeAutoObservable, observable} from "mobx";
 
 class MicrobitDevice{
     private _virtualController: any;
@@ -15,7 +15,6 @@ class MicrobitDevice{
     @observable deviceInTestMode: boolean;
     @observable deleted: boolean;
     constructor(deviceData: any) {
-        console.log(deviceData,"deviceData")
         const {
             deviceIdOnCreate,
             meta,
@@ -34,6 +33,18 @@ class MicrobitDevice{
         this.deviceInTestMode = false;
         this.deleted = false;
         makeAutoObservable(this);
+    }
+    @action
+    toggleVisibility() {
+        this.blockVisibility = !this.blockVisibility;
+    }
+    @action
+    toggleTestMode() {
+        this.deviceInTestMode = !this.deviceInTestMode;
+    }
+    @action
+    deleteDevice() {
+        this.deleted = true;
     }
     get virtualController() {
         return this._virtualController;
