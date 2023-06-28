@@ -6,10 +6,10 @@ import { Box, Typography } from "@mui/material";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import ButtonDevice from "src/Store/ButtonDevice";
 import useBasicEvents from "src/Hooks/useBasicEvents";
-import { bluetoothEvents } from "../index";
+import { bluetoothEvents } from "src/SAMDevices/Animatable";
 
-const Button = observer(({ device }: { device: ButtonDevice }) => {
-  const { handleBasicControllerEvents } = useBasicEvents(device) || {};
+function Button({ device }: { device: ButtonDevice }) {
+  const { handleBasicControllerEvents } = useBasicEvents(device);
   const { addEvents, removeEvents } =
     useEventsController(device, handleBasicControllerEvents) || {};
   const { singleDeviceStore } = useSingleDeviceStore(device);
@@ -66,6 +66,6 @@ const Button = observer(({ device }: { device: ButtonDevice }) => {
       )}
     </>
   );
-});
+}
 
-export default Button;
+export default observer(Button);

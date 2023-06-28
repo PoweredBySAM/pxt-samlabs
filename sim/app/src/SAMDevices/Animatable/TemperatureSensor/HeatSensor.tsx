@@ -1,30 +1,25 @@
-import React, { useEffect } from 'react'
-import { TemperatureSensor as SamTemperatureSensor} from "@samlabs/samblocks";
-import useBasicEvents from '../../../Hooks/useBasicEvents';
-import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
-import useEventsController from '../../../Hooks/useEventsController';
-import { observer } from 'mobx-react';
-import { Box } from '@mui/material';
-import HeatSensorDevice from '../../../Store/HeatSensorDevice';
-import SliderWithDisplayHOC from '../../Common/SliderWithDisplayHOC';
+import React, { useEffect } from "react";
+import { TemperatureSensor as SamTemperatureSensor } from "@samlabs/samblocks";
+import useBasicEvents from "src/Hooks/useBasicEvents";
+import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
+import useEventsController from "src/Hooks/useEventsController";
+import { observer } from "mobx-react";
+import { Box } from "@mui/material";
+import HeatSensorDevice from "src/Store/HeatSensorDevice";
+import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
 
-
-function HeatSensor({device}:{device:HeatSensorDevice}) {
+function HeatSensor({ device }: { device: HeatSensorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
   const { addEvents, removeEvents } = useEventsController(
     device,
     handleBasicControllerEvents
   );
-  const bluetoothEvents = [
-    "connecting",
-    "connected",
-    "batteryLevelChange",
-    "disconnected",
-  ];
+
   const handleChange = (event: any, newValue: number | number[]) => {
     singleDeviceStore.setValue(newValue as number);
-  }
+  };
   const virtualEvents = ["valueChanged"];
 
   useEffect(() => {
@@ -51,4 +46,4 @@ function HeatSensor({device}:{device:HeatSensorDevice}) {
   );
 }
 
-export default observer(HeatSensor)
+export default observer(HeatSensor);

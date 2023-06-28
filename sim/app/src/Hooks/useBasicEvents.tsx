@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicEventType } from "../SAMDevices/Animatable/Button/types";
+
 import { SamDeviceStoreType } from "../SAMDevices/Types/SAMDeviceTypes";
 import { useSingleDeviceStore } from "./useSingleDeviceStore";
 enum BasicEvents {
@@ -9,9 +9,13 @@ enum BasicEvents {
   DISCONNECTED = "disconnected",
   VALUE_CHANGED = "valueChanged",
 }
-
-function useBasicEvents(device:SamDeviceStoreType) {
-  const {singleDeviceStore} = useSingleDeviceStore(device)
+export type BasicEventType =
+  | "connecting"
+  | "connected"
+  | "batteryLevelChange"
+  | "disconnected";
+function useBasicEvents(device: SamDeviceStoreType) {
+  const { singleDeviceStore } = useSingleDeviceStore(device);
   const handleBasicControllerEvents = (event: BasicEventType, value: any) => {
     switch (event) {
       case BasicEvents.BATTERY_LEVEL_CHANGE: {
@@ -27,8 +31,8 @@ function useBasicEvents(device:SamDeviceStoreType) {
         return singleDeviceStore.updateIsconnected(false);
       }
 
-      default : {
-        return ''
+      default: {
+        return "";
       }
     }
   };

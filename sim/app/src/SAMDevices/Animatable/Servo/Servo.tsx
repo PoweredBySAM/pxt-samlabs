@@ -1,38 +1,32 @@
 import React, { useEffect } from "react";
 import { Servo as SamServo } from "@samlabs/samblocks";
-import ServoMotorDevice from "../../../Store/ServoMotorDevice";
-import useBasicEvents from "../../../Hooks/useBasicEvents";
-import { useSingleDeviceStore } from "../../../Hooks/useSingleDeviceStore";
-import useEventsController from "../../../Hooks/useEventsController";
+import ServoMotorDevice from "src/Store/ServoMotorDevice";
+import useBasicEvents from "src/Hooks/useBasicEvents";
+import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
+import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
 import { Box } from "@mui/material";
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import { bluetoothEvents } from "src/SAMDevices/Animatable";
 
 function Servo({ device }: { device: ServoMotorDevice }) {
   const [showMotor, setShowMotor] = React.useState(false);
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
-  const { blockVisibility,deviceInTestMode} = singleDeviceStore||{};
+  const { blockVisibility, deviceInTestMode } = singleDeviceStore || {};
   const { addEvents, removeEvents } = useEventsController(
     device,
     handleBasicControllerEvents
   );
 
-  useEffect(()=>{
-    setShowMotor(false)
+  useEffect(() => {
+    setShowMotor(false);
     setTimeout(() => {
-      setShowMotor(true)
+      setShowMotor(true);
     }, 0);
-  
-  },[deviceInTestMode])
+  }, [deviceInTestMode]);
 
-  const bluetoothEvents = [
-    "connecting",
-    "connected",
-    "batteryLevelChange",
-    "disconnected",
-  ];
   const virtualEvents = ["valueChanged"];
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
@@ -41,14 +35,13 @@ function Servo({ device }: { device: ServoMotorDevice }) {
     };
   }, []);
 
-  const handleStep=(step:number)=>{
-    if( step < 0){
-      device.testPosition > 0 && singleDeviceStore.setTestPosition(step)
+  const handleStep = (step: number) => {
+    if (step < 0) {
+      device.testPosition > 0 && singleDeviceStore.setTestPosition(step);
+    } else if (step > 0) {
+      device.testPosition < 100 && singleDeviceStore.setTestPosition(step);
     }
-    else if( step > 0){
-      device.testPosition <100 && singleDeviceStore.setTestPosition(step)
-    }
-  }
+  };
   return (
     <>
       {deviceInTestMode && blockVisibility && (

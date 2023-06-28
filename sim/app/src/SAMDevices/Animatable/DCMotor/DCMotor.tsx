@@ -7,7 +7,7 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { observer } from "mobx-react";
 import { Box, Slider, Typography } from "@mui/material";
 import { customSliderStyle } from "src/SAMDevices/Common/commonJsStyles";
-import { bluetoothEvents } from "../index";
+import { bluetoothEvents } from "src/SAMDevices/Animatable";
 
 function DCMotor({ device }: { device: DCMotorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
