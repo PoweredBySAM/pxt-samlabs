@@ -1,32 +1,27 @@
-import React, { useEffect } from 'react'
-import { Slider as SamSlider} from "@samlabs/samblocks";
-import useBasicEvents from '../../../Hooks/useBasicEvents';
-import { useSingleDeviceStore } from '../../../Hooks/useSingleDeviceStore';
-import useEventsController from '../../../Hooks/useEventsController';
-import { observer } from 'mobx-react';
-import SliderDevice from '../../../Store/SliderDevice';
-import { Box } from '@mui/material';
-import SliderWithDisplayHOC from '../../Common/SliderWithDisplayHOC';
+import React, { useEffect } from "react";
+import { Slider as SamSlider } from "@samlabs/samblocks";
+import useBasicEvents from "src/Hooks/useBasicEvents";
+import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
+import useEventsController from "src/Hooks/useEventsController";
+import { observer } from "mobx-react";
+import SliderDevice from "src/Store/SliderDevice";
+import { Box } from "@mui/material";
+import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
 
-
-function Slider({device}:{device:SliderDevice}) {
+function Slider({ device }: { device: SliderDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
   const { addEvents, removeEvents } = useEventsController(
     device,
     handleBasicControllerEvents
   );
-  const bluetoothEvents = [
-    "connecting",
-    "connected",
-    "batteryLevelChange",
-    "disconnected",
-  ];
+
   const virtualEvents = ["valueChanged"];
 
   const handleChange = (event: any, newValue: number | number[]) => {
     singleDeviceStore.setValue(newValue as number);
-  }
+  };
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
@@ -52,4 +47,4 @@ function Slider({device}:{device:SliderDevice}) {
   );
 }
 
-export default observer( Slider)
+export default observer(Slider);

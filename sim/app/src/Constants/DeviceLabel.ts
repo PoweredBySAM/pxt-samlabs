@@ -79,6 +79,12 @@ export const deviceLabels:IDeviceLabels<deviceNameType> = {
         displayName:"Tilt",
         info:"Detect motion and tell other devices how to react",
         maker:"SAM Labs"
+    },
+    Microbit:{
+        name:"Microbit",
+        defaultName:"BBC Microbit",
+        displayName:"micro:bit",
+        info:"Microcontroller with built-in buttons, 25 LED display, and sensors to detect shake and temperature.",
+        maker:"BBC Micro Bit"
     }
-
 }

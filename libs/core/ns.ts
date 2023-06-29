@@ -18,3 +18,52 @@ namespace hare {
 namespace control {
 
 }
+/**
+ * Control flow
+ */
+//% color="#e3008c" weight=40 icon="\uf204"
+namespace button {
+
+}
+//% color="#d400d4" weight=40 icon="\uf026"
+namespace buzzer {
+
+}
+//% color="#32cd32" weight=40 icon="\uf2ea"
+namespace DCMotor {
+
+}
+//% color="#3455db" weight=40 icon="\uf2c9"
+namespace HeatSensor {
+
+}
+//% color="#4169e1" weight=40 icon="\uf0eb"
+namespace LED {
+
+}
+//% color="#FF5733" weight=40 icon="\uf185"
+namespace LightSensor {
+
+}
+//% color="#00aa00" weight=40 icon="\uf066"
+namespace PressureSensor {
+
+}
+//% color="#1e90ff" weight=40 icon="\uf422"
+namespace ProximitySensor {
+
+}
+//% color="#dc143c" weight=40 icon="\uf051"
+namespace ServoMotor {
+
+}
+//% color="#ff4500" weight=40 icon='\uf3bf'
+namespace Slider {
+
+}
+//% color="#9400d3" weight=40 icon="\uf515"
+namespace TiltSensor {
+
+}
+
+

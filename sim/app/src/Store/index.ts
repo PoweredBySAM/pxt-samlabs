@@ -8,6 +8,7 @@ import PressureSensorDevice from "./PressureSensorDevice";
 import ServoMotorDevice from "./ServoMotorDevice";
 import SliderDevice from "./SliderDevice";
 import TiltDevice from "./TiltDevice";
+import MicrobitDevice from "./MicrobitDevice";
 
 export const storeMap = {
   "SAM Button": ButtonDevice,
@@ -21,4 +22,5 @@ export const storeMap = {
   "SAM Slider": SliderDevice,
   "SAM Heat Sensor": HeatSensorDevice,
   "SAM Tilt": TiltDevice,
+  "BBC Microbit": MicrobitDevice,
 };

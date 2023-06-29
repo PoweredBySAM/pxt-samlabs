@@ -13,6 +13,7 @@ import SliderIcon from "./SliderIcon";
 import TiltIcon from "./TiltIcon";
 import VibrationMotorIcon from "./VibrationMotorIcon";
 import { deviceNameType } from "./deviceIconTypes";
+import MicrobitIcon from "./MicrobitIcon";
 interface IconDecoratorProps extends React.SVGProps<SVGSVGElement> {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   style?: React.CSSProperties
@@ -31,6 +32,7 @@ const deviceIcons = {
     ServoMotor: ServoMotorIcon,
     Slider: SliderIcon,
     Tilt: TiltIcon,
+    Microbit: MicrobitIcon,
 };
 
 const IconDecorator = (props: IconDecoratorProps) => {

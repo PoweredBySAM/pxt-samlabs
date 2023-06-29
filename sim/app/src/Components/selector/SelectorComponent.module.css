@@ -22,7 +22,7 @@
   }
   .scrollable{
     overflow-y: scroll;
-    height: 30rem;
+    height: 13rem;
   }
   .options-none {
     display: none;

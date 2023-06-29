@@ -22,9 +22,7 @@ function DeviceMenuItem({deviceData, addDevice,closeOptions}:{deviceData?:any, a
             <Typography variant="h6" sx={{p:0}}>{label?.displayName}</Typography>
             <Typography variant="subtitle2" sx={{color:"#d7d7d7"}}>{label?.maker}</Typography>
           </Grid>
-          
         </Grid>
-
       </Card>
     )  
 }

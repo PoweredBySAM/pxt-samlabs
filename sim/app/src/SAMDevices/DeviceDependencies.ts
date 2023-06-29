@@ -8,6 +8,7 @@ import ProximitySensorInit from "./Animatable/ProximitySensor/ProximitySensorIni
 import ServoMotorInit from "./Animatable/Servo/ServoMotorInit";
 import SliderInit from "./Animatable/Slider/SliderInit";
 import HeatSensorInit from "./Animatable/TemperatureSensor/HeatSensorInit";
+import MicrobitInit from "./Animatable/Microbit/MicrobitInit";
 import { deviceNameType } from "./Icons/deviceIconTypes";
 
 class DeviceDependencies
@@ -58,6 +59,10 @@ class DeviceDependencies
             case 'Tilt':
                 return {
                     controlUtilities: HeatSensorInit,
+                }
+            case 'Microbit':
+                return {
+                    controlUtilities: MicrobitInit,
                 }
             default:
                 throw new Error("Device dependencies not in getDeviceControlUtilities");
