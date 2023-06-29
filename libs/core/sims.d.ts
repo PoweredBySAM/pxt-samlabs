@@ -100,6 +100,36 @@ declare namespace console {
         public forward(steps: number): void;
 
     }
+    /**
+     * A Button.
+     */
+    //%
+    declare class SamButton {
+    }
+    /**
+     * A Buzzer.
+     */
+    //%
+    declare class SamBuzzer {
+    }
+    /**
+     * An LED.
+     */
+    //%
+    declare class SamLed {
+    }
+    /**
+     * A DC Motor.
+     */
+    //%
+    declare class SamDCMotor {
+    }
+    /**
+     * A Heat Sensor.
+     */
+    //%
+    declare class SamHeatSensor {
+    }
 declare namespace sprites {
     /**
      * Creates a new sprite
@@ -117,6 +147,44 @@ declare namespace button {
     //% shim=button::createButton
     function createButton(): SamButton;
 
+}
+declare namespace buzzer {
+    /**
+     * Creates a new Buzzer
+     */
+    //% blockId="sampleCreate" block="createBuzzer"
+    //% shim=buzzer::createBuzzer
+    function createBuzzer(): SamBuzzer;
+
+}
+declare namespace DCMotor {
+    /**
+     * Creates a new DCMotor
+     */
+    //% blockId="sampleCreate" block="createDCMotor"
+    //% shim=DCMotor::createDCMotor
+    function createDCMotor(): SamDCMotor;
+
+}
+declare namespace HeatSensor {
+    /**
+     * Creates a new Heat Sensor
+     */
+    //% blockId="sampleCreate" block="createHeatSensor"
+    //% shim=HeatSensor::createHeatSensor
+    function createHeatSensor(): SamHeatSensor;
+
+}
+declare namespace LED {
+    /**
+     * Creates a new RGB LED
+     */
+    //% blockId="sampleCreate" block="createLED"
+    //% shim=LED::createLED
+    function createLED(): SamLed;
+
+}
+declare namespace button {
     /**
      * Registers a handler that runs when the button with the given ID is pressed
      * @param buttonId The ID of the button to listen for
@@ -162,13 +230,6 @@ declare namespace button {
 
 }
 declare namespace buzzer {
-    /**
-     * Creates a new Buzzer
-     */
-    //% blockId="sampleCreate" block="createButton"
-    //% shim=buzzer::createBuzzer
-    function createBuzzer(): SamBuzzer;
-
     /**
      * Set the volume of the buzzer with the given ID
      * @param buzzerId The ID of the buzzer to set the volume for
@@ -217,14 +278,6 @@ declare namespace buzzer {
 
 }
 declare namespace DCMotor {
-    /**
-     * Creates a new DCMotor
-     */
-    //% blockId="sampleCreate" block="createButton"
-    //% shim=DCMotor::createDCMotor
-    function createDCMotor(): SamDCMotor;
-
-    /**
     /**
      * Set the speed of the DC motor with the given ID
      * @param motorId The ID of the DC motor to set the speed for

@@ -145,6 +145,10 @@ namespace pxsim {
             return delay(400)
         }
     }
+    /**
+     * A Button.
+     */
+    //%
     export class SamButton {
         constructor() {
         }
@@ -153,6 +157,10 @@ namespace pxsim {
         
      }  
     }
+      /**
+     * A Buzzer.
+     */
+    //%
     export class SamBuzzer{
         constructor() {
         }
@@ -160,6 +168,10 @@ namespace pxsim {
             return false;
         }
     }
+      /**
+     * An LED.
+     */
+    //%
     export class SamLed {       
         constructor() {
         }
@@ -174,6 +186,10 @@ namespace pxsim {
             return 0;
         }
     }
+      /**
+     * A DC Motor.
+     */
+    //%
     export class SamDCMotor {
         constructor() {
         }
@@ -181,6 +197,10 @@ namespace pxsim {
             return 0;
         }
     }
+      /**
+     * A Heat Sensor.
+     */
+    //%
     export class SamHeatSensor {
         constructor() {
         }
@@ -234,6 +254,53 @@ namespace pxsim.sprites {
         return new Sprite();
     }
 }
+namespace pxsim.button{
+    /**
+     * Creates a new Button
+     */
+    //% blockId="sampleCreate" block="createButton"
+    export function createButton(): pxsim.SamButton {
+        return new pxsim.SamButton();
+    }
+}
+namespace pxsim.buzzer{
+    /**
+     * Creates a new Buzzer
+     */
+    //% blockId="sampleCreate" block="createBuzzer"
+    export function createBuzzer(): SamBuzzer {
+        return new pxsim.SamBuzzer();
+    }
+}
+namespace pxsim.DCMotor{
+     /**
+     * Creates a new DCMotor
+     */
+    //% blockId="sampleCreate" block="createDCMotor"
+    export function createDCMotor(): SamDCMotor {
+        return new pxsim.SamDCMotor();
+    }
+}
+namespace pxsim.HeatSensor{
+    /**
+     * Creates a new Heat Sensor
+     */
+    //% blockId="sampleCreate" block="createHeatSensor"
+    export function createHeatSensor(): SamHeatSensor {
+        return new pxsim.SamHeatSensor();
+    }
+}
+
+namespace pxsim.LED{
+    /**
+     * Creates a new RGB LED
+     */
+    //% blockId="sampleCreate" block="createLED"
+    export function createLED(): pxsim.SamLed {
+        return new pxsim.SamLed();
+    }
+}
+
 namespace samlabs{
     export class SimulatorQueue {
         private items: any[];

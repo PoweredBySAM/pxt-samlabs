@@ -1,14 +1,7 @@
 namespace pxsim.DCMotor{
 
-    /**
-     * Creates a new DCMotor
-     */
-    //% blockId="sampleCreate" block="createButton"
-    export function createDCMotor(): SamDCMotor {
-        return new SamDCMotor();
-    }
-    /**
-    /**
+
+/**
  * Set the speed of the DC motor with the given ID
  * @param motorId The ID of the DC motor to set the speed for
  * @param speed The new speed for the DC motor (-100 to 100)
