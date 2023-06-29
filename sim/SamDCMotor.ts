@@ -1,4 +1,13 @@
 namespace pxsim.DCMotor{
+
+    /**
+     * Creates a new DCMotor
+     */
+    //% blockId="sampleCreate" block="createButton"
+    export function createDCMotor(): SamDCMotor {
+        return new SamDCMotor();
+    }
+    /**
     /**
  * Set the speed of the DC motor with the given ID
  * @param motorId The ID of the DC motor to set the speed for
@@ -11,8 +20,6 @@ namespace pxsim.DCMotor{
 export function setDCMotorSpeed(motorId: number, speed: number): void {
     // Function implementation depends on the hardware or simulator being used
     // Placeholder implementation that does not interact with any hardware or simulator
-    samlabs.WindowEventService.getInstance().sendEvent("set_dc_motor_speed", { motorId, speed });
-    window.console.log('set_dc_motor_speed in samDMotor.ts',motorId, speed)
 }
 
 /**

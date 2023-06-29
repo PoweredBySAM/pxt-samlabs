@@ -145,8 +145,86 @@ namespace pxsim {
             return delay(400)
         }
     }
-}
+    export class SamButton {
+        constructor() {
+        }
+        public pressed() {
+            return false;
+        
+     }  
+    }
+    export class SamBuzzer{
+        constructor() {
+        }
+        public playTone() {
+            return false;
+        }
+    }
+    export class SamLed {       
+        constructor() {
+        }
+        public on() {
+            return false;
+        }
+    }
+    export class SamServo {
+        constructor() {
+        }
+        public angle() {
+            return 0;
+        }
+    }
+    export class SamDCMotor {
+        constructor() {
+        }
+        public speed() {
+            return 0;
+        }
+    }
+    export class SamHeatSensor {
+        constructor() {
+        }
+        public temperature() {
+            return 0;
+        }
+    }
+    export class SamLightSensor {
+        constructor() {
+        }
+        public light() {
+            return 0;
+        }
+    }
+    export class SamPressureSensor {
+        constructor() {
+        }
+        public pressure() {
+            return 0;
+        }
+    }
+    export  class SamProximitySensor {
+        constructor() {
+        }
+        public distance() {
+            return 0;
+        }
+    }
+    export class SamSlider {
+        constructor() {
+        }
+        public position() {
+            return 0;
+        }
+    }
+    export class SamTiltSensor {
+        constructor() {
+        }
+        public tilt() {
+            return 0;
+        }
+    }
 
+}
 namespace pxsim.sprites {
     /**
      * Creates a new sprite
@@ -212,8 +290,8 @@ export class WindowEventService {
         return WindowEventService.instance;
     }
 }
-
-    
-    
-
 }
+
+    
+    
+

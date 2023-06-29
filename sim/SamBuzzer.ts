@@ -1,5 +1,13 @@
 //% color=190 weight=100 icon="\uf025" block="Sam Labs" group="Buzzer"
 namespace pxsim.buzzer{
+
+    /**
+     * Creates a new Buzzer
+     */
+    //% blockId="sampleCreate" block="createButton"
+    export function createBuzzer(): SamBuzzer {
+        return new SamBuzzer();
+    }
     /**
  * Set the volume of the buzzer with the given ID
  * @param buzzerId The ID of the buzzer to set the volume for

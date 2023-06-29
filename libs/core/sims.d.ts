@@ -111,6 +111,13 @@ declare namespace sprites {
 }
 declare namespace button {
     /**
+     * Creates a new Button
+     */
+    //% blockId="sampleCreate" block="createButton"
+    //% shim=button::createButton
+    function createButton(): SamButton;
+
+    /**
      * Registers a handler that runs when the button with the given ID is pressed
      * @param buttonId The ID of the button to listen for
      * @param handler The function to run when the button is pressed
@@ -155,6 +162,13 @@ declare namespace button {
 
 }
 declare namespace buzzer {
+    /**
+     * Creates a new Buzzer
+     */
+    //% blockId="sampleCreate" block="createButton"
+    //% shim=buzzer::createBuzzer
+    function createBuzzer(): SamBuzzer;
+
     /**
      * Set the volume of the buzzer with the given ID
      * @param buzzerId The ID of the buzzer to set the volume for
@@ -203,6 +217,14 @@ declare namespace buzzer {
 
 }
 declare namespace DCMotor {
+    /**
+     * Creates a new DCMotor
+     */
+    //% blockId="sampleCreate" block="createButton"
+    //% shim=DCMotor::createDCMotor
+    function createDCMotor(): SamDCMotor;
+
+    /**
     /**
      * Set the speed of the DC motor with the given ID
      * @param motorId The ID of the DC motor to set the speed for

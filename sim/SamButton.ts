@@ -2,6 +2,13 @@
 //% advanced=true blockGap=8
 namespace pxsim.button {
     /**
+     * Creates a new Button
+     */
+    //% blockId="sampleCreate" block="createButton"
+    export function createButton(): SamButton {
+      return new SamButton();
+  }
+    /**
      * Registers a handler that runs when the button with the given ID is pressed
      * @param buttonId The ID of the button to listen for
      * @param handler The function to run when the button is pressed
