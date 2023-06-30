@@ -1,31 +1,54 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Microbit as BBCMicrobit } from "@samlabs/samblocks";
-import { MicrobitProps } from "@samlabs/samblocks/dist/CustomDevices/Microbit";
 import { observer } from "mobx-react";
 import { bluetoothEvents } from "../index";
-const Microbit = ({ device }: { device: MicrobitProps }) => {
+import useBasicEvents from "src/Hooks/useBasicEvents";
+import useEventsController from "src/Hooks/useEventsController";
+import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
+import { Box } from "@mui/material";
+import MicrobitDevice from "src/Store/MicrobitDevice";
+const Microbit = ({ device }: { device: MicrobitDevice }) => {
+  const { handleBasicControllerEvents } = useBasicEvents(device);
+  const { addEvents, removeEvents } = useEventsController(
+    device,
+    handleBasicControllerEvents
+  );
+  const { singleDeviceStore } = useSingleDeviceStore(device);
+
+  const { blockVisibility } = singleDeviceStore || {};
+
+  const virtualEvents = ["valueChanged"];
+  useEffect(() => {
+    addEvents(bluetoothEvents, virtualEvents);
+  }, []);
   return (
     <div>
-      <BBCMicrobit
-        ledArray={[
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-        ]}
-        aPressed={false}
-        bPressed={false}
-        pin0={false}
-        pin1={false}
-        pin2={false}
-        pin3={false}
-        pinGND={false}
-        onAButtonDown={() => {}}
-        onAButtonUp={() => {}}
-        onBButtonDown={() => {}}
-        onBButtonUp={() => {}}
-      />
+      {blockVisibility && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            pl: 2,
+            pr: 2,
+            pb: 2,
+          }}
+        >
+          <BBCMicrobit
+            ledArray={device.ledArray}
+            aPressed={device.aPressed}
+            bPressed={device.bPressed}
+            pin0={device.pin0}
+            pin1={device.pin1}
+            pin2={device.pin2}
+            pin3={device.pin3}
+            pinGND={device.pinGND}
+            onAButtonDown={device.onAButtonDown}
+            onAButtonUp={device.onAButtonUp}
+            onBButtonDown={device.onBButtonDown}
+            onBButtonUp={device.onBButtonUp}
+          />
+        </Box>
+      )}
     </div>
   );
 };
