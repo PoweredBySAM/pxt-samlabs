@@ -39,10 +39,11 @@ const FullSimDeviceWrapper = observer(
     return (
       <Card
         elevation={1}
+        style={{ margin: 2 }}
         sx={
           device.deviceInTestMode
-            ? { m: 2, border: "1px solid #D04226" }
-            : { m: 2, border: "1px solid #d7d7d7" }
+            ? { border: "1px solid #D04226" }
+            : { border: "1px solid #d7d7d7" }
         }
       >
         <Box>

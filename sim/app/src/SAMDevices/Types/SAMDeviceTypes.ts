@@ -1,8 +1,8 @@
-import ButtonDevice from "../../Store/ButtonDevice";
-import BuzzerDevice from "../../Store/BuzzerDevice";
+import ButtonDevice from "src/Store/ButtonDevice";
+import BuzzerDevice from "src/Store/BuzzerDevice";
+import MicrobitDevice from "src/Store/MicrobitDevice";
 import { deviceNameType } from "../Icons/deviceIconTypes";
-import { MicrobitProps } from "@samlabs/samblocks/dist/CustomDevices/Microbit";
-import React, { LazyExoticComponent } from "react";
+import { LazyExoticComponent } from "react";
 
 export type SamDeviceStoreType = any;
 
@@ -56,7 +56,7 @@ export interface ISamVirtualDevices {
 export type MicrobitDeviceType =
   IMicrobitVirtualDevice[keyof IMicrobitVirtualDevice];
 export interface IMicrobitVirtualDevice {
-  Microbit: ({ device }: { device: MicrobitProps }) => JSX.Element;
+  Microbit: ({ device }: { device: MicrobitDevice }) => JSX.Element;
 }
 export interface IBuiltDevice {
   deviceIdOnCreate: string;
