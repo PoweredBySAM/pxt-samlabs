@@ -119,6 +119,12 @@ declare namespace console {
     declare class SamLed {
     }
     /**
+     * An LED.
+     */
+    //%
+    declare class SamServo {
+    }
+    /**
      * A DC Motor.
      */
     //%
@@ -129,6 +135,36 @@ declare namespace console {
      */
     //%
     declare class SamHeatSensor {
+    }
+    /**
+     * A Light Sensor.
+     */
+    //%
+    declare class SamLightSensor {
+    }
+    /**
+     * A Heat Sensor.
+     */
+    //%
+    declare class SamPressureSensor {
+    }
+    /**
+     * A Proximity Sensor.
+     */
+    //%
+    declare class SamProximitySensor {
+    }
+    /**
+     * A Slider component.
+     */
+    //%
+    declare class SamSlider {
+    }
+    /**
+     * A Tilt Sensor.
+     */
+    //%
+    declare class SamTiltSensor {
     }
 declare namespace sprites {
     /**
@@ -143,7 +179,9 @@ declare namespace button {
     /**
      * Creates a new Button
      */
-    //% blockId="sampleCreate" block="createButton"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"
+    //% blockId="createButton" block="createButton"
     //% shim=button::createButton
     function createButton(): SamButton;
 
@@ -152,16 +190,20 @@ declare namespace buzzer {
     /**
      * Creates a new Buzzer
      */
-    //% blockId="sampleCreate" block="createBuzzer"
+    //% variable.shadow=variables_get
+    //% variable.defl="Buzzer 1"
+    //% blockId="createBuzzer"
     //% shim=buzzer::createBuzzer
-    function createBuzzer(): SamBuzzer;
+    function createBuzzer(variable: string | number): SamBuzzer;
 
 }
 declare namespace DCMotor {
     /**
      * Creates a new DCMotor
      */
-    //% blockId="sampleCreate" block="createDCMotor"
+    //% variable.shadow=variables_get
+    //% variable.defl="DCMotor 1"
+    //% blockId="createDCMotor" block="createDCMotor"
     //% shim=DCMotor::createDCMotor
     function createDCMotor(): SamDCMotor;
 
@@ -170,16 +212,86 @@ declare namespace HeatSensor {
     /**
      * Creates a new Heat Sensor
      */
-    //% blockId="sampleCreate" block="createHeatSensor"
+    //% variable.shadow=variables_get
+    //% variable.defl="HeatSensor 1"
+    //% blockId="createHeatSensor" block="createHeatSensor"
     //% shim=HeatSensor::createHeatSensor
     function createHeatSensor(): SamHeatSensor;
+
+}
+declare namespace LightSensor {
+    /**
+     * Creates a new Pressur Sensor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor 1"
+    //% blockId="createLightSensor" block="createLighttSensor"
+    //% shim=LightSensor::createLightSensor
+    function createLightSensor(): SamLightSensor;
+
+}
+declare namespace PressureSensor {
+    /**
+     * Creates a new Pressure Sensor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="PressureSensor 1"
+    //% blockId="createPressureSensor" block="createPressureSensor"
+    //% shim=PressureSensor::createPressureSensor
+    function createPressureSensor(): SamPressureSensor;
+
+}
+declare namespace ProximitySensor {
+    /**
+     * Creates a new Proximity Sensor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="ProximitySensor 1"
+    //% blockId="createProximitySensor" block="createPressuretSensor"
+    //% shim=ProximitySensor::createProximitySensor
+    function createProximitySensor(): SamProximitySensor;
+
+}
+declare namespace ServoMotor {
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="ServoMotor 1"
+    //% blockId="createServoMotor" block="createServoMotor"
+    //% shim=ServoMotor::createServoMotor
+    function createServoMotor(): SamServo;
+
+}
+declare namespace Slider {
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="Slider 1"
+    //% blockId="createSlider" block="createSlider"
+    //% shim=Slider::createSlider
+    function createSlider(): SamSlider;
+
+}
+declare namespace TiltSensor {
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="TiltSensor 1"
+    //% blockId="createTiltSensor" block="createTiltSensor"
+    //% shim=TiltSensor::createProximitySensor
+    function createProximitySensor(): SamTiltSensor;
 
 }
 declare namespace LED {
     /**
      * Creates a new RGB LED
      */
-    //% blockId="sampleCreate" block="createLED"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
+    //% blockId="createLED" block="createLED"
     //% shim=LED::createLED
     function createLED(): SamLed;
 
@@ -194,7 +306,7 @@ declare namespace button {
     //% buttonId.defl=0
     //% weight=1 icon="\uf11b"
     //% shim=button::onButtonPressed
-    function onButtonPressed(buttonId: number, handler: () => void): void;
+    function onButtonPressed(buttonId: string | number, handler: () => void): void;
 
     /**
      * Wait until the button with the given ID is pressed
@@ -330,6 +442,8 @@ declare namespace HeatSensor {
      * @param handler The function to run when the heat sensor value changes
      */
     //% blockId="on_heat_sensor_value_changes" block="when heat sensor with ID $sensorId value changes"
+    //% variable.shadow=variables_get
+    //% buttonId.defl=0
     //% sensorId.defl=0
     //% color="#3455db"
     //% shim=HeatSensor::onHeatSensorValueChanges

@@ -10,11 +10,8 @@ namespace pxsim.button {
     //% blockId="on_button_pressed" block="when Button with ID $buttonId is pressed"
     //% buttonId.defl=0
     //% weight=1 icon="\uf11b"
-
-
-    export function onButtonPressed(buttonId: number, handler: () => void): void {
-      // add an event listener, use a hardware-specific method, or simulate the event in a loop
-// create a custom event with the name 'myEvent'
+    export function onButtonPressed(buttonId: number|string, handler: () => void): void {
+ 
 
     }
 
@@ -26,9 +23,7 @@ namespace pxsim.button {
     //% buttonId.defl=0
     //% advanced=true
     export function waitUntilButtonPressed(buttonId: number, handler: ()=> void): void {
-      // For example, you could use an event listener, a loop, or a hardware-specific method
-      // This is a placeholder implementation that does not interact with any hardware or simulator
-      //TODO control.pause(1);
+     
     }
     /**
      * Set the color of the button

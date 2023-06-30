@@ -150,11 +150,14 @@ namespace pxsim {
      */
     //%
     export class SamButton {
+        private _pressed: boolean;
         constructor() {
+            this._pressed = false;
+            board().bus.queue("BUTTON", "CREATED");
+            ;
         }
-        public pressed() {
-            return false;
-        
+        public get pressed() {
+            return this._pressed;
      }  
     }
       /**
@@ -179,6 +182,10 @@ namespace pxsim {
             return false;
         }
     }
+    /**
+     * An LED.
+     */
+    //%
     export class SamServo {
         constructor() {
         }
@@ -197,17 +204,24 @@ namespace pxsim {
             return 0;
         }
     }
-      /**
+    /**
      * A Heat Sensor.
      */
     //%
     export class SamHeatSensor {
+        value: number;
+
         constructor() {
+            this.value = 0;
         }
         public temperature() {
             return 0;
         }
     }
+    /**
+     * A Light Sensor.
+     */
+    //%
     export class SamLightSensor {
         constructor() {
         }
@@ -215,6 +229,10 @@ namespace pxsim {
             return 0;
         }
     }
+        /**
+     * A Heat Sensor.
+     */
+    //%
     export class SamPressureSensor {
         constructor() {
         }
@@ -222,6 +240,10 @@ namespace pxsim {
             return 0;
         }
     }
+        /**
+     * A Proximity Sensor.
+     */
+    //%
     export  class SamProximitySensor {
         constructor() {
         }
@@ -229,6 +251,10 @@ namespace pxsim {
             return 0;
         }
     }
+        /**
+     * A Slider component.
+     */
+    //%
     export class SamSlider {
         constructor() {
         }
@@ -236,6 +262,10 @@ namespace pxsim {
             return 0;
         }
     }
+        /**
+     * A Tilt Sensor.
+     */
+    //%
     export class SamTiltSensor {
         constructor() {
         }
@@ -243,6 +273,8 @@ namespace pxsim {
             return 0;
         }
     }
+
+
 
 }
 namespace pxsim.sprites {
@@ -258,7 +290,9 @@ namespace pxsim.button{
     /**
      * Creates a new Button
      */
-    //% blockId="sampleCreate" block="createButton"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"
+    //% blockId="createButton" block="createButton"
     export function createButton(): pxsim.SamButton {
         return new pxsim.SamButton();
     }
@@ -267,8 +301,10 @@ namespace pxsim.buzzer{
     /**
      * Creates a new Buzzer
      */
-    //% blockId="sampleCreate" block="createBuzzer"
-    export function createBuzzer(): SamBuzzer {
+    //% variable.shadow=variables_get
+    //% variable.defl="Buzzer 1"
+    //% blockId="createBuzzer" 
+    export function createBuzzer(variable:number|string): SamBuzzer {
         return new pxsim.SamBuzzer();
     }
 }
@@ -276,7 +312,9 @@ namespace pxsim.DCMotor{
      /**
      * Creates a new DCMotor
      */
-    //% blockId="sampleCreate" block="createDCMotor"
+    //% variable.shadow=variables_get
+    //% variable.defl="DCMotor 1"
+    //% blockId="createDCMotor" block="createDCMotor"
     export function createDCMotor(): SamDCMotor {
         return new pxsim.SamDCMotor();
     }
@@ -285,9 +323,79 @@ namespace pxsim.HeatSensor{
     /**
      * Creates a new Heat Sensor
      */
-    //% blockId="sampleCreate" block="createHeatSensor"
+    //% variable.shadow=variables_get
+    //% variable.defl="HeatSensor 1"
+    //% blockId="createHeatSensor" block="createHeatSensor"
     export function createHeatSensor(): SamHeatSensor {
         return new pxsim.SamHeatSensor();
+    }
+}
+namespace pxsim.LightSensor{
+    /**
+     * Creates a new Pressur Sensor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor 1"
+    //% blockId="createLightSensor" block="createLighttSensor"
+    export function createLightSensor(): SamLightSensor {
+        return new pxsim.SamLightSensor();
+    }
+}
+namespace pxsim.PressureSensor{
+    /**
+     * Creates a new Pressure Sensor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="PressureSensor 1"
+    //% blockId="createPressureSensor" block="createPressureSensor"
+    export function createPressureSensor(): SamPressureSensor {
+        return new pxsim.SamPressureSensor();
+    }
+}
+namespace pxsim.ProximitySensor{
+    /**
+     * Creates a new Proximity Sensor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="ProximitySensor 1"
+    //% blockId="createProximitySensor" block="createPressuretSensor"
+    export function createProximitySensor(): SamProximitySensor {
+        return new pxsim.SamProximitySensor();
+    }
+}
+namespace pxsim.ServoMotor{
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="ServoMotor 1"
+    //% blockId="createServoMotor" block="createServoMotor"
+    export function createServoMotor(): SamServo {
+        return new pxsim.SamServo();
+    }
+}
+
+namespace pxsim.Slider{
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="Slider 1"
+    //% blockId="createSlider" block="createSlider"
+    export function createSlider(): SamSlider {
+        return new pxsim.SamSlider();
+    }
+}
+
+namespace pxsim.TiltSensor{
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="TiltSensor 1"
+    //% blockId="createTiltSensor" block="createTiltSensor"
+    export function createProximitySensor(): SamTiltSensor {
+        return new pxsim.SamTiltSensor();
     }
 }
 
@@ -295,7 +403,9 @@ namespace pxsim.LED{
     /**
      * Creates a new RGB LED
      */
-    //% blockId="sampleCreate" block="createLED"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
+    //% blockId="createLED" block="createLED"
     export function createLED(): pxsim.SamLed {
         return new pxsim.SamLed();
     }
@@ -329,7 +439,7 @@ namespace samlabs{
         }
     }
 
-export class WindowEventService {
+class WindowEventService {
 
     private static instance: WindowEventService;
 

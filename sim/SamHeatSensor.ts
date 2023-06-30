@@ -17,6 +17,8 @@ namespace pxsim.HeatSensor {
      * @param handler The function to run when the heat sensor value changes
      */
     //% blockId="on_heat_sensor_value_changes" block="when heat sensor with ID $sensorId value changes"
+    //% variable.shadow=variables_get
+    //% buttonId.defl=0
     //% sensorId.defl=0
     //% color="#3455db"
     export function onHeatSensorValueChanges(sensorId: number, handler: () => void): void {
