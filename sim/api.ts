@@ -165,12 +165,53 @@ namespace pxsim {
      */
     //%
     export class SamBuzzer{
+        public deviceName = 'sam_buzzer'
         constructor() {
+            const detail = {
+                device: this.deviceName,
+                event: 'device_added',
+            }
         }
-        public playTone() {
-            return false;
+    
+        public setVolume(newVolume: number) {
+            const detail = {
+                device: this.deviceName,
+                event: 'value_changed',
+                properties: ['volume'],
+                newValues: [newVolume]
+            }
+            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
         }
+        public setPitch(newPitch: number) {
+            const detail = {
+                device: this.deviceName,
+                event: 'value_changed',
+                properties: ['pitch'],
+                newValues: [newPitch]
+            }
+            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
+        }
+        public clear() {
+            const detail = {
+                device: this.deviceName,
+                event: 'value_changed',
+                properties: ['pitch','volume'],
+                newValue: [0,0]
+            }
+            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
+        }
+        public setColor(color:string) {
+            const detail = {
+                device: this.deviceName,
+                event: 'value_changed',
+                properties: ['color'],
+                newValue: [color]
+            }
+            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
+        }
+
     }
+    
       /**
      * An LED.
      */
@@ -301,10 +342,8 @@ namespace pxsim.buzzer{
     /**
      * Creates a new Buzzer
      */
-    //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
-    //% blockId="createBuzzer" 
-    export function createBuzzer(variable:number|string): SamBuzzer {
+    //% blockId="createBuzzer" block="createBuzzer"
+    export function createBuzzer(): SamBuzzer {
         return new pxsim.SamBuzzer();
     }
 }
@@ -412,6 +451,10 @@ namespace pxsim.LED{
 }
 
 namespace samlabs{
+    export enum samSimEvents{
+        TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
+        TOSIM_DEVICE_ADDED = 'TOSIM_EDITOR_DEVICE_ADDED',
+    }
     export class SimulatorQueue {
         private items: any[];
         constructor() {
@@ -439,7 +482,7 @@ namespace samlabs{
         }
     }
 
-class WindowEventService {
+export class WindowEventService {
 
     private static instance: WindowEventService;
 

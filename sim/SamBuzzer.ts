@@ -2,51 +2,45 @@
 namespace pxsim.buzzer{
 
 
-/**
+    /**
  * Set the volume of the buzzer with the given ID
- * @param buzzerId The ID of the buzzer to set the volume for
+ * @param variable The buzzer instance to set the volume for
  * @param volume The new volume for the buzzer (0-100)
  */
-//% blockId="set_buzzer_volume" block="set volume of Buzzer with ID $buzzerId to $volume"
-//% buzzerId.defl=0
+//% blockId="set_buzzer_volume" block="set volume of Buzzer in variable $variable to $volume"
+//% variable.shadow=variables_get
+//% variable.defl="Buzzer 1"
 //% volume.min=0 volume.max=100
 //% color="#d400d4"
-
-export function setBuzzerVolume(buzzerId: number, volume: number): void {
-    // Function implementation depends on the hardware or simulator being used
-    // For example, you could use a hardware-specific method to set the volume or update the simulator's UI
-
-    // This is a placeholder implementation that does not interact with any hardware or simulator
+export function setBuzzerVolume(variable: SamBuzzer, volume: number): void {
+   variable.setVolume(volume); 
 }
 /**
  * Set the pitch of the buzzer with the given ID
  * @param buzzerId The ID of the buzzer to set the pitch for
  * @param pitch The new pitch for the buzzer (in Hz)
  */
-//% blockId="set_buzzer_pitch" block="set pitch of Buzzer with ID $buzzerId to $pitch Hz"
-//% buzzerId.defl=0
+//% blockId="set_buzzer_pitch" block="set pitch of Buzzer in variable $variable to $pitch Hz"
+//% variable.shadow=variables_get
+//% variable.defl="Buzzer 1"
+//% volume.min=0 volume.max=100
 //% pitch.min=20 pitch.max=20000
 //% color="#d400d4"
 
-export function setBuzzerPitch(buzzerId: number, pitch: number): void {
-    // Function implementation depends on the hardware or simulator being used
-    // For example, you could use a hardware-specific method to set the pitch or update the simulator's UI
-
-    // This is a placeholder implementation that does not interact with any hardware or simulator
+export function setBuzzerPitch(variable: SamBuzzer, pitch: number): void {
+    variable.setPitch(pitch);
 }
 
 /**
  * Clear the buzzer with the given ID by setting its volume and pitch to zero
- * @param buzzerId The ID of the buzzer to clear
+ * @param variable The buzzer instance to clear
  */
-//% blockId="clear_buzzer" block="clear Buzzer with ID $buzzerId"
-//% buzzerId.defl=0
+//% blockId="clear_buzzer" block="clear Buzzer in $variable"
+//% variable.shadow=variables_get
+//% variable.defl="Buzzer 1"
 //% color="#d400d4"
-export function clearBuzzer(buzzerId: number): void {
-    // Function implementation depends on the hardware or simulator being used
-    // For example, you could use hardware-specific methods to set the volume and pitch or update the simulator's UI
-
-    // This is a placeholder implementation that does not interact with any hardware or simulator
+export function clearBuzzer(variable: SamBuzzer): void {
+    variable.clear()
 }
 /**
  * Set the color of the buzzer with the given ID
@@ -54,14 +48,12 @@ export function clearBuzzer(buzzerId: number): void {
  * @param color The new color for the buzzer
  */
 //% blockId="set_buzzer_color" block="set color of Buzzer with ID $buzzerId to $color"
-//% buzzerId.defl=0
+//% variable.shadow=variables_get
+//% variable.defl="Buzzer 1"
 //% color.shadow="colorNumberPicker"
 //% color="#d400d4"
-export function setBuzzerColor(buzzerId: number, color: string): void {
-    // Function implementation depends on the hardware or simulator being used
-    // For example, you could use a hardware-specific method to set the color or update the simulator's UI
-
-    // This is a placeholder implementation that does not interact with any hardware or simulator
+export function setBuzzerColor(variable: SamBuzzer, color: string): void {
+    variable.setColor(color);
 }
 
 }
