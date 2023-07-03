@@ -11,11 +11,13 @@ import { CustomEventGenerator } from './Features/CustomEventGenerator';
 import { deviceNameType } from './SAMDevices/Icons/deviceIconTypes';
 import { deviceLabels } from './Constants/DeviceLabel';
 import { getDeviceIcon } from './SAMDevices/Icons';
+import useAddNewDeviceEventHandler from './Hooks/useAddNewDeviceEventHandler';
 
 const App: React.FC = observer(() => {
   const { devicesStore } = useStores();
   const [showActiveDevices, setShowActiveDevices] = React.useState(true);
   const deviceKeys:deviceNameType[] = Object.keys(deviceLabels) as deviceNameType[];
+  const {addNewDeviceEventHandler} = useAddNewDeviceEventHandler();
   const menuItemData:DeviceMenuItemType[] = deviceKeys.map((key:deviceNameType) => {
       return {
           label: deviceLabels[key],
@@ -38,19 +40,6 @@ const App: React.FC = observer(() => {
     FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
 }
 
-const addNewDeviceEventHandler = (simDeviceCode:string)=>{
-  switch(simDeviceCode){
-    case 'sam_dcmotor':
-      const device:DeviceMenuItemType = {label:deviceLabels.DCMotor, icon:getDeviceIcon('DCMotor')};
-      const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
-      const builtDevice:IBuiltDevice = newDevice.build();      
-      devicesStore.addDevice(builtDevice);
-      break;
-      default:
-        return ""
-      
-  }
-}
 
   useEffect(()=>{
       CustomEventGenerator.getInstance().receiveEvent("TOSIM_EDITOR_DEVICE_CREATED", (event:CustomEvent)=>{
