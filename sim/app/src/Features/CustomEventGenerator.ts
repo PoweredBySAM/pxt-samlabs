@@ -14,6 +14,12 @@ export class CustomEventGenerator {
         const event = new CustomEvent(eventName, { detail });
         window.dispatchEvent(event);
     }
+
+    receiveEvent(eventName: any, callback: (detail: any) => void) {
+        window.addEventListener(eventName, (event: CustomEvent) => {
+            callback(event);
+        });
+    }
 }
 
 

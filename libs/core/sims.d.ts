@@ -101,18 +101,6 @@ declare namespace console {
 
     }
     /**
-     * A Button.
-     */
-    //%
-    declare class SamButton {
-    }
-    /**
-     * A Buzzer.
-     */
-    //%
-    declare class SamBuzzer {
-    }
-    /**
      * An LED.
      */
     //%
@@ -123,12 +111,6 @@ declare namespace console {
      */
     //%
     declare class SamServo {
-    }
-    /**
-     * A DC Motor.
-     */
-    //%
-    declare class SamDCMotor {
     }
     /**
      * A Heat Sensor.
@@ -173,37 +155,6 @@ declare namespace sprites {
     //% blockId="sampleCreate" block="createSprite"
     //% shim=sprites::createSprite
     function createSprite(): Sprite;
-
-}
-declare namespace button {
-    /**
-     * Creates a new Button
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="Button 1"
-    //% blockId="createButton" block="createButton"
-    //% shim=button::createButton
-    function createButton(): SamButton;
-
-}
-declare namespace buzzer {
-    /**
-     * Creates a new Buzzer
-     */
-    //% blockId="createBuzzer" block="createBuzzer"
-    //% shim=buzzer::createBuzzer
-    function createBuzzer(): SamBuzzer;
-
-}
-declare namespace DCMotor {
-    /**
-     * Creates a new DCMotor
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="DCMotor 1"
-    //% blockId="createDCMotor" block="createDCMotor"
-    //% shim=DCMotor::createDCMotor
-    function createDCMotor(): SamDCMotor;
 
 }
 declare namespace HeatSensor {
@@ -295,16 +246,42 @@ declare namespace LED {
 
 }
 declare namespace button {
-    /**
-     * Registers a handler that runs when the button with the given ID is pressed
-     * @param buttonId The ID of the button to listen for
-     * @param handler The function to run when the button is pressed
-     */
-    //% blockId="on_button_pressed" block="when Button with ID $buttonId is pressed"
-    //% buttonId.defl=0
-    //% weight=1 icon="\uf11b"
-    //% shim=button::onButtonPressed
-    function onButtonPressed(buttonId: string | number, handler: () => void): void;
+    //% blockId="create_button" block="set %variable to new button"
+    //% variable.shadow=variables_set
+    //% weight=2
+    //% shim=button::createNewButton
+    function createNewButton(variable: SamButton): SamButton;
+
+    // /**
+    //  * Registers a handler that runs when the button with the given ID is pressed
+    //  * @param buttonId The ID of the button to listen for
+    //  * @param handler The function to run when the button is pressed
+    //  */
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Button 1"
+    // //% blockId="on_button_pressed" block="when Button in variable $variable is pressed"
+    // //% weight=1 icon="\uf11b"
+    // export function onButtonPressed(variable: pxsim.SamButton, handler: () => void): void {
+    //   const deviceId = variable.deviceId;
+    //   const eventName = samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,deviceId)
+    //   samlabs.WindowEventService.getInstance().receiveEvent(eventName, (payload: any) => {
+    //     if (payload.deviceId === deviceId ) {
+    //       handler();
+    //     }
+    //   })
+    // }
+    //% blockId="on_button_pressed" block="when button %variable is pressed"
+    //% variable.shadow=variables_get
+    //% weight=1
+    //% shim=button::onButtonPressed2
+    function onButtonPressed2(variable: SamButton, handler: () => void): void;
+
+    //% blockId="button_property_dropdown" block="%property"
+    //% blockHidden=true
+    //% property.fieldEditor="gridpicker" property.fieldOptions.columns=2
+    //% weight=0
+    //% shim=button::buttonPropertyDropdown
+    function buttonPropertyDropdown(property: string): string;
 
     /**
      * Wait until the button with the given ID is pressed
@@ -316,17 +293,12 @@ declare namespace button {
     //% shim=button::waitUntilButtonPressed
     function waitUntilButtonPressed(buttonId: number, handler: () => void): void;
 
-    /**
-     * Set the color of the button
-     * @param buttonId The ID of the button to change color
-     * @param color The new color for the button
-     */
-    //% blockId="set_button_color" block="set color of Button with ID $buttonId to $color"
-    //% buttonId.defl=0
-    //% color.shadow="colorNumberPicker"
-    //% advanced=true
-    //% shim=button::setButtonColor
-    function setButtonColor(buttonId: number, color: string): void;
+    //% blockId="set_button_property" block="set %variable button property %prop to %value"
+    //% variable.shadow=variables_get
+    //% prop.shadow=button_property_dropdown
+    //% weight=2
+    //% shim=button::setButtonProperty
+    function setButtonProperty(variable: SamButton, prop: string, value: any): void;
 
     /**
      * Get the state of the button with a given ID
@@ -339,6 +311,12 @@ declare namespace button {
     function getButtonState(buttonId: number): boolean;
 
 }
+    /**
+     * A Button.
+     */
+    //%
+    declare class SamButton {
+    }
 declare namespace buzzer {
     /**
      * Set the volume of the buzzer with the given ID
@@ -391,43 +369,61 @@ declare namespace buzzer {
     //% shim=buzzer::setBuzzerColor
     function setBuzzerColor(variable: SamBuzzer, color: string): void;
 
+    /**
+     * Creates a new Buzzer
+     */
+    //% blockId="createBuzzer" block="createBuzzer"
+    //% shim=buzzer::createBuzzer
+    function createBuzzer(): SamBuzzer;
+
 }
+    /**
+     * A Buzzer.
+     */
+    //%
+    declare class SamBuzzer {
+    }
 declare namespace DCMotor {
-    /**
-     * Set the speed of the DC motor with the given ID
-     * @param motorId The ID of the DC motor to set the speed for
-     * @param speed The new speed for the DC motor (-100 to 100)
-     */
-    //% blockId="set_dc_motor_speed" block="set speed of DC Motor with ID $motorId to $speed"
-    //% motorId.defl=0
-    //% speed.min=-100 speed.max=100
+    //% blockId="set_motor_speed" block="set %variable motor speed to %value"
+    //% speed.min=0 speed.max=100
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
     //% color="#32cd32"
-    //% shim=DCMotor::setDCMotorSpeed
-    function setDCMotorSpeed(motorId: number, speed: number): void;
+    //% shim=DCMotor::setSamMotorSpeed
+    function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
-    /**
-     * Set the color of the DC motor with the given ID
-     * @param motorId The ID of the DC motor to set the color for
-     * @param color The new color for the DC motor
-     */
-    //% blockId="set_dc_motor_color" block="set color of DC Motor with ID $motorId to $color"
-    //% motorId.defl=0
-    //% color.shadow="colorNumberPicker"
+    //% blockId="set_motor_color" block="set %variable motor color to %value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
     //% color="#32cd32"
-    //% shim=DCMotor::setDCMotorColor
-    function setDCMotorColor(motorId: number, color: string): void;
+    //% shim=DCMotor::setSamMotorColor
+    function setSamMotorColor(variable: SamDCMotor, value: string): void;
 
-    /**
-     * Get the speed of the DC motor with the given ID
-     * @param motorId The ID of the DC motor to get the speed of
-     */
-    //% blockId="get_dc_motor_speed" block="get speed of DC Motor with ID $motorId"
-    //% motorId.defl=0
-    //% color="#32cd32"
-    //% shim=DCMotor::getDCMotorSpeed
-    function getDCMotorSpeed(motorId: number): number;
+    //% blockId="get_motor_speed" block="get %variable motor speed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    //% shim=DCMotor::getSamMotorSpeed
+    function getSamMotorSpeed(variable: SamDCMotor): any;
+
+    //% blockId="get_motor_color" block="get %variable motor color"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    // % prop.shadow=motor_property_dropdown
+    //% shim=DCMotor::getSamMotorColor
+    function getSamMotorColor(variable: SamDCMotor): any;
+
+    //% blockId="create_motor" block="Create new motor"
+    //% variable.defl="Motor 1"
+    //% shim=DCMotor::createMotor
+    function createMotor(): SamDCMotor;
 
 }
+    /**
+     * A DC Motor.
+     */
+    //%
+    declare class SamDCMotor {
+    }
 declare namespace HeatSensor {
     /**
      * Wait until the heat sensor value changes

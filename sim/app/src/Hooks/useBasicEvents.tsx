@@ -8,6 +8,7 @@ enum BasicEvents {
   CONNECTING = "connecting",
   DISCONNECTED = "disconnected",
   VALUE_CHANGED = "valueChanged",
+  TOSIM_DEVICE_VALUE_CHANGED = "TOSIM_DEVICE_VALUE_CHANGED",
 }
 export type BasicEventType =
   | "connecting"
@@ -29,6 +30,9 @@ function useBasicEvents(device: SamDeviceStoreType) {
       }
       case BasicEvents.DISCONNECTED: {
         return singleDeviceStore.updateIsconnected(false);
+      }
+      case BasicEvents.TOSIM_DEVICE_VALUE_CHANGED: {
+        
       }
 
       default: {

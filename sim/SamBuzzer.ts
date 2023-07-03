@@ -1,3 +1,4 @@
+
 //% color=190 weight=100 icon="\uf025" block="Sam Labs" group="Buzzer"
 namespace pxsim.buzzer{
 
@@ -12,7 +13,7 @@ namespace pxsim.buzzer{
 //% variable.defl="Buzzer 1"
 //% volume.min=0 volume.max=100
 //% color="#d400d4"
-export function setBuzzerVolume(variable: SamBuzzer, volume: number): void {
+export function setBuzzerVolume(variable: pxsim.SamBuzzer, volume: number): void {
    variable.setVolume(volume); 
 }
 /**
@@ -27,7 +28,7 @@ export function setBuzzerVolume(variable: SamBuzzer, volume: number): void {
 //% pitch.min=20 pitch.max=20000
 //% color="#d400d4"
 
-export function setBuzzerPitch(variable: SamBuzzer, pitch: number): void {
+export function setBuzzerPitch(variable: pxsim.SamBuzzer, pitch: number): void {
     variable.setPitch(pitch);
 }
 
@@ -39,7 +40,7 @@ export function setBuzzerPitch(variable: SamBuzzer, pitch: number): void {
 //% variable.shadow=variables_get
 //% variable.defl="Buzzer 1"
 //% color="#d400d4"
-export function clearBuzzer(variable: SamBuzzer): void {
+export function clearBuzzer(variable: pxsim.SamBuzzer): void {
     variable.clear()
 }
 /**
@@ -52,8 +53,93 @@ export function clearBuzzer(variable: SamBuzzer): void {
 //% variable.defl="Buzzer 1"
 //% color.shadow="colorNumberPicker"
 //% color="#d400d4"
-export function setBuzzerColor(variable: SamBuzzer, color: string): void {
+export function setBuzzerColor(variable: pxsim.SamBuzzer, color: string): void {
     variable.setColor(color);
 }
 
 }
+namespace pxsim.buzzer {
+    /**
+    * Creates a new Buzzer
+    */
+    //% blockId="createBuzzer" block="createBuzzer"
+    export function createBuzzer(): SamBuzzer {
+        return new SamBuzzer();
+    }
+  }
+namespace pxsim {
+    /**
+     * A Buzzer.
+     */
+    //%
+    export class SamBuzzer {
+        public deviceName = "sam_buzzer";
+        private _id: string;
+        constructor() {
+            this._id = samlabs.uuidv4();
+        const detail = {
+            device: this.deviceName,
+            event: "device_created",
+            id: this._id
+        };
+        this._dispatch(
+            { device: this.deviceName, detail },
+            samlabs.samSimEvents.TOSIM_DEVICE_CREATED
+        );
+        }
+  
+        public setVolume(newVolume: number) {
+        const detail = {
+            device: this.deviceName,
+            event: "value_changed",
+            properties: ["volume"],
+            newValues: [newVolume],
+        };
+        this._dispatch(
+            { device: this.deviceName, detail },
+            samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+        }
+        public setPitch(newPitch: number) {
+        const detail = {
+            device: this.deviceName,
+            event: "value_changed",
+            properties: ["pitch"],
+            newValues: [newPitch],
+        };
+        this._dispatch(
+            { device: this.deviceName, detail },
+            samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+        }
+        public clear() {
+        const detail = {
+            device: this.deviceName,
+            event: "value_changed",
+            properties: ["pitch", "volume"],
+            newValue: [0, 0],
+        };
+        this._dispatch(
+            { device: this.deviceName, detail },
+            samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+        }
+        public setColor(color: string) {
+        const detail = {
+            device: this.deviceName,
+            event: "value_changed",
+            properties: ["color"],
+            newValue: [color],
+        };
+        this._dispatch(
+            { device: this.deviceName, detail },
+            samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+        }
+  
+        _dispatch(payload: any, type: string) {
+        samlabs.WindowEventService.getInstance().sendEvent(type, { ...payload });
+        }
+    }
+  }
+  

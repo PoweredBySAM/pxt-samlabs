@@ -1,3 +1,4 @@
+
 /// <reference path="../libs/core/enums.d.ts"/>
 
 
@@ -145,72 +146,7 @@ namespace pxsim {
             return delay(400)
         }
     }
-    /**
-     * A Button.
-     */
-    //%
-    export class SamButton {
-        private _pressed: boolean;
-        constructor() {
-            this._pressed = false;
-            board().bus.queue("BUTTON", "CREATED");
-            ;
-        }
-        public get pressed() {
-            return this._pressed;
-     }  
-    }
-      /**
-     * A Buzzer.
-     */
-    //%
-    export class SamBuzzer{
-        public deviceName = 'sam_buzzer'
-        constructor() {
-            const detail = {
-                device: this.deviceName,
-                event: 'device_added',
-            }
-        }
-    
-        public setVolume(newVolume: number) {
-            const detail = {
-                device: this.deviceName,
-                event: 'value_changed',
-                properties: ['volume'],
-                newValues: [newVolume]
-            }
-            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
-        }
-        public setPitch(newPitch: number) {
-            const detail = {
-                device: this.deviceName,
-                event: 'value_changed',
-                properties: ['pitch'],
-                newValues: [newPitch]
-            }
-            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
-        }
-        public clear() {
-            const detail = {
-                device: this.deviceName,
-                event: 'value_changed',
-                properties: ['pitch','volume'],
-                newValue: [0,0]
-            }
-            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
-        }
-        public setColor(color:string) {
-            const detail = {
-                device: this.deviceName,
-                event: 'value_changed',
-                properties: ['color'],
-                newValue: [color]
-            }
-            samlabs.WindowEventService.getInstance().sendEvent(samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED, {device:this.deviceName,detail});
-        }
 
-    }
     
       /**
      * An LED.
@@ -234,17 +170,7 @@ namespace pxsim {
             return 0;
         }
     }
-      /**
-     * A DC Motor.
-     */
-    //%
-    export class SamDCMotor {
-        constructor() {
-        }
-        public speed() {
-            return 0;
-        }
-    }
+
     /**
      * A Heat Sensor.
      */
@@ -314,6 +240,11 @@ namespace pxsim {
             return 0;
         }
     }
+    export enum MotorProperties {
+        Speed = "speed",
+        Direction = "direction",
+        // Add more properties as required
+    }
 
 
 
@@ -327,37 +258,8 @@ namespace pxsim.sprites {
         return new Sprite();
     }
 }
-namespace pxsim.button{
-    /**
-     * Creates a new Button
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="Button 1"
-    //% blockId="createButton" block="createButton"
-    export function createButton(): pxsim.SamButton {
-        return new pxsim.SamButton();
-    }
-}
-namespace pxsim.buzzer{
-    /**
-     * Creates a new Buzzer
-     */
-    //% blockId="createBuzzer" block="createBuzzer"
-    export function createBuzzer(): SamBuzzer {
-        return new pxsim.SamBuzzer();
-    }
-}
-namespace pxsim.DCMotor{
-     /**
-     * Creates a new DCMotor
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="DCMotor 1"
-    //% blockId="createDCMotor" block="createDCMotor"
-    export function createDCMotor(): SamDCMotor {
-        return new pxsim.SamDCMotor();
-    }
-}
+
+
 namespace pxsim.HeatSensor{
     /**
      * Creates a new Heat Sensor
@@ -453,7 +355,8 @@ namespace pxsim.LED{
 namespace samlabs{
     export enum samSimEvents{
         TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
-        TOSIM_DEVICE_ADDED = 'TOSIM_EDITOR_DEVICE_ADDED',
+        TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
+        FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
     }
     export class SimulatorQueue {
         private items: any[];
@@ -510,7 +413,47 @@ export class WindowEventService {
         return WindowEventService.instance;
     }
 }
+export function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    let r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
+export function buildEventName(eventName: string, deviceId: string) {
+  return `${eventName}_${deviceId}`;
+}
+export class SamSimDataService {
+    private devicesKey: string = "sam_devices_state";
+    public static instance: SamSimDataService;
+
+    private constructor() {}
+
+    public static getInstance(queueKey: string): SamSimDataService {
+      if (!SamSimDataService.instance) {
+        SamSimDataService.instance = new SamSimDataService();
+      }
+      return SamSimDataService.instance;
+    }
+
+    private loadDevices(): Array<any> {
+      const devices = localStorage.getItem(this.devicesKey);
+      return devices ? JSON.parse(devices) : [];
+    }
+
+    public getDeviceProps(id: string): any {
+        const devices = this.loadDevices();
+        return devices.find((device) => device.id === id);  
+    }
+  }
+
+
+}
+
+
+  
+  
+  
 
     
     
