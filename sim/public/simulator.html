@@ -55,6 +55,17 @@
         const data = event?.detail;
         console.log('Message received:', data);
         });
+        window.addEventListener('message', (event) => {
+        // You can add a check for the origin if necessary
+        // if (event.origin !== 'https://your-expected-origin.com') {
+        //   return;
+        // }
+
+        // Handle the message received
+        // const data = event.data;
+        const data = event?.data;
+        console.log('Message received:', data);
+        });
 
     </script>
 </body>

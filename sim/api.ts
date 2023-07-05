@@ -172,20 +172,6 @@ namespace pxsim {
     }
 
     /**
-     * A Heat Sensor.
-     */
-    //%
-    export class SamHeatSensor {
-        value: number;
-
-        constructor() {
-            this.value = 0;
-        }
-        public temperature() {
-            return 0;
-        }
-    }
-    /**
      * A Light Sensor.
      */
     //%
@@ -260,17 +246,7 @@ namespace pxsim.sprites {
 }
 
 
-namespace pxsim.HeatSensor{
-    /**
-     * Creates a new Heat Sensor
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor 1"
-    //% blockId="createHeatSensor" block="createHeatSensor"
-    export function createHeatSensor(): SamHeatSensor {
-        return new pxsim.SamHeatSensor();
-    }
-}
+
 namespace pxsim.LightSensor{
     /**
      * Creates a new Pressur Sensor
@@ -340,17 +316,6 @@ namespace pxsim.TiltSensor{
     }
 }
 
-namespace pxsim.LED{
-    /**
-     * Creates a new RGB LED
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
-    //% blockId="createLED" block="createLED"
-    export function createLED(): pxsim.SamLed {
-        return new pxsim.SamLed();
-    }
-}
 
 namespace samlabs{
     export enum samSimEvents{
@@ -400,9 +365,9 @@ export class WindowEventService {
         window.dispatchEvent(event);
     }
 
-    receiveEvent(eventName: any, callback: (detail: any) => void) {
+    receiveEvent(eventName: any, callback: (detail ?: any) => void) {
         window.addEventListener(eventName, (event: CustomEvent) => {
-            callback(event.detail);
+            callback(event);
         });
     }
 
@@ -429,7 +394,7 @@ export class SamSimDataService {
 
     private constructor() {}
 
-    public static getInstance(queueKey: string): SamSimDataService {
+    public static getInstance(): SamSimDataService {
       if (!SamSimDataService.instance) {
         SamSimDataService.instance = new SamSimDataService();
       }

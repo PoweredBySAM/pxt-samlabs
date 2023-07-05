@@ -3,26 +3,38 @@ namespace pxsim.LED {
      * Turn the LED with the given ID on
      * @param ledId The ID of the LED to turn on
      */
-    //% blockId="turn_led_on" block="turn LED with ID $ledId on"
-    //% ledId.defl=0
+    //% blockId="turn_led_on" block="turn LED $variable on"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED1"
     //% color="#4169e1"
-    export function turnLEDOn(ledId: number): void {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that does not interact with any hardware or simulator
+    export function turnLEDOn(variable:SamLED): void {
+      variable.turnOn();
     }
-  
-    /**
-     * Change the color of the LED with the given ID
-     * @param ledId The ID of the LED to change the color for
+     /**
+     * Set the color of the LED with the given ID
+     * @param ledId The ID of the LED to set the color for
      * @param color The new color for the LED
      */
-    //% blockId="change_led_color" block="change color of LED with ID $ledId to $color"
-    //% ledId.defl=0
+    //% blockId="set_led_color" block="set color of LED $variable to  $color"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED1"
     //% color.shadow="colorNumberPicker"
     //% color="#4169e1"
-    export function changeLEDColor(ledId: number, color: string): void {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that does not interact with any hardware or simulator
+    export function setLEDColor(variable: SamLED, color: string): void {
+      variable.setLEDColor(color);
+    }
+     /**
+     * Set the body color of the LED with the given ID
+     * @param ledId The ID of the LED to set the color for
+     * @param color The new color for the LED
+     */
+    //% blockId="set_led_color" block="set color of LED $variable to  $color"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
+    //% color.shadow="colorNumberPicker"
+    //% color="#4169e1"
+    export function setLEDBodyColor(variable: SamLED, color: string): void {
+      variable.setBodyColor(color);
     }
   
     /**
@@ -31,94 +43,181 @@ namespace pxsim.LED {
      * @param brightness The new brightness for the LED (0 to 100)
      */
     //% blockId="change_led_brightness" block="change brightness of LED with ID $ledId to $brightness"
-    //% ledId.defl=0
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
     //% brightness.min=0 brightness.max=100
     //% color="#4169e1"
-    export function changeLEDBrightness(ledId: number, brightness: number): void {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that does not interact with any hardware or simulator
-    }
-    /**
-     * Set the color of the LED with the given ID
-     * @param ledId The ID of the LED to set the color for
-     * @param color The new color for the LED
-     */
-    //% blockId="set_led_color" block="set color of LED with ID $ledId to $color"
-    //% ledId.defl=0
-    //% color.shadow="colorNumberPicker"
-    //% color="#4169e1"
-    export function setLEDColor(ledId: number, color: string): void {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that does not interact with any hardware or simulator
-    }
-  
-    /**
-     * Set the border color of the LED with the given ID
-     * @param ledId The ID of the LED to set the border color for
-     * @param borderColor The new border color for the LED
-     */
-    //% blockId="set_led_border_color" block="set border color of LED with ID $ledId to $borderColor"
-    //% ledId.defl=0
-    //% borderColor.shadow="colorNumberPicker"
-    //% color="#4169e1"
-    export function setLEDBlockColor(ledId: number, borderColor: string): void {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that does not interact with any hardware or simulator
+    export function changeLEDBrightness(variable:SamLED, brightness: number): void {
+      variable.setBrightness(brightness);
     }
   
     /**
      * Get the brightness of the LED with the given ID
      * @param ledId The ID of the LED to get the brightness of
      */
-    //% blockId="get_led_brightness" block="get brightness of LED with ID $ledId"
-    //% ledId.defl=0
+    //% blockId="get_led_brightness" block="get brightness of LED $variable"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
     //% color="#4169e1"
-    export function getLEDBrightness(ledId: number): number {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that returns a default value (0) and does not interact with any hardware or simulator
-      return 0;
+    export function getLEDBrightness(variable:SamLED): number {
+      return  variable.getLEDBrightness();
+    }
+    /**
+     * Get the brightness of the LED with the given ID
+     * @param ledId The ID of the LED to get the brightness of
+     */
+    //% blockId="get_led_color" block="get color of LED $variable"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
+    //% color="#4169e1"
+    export function getLEDColor(variable:SamLED): number {
+      return  variable.getLEDColor();
     }
   
-    /**
-     * Get the color of the LED with the given ID
-     * @param ledId The ID of the LED to get the color of
-     */
-    //% blockId="get_led_color" block="get color of LED with ID $ledId"
-    //% ledId.defl=0
-    //% color="#4169e1"
-    export function getLEDColor(ledId: number): string {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that returns a default value (e.g., "#FFFFFF") and does not interact with any hardware or simulator
-      return "#FFFFFF";
-    }
+
   
     /**
      * Check if the LED with the given ID is on
      * @param ledId The ID of the LED to check if it's on
      */
-    //% blockId="is_led_on" block="is LED with ID $ledId on"
+    //% blockId="is_led_on" block="is LED $variable on"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED 1"
     //% ledId.defl=0
     //% color="#4169e1"
-    export function isLEDOn(ledId: number): boolean {
-      // Function implementation depends on the hardware or simulator being used
-      // Placeholder implementation that returns a default value (false) and does not interact with any hardware or simulator
-      return false;
+    export function isLEDOn(variable:SamLED): boolean {
+      return variable.isLEDOn();
     }
-    // Declare a custom event for when the light sensor value changes
-  const lightSensorValueChangedEvent = {};
+
+    //% blockId="create_led" block="Create new LED"
+    //% variable.defl="LED1"
+    //% color="#4169e1"
+    export function createLED(): pxsim.SamLED {
+      return new pxsim.SamLED();
+    }
   
-  // Call this function in your light sensor implementation whenever the light sensor value changes
-  export function triggerLightSensorValueChanged(newValue: number) {
-      lightSensorValueChangedEvent;
   }
   
-  /**
-   * When the light sensor value changes
-   */
-  //% blockId="when_light_sensor_value_changes" block="when light sensor value changes"
-  //% color="#4169e1"
-  export function whenLightSensorValueChanges(handler: (newValue: number) => void) {
-      lightSensorValueChangedEvent;
-  }
+  namespace pxsim {
+    /**
+     * A LED.
+     */
+    //%
+    export class SamLED {
+      public deviceName = "sam_led";
+      private _id: string;
   
+      constructor() {
+        this._id = samlabs.uuidv4();
+        const detail = {
+          device: this.deviceName,
+          event: "device_created",
+          id: this._id,
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_CREATED
+        );
+        window.console.log("LED created");
+      }
+  
+      public getLEDColor() {
+        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+          this._id
+        );
+        return deviceData.color;
+      }
+      public isLEDOn() {
+        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+          this._id
+        );
+        return deviceData.state;
+      }
+      public getLEDBrightness() {
+        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+          this._id
+        );
+        return deviceData.brighness;
+      }
+  
+      public setBodyColor(color: string) {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value: color,
+          property: "color",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+      public setLEDColor(color: string) {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value: color,
+          property: "color",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+      public setBrightness(value: number) {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value,
+          property: "brightness",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+      public turnOn() {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value:true,
+          property: "state",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+      public turnOff() {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value:false,
+          property: "state",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+  
+      get deviceId() {
+        return this._id;
+      }
+  
+      public receiveEvent(handler: ()=>any) {
+          samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
+      }
+  
+      public _dispatch(payload: any, type: string) {
+        samlabs.WindowEventService.getInstance().sendEvent(type, {
+          ...payload,
+        });
+      }
+    }
   }
