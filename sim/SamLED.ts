@@ -1,7 +1,7 @@
 namespace pxsim.LED {
     /**
      * Turn the LED with the given ID on
-     * @param ledId The ID of the LED to turn on
+     * @param variable The  LED to turn on
      */
     //% blockId="turn_led_on" block="turn LED $variable on"
     //% variable.shadow=variables_get
@@ -12,7 +12,7 @@ namespace pxsim.LED {
     }
      /**
      * Set the color of the LED with the given ID
-     * @param ledId The ID of the LED to set the color for
+     * @param variable The LED to set the color for
      * @param color The new color for the LED
      */
     //% blockId="set_led_color" block="set color of LED $variable to  $color"
@@ -25,7 +25,7 @@ namespace pxsim.LED {
     }
      /**
      * Set the body color of the LED with the given ID
-     * @param ledId The ID of the LED to set the color for
+     * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
     //% blockId="set_led_color" block="set color of LED $variable to  $color"
@@ -64,7 +64,7 @@ namespace pxsim.LED {
     }
     /**
      * Get the brightness of the LED with the given ID
-     * @param ledId The ID of the LED to get the brightness of
+     * @param variable The LED to get the brightness of
      */
     //% blockId="get_led_color" block="get color of LED $variable"
     //% variable.shadow=variables_get
