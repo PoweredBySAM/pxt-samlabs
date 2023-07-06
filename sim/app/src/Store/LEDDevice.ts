@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class LEDDevice {
   private _virtualController: any;
@@ -20,6 +21,7 @@ class LEDDevice {
 
   @observable _ledColor: string;
     _ledBrightness: number;
+  customEventGenerator: CustomEventGenerator;
 
   constructor(deviceData: any) {
     const {
@@ -43,6 +45,7 @@ class LEDDevice {
     this.deviceInTestMode = false;
     this.testLEDColor = '#ffffff'
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     makeAutoObservable(this);
 
   }
@@ -119,6 +122,22 @@ class LEDDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+      ledColor:this._ledColor,
+      ledBrightness:this._ledBrightness,
+    }
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
   }
 
   get virtualController() {

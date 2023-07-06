@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class ProximitySensorDevice {
   private _virtualController: any;
@@ -18,6 +19,7 @@ class ProximitySensorDevice {
   @observable deleted: boolean;
 
   @observable  value: number;
+  customEventGenerator: any;
 
   constructor(deviceData: any) {
     const {
@@ -39,6 +41,7 @@ class ProximitySensorDevice {
     this.value = 0
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     makeAutoObservable(this);
 
   }
@@ -79,6 +82,19 @@ class ProximitySensorDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+    }
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
   }
 
   get virtualController() {

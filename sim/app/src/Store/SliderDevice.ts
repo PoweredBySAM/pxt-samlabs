@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class SliderDevice {
   private _virtualController: any;
@@ -17,6 +18,7 @@ class SliderDevice {
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  customEventGenerator: any;
 
   constructor(deviceData: any) {
     const {
@@ -38,6 +40,8 @@ class SliderDevice {
     this.value = 0
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+
     makeAutoObservable(this);
 
   }
@@ -78,6 +82,14 @@ class SliderDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+    }
   }
 
   get virtualController() {

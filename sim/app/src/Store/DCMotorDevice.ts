@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class DCMotorDevice {
    _virtualController: any;
@@ -18,8 +19,10 @@ class DCMotorDevice {
   @observable testModeSpeed:number;
    @observable speed: number;
     _adjustedSpeed: number;
+  customEventGenerator: CustomEventGenerator;
 
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -42,6 +45,7 @@ class DCMotorDevice {
     this.deleted = false;
     this.testModeSpeed = 0
     makeAutoObservable(this);
+    this.broadcastState();
 
   }
   @action
@@ -65,12 +69,14 @@ class DCMotorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.broadcastState();
   }
 
   @action
   setSpeed(value: number) {
     this.speed = value;
     this.isConnected && this._bluetoothController?.setSpeed(value);
+    this.broadcastState();
   }
 
   @action
@@ -100,6 +106,7 @@ class DCMotorDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+    this.broadcastState();
   }
   @action
   setTestModeSpeed(value:number) {
@@ -111,6 +118,21 @@ class DCMotorDevice {
   }
   get bluetoothController() {
     return this._bluetoothController;
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
+  }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+      deviceSpeed:this.speed,
+
+    }
   }
   set virtualController(controller: any) {
     this._virtualController = controller;

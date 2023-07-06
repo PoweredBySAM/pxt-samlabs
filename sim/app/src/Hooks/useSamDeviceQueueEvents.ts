@@ -1,22 +1,18 @@
 import React from "react";
-
+import { BasicEventType } from "../SAMDevices/Animatable/Button/types";
 import { SamDeviceStoreType } from "../SAMDevices/Types/SAMDeviceTypes";
 import { useSingleDeviceStore } from "./useSingleDeviceStore";
-enum BasicEvents {
+export enum BasicEvents {
   BATTERY_LEVEL_CHANGE = "batteryLevelChange",
   CONNECTED = "connected",
   CONNECTING = "connecting",
   DISCONNECTED = "disconnected",
   VALUE_CHANGED = "valueChanged",
-  TOSIM_DEVICE_VALUE_CHANGED = "TOSIM_DEVICE_VALUE_CHANGED",
+  DEVICE_STATE_CHANGED = "deviceStateChanged",
 }
-export type BasicEventType =
-  | "connecting"
-  | "connected"
-  | "batteryLevelChange"
-  | "disconnected";
-function useBasicEvents(device: SamDeviceStoreType) {
-  const { singleDeviceStore } = useSingleDeviceStore(device);
+
+function useBasicEvents(device:SamDeviceStoreType) {
+  const {singleDeviceStore} = useSingleDeviceStore(device)
   const handleBasicControllerEvents = (event: BasicEventType, value: any) => {
     switch (event) {
       case BasicEvents.BATTERY_LEVEL_CHANGE: {
@@ -31,12 +27,9 @@ function useBasicEvents(device: SamDeviceStoreType) {
       case BasicEvents.DISCONNECTED: {
         return singleDeviceStore.updateIsconnected(false);
       }
-      // case BasicEvents.TOSIM_DEVICE_VALUE_CHANGED: {
-      //
-      // }
 
-      default: {
-        return "";
+      default : {
+        return ''
       }
     }
   };

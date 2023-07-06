@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class ServoMotorDevice {
   private _virtualController: any;
@@ -19,6 +20,7 @@ class ServoMotorDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   @observable testPosition: number;
+  customEventGenerator: any;
 
   constructor(deviceData: any) {
     const {
@@ -42,6 +44,7 @@ class ServoMotorDevice {
     this.deviceInTestMode = false;
     this.testPosition = 0
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     makeAutoObservable(this);
 
   }
@@ -96,9 +99,24 @@ class ServoMotorDevice {
     }
     this.deviceInTestMode = !this.deviceInTestMode;
   }
+
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+    }
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
   }
 
   get virtualController() {

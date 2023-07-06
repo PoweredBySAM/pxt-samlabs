@@ -1,20 +1,56 @@
 //% color=190
 //% advanced=true blockGap=8
 namespace pxsim.button {
-    /**
-     * Registers a handler that runs when the button with the given ID is pressed
-     * @param buttonId The ID of the button to listen for
-     * @param handler The function to run when the button is pressed
-     */
-    //% blockId="on_button_pressed" block="when Button with ID $buttonId is pressed"
-    //% buttonId.defl=0
-    //% weight=1 icon="\uf11b"
 
+  //% blockId="create_button" block="set %variable to new button"
+//% variable.shadow=variables_set
+//% weight=2
+export function createNewButton(variable: pxsim.SamButton): pxsim.SamButton {
+  let newButton = new pxsim.SamButton();
+  return newButton;
+}
 
-    export function onButtonPressed(buttonId: number, handler: () => void): void {
-      // add an event listener, use a hardware-specific method, or simulate the event in a loop
-      // This is a placeholder implementation that does not interact with any hardware or simulator
+    // /**
+    //  * Registers a handler that runs when the button with the given ID is pressed
+    //  * @param buttonId The ID of the button to listen for
+    //  * @param handler The function to run when the button is pressed
+    //  */
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Button 1"
+    // //% blockId="on_button_pressed" block="when Button in variable $variable is pressed"
+    // //% weight=1 icon="\uf11b"
+    // export function onButtonPressed(variable: pxsim.SamButton, handler: () => void): void {
+    //   const deviceId = variable.deviceId;
+    //   const eventName = samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,deviceId)
+    //   samlabs.WindowEventService.getInstance().receiveEvent(eventName, (payload: any) => {
+    //     if (payload.deviceId === deviceId ) {
+    //       handler();
+    //     }
+    //   })
+    // }
+
+    //% blockId="on_button_pressed" block="when button %variable is pressed"
+    //% variable.shadow=variables_get
+    //% weight=1
+    export function onButtonPressed2(variable: pxsim.SamButton, handler: () => void): void {
+      const deviceId = variable.deviceId;
+      const eventName = samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED, deviceId)
+      samlabs.WindowEventService.getInstance().receiveEvent(eventName, (payload: any) => {
+          if (payload.deviceId === deviceId ) {
+              handler();
+          }
+      })
     }
+
+    //% blockId="button_property_dropdown" block="%property"
+    //% blockHidden=true
+    //% property.fieldEditor="gridpicker" property.fieldOptions.columns=2
+    //% weight=0
+    export function buttonPropertyDropdown(property: string): string {
+    return property;
+    }
+
+
 
     /**
      * Wait until the button with the given ID is pressed
@@ -23,23 +59,17 @@ namespace pxsim.button {
     //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
     //% buttonId.defl=0
     //% advanced=true
-    export function waitUntilButtonPressed(buttonId: number): void {
-      // For example, you could use an event listener, a loop, or a hardware-specific method
-      // This is a placeholder implementation that does not interact with any hardware or simulator
-      //TODO control.pause(1);
+    export function waitUntilButtonPressed(buttonId: number, handler: ()=> void): void {
+     
     }
-    /**
-     * Set the color of the button
-     * @param buttonId The ID of the button to change color
-     * @param color The new color for the button
-     */
-    //% blockId="set_button_color" block="set color of Button with ID $buttonId to $color"
-    //% buttonId.defl=0
-    //% color.shadow="colorNumberPicker"
-    //% advanced=true
-    export function setButtonColor(buttonId: number, color: string): void {
-      //TODO update the simulator's UI
+    //% blockId="set_button_property" block="set %variable button property %prop to %value"
+    //% variable.shadow=variables_get
+    //% prop.shadow=button_property_dropdown
+    //% weight=2
+    export function setButtonProperty(variable: pxsim.SamButton, prop: string, value: any): void {
+      
     }
+
   
     /**
      * Get the state of the button with a given ID
@@ -54,3 +84,40 @@ namespace pxsim.button {
       return false;
     }
   }
+  namespace pxsim.button{
+// //% blockId="create_button" block="set %variable to new button"
+// //% variable.shadow=variables_set
+// //% weight=3
+// export function createButton(): pxsim.SamButton {
+//   let newButton = new pxsim.SamButton();
+//   return newButton;
+// }
+
+}
+  namespace pxsim{
+    /**
+     * A Button.
+     */
+    //%
+    export class SamButton {
+        private _pressed: boolean;
+        public deviceName = 'sam_button'
+        private _id: string;
+        constructor() {
+          this._id = samlabs.uuidv4();
+                const detail = {
+                    device: this.deviceName,
+                    event: 'device_created',
+                    id: this._id
+                }
+                this._dispatch({ device: this.deviceName, detail }, samlabs.samSimEvents.TOSIM_DEVICE_CREATED)
+        }
+ 
+        get deviceId() {
+            return this.deviceName;
+        }
+     _dispatch(payload: any, type: string) {
+        samlabs.WindowEventService.getInstance().sendEvent(type, { ...payload });
+      }
+    }
+}

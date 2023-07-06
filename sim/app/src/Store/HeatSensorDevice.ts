@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class HeatSensorDevice {
   private _virtualController: any;
@@ -19,7 +20,9 @@ class HeatSensorDevice {
 
     _ledColor: string;
     _ledBrightness: number;
+  customEventGenerator: CustomEventGenerator;
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -40,6 +43,8 @@ class HeatSensorDevice {
     this._ledBrightness = 100
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+
     makeAutoObservable(this);
 
   }
@@ -64,6 +69,7 @@ class HeatSensorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.broadcastState();
   }
 
   @action
@@ -86,10 +92,25 @@ class HeatSensorDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+    this.broadcastState();  
   }
 
   toggleTestMode() {
     this.deviceInTestMode = !this.deviceInTestMode;
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
+  }
+
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+    }
   }
 
   get virtualController() {

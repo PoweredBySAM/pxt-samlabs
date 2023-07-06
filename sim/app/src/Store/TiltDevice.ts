@@ -1,4 +1,5 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class TiltDevice {
   private _virtualController: any;
@@ -18,6 +19,7 @@ class TiltDevice {
   @observable _value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  customEventGenerator: CustomEventGenerator;
 
   constructor(deviceData: any) {
     const {
@@ -40,6 +42,8 @@ class TiltDevice {
     this.isTilted = false
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+
     makeAutoObservable(this);
 
   }
@@ -85,6 +89,19 @@ class TiltDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      isDeviceActive:this.isActive,
+      deviceColor:this.Color,
+    }
+  }
+  broadcastState(eventName ?:string) {
+    this.customEventGenerator.dispatchEvent('deviceStateChange', {
+      data:this.getAllData()
+    });
   }
   
 
