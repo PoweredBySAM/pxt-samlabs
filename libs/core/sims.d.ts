@@ -109,6 +109,20 @@ declare namespace sprites {
     function createSprite(): Sprite;
 
 }
+declare namespace Microbit {
+    //% blockId="is_microbit_button_a_pressed" block="is %variable button A pressed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% shim=Microbit::isMicrobitButtonAPressed
+    function isMicrobitButtonAPressed(variable: BBCMicrobit): void;
+
+}
+    /**
+     * A Microbit.
+     */
+    //%
+    declare class BBCMicrobit {
+    }
 declare namespace button {
     /**
      * Registers a handler that runs when the button with the given ID is pressed
@@ -203,41 +217,46 @@ declare namespace buzzer {
 
 }
 declare namespace DCMotor {
-    /**
-     * Set the speed of the DC motor with the given ID
-     * @param motorId The ID of the DC motor to set the speed for
-     * @param speed The new speed for the DC motor (-100 to 100)
-     */
-    //% blockId="set_dc_motor_speed" block="set speed of DC Motor with ID $motorId to $speed"
-    //% motorId.defl=0
-    //% speed.min=-100 speed.max=100
+    //% blockId="set_motor_speed" block="set %variable motor speed to %value"
+    //% speed.min=0 speed.max=100
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
     //% color="#32cd32"
-    //% shim=DCMotor::setDCMotorSpeed
-    function setDCMotorSpeed(motorId: number, speed: number): void;
+    //% shim=DCMotor::setSamMotorSpeed
+    function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
-    /**
-     * Set the color of the DC motor with the given ID
-     * @param motorId The ID of the DC motor to set the color for
-     * @param color The new color for the DC motor
-     */
-    //% blockId="set_dc_motor_color" block="set color of DC Motor with ID $motorId to $color"
-    //% motorId.defl=0
-    //% color.shadow="colorNumberPicker"
+    //% blockId="set_motor_color" block="set %variable motor color to %value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
     //% color="#32cd32"
-    //% shim=DCMotor::setDCMotorColor
-    function setDCMotorColor(motorId: number, color: string): void;
+    //% shim=DCMotor::setSamMotorColor
+    function setSamMotorColor(variable: SamDCMotor, value: string): void;
 
-    /**
-     * Get the speed of the DC motor with the given ID
-     * @param motorId The ID of the DC motor to get the speed of
-     */
-    //% blockId="get_dc_motor_speed" block="get speed of DC Motor with ID $motorId"
-    //% motorId.defl=0
-    //% color="#32cd32"
-    //% shim=DCMotor::getDCMotorSpeed
-    function getDCMotorSpeed(motorId: number): number;
+    //% blockId="get_motor_speed" block="get %variable motor speed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    //% shim=DCMotor::getSamMotorSpeed
+    function getSamMotorSpeed(variable: SamDCMotor): any;
+
+    //% blockId="get_motor_color" block="get %variable motor color"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    // % prop.shadow=motor_property_dropdown
+    //% shim=DCMotor::getSamMotorColor
+    function getSamMotorColor(variable: SamDCMotor): any;
+
+    //% blockId="create_motor" block="Create new motor"
+    //% variable.defl="Motor 1"
+    //% shim=DCMotor::createMotor
+    function createMotor(): SamDCMotor;
 
 }
+    /**
+     * A DC Motor.
+     */
+    //%
+    declare class SamDCMotor {
+    }
 declare namespace HeatSensor {
     /**
      * Wait until the heat sensor value changes
