@@ -48,6 +48,14 @@ const App: React.FC = observer(() => {
       CustomEventGenerator.getInstance().receiveEvent("TOSIM_DEVICE_VALUE_CHANGED", (event:CustomEvent)=>{
         addNewDeviceEventHandler(event.detail.device);
     });
+      CustomEventGenerator.getInstance().receiveEvent("message", (event:any)=>{
+        const{data}:{data:any} = event
+        
+        if(data.type ==='run'){
+          devicesStore.emptyDevicesStore();
+          console.log(devicesStore.devices,"heehoo")
+        }
+    });
   }, []);
 
   return (

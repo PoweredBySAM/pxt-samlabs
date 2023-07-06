@@ -36,6 +36,10 @@ class DevicesStore {
     device?.toggleVisibility();
   }
 
+  @action emptyDevicesStore() {
+    this.devices = [];
+  }
+
   
   buildStore(deviceData:IBuiltDevice){
     const store = storeMap[deviceData.labels.defaultName as keyof typeof storeMap];
