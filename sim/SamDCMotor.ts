@@ -56,7 +56,6 @@ namespace pxsim{
           { device: this.deviceName, detail },
           samlabs.samSimEvents.TOSIM_DEVICE_CREATED
         );
-        window.console.log("DCMotor created")
       }
         public getSpeed() {
         return 0;

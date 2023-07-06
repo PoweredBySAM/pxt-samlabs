@@ -118,7 +118,6 @@ namespace pxsim.LED {
           { device: this.deviceName, detail },
           samlabs.samSimEvents.TOSIM_DEVICE_CREATED
         );
-        window.console.log("LED created");
       }
   
       public getLEDColor() {

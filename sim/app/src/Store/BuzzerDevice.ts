@@ -111,14 +111,12 @@ class BuzzerDevice {
         this.testSoundActive = true;
         this.testAudioController.start()
         this.testAudioController.setVolume(100);
-        console.log('started',this.testAudioController)
 
       }; 
       break;
       case 'stop': {
         this.testSoundActive = false;
         this.testAudioController.stop();
-        console.log('stopped')
       }
       break;
       case 'volumeUp': value && this.testAudioController.setVolume(value);
