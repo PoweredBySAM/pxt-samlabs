@@ -78,6 +78,16 @@ class DCMotorDevice {
     this.isConnected && this._bluetoothController?.setSpeed(value);
     this.broadcastState();
   }
+  @action
+  setDeviceProp(property:string,value: number) {
+    switch (property) {
+      case 'speed':
+        this.setSpeed(value)
+        break;
+      default:
+        return "Invalid property"
+    }
+  }
 
   @action
   getspeed() {

@@ -33,6 +33,7 @@ export interface IDeviceLabels<deviceNameType> {
 export type DeviceMenuItemType = {
   label: IDeviceLabelObject;
   icon: JSX.Element;
+  id ?: string;
 };
 
 export type SamVirtualDeviceType = ISamVirtualDevices[keyof ISamVirtualDevices];

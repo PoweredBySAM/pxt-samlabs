@@ -32,9 +32,6 @@ function useBasicEvents(device: SamDeviceStoreType) {
       case BasicEvents.DISCONNECTED: {
         return singleDeviceStore.updateIsconnected(false);
       }
-      case BasicEvents.TOSIM_DEVICE_VALUE_CHANGED: {
-        
-      }
 
       default: {
         return "";

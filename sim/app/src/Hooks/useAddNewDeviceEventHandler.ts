@@ -24,10 +24,12 @@ type pxtDeviceCodeType = keyof DeviceNameType;
 
 const useAddNewDeviceEventHandler = () => {
     const { devicesStore } = useStores();
-    const addNewDeviceEventHandler = (pxtDeviceCode:pxtDeviceCodeType)=>{
+    const addNewDeviceEventHandler = (detail:any)=>{
+        const pxtDeviceCode:pxtDeviceCodeType = detail?.device;
+        const id:string = detail.detail.id
         const deviceNameInSim = pxtToSimDeviceNameMap[pxtDeviceCode];
         if(deviceNameInSim){
-            const device:DeviceMenuItemType = {label:deviceLabels[deviceNameInSim as deviceNameType], icon:getDeviceIcon(deviceNameInSim as deviceNameType)};
+            const device:DeviceMenuItemType = {label:deviceLabels[deviceNameInSim as deviceNameType], icon:getDeviceIcon(deviceNameInSim as deviceNameType),id};
             const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
             const builtDevice:IBuiltDevice = newDevice.build();      
             devicesStore.addDevice(builtDevice);

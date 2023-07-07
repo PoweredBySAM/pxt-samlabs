@@ -267,6 +267,13 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
+    //% blockId="set_motor_color" block="stop motor %variable "
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    //% color="#32cd32"
+    //% shim=DCMotor::stopMotor
+    function stopMotor(variable: SamDCMotor): void;
+
     //% blockId="set_motor_color" block="set %variable motor color to %value"
     //% variable.shadow=variables_get
     //% variable.defl="Motor 1"

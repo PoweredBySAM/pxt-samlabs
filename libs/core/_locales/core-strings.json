@@ -19,6 +19,7 @@
   "DCMotor.getSamMotorSpeed|block": "get %variable motor speed",
   "DCMotor.setSamMotorColor|block": "set %variable motor color to %value",
   "DCMotor.setSamMotorSpeed|block": "set %variable motor speed to %value",
+  "DCMotor.stopMotor|block": "stop motor %variable ",
   "Direction.Left|block": "left",
   "Direction.Right|block": "right",
   "HeatSensor.createHeatSensor|block": "Create new heat sensor",

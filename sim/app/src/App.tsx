@@ -41,21 +41,44 @@ const App: React.FC = observer(() => {
 }
 
 
-  useEffect(()=>{
-      CustomEventGenerator.getInstance().receiveEvent("TOSIM_EDITOR_DEVICE_CREATED", (event:CustomEvent)=>{
-        addNewDeviceEventHandler(event.detail.device);
-    });
-      CustomEventGenerator.getInstance().receiveEvent("TOSIM_DEVICE_VALUE_CHANGED", (event:CustomEvent)=>{
-        addNewDeviceEventHandler(event.detail.device);
-    });
-      CustomEventGenerator.getInstance().receiveEvent("message", (event:any)=>{
-        const{data}:{data:any} = event
-        
-        if(data.type ==='run'){
+  useEffect(() => {
+    const createdEvent = CustomEventGenerator.getInstance().receiveEvent(
+      "TOSIM_EDITOR_DEVICE_CREATED",
+      (event: CustomEvent) => {
+        addNewDeviceEventHandler(event.detail);
+      }
+    );
+    const valueChangedEvent = CustomEventGenerator.getInstance().receiveEvent(
+      "TOSIM_DEVICE_VALUE_CHANGED",
+      (event: CustomEvent) => {
+        addNewDeviceEventHandler(event.detail);
+      }
+    );
+    const simMessageEvent = CustomEventGenerator.getInstance().receiveEvent(
+      "message",
+      (event: any) => {
+        const { data }: { data: any } = event;
+        if (data.type === "run") {
           devicesStore.emptyDevicesStore();
-          console.log(devicesStore.devices,"heehoo",window.pxsim.DCMotor)
         }
-    });
+      }
+    );
+    const eventsArr = [
+      { event: createdEvent, name: samSimEvents.TOSIM_DEVICE_CREATED },
+      {
+        event: valueChangedEvent,
+        name: samSimEvents.TOSIM_DEVICE_VALUE_CHANGED,
+      },
+      { event: simMessageEvent, name: "message" },
+    ];
+    return () => {
+      eventsArr.forEach((event: any) => {
+        CustomEventGenerator.getInstance().unregisterEvent(
+          event.name,
+          event.event
+        );
+      });
+    };
   }, []);
 
   return (

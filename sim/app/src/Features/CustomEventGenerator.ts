@@ -1,6 +1,7 @@
 export class CustomEventGenerator {
     private static instance: CustomEventGenerator;
 
+
     private constructor() {}
 
     static getInstance(): CustomEventGenerator {
@@ -20,6 +21,11 @@ export class CustomEventGenerator {
             callback(event);
         });
     }
+
+    unregisterEvent(eventName: any,callback: (detail: any) => void) {
+            window.removeEventListener(eventName, callback);   
+    }
+
 }
 
 
