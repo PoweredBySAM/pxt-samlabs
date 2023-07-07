@@ -156,7 +156,7 @@
   "ProximitySensor.whenProximitySensorValueChanges|param|sensorId": "The ID of the proximity sensor to monitor",
   "SamButton": "A Button.",
   "SamBuzzer": "A Buzzer.",
-  "SamDCMotor": "A DC Motor.\n<<<<<<< HEAD",
+  "SamDCMotor": "A DC Motor.",
   "SamHeatSensor": "A Heat Sensor.",
   "SamLED": "A LED.",
   "SamLed": "An LED.",

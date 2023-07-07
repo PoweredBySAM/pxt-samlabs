@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
-
+import { CustomEventGenerator } from "src/Features/CustomEventGenerator";
 class MicrobitDevice {
   private _virtualController: any;
   private _bluetoothController: any;
@@ -29,7 +29,9 @@ class MicrobitDevice {
   @observable pin2: boolean = false;
   @observable pin3: boolean = false;
   @observable pinGND: boolean = false;
+  customEventGenerator: CustomEventGenerator;
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -66,18 +68,22 @@ class MicrobitDevice {
   @action
   onBButtonDown = () => {
     this.bPressed = true;
+    this.broadcastState();
   };
   @action
   onBButtonUp = () => {
     this.bPressed = false;
+    this.broadcastState();
   };
   @action
   onAButtonDown = () => {
     this.aPressed = true;
+    this.broadcastState();
   };
   @action
   onAButtonUp = () => {
     this.aPressed = false;
+    this.broadcastState();
   };
   @action
   toggleVisibility() {
@@ -90,12 +96,32 @@ class MicrobitDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+    this.broadcastState();
   }
   get virtualController() {
     return this._virtualController;
   }
   get bluetoothController() {
     return this._bluetoothController;
+  }
+  broadcastState() {
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
+    });
+  }
+  getAllData() {
+    return {
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      aPressed: this.aPressed,
+      bPressed: this.bPressed,
+      pin0: this.pin0,
+      pin1: this.pin1,
+      pin2: this.pin2,
+      pin3: this.pin3,
+      pinGND: this.pinGND,
+      isDeleted: this.deleted,
+    };
   }
   set virtualController(controller: any) {
     this._virtualController = controller;

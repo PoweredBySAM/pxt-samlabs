@@ -37,7 +37,7 @@ declare namespace turtle {
 
     /**
      * Triggers when the turtle bumps a wall
-     * @param handler 
+     * @param handler
      */
     //% blockId=onBump block="on bump"
     //% shim=turtle::onBump
@@ -224,6 +224,11 @@ declare namespace Microbit {
     //% shim=Microbit::isMicrobitButtonAPressed
     function isMicrobitButtonAPressed(variable: BBCMicrobit): void;
 
+    //% blockId="create_microbit" block="Create new Microbit"
+    //% variable.defl="Microbit 1"
+    //% shim=Microbit::createMicrobit
+    function createMicrobit(): BBCMicrobit;
+
 }
     /**
      * A Microbit.
@@ -378,6 +383,26 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
+    //% blockId="set_motor_color" block="set %variable motor color to %value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    //% color="#32cd32"
+    //% shim=DCMotor::setSamMotorColor
+    function setSamMotorColor(variable: SamDCMotor, value: string): void;
+
+    //% blockId="get_motor_speed" block="get %variable motor speed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    //% shim=DCMotor::getSamMotorSpeed
+    function getSamMotorSpeed(variable: SamDCMotor): any;
+
+    //% blockId="get_motor_color" block="get %variable motor color"
+    //% variable.shadow=variables_get
+    //% variable.defl="Motor 1"
+    // % prop.shadow=motor_property_dropdown
+    //% shim=DCMotor::getSamMotorColor
+    function getSamMotorColor(variable: SamDCMotor): any;
+
     //% blockId="create_motor" block="Create new motor"
     //% variable.defl="Motor 1"
     //% shim=DCMotor::createMotor
@@ -386,7 +411,6 @@ declare namespace DCMotor {
 }
     /**
      * A DC Motor.
-    <<<<<<< HEAD
      */
     //%
     declare class SamDCMotor {
