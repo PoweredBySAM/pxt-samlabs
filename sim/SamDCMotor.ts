@@ -6,7 +6,15 @@ namespace pxsim.DCMotor{
 //% variable.defl="Motor 1"
 //% color="#32cd32"
 export function setSamMotorSpeed(variable: pxsim.SamDCMotor, value: number): void {
+  window.console.log("setSamMotorSpeed called",variable)
     variable.setSpeed(value); 
+}
+//% blockId="set_motor_color" block="stop motor %variable "
+//% variable.shadow=variables_get
+//% variable.defl="Motor 1"
+//% color="#32cd32"
+export function stopMotor(variable: pxsim.SamDCMotor): void {
+    variable.stopMotor(); 
 }
 //% blockId="set_motor_color" block="set %variable motor color to %value"
 //% variable.shadow=variables_get
@@ -33,6 +41,7 @@ export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
 //% blockId="create_motor" block="Create new motor"
 //% variable.defl="Motor 1"
 export function createMotor(): pxsim.SamDCMotor {
+  window.console.log("createMotor called")
     return new pxsim.SamDCMotor();  
 }
 }
@@ -67,11 +76,27 @@ namespace pxsim{
             event: "device_value_changed",
             id: this._id,
             value: speed,
+            property: "speed",
             };
             this._dispatch(
             { device: this.deviceName, detail },
-            samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+            `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
             );
+            window.console.log( `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`)
+        }
+      public stopMotor() {
+        const detail = {
+            device: this.deviceName,
+            event: "device_value_changed",
+            id: this._id,
+            value: 0,
+            property: "speed",
+            };
+            this._dispatch(
+            { device: this.deviceName, detail },
+            `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+            );
+            window.console.log( `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`)
         }
 
         public setMotorColor(color: string) {

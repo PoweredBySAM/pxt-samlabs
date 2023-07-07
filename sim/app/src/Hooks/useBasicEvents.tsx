@@ -15,7 +15,7 @@ export type BasicEventType =
   | "connected"
   | "batteryLevelChange"
   | "disconnected"
-  |"TOSIM_DEVICE_VALUE_CHANGED";
+  | "TOSIM_DEVICE_VALUE_CHANGED";
 function useBasicEvents(device: SamDeviceStoreType) {
   const { singleDeviceStore } = useSingleDeviceStore(device);
   const handleBasicControllerEvents = (event: BasicEventType, value: any) => {
@@ -32,9 +32,6 @@ function useBasicEvents(device: SamDeviceStoreType) {
       case BasicEvents.DISCONNECTED: {
         return singleDeviceStore.updateIsconnected(false);
       }
-      // case BasicEvents.TOSIM_DEVICE_VALUE_CHANGED: {
-      //
-      // }
 
       default: {
         return "";

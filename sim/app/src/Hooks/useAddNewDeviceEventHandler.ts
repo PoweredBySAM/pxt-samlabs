@@ -1,10 +1,12 @@
-import React from 'react'
-import { DeviceMenuItemType, IBuiltDevice } from '../SAMDevices/Types/SAMDeviceTypes';
-import { deviceLabels } from '../Constants/DeviceLabel';
-import { getDeviceIcon } from '../SAMDevices/Icons';
-import SAMDeviceBuilder from '../SAMDevices/SAMDeviceBuilder';
-import { useStores } from './useStores';
-import { deviceNameType } from '../SAMDevices/Icons/deviceIconTypes';
+import {
+  DeviceMenuItemType,
+  IBuiltDevice,
+} from "../SAMDevices/Types/SAMDeviceTypes";
+import { deviceLabels } from "../Constants/DeviceLabel";
+import { getDeviceIcon } from "../SAMDevices/Icons";
+import SAMDeviceBuilder from "../SAMDevices/SAMDeviceBuilder";
+import { useStores } from "./useStores";
+import { deviceNameType } from "../SAMDevices/Icons/deviceIconTypes";
 
 export const pxtToSimDeviceNameMap: { [key: string]: deviceNameType } = {
   sam_dcmotor: "DCMotor",
@@ -24,17 +26,22 @@ type DeviceNameType = typeof pxtToSimDeviceNameMap;
 type pxtDeviceCodeType = keyof DeviceNameType;
 
 const useAddNewDeviceEventHandler = () => {
-    const { devicesStore } = useStores();
-    const addNewDeviceEventHandler = (pxtDeviceCode:pxtDeviceCodeType)=>{
-        const deviceNameInSim = pxtToSimDeviceNameMap[pxtDeviceCode];
-        if(deviceNameInSim){
-            const device:DeviceMenuItemType = {label:deviceLabels[deviceNameInSim as deviceNameType], icon:getDeviceIcon(deviceNameInSim as deviceNameType)};
-            const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
-            const builtDevice:IBuiltDevice = newDevice.build();      
-            devicesStore.addDevice(builtDevice);
-        }
-      }
-      return {addNewDeviceEventHandler}
-}
-export default useAddNewDeviceEventHandler
-
+  const { devicesStore } = useStores();
+  const addNewDeviceEventHandler = (detail: any) => {
+    const pxtDeviceCode: pxtDeviceCodeType = detail?.device;
+    const id: string = detail.detail.id;
+    const deviceNameInSim = pxtToSimDeviceNameMap[pxtDeviceCode];
+    if (deviceNameInSim) {
+      const device: DeviceMenuItemType = {
+        label: deviceLabels[deviceNameInSim as deviceNameType],
+        icon: getDeviceIcon(deviceNameInSim as deviceNameType),
+        id,
+      };
+      const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
+      const builtDevice: IBuiltDevice = newDevice.build();
+      devicesStore.addDevice(builtDevice);
+    }
+  };
+  return { addNewDeviceEventHandler };
+};
+export default useAddNewDeviceEventHandler;

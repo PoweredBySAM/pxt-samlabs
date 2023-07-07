@@ -3,12 +3,13 @@ import { BasicEventType } from "../SAMDevices/Animatable/Button/types";
 import { SamDeviceStoreType } from "../SAMDevices/Types/SAMDeviceTypes";
 import { useSingleDeviceStore } from "./useSingleDeviceStore";
 export enum BasicEvents {
-  BATTERY_LEVEL_CHANGE = "batteryLevelChange",
-  CONNECTED = "connected",
-  CONNECTING = "connecting",
-  DISCONNECTED = "disconnected",
-  VALUE_CHANGED = "valueChanged",
-  DEVICE_STATE_CHANGED = "deviceStateChanged",
+    BATTERY_LEVEL_CHANGE = "batteryLevelChange",
+    CONNECTED = "connected",
+    CONNECTING = "connecting",
+    DISCONNECTED = "disconnected",
+    VALUE_CHANGED = "valueChanged",
+    DEVICE_STATE_CHANGED = "deviceStateChanged",
+    TOSIM_DEVICE_VALUE_CHANGED = "TOSIM_DEVICE_VALUE_CHANGED"
 }
 
 function useBasicEvents(device:SamDeviceStoreType) {
