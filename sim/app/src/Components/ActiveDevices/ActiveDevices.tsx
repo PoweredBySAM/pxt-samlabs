@@ -20,7 +20,7 @@ const additionalStyles = {
     background: "#555",
   },
 };
-const ActiveDevices = observer(
+const ActiveDevices =
   ({ showActiveDevices }: { showActiveDevices?: boolean }) => {
     const devicesStore = React.useContext(StoreContext);
     const devices: SamDeviceStoreType[] = devicesStore.devices;
@@ -45,6 +45,6 @@ const ActiveDevices = observer(
       </Box>
     );
   }
-);
+;
 
-export default ActiveDevices;
+export default observer(ActiveDevices);

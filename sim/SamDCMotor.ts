@@ -20,7 +20,7 @@ export function setSamMotorColor(variable: pxsim.SamDCMotor, value: string): voi
 //% variable.shadow=variables_get
 //% variable.defl="Motor 1"
 export function getSamMotorSpeed(variable: pxsim.SamDCMotor): any {
-    return variable.getMotorSpeed(variable);
+    return variable.getSpeed();
 }
 
 //% blockId="get_motor_color" block="get %variable motor color"
@@ -28,7 +28,7 @@ export function getSamMotorSpeed(variable: pxsim.SamDCMotor): any {
 //% variable.defl="Motor 1"
 // % prop.shadow=motor_property_dropdown
 export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
-    return variable.getMotorColor(variable);
+    return 0;
 }
 //% blockId="create_motor" block="Create new motor"
 //% variable.defl="Motor 1"
@@ -56,6 +56,7 @@ namespace pxsim{
           { device: this.deviceName, detail },
           samlabs.samSimEvents.TOSIM_DEVICE_CREATED
         );
+        window.console.log("DCMotor created")
       }
         public getSpeed() {
         return 0;
@@ -85,15 +86,8 @@ namespace pxsim{
                 samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
                 );
             }
-        public getMotorColor(device:SamDCMotor) {
-            const id = device.deviceId;
-            const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(id);
-            return deviceData.color
-        }
-        public getMotorSpeed(device:SamDCMotor) {
-            const id = device.deviceId;
-            const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(id);
-            return deviceData.speed
+        public getMotorColor() {
+            return 0;
         }
       get deviceId() {
         return this._id;

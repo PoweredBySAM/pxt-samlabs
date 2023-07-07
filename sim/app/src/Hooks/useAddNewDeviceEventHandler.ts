@@ -15,7 +15,7 @@ export const pxtToSimDeviceNameMap:{[key:string]:deviceNameType} = {
     'sam_light_sensor':'LightSensor',
     'sam_proximity_sensor':'ProximitySensor',
     'sam_pressure_sensor':'PressureSensor',
-    'sam_temperature_sensor':'HeatSensor',
+    'sam_heat_sensor':'HeatSensor',
     'sam_slider':'Slider',
     'sam_tilt':'Tilt',
 }
