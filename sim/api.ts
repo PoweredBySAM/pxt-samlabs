@@ -1,379 +1,255 @@
+
 /// <reference path="../libs/core/enums.d.ts"/>
 
+
 async function delay<T>(duration: number, value: T | Promise<T>): Promise<T>;
-async function delay(duration: number): Promise<void>;
+async function delay(duration: number): Promise<void>
 async function delay<T>(duration: number, value?: T | Promise<T>): Promise<T> {
-  // eslint-disable-next-line
-  const output = await value;
-  await new Promise<void>((resolve) => setTimeout(() => resolve(), duration));
-  return output;
+    // eslint-disable-next-line
+    const output = await value;
+    await new Promise<void>(resolve => setTimeout(() => resolve(), duration));
+    return output;
 }
 
-namespace pxsim.hare {
-  /**
-   * This is hop
-   */
-  //% blockId="sampleHop" block="hop %hop on color %color=colorNumberPicker"
-  //% hop.fieldEditor="gridpicker"
-  export function hop(hop: Hop, color: number) {}
 
-  //% blockId=sampleOnLand block="on land"
-  //% optionalVariableArgs
-  export function onLand(
-    handler: (height: number, more: number, most: number) => void
-  ) {}
+namespace pxsim.hare {
+    /**
+     * This is hop
+     */
+    //% blockId="sampleHop" block="hop %hop on color %color=colorNumberPicker"
+    //% hop.fieldEditor="gridpicker"
+    export function hop(hop: Hop, color: number) {
+
+    }
+
+    //% blockId=sampleOnLand block="on land"
+    //% optionalVariableArgs
+    export function onLand(handler: (height: number, more: number, most: number) => void) {
+
+    }
 }
 
 namespace pxsim.turtle {
-  /**
-   * Moves the sprite forward
-   * @param steps number of steps to move, eg: 1
-   */
-  //% weight=90
-  //% blockId=sampleForward block="forward %steps"
-  export function forwardAsync(steps: number) {
-    return board().sprite.forwardAsync(steps);
-  }
+    /**
+     * Moves the sprite forward
+     * @param steps number of steps to move, eg: 1
+     */
+    //% weight=90
+    //% blockId=sampleForward block="forward %steps"
+    export function forwardAsync(steps: number) {
+        return board().sprite.forwardAsync(steps)
+    }
 
-  /**
-   * Moves the sprite forward
-   * @param direction the direction to turn, eg: Direction.Left
-   * @param angle degrees to turn, eg:90
-   */
-  //% weight=85
-  //% blockId=sampleTurn block="turn %direction|by %angle degrees"
-  //% angle.min=-180 angle.max=180
-  export function turnAsync(direction: Direction, angle: number) {
-    let b = board();
+    /**
+     * Moves the sprite forward
+     * @param direction the direction to turn, eg: Direction.Left
+     * @param angle degrees to turn, eg:90
+     */
+    //% weight=85
+    //% blockId=sampleTurn block="turn %direction|by %angle degrees"
+    //% angle.min=-180 angle.max=180
+    export function turnAsync(direction: Direction, angle: number) {
+        let b = board();
 
-    if (direction == Direction.Left) b.sprite.angle -= angle;
-    else b.sprite.angle += angle;
-    return delay(400);
-  }
+        if (direction == Direction.Left)
+            b.sprite.angle -= angle;
+        else
+            b.sprite.angle += angle;
+        return delay(400)
+    }
 
-  /**
-   * Triggers when the turtle bumps a wall
-   * @param handler
-   */
-  //% blockId=onBump block="on bump"
-  export function onBump(handler: RefAction) {
-    let b = board();
+    /**
+     * Triggers when the turtle bumps a wall
+     * @param handler 
+     */
+    //% blockId=onBump block="on bump"
+    export function onBump(handler: RefAction) {
+        let b = board();
 
-    b.bus.listen("Turtle", "Bump", handler);
-  }
+        b.bus.listen("Turtle", "Bump", handler);
+    }
 }
 
 namespace pxsim.loops {
-  /**
-   * Repeats the code forever in the background. On each iteration, allows other code to run.
-   * @param body the code to repeat
-   */
-  //% help=functions/forever weight=55 blockGap=8
-  //% blockId=device_forever block="forever"
-  export function forever(body: RefAction): void {
-    thread.forever(body);
-  }
 
-  /**
-   * Pause for the specified time in milliseconds
-   * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
-   */
-  //% help=functions/pause weight=54
-  //% block="pause (ms) %pause" blockId=device_pause
-  export function pauseAsync(ms: number) {
-    return delay(ms);
-  }
+    /**
+     * Repeats the code forever in the background. On each iteration, allows other code to run.
+     * @param body the code to repeat
+     */
+    //% help=functions/forever weight=55 blockGap=8
+    //% blockId=device_forever block="forever" 
+    export function forever(body: RefAction): void {
+        thread.forever(body)
+    }
+
+    /**
+     * Pause for the specified time in milliseconds
+     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
+     */
+    //% help=functions/pause weight=54
+    //% block="pause (ms) %pause" blockId=device_pause
+    export function pauseAsync(ms: number) {
+        return delay(ms)
+    }
 }
 
-function logMsg(m: string) {
-  console.log(m, "msg in api.ts");
-}
+function logMsg(m:string) { console.log(m,"msg in api.ts") }
 
 namespace pxsim.console {
-  /**
-   * Print out message
-   */
-  //%
-  export function log(msg: string) {
-    logMsg("CONSOLE: " + msg);
-    // why doesn't that work?
-    board().writeSerial(msg + "\n");
-  }
+    /**
+     * Print out message
+     */
+    //% 
+    export function log(msg:string) {
+        logMsg("CONSOLE: " + msg)
+        // why doesn't that work?
+        board().writeSerial(msg + "\n")
+    }
 }
 
 namespace pxsim {
-  /**
-   * A ghost on the screen.
-   */
-  //%
-  export class Sprite {
     /**
-     * The X-coordiante
+     * A ghost on the screen.
      */
     //%
-    public x = 100;
-    /**
-     * The Y-coordiante
-     */
-    //%
-    public y = 100;
-    public angle = 90;
+    export class Sprite {
+        /**
+         * The X-coordiante
+         */
+        //%
+        public x = 100;
+         /**
+         * The Y-coordiante
+         */
+        //%
+        public y = 100;
+        public angle = 90;
+        
+        constructor() {
+        }
+        
+        private foobar() {}
 
-    constructor() {}
+        /**
+         * Move the thing forward
+         */
+        //%
+        public forwardAsync(steps: number) {
+            let deg = this.angle / 180 * Math.PI;
+            this.x += Math.cos(deg) * steps * 10;
+            this.y += Math.sin(deg) * steps * 10;
+            board().updateView();
 
-    private foobar() {}
+            if (this.x < 0 || this.y < 0)
+                board().bus.queue("TURTLE", "BUMP");
 
-    /**
-     * Move the thing forward
-     */
-    //%
-    public forwardAsync(steps: number) {
-      let deg = (this.angle / 180) * Math.PI;
-      this.x += Math.cos(deg) * steps * 10;
-      this.y += Math.sin(deg) * steps * 10;
-      board().updateView();
+            return delay(400)
+        }
+    }
 
-      if (this.x < 0 || this.y < 0) board().bus.queue("TURTLE", "BUMP");
+    export enum MotorProperties {
+        Speed = "speed",
+        Direction = "direction",
+        // Add more properties as required
+    }
 
-      return delay(400);
-    }
-  }
 
-  /**
-   * An LED.
-   */
-  //%
-  export class SamLed {
-    constructor() {}
-    public on() {
-      return false;
-    }
-  }
-  /**
-   * An LED.
-   */
-  //%
-  export class SamServo {
-    constructor() {}
-    public angle() {
-      return 0;
-    }
-  }
 
-  /**
-   * A Light Sensor.
-   */
-  //%
-  export class SamLightSensor {
-    constructor() {}
-    public light() {
-      return 0;
-    }
-  }
-  /**
-   * A Heat Sensor.
-   */
-  //%
-  export class SamPressureSensor {
-    constructor() {}
-    public pressure() {
-      return 0;
-    }
-  }
-  /**
-   * A Proximity Sensor.
-   */
-  //%
-  export class SamProximitySensor {
-    constructor() {}
-    public distance() {
-      return 0;
-    }
-  }
-  /**
-   * A Slider component.
-   */
-  //%
-  export class SamSlider {
-    constructor() {}
-    public position() {
-      return 0;
-    }
-  }
-  /**
-   * A Tilt Sensor.
-   */
-  //%
-  export class SamTiltSensor {
-    constructor() {}
-    public tilt() {
-      return 0;
-    }
-  }
-
-  // export class BBCMicrobit {
-  //   constructor() {}
-  //   public AButtonPressd() {
-  //     return true;
-  //   }
-  // }
-  export enum MotorProperties {
-    Speed = "speed",
-    Direction = "direction",
-    // Add more properties as required
-  }
 }
 namespace pxsim.sprites {
-  /**
-   * Creates a new sprite
-   */
-  //% blockId="sampleCreate" block="createSprite"
-  export function createSprite(): Sprite {
-    return new Sprite();
-  }
+    /**
+     * Creates a new sprite
+     */
+    //% blockId="sampleCreate" block="createSprite"
+    export function createSprite(): Sprite {
+        return new Sprite();
+    }
+}
+namespace pxsim.TiltSensor{
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="TiltSensor 1"
+    //% blockId="createTiltSensor" block="createTiltSensor"
+    export function createProximitySensor(): SamTiltSensor {
+        return new pxsim.SamTiltSensor();
+    }
 }
 
-namespace pxsim.LightSensor {
-  /**
-   * Creates a new Pressur Sensor
-   */
-  //% variable.shadow=variables_get
-  //% variable.defl="LightSensor 1"
-  //% blockId="createLightSensor" block="createLighttSensor"
-  export function createLightSensor(): SamLightSensor {
-    return new pxsim.SamLightSensor();
-  }
-}
-namespace pxsim.PressureSensor {
-  /**
-   * Creates a new Pressure Sensor
-   */
-  //% variable.shadow=variables_get
-  //% variable.defl="PressureSensor 1"
-  //% blockId="createPressureSensor" block="createPressureSensor"
-  export function createPressureSensor(): SamPressureSensor {
-    return new pxsim.SamPressureSensor();
-  }
-}
-namespace pxsim.ProximitySensor {
-  /**
-   * Creates a new Proximity Sensor
-   */
-  //% variable.shadow=variables_get
-  //% variable.defl="ProximitySensor 1"
-  //% blockId="createProximitySensor" block="createPressuretSensor"
-  export function createProximitySensor(): SamProximitySensor {
-    return new pxsim.SamProximitySensor();
-  }
-}
-namespace pxsim.ServoMotor {
-  /**
-   * Creates a new ServoMotor
-   */
-  //% variable.shadow=variables_get
-  //% variable.defl="ServoMotor 1"
-  //% blockId="createServoMotor" block="createServoMotor"
-  export function createServoMotor(): SamServo {
-    return new pxsim.SamServo();
-  }
-}
 
-namespace pxsim.Slider {
-  /**
-   * Creates a new ServoMotor
-   */
-  //% variable.shadow=variables_get
-  //% variable.defl="Slider 1"
-  //% blockId="createSlider" block="createSlider"
-  export function createSlider(): SamSlider {
-    return new pxsim.SamSlider();
-  }
-}
-
-namespace pxsim.TiltSensor {
-  /**
-   * Creates a new ServoMotor
-   */
-  //% variable.shadow=variables_get
-  //% variable.defl="TiltSensor 1"
-  //% blockId="createTiltSensor" block="createTiltSensor"
-  export function createProximitySensor(): SamTiltSensor {
-    return new pxsim.SamTiltSensor();
-  }
-}
-
-namespace samlabs {
-  export enum samSimEvents {
-    TOSIM_DEVICE_VALUE_CHANGED = "TOSIM_DEVICE_VALUE_CHANGED",
-    TOSIM_DEVICE_CREATED = "TOSIM_EDITOR_DEVICE_CREATED",
-    FROMSIM_DEVICE_VALUE_CHANGED = "FROMSIM_DEVICE_VALUE_CHANGED",
-  }
-  export class SimulatorQueue {
-    private items: any[];
-    constructor() {
-      this.items = [];
+namespace samlabs{
+    export enum samSimEvents{
+        TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
+        TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
+        FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
+    }
+    export class SimulatorQueue {
+        private items: any[];
+        constructor() {
+            this.items = [];
+        }
+    
+        enqueue(element:string) {
+            this.items.push(element);
+        }
+    
+        dequeue() {
+            if(this.isEmpty()) 
+                throw "Underflow"; 
+            return this.items.shift();
+        }
+    
+        isEmpty() {
+            return this.items.length === 0;
+        }
+    
+        peek() {
+            if(this.isEmpty()) 
+                throw "No elements in Queue"; 
+            return this.items[0];
+        }
     }
 
-    enqueue(element: string) {
-      this.items.push(element);
-    }
+export class WindowEventService {
 
-    dequeue() {
-      if (this.isEmpty()) throw "Underflow";
-      return this.items.shift();
-    }
-
-    isEmpty() {
-      return this.items.length === 0;
-    }
-
-    peek() {
-      if (this.isEmpty()) throw "No elements in Queue";
-      return this.items[0];
-    }
-  }
-
-  export class WindowEventService {
     private static instance: WindowEventService;
 
     private constructor() {}
 
     sendEvent(eventName: any, payload: any) {
-      const event = new CustomEvent(eventName, {
-        detail: payload,
-        bubbles: true,
-        cancelable: true,
-      });
-      window.dispatchEvent(event);
+        const event = new CustomEvent(eventName, {
+            detail: payload,
+            bubbles: true,
+            cancelable: true
+        });
+        window.dispatchEvent(event);
     }
 
-    receiveEvent(eventName: any, callback: (detail?: any) => void) {
-      window.addEventListener(eventName, (event: CustomEvent) => {
-        callback(event);
-      });
+    receiveEvent(eventName: any, callback: (detail ?: any) => void) {
+        window.addEventListener(eventName, (event: CustomEvent) => {
+            callback(event);
+        });
     }
 
     public static getInstance(): WindowEventService {
-      if (!WindowEventService.instance) {
-        WindowEventService.instance = new WindowEventService();
-      }
-      return WindowEventService.instance;
+        if (!WindowEventService.instance) {
+            WindowEventService.instance = new WindowEventService();
+        }
+        return WindowEventService.instance;
     }
-  }
-  export function uuidv4() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function (c) {
-        let r = (Math.random() * 16) | 0,
-          v = c == "x" ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      }
-    );
-  }
-  export function buildEventName(eventName: string, deviceId: string) {
-    return `${eventName}_${deviceId}`;
-  }
-  export class SamSimDataService {
+}
+export function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    let r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+export function buildEventName(eventName: string, deviceId: string) {
+  return `${eventName}_${deviceId}`;
+}
+export class SamSimDataService {
     private devicesKey: string = "sam_devices_state";
     public static instance: SamSimDataService;
 
@@ -392,8 +268,19 @@ namespace samlabs {
     }
 
     public getDeviceProps(id: string): any {
-      const devices = this.loadDevices();
-      return devices.find((device) => device.id === id);
+        const devices = this.loadDevices();
+        return devices.find((device) => device.id === id);  
     }
   }
+
+
 }
+
+
+  
+  
+  
+
+    
+    
+

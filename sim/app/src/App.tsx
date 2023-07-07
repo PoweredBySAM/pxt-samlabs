@@ -53,7 +53,7 @@ const App: React.FC = observer(() => {
         
         if(data.type ==='run'){
           devicesStore.emptyDevicesStore();
-          console.log(devicesStore.devices,"heehoo")
+          console.log(devicesStore.devices,"heehoo",window.pxsim.DCMotor)
         }
     });
   }, []);
