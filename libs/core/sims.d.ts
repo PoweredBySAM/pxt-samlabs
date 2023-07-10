@@ -121,11 +121,17 @@ declare namespace TiltSensor {
 
 }
 declare namespace Microbit {
-    //% blockId="is_microbit_button_a_pressed" block="is %variable button A pressed"
+    //% blockId="when_microbit_button_pressed" block="when %variable button $buttonOption $velocityOption"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"
-    //% shim=Microbit::isMicrobitButtonAPressed
-    function isMicrobitButtonAPressed(variable: BBCMicrobit): void;
+    //% shim=Microbit::whenMicrobitButtonPressed
+    function whenMicrobitButtonPressed(variable: BBCMicrobit, buttonOption: MicrobitButtonOptions, velocityOption: MicrobitButtonVelocity): void;
+
+    //% blockId="is_microbit_button_pressed" block="is %variable button $option pressed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% shim=Microbit::isMicrobitButtonPressed
+    function isMicrobitButtonPressed(variable: BBCMicrobit, option: MicrobitButtonOptions): void;
 
     //% blockId="create_microbit" block="Create new Microbit"
     //% variable.defl="Microbit 1"
