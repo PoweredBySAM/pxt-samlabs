@@ -9,7 +9,7 @@ class MicrobitDevice {
   virtualInteractionComponentName: string;
 
   @observable
-  ledArray: number[][] = [
+  ledMatrix: number[][] = [
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0],
@@ -42,20 +42,14 @@ class MicrobitDevice {
     } = deviceData;
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
-    this._virtualController = virtualController;
     this._bluetoothController = controller;
+    this._virtualController = virtualController;
+    this.ledMatrix = this._virtualController.ledMatrix;
     this.restProps = restprops;
     this.isActive = false;
     this.blockVisibility = true;
     this.deviceInTestMode = false;
     this.deleted = false;
-    this.ledArray = [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-    ];
     this.aPressed = false;
     this.bPressed = false;
     this.pin0 = false;
@@ -63,8 +57,40 @@ class MicrobitDevice {
     this.pin2 = false;
     this.pin3 = false;
     this.pinGND = false;
+    this._virtualController.on("LEDChanged", this.onLEDChanged);
     makeAutoObservable(this);
   }
+
+  @action
+  setDeviceProp(property: string, value: any) {
+    switch (property) {
+      case "ledDisplayWord":
+        this.displayText(value);
+        break;
+      case "buttonAPressed":
+        value ? this.onAButtonDown() : this.onAButtonUp();
+        break;
+      case "buttonBPressed":
+        value ? this.onBButtonDown() : this.onBButtonUp();
+        break;
+      default:
+        return "Invalid property";
+    }
+  }
+
+  @action
+  displayText = (text: string) => {
+    this._virtualController._characteristics.ledText.writeValue(
+      new Uint8Array(Array.from(new TextEncoder().encode(text)))
+    );
+    this.broadcastState();
+  };
+
+  @action
+  onLEDChanged = () => {
+    this.ledMatrix = this._virtualController.ledMatrix;
+  };
+
   @action
   onBButtonDown = () => {
     this.bPressed = true;
@@ -113,6 +139,7 @@ class MicrobitDevice {
     return {
       deviceId: this._deviceId,
       deviceType: this.virtualInteractionComponentName,
+      ledMatrix: this.ledMatrix,
       aPressed: this.aPressed,
       bPressed: this.bPressed,
       pin0: this.pin0,

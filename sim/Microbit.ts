@@ -1,51 +1,55 @@
+//% groups=['Actions','Events','Values']
 namespace pxsim.Microbit {
-  //% blockId="when_microbit_button_pressed" block="when %variable button $buttonOption $velocityOption"
+  //% blockId="on_microbit_display_word" block="on %variable display  $word"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
-  export function whenMicrobitButtonPressed(
+  //% group="Actions"
+  export function onMicrobitDisplayWord(
+    variable: pxsim.BBCMicrobit,
+    word: string
+  ): void {
+    variable.onMicrobitDisplayWord(word);
+  }
+
+  //% blockId="create_microbit" block="Create new Microbit"
+  //% variable.defl="Microbit 1"
+  //% group="Actions"
+  export function createMicrobit(): pxsim.BBCMicrobit {
+    return new pxsim.BBCMicrobit();
+  }
+
+  //% blockId="when_button_pressed" block="when %variable button $buttonOption $velocityOption"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Events"
+  export function whenButtonPressed(
     variable: pxsim.BBCMicrobit,
     buttonOption: MicrobitButtonOptions,
     velocityOption: MicrobitButtonVelocity
   ): void {
-    const buttonSelected = () => {
+    const buttonSelected = (): string => {
       switch (buttonOption) {
         case MicrobitButtonOptions.A:
-          variable.isButtonAPressed(variable);
+          return "A";
         case MicrobitButtonOptions.B:
-          variable.isButtonBPressed(variable);
+          return "B";
+        default:
+          return "A";
       }
     };
     switch (velocityOption) {
       case MicrobitButtonVelocity.pressed:
-        buttonSelected();
-        variable.isButtonAPressed(variable);
+        variable.whenButtonPressed(buttonSelected());
+        break;
       case MicrobitButtonVelocity.released:
-        buttonSelected();
-        variable.isButtonBPressed(variable);
+        //TODO
+        window.console.log("whenMicrobitButtonReleased called");
+        break;
       case MicrobitButtonVelocity.longPressed:
-        buttonSelected();
-        variable.isButtonBPressed(variable);
+        //TODO
+        window.console.log("whenMicrobitButtonLongPressed called");
+        break;
     }
-  }
-
-  //% blockId="is_microbit_button_pressed" block="is %variable button $option pressed"
-  //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
-  export function isMicrobitButtonPressed(
-    variable: pxsim.BBCMicrobit,
-    option: MicrobitButtonOptions
-  ): void {
-    switch (option) {
-      case MicrobitButtonOptions.A:
-        variable.isButtonAPressed(variable);
-      case MicrobitButtonOptions.B:
-        variable.isButtonBPressed(variable);
-    }
-  }
-  //% blockId="create_microbit" block="Create new Microbit"
-  //% variable.defl="Microbit 1"
-  export function createMicrobit(): pxsim.BBCMicrobit {
-    return new pxsim.BBCMicrobit();
   }
 }
 
@@ -71,34 +75,32 @@ namespace pxsim {
       window.console.log("Microbit created");
     }
 
-    // public whenButtonPressed() {
-    //   const detail = {
-    //     device: this.deviceName,
-    //     event: "device_value_changed",
-    //     id: this._id,
-    //   };
-    //   this._dispatch(
-    //     { device: this.deviceName, detail },
-    //     samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-    //   );
-    //   window.console.log("whenButtonPressed called");
-    // }
-
-    public isButtonAPressed(device: BBCMicrobit) {
-      const id = device.deviceId;
-      window.console.log(id, "Microbit button A pressed");
-      const deviceData =
-        samlabs.SamSimDataService.getInstance().getDeviceProps(id);
-      // window.console.log(deviceData, "Microbit button A pressed");
-      return deviceData.aPressed;
+    public onMicrobitDisplayWord(word: string) {
+      const detail = {
+        device: this.deviceName,
+        event: "device_value_changed",
+        id: this._id,
+        value: word,
+        property: "ledDisplayWord",
+      };
+      this._dispatch(
+        { device: this.deviceName, detail },
+        `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+      );
     }
 
-    public isButtonBPressed(device: BBCMicrobit) {
-      const id = device.deviceId;
-      const deviceData =
-        samlabs.SamSimDataService.getInstance().getDeviceProps(id);
-      window.console.log(deviceData, "Microbit button B pressed");
-      return deviceData.bPressed;
+    public whenButtonPressed(button: string) {
+      const detail = {
+        device: this.deviceName,
+        event: "device_value_changed",
+        id: this._id,
+        value: true,
+        property: button === "A" ? "buttonAPressed" : "buttonBPressed",
+      };
+      this._dispatch(
+        { device: this.deviceName, detail },
+        `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+      );
     }
 
     get deviceId() {

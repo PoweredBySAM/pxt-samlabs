@@ -121,22 +121,25 @@ declare namespace TiltSensor {
 
 }
 declare namespace Microbit {
-    //% blockId="when_microbit_button_pressed" block="when %variable button $buttonOption $velocityOption"
+    //% blockId="on_microbit_display_word" block="on %variable display  $word"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"
-    //% shim=Microbit::whenMicrobitButtonPressed
-    function whenMicrobitButtonPressed(variable: BBCMicrobit, buttonOption: MicrobitButtonOptions, velocityOption: MicrobitButtonVelocity): void;
-
-    //% blockId="is_microbit_button_pressed" block="is %variable button $option pressed"
-    //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
-    //% shim=Microbit::isMicrobitButtonPressed
-    function isMicrobitButtonPressed(variable: BBCMicrobit, option: MicrobitButtonOptions): void;
+    //% group="Actions"
+    //% shim=Microbit::onMicrobitDisplayWord
+    function onMicrobitDisplayWord(variable: BBCMicrobit, word: string): void;
 
     //% blockId="create_microbit" block="Create new Microbit"
     //% variable.defl="Microbit 1"
+    //% group="Actions"
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
+
+    //% blockId="when_button_pressed" block="when %variable button $buttonOption $velocityOption"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Events"
+    //% shim=Microbit::whenButtonPressed
+    function whenButtonPressed(variable: BBCMicrobit, buttonOption: MicrobitButtonOptions, velocityOption: MicrobitButtonVelocity): void;
 
 }
     /**
@@ -146,11 +149,11 @@ declare namespace Microbit {
     declare class BBCMicrobit {
     }
 declare namespace button {
-    //% blockId="create_button" block="set %variable to new button"
-    //% variable.shadow=variables_set
-    //% weight=2
+    //% blockId="create_new_button" block="Create new Button"
+    //% variable.defl="Button 1"
+    //% advanced=true
     //% shim=button::createNewButton
-    function createNewButton(variable: SamButton): SamButton;
+    function createNewButton(): SamButton;
 
     // /**
     //  * Registers a handler that runs when the button with the given ID is pressed
@@ -173,8 +176,9 @@ declare namespace button {
     //% blockId="on_button_pressed" block="when button %variable is pressed"
     //% variable.shadow=variables_get
     //% weight=1
-    //% shim=button::onButtonPressed2
-    function onButtonPressed2(variable: SamButton, handler: () => void): void;
+    //% advanced=true
+    //% shim=button::onButtonPressed
+    function onButtonPressed(variable: SamButton, handler: () => void): void;
 
     //% blockId="button_property_dropdown" block="%property"
     //% blockHidden=true

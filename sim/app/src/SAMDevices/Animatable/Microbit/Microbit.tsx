@@ -7,6 +7,7 @@ import useEventsController from "src/Hooks/useEventsController";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import { Box } from "@mui/material";
 import MicrobitDevice from "src/Store/MicrobitDevice";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 const Microbit = ({ device }: { device: MicrobitDevice }) => {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { addEvents, removeEvents } = useEventsController(
@@ -16,10 +17,17 @@ const Microbit = ({ device }: { device: MicrobitDevice }) => {
   const { singleDeviceStore } = useSingleDeviceStore(device);
 
   const { blockVisibility } = singleDeviceStore || {};
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const virtualEvents = ["valueChanged"];
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
+  }, []);
+  useEffect(() => {
+    addPxtEvents();
+    return () => {
+      removePxtEvents();
+    };
   }, []);
   return (
     <div>
@@ -34,7 +42,7 @@ const Microbit = ({ device }: { device: MicrobitDevice }) => {
           }}
         >
           <BBCMicrobit
-            ledArray={device.ledArray}
+            ledArray={device.ledMatrix}
             aPressed={device.aPressed}
             bPressed={device.bPressed}
             pin0={device.pin0}

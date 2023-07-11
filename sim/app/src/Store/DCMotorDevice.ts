@@ -1,10 +1,10 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { observable, action, makeObservable, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 
 class DCMotorDevice {
-   _virtualController: any;
-   _bluetoothController: any;
-   _deviceId: string;
+  _virtualController: any;
+  _bluetoothController: any;
+  _deviceId: string;
   restProps: any;
   virtualInteractionComponentName: string;
 
@@ -12,13 +12,13 @@ class DCMotorDevice {
   @observable isConnecting = false;
   @observable batteryLevel = 0;
   @observable Color = "";
-  @observable  isActive: boolean;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  @observable testModeSpeed:number;
-   @observable speed: number;
-    _adjustedSpeed: number;
+  @observable testModeSpeed: number;
+  @observable speed: number;
+  _adjustedSpeed: number;
   customEventGenerator: CustomEventGenerator;
 
   constructor(deviceData: any) {
@@ -39,14 +39,13 @@ class DCMotorDevice {
     this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.speed = 0
-    this._adjustedSpeed = 0
+    this.speed = 0;
+    this._adjustedSpeed = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
-    this.testModeSpeed = 0
+    this.testModeSpeed = 0;
     makeAutoObservable(this);
     this.broadcastState();
-
   }
   @action
   toggleVisibility() {
@@ -79,20 +78,23 @@ class DCMotorDevice {
     this.broadcastState();
   }
   @action
-  setDeviceProp(property:string,value: number) {
+  setDeviceProp(property: string, value: number) {
     switch (property) {
-      case 'speed':
-        this.setSpeed(value)
+      case "speed":
+        this.setSpeed(value);
         break;
       default:
-        return "Invalid property"
+        return "Invalid property";
     }
   }
 
   @action
   getspeed() {
-    console.log(this._virtualController,'this._virtualController')
-    return this._virtualController.getSpeed || ( this.isConnected && this._bluetoothController?.getSpeed)|| 0;
+    return (
+      this._virtualController.getSpeed ||
+      (this.isConnected && this._bluetoothController?.getSpeed) ||
+      0
+    );
   }
 
   @action
@@ -104,14 +106,13 @@ class DCMotorDevice {
   reset() {
     this._virtualController._reset();
     this.isConnected && this._bluetoothController?._reset();
-  } 
+  }
   @action
   toggleTestMode() {
-    if(!this.deviceInTestMode){
-      this.testModeSpeed = 0
+    if (!this.deviceInTestMode) {
+      this.testModeSpeed = 0;
     }
     this.deviceInTestMode = !this.deviceInTestMode;
-
   }
   @action
   deleteDevice() {
@@ -119,7 +120,7 @@ class DCMotorDevice {
     this.broadcastState();
   }
   @action
-  setTestModeSpeed(value:number) {
+  setTestModeSpeed(value: number) {
     this.testModeSpeed = value;
   }
 
@@ -129,20 +130,19 @@ class DCMotorDevice {
   get bluetoothController() {
     return this._bluetoothController;
   }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
+  broadcastState(eventName?: string) {
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
     });
   }
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      deviceSpeed:this.speed,
-
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      deviceSpeed: this.speed,
+    };
   }
   set virtualController(controller: any) {
     this._virtualController = controller;
