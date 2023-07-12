@@ -36,13 +36,14 @@
     "@types/uuid": "^9.0.2",
     "@types/web-bluetooth": "0.0.4",
     "npm-run-all": "^4.1.5",
-    "pxt-core": "^8.6.31",
     "semantic-ui-less": "2.4.1",
     "typescript": "^4.4.2"
   },
   "dependencies": {
     "mobx-react": "^7.6.0",
+    "pxt-core": "9.1.5",
     "pxt": "^0.5.1",
+    "pxt-common-packages": "10.1.1",
     "uuid": "^9.0.0"
   }
 }

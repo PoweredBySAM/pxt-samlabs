@@ -123,7 +123,7 @@ declare namespace TiltSensor {
 declare namespace Microbit {
     //% blockId="on_microbit_display_word" block="on %variable display  $word"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% shim=Microbit::onMicrobitDisplayWord
     function onMicrobitDisplayWord(variable: BBCMicrobit, word: string): void;
@@ -149,11 +149,11 @@ declare namespace Microbit {
     declare class BBCMicrobit {
     }
 declare namespace button {
-    //% blockId="create_new_button" block="Create new Button"
-    //% variable.defl="Button 1"
-    //% advanced=true
+    //% blockId="create_button" block="set %variable to new button"
+    //% variable.shadow=variables_set
+    //% weight=2
     //% shim=button::createNewButton
-    function createNewButton(): SamButton;
+    function createNewButton(variable: SamButton): SamButton;
 
     // /**
     //  * Registers a handler that runs when the button with the given ID is pressed
@@ -176,9 +176,8 @@ declare namespace button {
     //% blockId="on_button_pressed" block="when button %variable is pressed"
     //% variable.shadow=variables_get
     //% weight=1
-    //% advanced=true
-    //% shim=button::onButtonPressed
-    function onButtonPressed(variable: SamButton, handler: () => void): void;
+    //% shim=button::onButtonPressed2
+    function onButtonPressed2(variable: SamButton, handler: () => void): void;
 
     //% blockId="button_property_dropdown" block="%property"
     //% blockHidden=true

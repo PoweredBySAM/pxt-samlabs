@@ -184,7 +184,7 @@
   "button": "Control flow",
   "button.getButtonState": "Get the state of the button with a given ID",
   "button.getButtonState|param|buttonId": "The ID of the button to get the state of",
-  "button.onButtonPressed": "//  * Registers a handler that runs when the button with the given ID is pressed\n//  * @param buttonId The ID of the button to listen for\n//  * @param handler The function to run when the button is pressed\n//",
+  "button.onButtonPressed2": "//  * Registers a handler that runs when the button with the given ID is pressed\n//  * @param buttonId The ID of the button to listen for\n//  * @param handler The function to run when the button is pressed\n//",
   "button.waitUntilButtonPressed": "Wait until the button with the given ID is pressed",
   "button.waitUntilButtonPressed|param|buttonId": "The ID of the button to wait for",
   "buzzer.clearBuzzer": "Clear the buzzer with the given ID by setting its volume and pitch to zero",
