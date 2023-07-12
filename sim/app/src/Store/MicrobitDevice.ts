@@ -64,8 +64,26 @@ class MicrobitDevice {
   @action
   setDeviceProp(property: string, value: any) {
     switch (property) {
+      case "ledDisplayShape":
+        this._virtualController.displayPattern(value);
+        break;
       case "ledDisplayWord":
-        this.displayText(value);
+        this._virtualController.displayText(value);
+        break;
+      case "plot":
+        this._virtualController.plot(value.x, value.y);
+        break;
+      case "unplot":
+        this._virtualController.unplot(value.x, value.y);
+        break;
+      case "toggle":
+        this._virtualController.toggle(value.x, value.y);
+        break;
+      case "clearLED":
+        this._virtualController.clearLED();
+        break;
+      case "writeDigitalPin":
+        this._virtualController.writeDigitalPin(value.pinId, value.value);
         break;
       case "buttonAPressed":
         value ? this.onAButtonDown() : this.onAButtonUp();
@@ -79,16 +97,9 @@ class MicrobitDevice {
   }
 
   @action
-  displayText = (text: string) => {
-    this._virtualController._characteristics.ledText.writeValue(
-      new Uint8Array(Array.from(new TextEncoder().encode(text)))
-    );
-    this.broadcastState();
-  };
-
-  @action
   onLEDChanged = () => {
     this.ledMatrix = this._virtualController.ledMatrix;
+    this.broadcastState();
   };
 
   @action

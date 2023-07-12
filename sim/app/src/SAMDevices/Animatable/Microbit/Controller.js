@@ -7,6 +7,22 @@ const FLASH_VERIFICATION_STATE = {
   OUT_OF_DATE: "out of date",
 };
 
+class Pin {
+  constructor(id) {
+    // pin number
+    this.id = id;
+
+    // pin characteristics
+    this.isAnalog = true;
+    this.isInput = true;
+
+    // pin state
+    this.isPressed = false;
+    this.baseValue = null;
+    this.value = null;
+  }
+}
+
 class Controller extends eventEmitter {
   constructor() {
     super();
@@ -27,7 +43,20 @@ class Controller extends eventEmitter {
     this._aPressed = false;
     this._bPressed = false;
     this._temperature = null;
+
+    // IO Pins
+    this._pins = [];
+    this._lastIOConfiguration;
+    this._lastADConfiguration;
   }
+
+  // Called when RUN/STOP is pressed
+  reset = () => {
+    // Reset pins when run/stop is being called
+    if (this._services.ioPinService) {
+      this.resetPins(false);
+    }
+  };
 
   connect = (callback = () => {}) => {
     if (this._connected) return callback();
@@ -45,6 +74,7 @@ class Controller extends eventEmitter {
           "e95dd91d-251d-470a-a062-fa1922dfa9a8",
           "e95d6100-251d-470a-a062-fa1922dfa9a8",
           "e95d0753-251d-470a-a062-fa1922dfa9a8",
+          "e95d127b-251d-470a-a062-fa1922dfa9a8",
         ],
       })
       .then((device) => (this._device = device))
@@ -76,7 +106,9 @@ class Controller extends eventEmitter {
         this._services.accelerometerService = services.find(
           (a) => a.uuid === "e95d0753-251d-470a-a062-fa1922dfa9a8"
         );
-
+        this._services.ioPinService = services.find(
+          (a) => a.uuid === "e95d127b-251d-470a-a062-fa1922dfa9a8"
+        );
         if (!this._services.uartService)
           throw new Error("Invalid file flashed to microbit");
       })
@@ -136,6 +168,7 @@ class Controller extends eventEmitter {
         )
       )
       .then(() => this._characteristics.temperatureRead.startNotifications())
+
       .then(() => this._services.accelerometerService.getCharacteristics())
       .then((accelerometerCharacteristics) => {
         this._characteristics.accelerometerPeriod =
@@ -157,6 +190,57 @@ class Controller extends eventEmitter {
       )
       .then(() => this._characteristics.accelerometerRead.startNotifications())
       .then(() => {
+        if (this._services.ioPinService) {
+          return this._services.ioPinService.getCharacteristics();
+        }
+      })
+      .then((ioPinCharacteristics) => {
+        if (ioPinCharacteristics) {
+          this._characteristics.ioPinADConfiguration =
+            ioPinCharacteristics.find(
+              (a) => a.uuid === "e95d5899-251d-470a-a062-fa1922dfa9a8"
+            );
+          this._characteristics.ioPinIOConfiguration =
+            ioPinCharacteristics.find(
+              (a) => a.uuid === "e95db9fe-251d-470a-a062-fa1922dfa9a8"
+            );
+          this._characteristics.ioPinData = ioPinCharacteristics.find(
+            (a) => a.uuid === "e95d8d00-251d-470a-a062-fa1922dfa9a8"
+          );
+          this._characteristics.ioPinData.oncharacteristicvaluechanged =
+            this._onioPinChange;
+        }
+      })
+      .then(() => {
+        if (this._services.ioPinService) {
+          // Set IO pins to analog (1) or digital (0)
+          // Bit n corresponds to pin n where 0 <= n < 19
+          this._lastADConfiguration = 0b000000000011111111111111111;
+
+          return this._characteristics.ioPinADConfiguration.writeValue(
+            new Uint8Array([0b000000000011111111111111111])
+          );
+        }
+      })
+      .then(() => {
+        if (this._services.ioPinService) {
+          // Set IO pins to read (1) or write (0)
+          this._lastIOConfiguration = 0b000000000011111111111111111;
+
+          return this._characteristics.ioPinIOConfiguration.writeValue(
+            new Uint8Array([0b000000000011111111111111111])
+          );
+        }
+      })
+      .then(() => {
+        if (this._services.ioPinService) {
+          this._characteristics.ioPinData.startNotifications();
+        }
+      })
+      .then(() => {
+        if (this._services.ioPinService) {
+          this.resetPins(true);
+        }
         this._connected = true;
         this._connecting = false;
         this._device.addEventListener(
@@ -188,6 +272,7 @@ class Controller extends eventEmitter {
       this._device.gatt.disconnect();
       this._device = null;
     }
+    this.resetPins(false);
     this._connected = false;
     this._connecting = false;
     this._services = {};
@@ -204,6 +289,9 @@ class Controller extends eventEmitter {
     ];
     this._aPressed = false;
     this._bPressed = false;
+    this._isPin0Pressed = false;
+    this._isPin1Pressed = false;
+    this._isPin2Pressed = false;
     this.emit("disconnected");
   };
 
@@ -251,6 +339,24 @@ class Controller extends eventEmitter {
     this._characteristics.uartWrite.writeValue(
       new Uint8Array(Array.from(new TextEncoder("utf8").encode(value)))
     );
+
+  displayText = (
+    text
+    // , callback
+  ) => {
+    // TODO need to handle when displayText is called multiple times and stuff
+    this._ledMatrix = [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+    ];
+    this._characteristics.ledText.writeValue(
+      new Uint8Array(Array.from(new TextEncoder("utf8").encode(text)))
+    );
+    // setTimeout(() => callback(), text.length * 1000);
+  };
 
   displayPattern = (patternName) => {
     // TODO validate the pattern
@@ -423,6 +529,224 @@ class Controller extends eventEmitter {
       this.emit("BPressed");
     } else if (value === 2) {
       this.emit("BLongPressed");
+    }
+  };
+
+  // IO Pin Functions
+
+  isPin0Pressed = () => this._pins[0].isPressed;
+
+  isPin1Pressed = () => this._pins[1].isPressed;
+
+  isPin2Pressed = () => this._pins[2].isPressed;
+
+  resetPins = (setCharacteristics) => {
+    const maxPins = 17; // Total number of pins available is 0 to 16 (inclusive so 17 total)
+
+    // Empty the pins array
+    this._pins = [];
+
+    // Setup new pins
+    for (var i = 0; i < maxPins; i++) {
+      this._pins[i] = new Pin(i);
+    }
+
+    if (setCharacteristics) {
+      this._setIOPinsIOAD();
+    }
+  };
+
+  getAnalogPin = (pinId) => {
+    var pin = this._pins[pinId];
+
+    if (pin) {
+      pin.isAnalog = true;
+      pin.isInput = true;
+
+      this._setIOPinsIOAD();
+
+      if (pin.value !== null) {
+        return pin.value;
+      }
+
+      return 0;
+    }
+
+    return 0;
+  };
+
+  getDigitalPin = (pinId) => {
+    var pin = this._pins[pinId];
+
+    if (pin) {
+      pin.isAnalog = false;
+      pin.isInput = true;
+
+      this._setIOPinsIOAD();
+
+      if (pin.value !== null) {
+        return pin.value;
+      }
+
+      return 0;
+    }
+
+    return 0;
+  };
+
+  writeDigitalPin = (pinId, value) => {
+    var pin = this._pins[pinId];
+
+    if (pin) {
+      pin.isAnalog = false; // Make digital
+      pin.isInput = false; // Make output
+
+      this._setIOPinsIOAD();
+
+      if (pin.value != value) {
+        this._digitalWriteToPin(pinId, value);
+        pin.value = value;
+      }
+    }
+  };
+
+  _digitalWriteToPin = async (pin, value) => {
+    const digitalValue = value === 0 ? 0 : 1;
+    var pinValueArray = [pin, digitalValue];
+
+    await this._characteristics.ioPinData.writeValue(
+      new Uint8Array(pinValueArray)
+    );
+  };
+
+  _onioPinChange = (event) => {
+    const dv = new DataView(event.target.value.buffer);
+    for (var i = 0; i < dv.byteLength; i = i + 2) {
+      var pinId = dv.getUint8(i);
+      var value = dv.getUint8(i + 1);
+
+      if (this._pins[pinId].baseValue === null) {
+        this._pins[pinId].baseValue = value;
+      }
+      this._pins[pinId].value = value;
+
+      this._checkAnalogPinPressed(pinId, value);
+    }
+
+    this.emit("ioPinChanged");
+  };
+
+  _checkAnalogPinPressed = (pinId, value) => {
+    // Only check pins 0, 1, 2
+    if (pinId !== 0 && pinId !== 1 && pinId !== 2) {
+      return;
+    }
+
+    // Only check if we have an existing base value
+    if (
+      this._pins[0].baseValue === null &&
+      this._pins[1].baseValue === null &&
+      this._pins[2].baseValue === null
+    ) {
+      return;
+    }
+
+    const p0 = this._pins[0].value || this._pins[0].baseValue;
+    const p1 = this._pins[1].value || this._pins[1].baseValue;
+    const p2 = this._pins[2].value || this._pins[2].baseValue;
+
+    const d0 = Math.abs(this._pins[0].baseValue - p0);
+    const d1 = Math.abs(this._pins[1].baseValue - p1);
+    const d2 = Math.abs(this._pins[2].baseValue - p2);
+
+    const data = [
+      { pin: 0, d: d0 },
+      { pin: 1, d: d1 },
+      { pin: 2, d: d2 },
+    ];
+
+    const max = data.reduce((prev, current) =>
+      prev.d > current.d ? prev : current
+    );
+    const min = data.reduce((prev, current) =>
+      prev.d < current.d ? prev : current
+    );
+
+    if (min.d >= 5) {
+      switch (max.pin) {
+        case 0:
+          if (!this._pins[0].isPressed) {
+            this._pins[0].isPressed = true;
+            this.emit("Pin0Pressed");
+          }
+          break;
+        case 1:
+          if (!this._pins[1].isPressed) {
+            this._pins[1].isPressed = true;
+            this.emit("Pin1Pressed");
+          }
+          break;
+        case 2:
+          if (!this._pins[2].isPressed) {
+            this._pins[2].isPressed = true;
+            this.emit("Pin2Pressed");
+          }
+          break;
+      }
+    }
+
+    switch (pinId) {
+      case 0:
+        if (this._pins[0].isPressed && this._pins[0].baseValue - p0 < 5) {
+          this._pins[0].isPressed = false;
+          this.emit("Pin0Released");
+        }
+        break;
+      case 1:
+        if (this._pins[1].isPressed && this._pins[1].baseValue - p1 < 5) {
+          this._pins[1].isPressed = false;
+          this.emit("Pin1Released");
+        }
+        break;
+      case 2:
+        if (this._pins[2].isPressed && this._pins[2].baseValue - p2 < 5) {
+          this._pins[2].isPressed = false;
+          this.emit("Pin2Released");
+        }
+        break;
+    }
+  };
+
+  _setIOPinsIOAD = async () => {
+    var ioConfiguration = 0b000000000000000000000000000;
+    var adConfiguration = 0b000000000000000000000000000;
+
+    for (var i = 0; i < this._pins.length; i++) {
+      var pin = this._pins[i];
+      if (pin.isInput) {
+        var ioMask = 1 << pin.id;
+        ioConfiguration |= ioMask;
+      }
+
+      if (pin.isAnalog) {
+        var adMask = 1 << pin.id;
+        adConfiguration |= adMask;
+      }
+    }
+
+    // Only write to the configurations if there has been a change since last configuration.
+    if (this._lastIOConfiguration !== ioConfiguration) {
+      this._lastIOConfiguration = ioConfiguration;
+      await this._characteristics.ioPinIOConfiguration.writeValue(
+        new Uint8Array([ioConfiguration])
+      );
+    }
+
+    if (this._lastADConfiguration !== adConfiguration) {
+      this._lastADConfiguration = adConfiguration;
+      await this._characteristics.ioPinIOConfiguration.writeValue(
+        new Uint8Array([adConfiguration])
+      );
     }
   };
 }

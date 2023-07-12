@@ -121,12 +121,66 @@ declare namespace TiltSensor {
 
 }
 declare namespace Microbit {
+    //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Actions"
+    //% shim=Microbit::writeDigitalPin
+    function writeDigitalPin(variable: BBCMicrobit, pinId: MicrobitPinOptions, value: number): void;
+
+    //% blockId="cleaar_led" block="clear %variable LEDs"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Actions"
+    //% shim=Microbit::clearLED
+    function clearLED(variable: BBCMicrobit): void;
+
+    //% blockId="on_microbit_toggle" block="on %variable toggle X: $x Y: $y"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Actions"
+    //% x.min=-0 x.max=4
+    //% y.min=-0 y.max=4
+    //% shim=Microbit::onMicrobitToggle
+    function onMicrobitToggle(variable: BBCMicrobit, x: number, y: number): void;
+
+    //% blockId="on_microbit_unplot" block="on %variable unplot X: $x Y: $y"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Actions"
+    //% x.min=-0 x.max=4
+    //% y.min=-0 y.max=4
+    //% shim=Microbit::onMicrobitUnPlot
+    function onMicrobitUnPlot(variable: BBCMicrobit, x: number, y: number): void;
+
+    //% blockId="on_microbit_plot" block="on %variable plot X: $x Y: $y"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Actions"
+    //% x.min=-0 x.max=4
+    //% y.min=-0 y.max=4
+    //% shim=Microbit::onMicrobitPlot
+    function onMicrobitPlot(variable: BBCMicrobit, x: number, y: number): void;
+
     //% blockId="on_microbit_display_word" block="on %variable display  $word"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit_1"
+    //% variable.defl="Microbit 1"
     //% group="Actions"
     //% shim=Microbit::onMicrobitDisplayWord
     function onMicrobitDisplayWord(variable: BBCMicrobit, word: string): void;
+
+    //% blockId="shape_conv" block="$shapes"
+    //% blockHidden=true
+    //% shim=Microbit::shapeConversion
+    function shapeConversion(shapes: MicrobitLEDShapes): string;
+
+    //% blockId="on_microbit_display_shape" block="on %variable display $shape"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% shape.shadow=shape_conv
+    //% group="Actions"
+    //% shim=Microbit::onMicrobitDisplayShape
+    function onMicrobitDisplayShape(variable: BBCMicrobit, shape: string): void;
 
     //% blockId="create_microbit" block="Create new Microbit"
     //% variable.defl="Microbit 1"
