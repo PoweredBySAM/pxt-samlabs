@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 
 class ServoMotorDevice {
   private _virtualController: any;
@@ -21,8 +22,11 @@ class ServoMotorDevice {
   @observable deleted: boolean;
   @observable testPosition: number;
   customEventGenerator: any;
+  lsStateStore: SamDeviceManager;
 
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -44,8 +48,9 @@ class ServoMotorDevice {
     this.deviceInTestMode = false;
     this.testPosition = 0
     this.deleted = false;
-    this.customEventGenerator = CustomEventGenerator.getInstance();
     makeAutoObservable(this);
+    this.updateLsStateStore();
+
 
   }
   @action
@@ -69,6 +74,7 @@ class ServoMotorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.updateLsStateStore()
   }
 
   @action
@@ -80,6 +86,7 @@ class ServoMotorDevice {
   setPosition(value: number) {
     this._virtualController.setPosition(value);
     this.isConnected && this._bluetoothController?.setSpeed(value);
+    this.updateLsStateStore()
   }
   @action
   setTestPosition(value: number) {
@@ -111,12 +118,17 @@ class ServoMotorDevice {
       deviceType:this.virtualInteractionComponentName,
       isDeviceActive:this.isActive,
       deviceColor:this.Color,
+      currentValue:this._position,
     }
   }
   broadcastState(eventName ?:string) {
     this.customEventGenerator.dispatchEvent('deviceStateChange', {
       data:this.getAllData()
     });
+  }
+
+  updateLsStateStore(){ 
+    this.lsStateStore.updateDevice(this.getAllData())
   }
 
   get virtualController() {

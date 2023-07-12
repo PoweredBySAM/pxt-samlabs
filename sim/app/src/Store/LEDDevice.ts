@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 
 class LEDDevice {
   private _virtualController: any;
@@ -8,6 +9,7 @@ class LEDDevice {
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
+  
 
   @observable isConnected = false;
   @observable isConnecting = false;
@@ -20,10 +22,15 @@ class LEDDevice {
   @observable testLEDColor: string
 
   @observable _ledColor: string;
-    _ledBrightness: number;
+  _ledBrightness: number;
   customEventGenerator: CustomEventGenerator;
+  lsStateStore: SamDeviceManager;
+  
 
   constructor(deviceData: any) {
+    this.lsStateStore = SamDeviceManager.getInstance();
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+
     const {
       deviceIdOnCreate,
       meta,
@@ -45,8 +52,8 @@ class LEDDevice {
     this.deviceInTestMode = false;
     this.testLEDColor = '#ffffff'
     this.deleted = false;
-    this.customEventGenerator = CustomEventGenerator.getInstance();
     makeAutoObservable(this);
+    this.updateLsStateStore();
 
   }
   @action
@@ -148,6 +155,9 @@ class LEDDevice {
   }
   set virtualController(controller: any) {
     this._virtualController = controller;
+  }
+  updateLsStateStore(){ 
+    this.lsStateStore.updateDevice(this.getAllData())
   }
 }
 

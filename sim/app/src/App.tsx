@@ -13,6 +13,12 @@ import { deviceLabels } from './Constants/DeviceLabel';
 import { getDeviceIcon } from './SAMDevices/Icons';
 import useAddNewDeviceEventHandler from './Hooks/useAddNewDeviceEventHandler';
 
+export enum samSimEvents {
+  TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
+  TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
+  FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
+}
+
 const App: React.FC = observer(() => {
   const { devicesStore } = useStores();
   const [showActiveDevices, setShowActiveDevices] = React.useState(true);
@@ -34,12 +40,6 @@ const App: React.FC = observer(() => {
   const toggleActiveDevicesVisibility = ():void => {
     setShowActiveDevices(prev=>!prev);
   }
-  enum samSimEvents{
-    TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
-    TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
-    FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
-}
-
 
   useEffect(() => {
     const createdEvent = CustomEventGenerator.getInstance().receiveEvent(
