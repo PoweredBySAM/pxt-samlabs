@@ -121,69 +121,11 @@ declare namespace TiltSensor {
 
 }
 declare namespace button {
-    //% blockId="create_button" block="set %variable to new button"
+    //% blockId="create_button" block="create new button"
     //% variable.shadow=variables_set
     //% weight=2
     //% shim=button::createNewButton
-    function createNewButton(variable: SamButton): SamButton;
-
-    // /**
-    //  * Registers a handler that runs when the button with the given ID is pressed
-    //  * @param buttonId The ID of the button to listen for
-    //  * @param handler The function to run when the button is pressed
-    //  */
-    // //% variable.shadow=variables_get
-    // //% variable.defl="Button 1"
-    // //% blockId="on_button_pressed" block="when Button in variable $variable is pressed"
-    // //% weight=1 icon="\uf11b"
-    // export function onButtonPressed(variable: pxsim.SamButton, handler: () => void): void {
-    //   const deviceId = variable.deviceId;
-    //   const eventName = samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,deviceId)
-    //   samlabs.WindowEventService.getInstance().receiveEvent(eventName, (payload: any) => {
-    //     if (payload.deviceId === deviceId ) {
-    //       handler();
-    //     }
-    //   })
-    // }
-    //% blockId="on_button_pressed" block="when button %variable is pressed"
-    //% variable.shadow=variables_get
-    //% weight=1
-    //% shim=button::onButtonPressed2
-    function onButtonPressed2(variable: SamButton, handler: () => void): void;
-
-    //% blockId="button_property_dropdown" block="%property"
-    //% blockHidden=true
-    //% property.fieldEditor="gridpicker" property.fieldOptions.columns=2
-    //% weight=0
-    //% shim=button::buttonPropertyDropdown
-    function buttonPropertyDropdown(property: string): string;
-
-    /**
-     * Wait until the button with the given ID is pressed
-     * @param buttonId The ID of the button to wait for
-     */
-    //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
-    //% buttonId.defl=0
-    //% advanced=true
-    //% shim=button::waitUntilButtonPressed
-    function waitUntilButtonPressed(buttonId: number, handler: () => void): void;
-
-    //% blockId="set_button_property" block="set %variable button property %prop to %value"
-    //% variable.shadow=variables_get
-    //% prop.shadow=button_property_dropdown
-    //% weight=2
-    //% shim=button::setButtonProperty
-    function setButtonProperty(variable: SamButton, prop: string, value: any): void;
-
-    /**
-     * Get the state of the button with a given ID
-     * @param buttonId The ID of the button to get the state of
-     */
-    //% blockId="get_button_state" block="get state of Button with ID $buttonId"
-    //% buttonId.defl=0
-    //% advanced=true
-    //% shim=button::getButtonState
-    function getButtonState(buttonId: number): boolean;
+    function createNewButton(): SamButton;
 
 }
     /**
