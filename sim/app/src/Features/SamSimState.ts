@@ -1,5 +1,11 @@
-import { samSimEvents } from "src/App";
 import { CustomEventGenerator } from "./CustomEventGenerator";
+
+
+export enum samSimEvents {
+    TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
+    TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
+    FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
+}
 
 export type eventNameType =
   | "save_sam_device"
@@ -12,7 +18,7 @@ export default class SamDeviceManager {
 
   private static instance: SamDeviceManager;
 
-  private constructor() {}
+ constructor() {}
 
   public static getInstance(): SamDeviceManager {
     if (!SamDeviceManager.instance) {
