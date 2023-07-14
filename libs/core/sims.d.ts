@@ -121,11 +121,25 @@ declare namespace TiltSensor {
 
 }
 declare namespace button {
+    //% blockId="set_button_color" block="set color of Button $variable to $color"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"  
+    //% color.shadow="colorNumberPicker"
+    //% advanced=true
+    //% shim=button::setButtonColor
+    function setButtonColor(variable: SamBuzzer, color: string): void;
+
     //% blockId="create_button" block="create new button"
-    //% variable.shadow=variables_set
-    //% weight=2
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"  //% weight=2
     //% shim=button::createNewButton
     function createNewButton(): SamButton;
+
+    //% blockId="get_is_pressed" block="$variable is pressed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"  //% weight=2
+    //% shim=button::buttonIsPressed
+    function buttonIsPressed(variable: SamButton): boolean;
 
 }
     /**
@@ -178,7 +192,7 @@ declare namespace buzzer {
      * @param buzzerId The ID of the buzzer to set the color for
      * @param color The new color for the buzzer
      */
-    //% blockId="set_buzzer_color" block="set color of Buzzer with ID $buzzerId to $color"
+    //% blockId="set_buzzer_color" block="set color of Buzzer $variable to $color"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% color.shadow="colorNumberPicker"
@@ -209,7 +223,7 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
-    //% blockId="set_motor_color" block="stop motor %variable "
+    //% blockId="stop_motor" block="stop motor %variable "
     //% variable.shadow=variables_get
     //% variable.defl="Motor 1"
     //% color="#32cd32"
@@ -339,7 +353,7 @@ declare namespace LED {
      * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_color" block="set color of LED $variable to  $color"
+    //% blockId="set_led__body_color" block="set color of LED $variable to  $color"
     //% variable.shadow=variables_get
     //% variable.defl="LED 1"
     //% color.shadow="colorNumberPicker"

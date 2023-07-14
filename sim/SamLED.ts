@@ -28,7 +28,7 @@ namespace pxsim.LED {
      * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_color" block="set color of LED $variable to  $color"
+    //% blockId="set_led__body_color" block="set color of LED $variable to  $color"
     //% variable.shadow=variables_get
     //% variable.defl="LED 1"
     //% color.shadow="colorNumberPicker"

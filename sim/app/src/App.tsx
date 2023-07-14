@@ -31,6 +31,8 @@ const App: React.FC = observer(() => {
       }
   })
 
+  console.log(devicesStore,"devicesStore.devices",)
+
   const addDeviceHandler = (device: DeviceMenuItemType):void => {
     const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
     const builtDevice:IBuiltDevice = newDevice.build();      

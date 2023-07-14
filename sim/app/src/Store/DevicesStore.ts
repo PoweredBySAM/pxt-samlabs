@@ -1,14 +1,15 @@
-import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
 
 import { storeMap } from '.';
 import type { IBuiltDevice } from '../SAMDevices/Types/SAMDeviceTypes';
+import { observable, action,makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
+
+
 
 class DevicesStore {
   @observable devices:any[] = [];
-
   constructor() {
-    makeObservable(this);
+    makeAutoObservable(this);
     makePersistable(this, { name: 'DevicesStore', properties: ['devices'] });
 
   }
@@ -43,12 +44,12 @@ class DevicesStore {
 
   buildStore(deviceData:IBuiltDevice){
     const store = storeMap[deviceData.labels.defaultName as keyof typeof storeMap];
-    console.log(deviceData.labels.defaultName,"store")
     if (store) {
       return new store(deviceData);
     }
     throw new Error('No store in storemap for device');
   }
 }
+const devicesStore = new DevicesStore();
 
-export default new DevicesStore();
+export default devicesStore;

@@ -1,9 +1,9 @@
 import React from "react";
 import ActiveDeviceItem from "./ActiveDeviceItem";
 import { observer } from "mobx-react";
-import { StoreContext } from "src/Store/storeContext";
-import { Box, Card } from "@mui/material";
+import { Box } from "@mui/material";
 import { SamDeviceStoreType } from "src/SAMDevices/Types/SAMDeviceTypes";
+import { useStores } from "src/Hooks/useStores";
 const additionalStyles = {
   overflow: "auto",
   scrollbarWidth: "thin",
@@ -22,10 +22,8 @@ const additionalStyles = {
 };
 const ActiveDevices =
   ({ showActiveDevices }: { showActiveDevices?: boolean }) => {
-    const devicesStore = React.useContext(StoreContext);
+    const { devicesStore } = useStores();
     const devices: SamDeviceStoreType[] = devicesStore.devices;
-    console.log(devices.length, "devices length");
-
     return (
       <Box
         sx={
@@ -46,5 +44,4 @@ const ActiveDevices =
     );
   }
 ;
-
 export default observer(ActiveDevices);
