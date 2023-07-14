@@ -1,6 +1,7 @@
 import { observable, action,makeAutoObservable } from "mobx";
 import AudioController from "../Utils/Tones/toneGenerator/AudioController";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 class BuzzerDevice {
   private _virtualController: any;
   private _bluetoothController: any;
@@ -9,6 +10,8 @@ class BuzzerDevice {
   restProps: any;
   virtualInteractionComponentName: string;
   testAudioController: AudioController = new AudioController();
+  lsStateStore:SamDeviceManager;
+
 
   @observable isConnected = false;
   @observable isConnecting = false;
@@ -25,7 +28,7 @@ class BuzzerDevice {
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
-
+    this.lsStateStore = SamDeviceManager.getInstance()
     const {
       deviceIdOnCreate,
       meta,
@@ -47,8 +50,7 @@ class BuzzerDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     makeAutoObservable(this);
-
-
+    this.updateLsStateStore()
   }
   @action
   toggleVisibility() {
@@ -71,7 +73,7 @@ class BuzzerDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
-    this.broadcastState()
+    this.updateLsStateStore()
   }
 
   @action
@@ -79,6 +81,7 @@ class BuzzerDevice {
     this.pitch = value;
     this._virtualController?._toneGenerator?.setPitch(value);
     this.isConnected && this._bluetoothController?.setPitch(value);
+    this.updateLsStateStore()
     this.broadcastState()
   }
   getAllData(){
@@ -152,6 +155,10 @@ class BuzzerDevice {
       data:this.getAllData()
     });
   }
+  updateLsStateStore(){ 
+    this.lsStateStore.updateDevice(this.getAllData())
+  }
+  
 
   get virtualController() {
     return this._virtualController;

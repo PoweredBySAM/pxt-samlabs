@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 
 class SliderDevice {
   private _virtualController: any;
@@ -19,8 +20,11 @@ class SliderDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   customEventGenerator: any;
+  lsStateStore: SamDeviceManager;
 
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -40,10 +44,9 @@ class SliderDevice {
     this.value = 0
     this.deviceInTestMode = false;
     this.deleted = false;
-    this.customEventGenerator = CustomEventGenerator.getInstance();
-
     makeAutoObservable(this);
 
+    this.updateLsStateStore()
   }
   @action
   toggleVisibility() {
@@ -66,6 +69,7 @@ class SliderDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.updateLsStateStore()
   }
 
   @action
@@ -74,6 +78,7 @@ class SliderDevice {
   }
   setValue(value: number) {
     this.value = value;
+    this.updateLsStateStore()
   }
   @action
   toggleTestMode() {
@@ -89,6 +94,7 @@ class SliderDevice {
       deviceType:this.virtualInteractionComponentName,
       isDeviceActive:this.isActive,
       deviceColor:this.Color,
+      currentValue:this.value,
     }
   }
 
@@ -100,6 +106,9 @@ class SliderDevice {
   }
   set virtualController(controller: any) {
     this._virtualController = controller;
+  }
+  updateLsStateStore(){ 
+    this.lsStateStore.updateDevice(this.getAllData())
   }
 }
 

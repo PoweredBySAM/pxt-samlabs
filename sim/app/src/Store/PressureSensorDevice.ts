@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 
 class PressureSensorDevice {
   private _virtualController: any;
@@ -19,8 +20,11 @@ class PressureSensorDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   customEventGenerator: CustomEventGenerator;
+  lsStateStore: SamDeviceManager;
 
   constructor(deviceData: any) {
+    this.customEventGenerator = CustomEventGenerator.getInstance();
+    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -65,15 +69,18 @@ class PressureSensorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.updateLsStateStore();
   }
 
   @action
   getValue() {
     this._virtualController.getValue() || this._bluetoothController?.getValue();
   }
+
   @action
   setValue(value: number) {
     this.value = value;
+    this.updateLsStateStore();
   }
   @action
   toggleTestMode() {
@@ -89,6 +96,7 @@ class PressureSensorDevice {
       deviceType:this.virtualInteractionComponentName,
       isDeviceActive:this.isActive,
       deviceColor:this.Color,
+      currentValue:this.value,
     }
   }
   broadcastState(eventName ?:string) {
@@ -105,6 +113,9 @@ class PressureSensorDevice {
   }
   set virtualController(controller: any) {
     this._virtualController = controller;
+  }
+  updateLsStateStore(){ 
+    this.lsStateStore.updateDevice(this.getAllData())
   }
 }
 

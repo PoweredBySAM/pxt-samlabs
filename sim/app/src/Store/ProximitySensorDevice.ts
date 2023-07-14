@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 
 class ProximitySensorDevice {
   private _virtualController: any;
@@ -20,8 +21,11 @@ class ProximitySensorDevice {
 
   @observable  value: number;
   customEventGenerator: any;
+  lsStateStore: SamDeviceManager;
 
   constructor(deviceData: any) {
+    this.lsStateStore = SamDeviceManager.getInstance();
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -41,8 +45,8 @@ class ProximitySensorDevice {
     this.value = 0
     this.deviceInTestMode = false;
     this.deleted = false;
-    this.customEventGenerator = CustomEventGenerator.getInstance();
     makeAutoObservable(this);
+    this.updateLsStateStore()
 
   }
   @action
@@ -66,14 +70,18 @@ class ProximitySensorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
-  }
-  updateValue(value: number) {
-    this.value = value;
+    this.updateLsStateStore();
   }
 
   @action
   getValue() {
     this._virtualController.getValue() || this._bluetoothController?.getValue();
+  }
+
+  @action
+  setValue(value: number) {
+    this.value = value;
+    this.updateLsStateStore();
   }
   @action
   toggleTestMode() {
@@ -89,6 +97,7 @@ class ProximitySensorDevice {
       deviceType:this.virtualInteractionComponentName,
       isDeviceActive:this.isActive,
       deviceColor:this.Color,
+      value:this.value,
     }
   }
   broadcastState(eventName ?:string) {
@@ -105,6 +114,9 @@ class ProximitySensorDevice {
   }
   set virtualController(controller: any) {
     this._virtualController = controller;
+  }
+  updateLsStateStore(){ 
+    this.lsStateStore.updateDevice(this.getAllData())
   }
 }
 

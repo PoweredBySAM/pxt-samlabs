@@ -9,7 +9,7 @@ export function setSamMotorSpeed(variable: pxsim.SamDCMotor, value: number): voi
   window.console.log("setSamMotorSpeed called",variable)
     variable.setSpeed(value); 
 }
-//% blockId="set_motor_color" block="stop motor %variable "
+//% blockId="stop_motor" block="stop motor %variable "
 //% variable.shadow=variables_get
 //% variable.defl="Motor 1"
 //% color="#32cd32"

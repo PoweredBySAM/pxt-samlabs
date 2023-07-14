@@ -48,7 +48,7 @@ export function clearBuzzer(variable: pxsim.SamBuzzer): void {
  * @param buzzerId The ID of the buzzer to set the color for
  * @param color The new color for the buzzer
  */
-//% blockId="set_buzzer_color" block="set color of Buzzer with ID $buzzerId to $color"
+//% blockId="set_buzzer_color" block="set color of Buzzer $variable to $color"
 //% variable.shadow=variables_get
 //% variable.defl="Buzzer 1"
 //% color.shadow="colorNumberPicker"

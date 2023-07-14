@@ -203,69 +203,25 @@ declare namespace Microbit {
     declare class BBCMicrobit {
     }
 declare namespace button {
-    //% blockId="create_button" block="set %variable to new button"
-    //% variable.shadow=variables_set
-    //% weight=2
+    //% blockId="set_button_color" block="set color of Button $variable to $color"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"  
+    //% color.shadow="colorNumberPicker"
+    //% advanced=true
+    //% shim=button::setButtonColor
+    function setButtonColor(variable: SamBuzzer, color: string): void;
+
+    //% blockId="create_button" block="create new button"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button 1"  //% weight=2
     //% shim=button::createNewButton
-    function createNewButton(variable: SamButton): SamButton;
+    function createNewButton(): SamButton;
 
-    // /**
-    //  * Registers a handler that runs when the button with the given ID is pressed
-    //  * @param buttonId The ID of the button to listen for
-    //  * @param handler The function to run when the button is pressed
-    //  */
-    // //% variable.shadow=variables_get
-    // //% variable.defl="Button 1"
-    // //% blockId="on_button_pressed" block="when Button in variable $variable is pressed"
-    // //% weight=1 icon="\uf11b"
-    // export function onButtonPressed(variable: pxsim.SamButton, handler: () => void): void {
-    //   const deviceId = variable.deviceId;
-    //   const eventName = samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,deviceId)
-    //   samlabs.WindowEventService.getInstance().receiveEvent(eventName, (payload: any) => {
-    //     if (payload.deviceId === deviceId ) {
-    //       handler();
-    //     }
-    //   })
-    // }
-    //% blockId="on_button_pressed" block="when button %variable is pressed"
+    //% blockId="get_is_pressed" block="$variable is pressed"
     //% variable.shadow=variables_get
-    //% weight=1
-    //% shim=button::onButtonPressed2
-    function onButtonPressed2(variable: SamButton, handler: () => void): void;
-
-    //% blockId="button_property_dropdown" block="%property"
-    //% blockHidden=true
-    //% property.fieldEditor="gridpicker" property.fieldOptions.columns=2
-    //% weight=0
-    //% shim=button::buttonPropertyDropdown
-    function buttonPropertyDropdown(property: string): string;
-
-    /**
-     * Wait until the button with the given ID is pressed
-     * @param buttonId The ID of the button to wait for
-     */
-    //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
-    //% buttonId.defl=0
-    //% advanced=true
-    //% shim=button::waitUntilButtonPressed
-    function waitUntilButtonPressed(buttonId: number, handler: () => void): void;
-
-    //% blockId="set_button_property" block="set %variable button property %prop to %value"
-    //% variable.shadow=variables_get
-    //% prop.shadow=button_property_dropdown
-    //% weight=2
-    //% shim=button::setButtonProperty
-    function setButtonProperty(variable: SamButton, prop: string, value: any): void;
-
-    /**
-     * Get the state of the button with a given ID
-     * @param buttonId The ID of the button to get the state of
-     */
-    //% blockId="get_button_state" block="get state of Button with ID $buttonId"
-    //% buttonId.defl=0
-    //% advanced=true
-    //% shim=button::getButtonState
-    function getButtonState(buttonId: number): boolean;
+    //% variable.defl="Button 1"  //% weight=2
+    //% shim=button::buttonIsPressed
+    function buttonIsPressed(variable: SamButton): boolean;
 
 }
     /**
@@ -318,7 +274,7 @@ declare namespace buzzer {
      * @param buzzerId The ID of the buzzer to set the color for
      * @param color The new color for the buzzer
      */
-    //% blockId="set_buzzer_color" block="set color of Buzzer with ID $buzzerId to $color"
+    //% blockId="set_buzzer_color" block="set color of Buzzer $variable to $color"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% color.shadow="colorNumberPicker"
@@ -349,7 +305,7 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
-    //% blockId="set_motor_color" block="stop motor %variable "
+    //% blockId="stop_motor" block="stop motor %variable "
     //% variable.shadow=variables_get
     //% variable.defl="Motor 1"
     //% color="#32cd32"
@@ -479,7 +435,7 @@ declare namespace LED {
      * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_color" block="set color of LED $variable to  $color"
+    //% blockId="set_led__body_color" block="set color of LED $variable to  $color"
     //% variable.shadow=variables_get
     //% variable.defl="LED 1"
     //% color.shadow="colorNumberPicker"

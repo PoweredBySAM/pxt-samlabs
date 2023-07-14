@@ -4,11 +4,12 @@ import DCMotorDevice from "./DCMotorDevice";
 import HeatSensorDevice from "./HeatSensorDevice";
 import LEDDevice from "./LEDDevice";
 import LightSensorDevice from "./LightSensorDevice";
+import MicrobitDevice from "./MicrobitDevice";
 import PressureSensorDevice from "./PressureSensorDevice";
 import ServoMotorDevice from "./ServoMotorDevice";
 import SliderDevice from "./SliderDevice";
 import TiltDevice from "./TiltDevice";
-import MicrobitDevice from "./MicrobitDevice";
+
 
 export const storeMap = {
   "SAM Button": ButtonDevice,

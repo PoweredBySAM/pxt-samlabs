@@ -1,3 +1,6 @@
+import { samSimEvents } from "src/App";
+import { CustomEventGenerator } from "./CustomEventGenerator";
+
 export type eventNameType =
   | "save_sam_device"
   | "update_sam_device"
@@ -7,7 +10,16 @@ export type eventNameType =
 export default class SamDeviceManager {
   private devicesKey: string = "sam_devices_state";
 
-  constructor() {}
+  private static instance: SamDeviceManager;
+
+  private constructor() {}
+
+  public static getInstance(): SamDeviceManager {
+    if (!SamDeviceManager.instance) {
+      SamDeviceManager.instance = new SamDeviceManager();
+    }
+    return SamDeviceManager.instance;
+  }
 
   private loadDevices(): Array<any> {
     const devices = localStorage.getItem(this.devicesKey);
@@ -29,7 +41,6 @@ export default class SamDeviceManager {
       const devices = this.loadDevices();
       devices.push(device);
       this.saveDevices(devices);
-      this.dispatchEvent("add_sam_device", device);
     } else {
       throw new Error("Device already exists");
     }
@@ -41,14 +52,22 @@ export default class SamDeviceManager {
   }
 
   public updateDevice(updatedDevice: any): void {
-    let devices = this.loadDevices();
-    devices = devices.map((device) =>
-      device.id === updatedDevice.id
-        ? { ...device, ...updatedDevice }
-        : { ...device }
-    );
-    this.saveDevices(devices);
-    this.dispatchEvent("sam_device_value_changed", updatedDevice);
+    const isDeviceInStore = this.getDevice(updatedDevice.id);
+    if (!isDeviceInStore) {
+      this.addNewDevice(updatedDevice);
+    } else {
+      let devices = this.loadDevices();
+      devices = devices.map((device) =>
+        device.id === updatedDevice.id
+          ? { ...device, ...updatedDevice }
+          : { ...device }
+      );
+      this.saveDevices(devices);
+      this.dispatchEvent(
+        `${samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED}_${updatedDevice.deviceId}`,
+        devices.find((device) => device.id === updatedDevice.id)
+      );
+    }
   }
 
   public deleteDevice(id: string): void {
@@ -59,30 +78,27 @@ export default class SamDeviceManager {
   }
 
   public dispatchEvent(eventName: string, detail: any): void {
-    const event = new CustomEvent(eventName, { detail: detail });
-    window.dispatchEvent(event);
+    CustomEventGenerator.getInstance().dispatchEvent(eventName, detail);
   }
 
-  public processEventQueue(queueItem:any): number {
+  public processEventQueue(queueItem: any): number {
     const { eventName, detail } = queueItem || {};
     switch (eventName) {
-        case "save_sam_device":
-            this.addNewDevice(detail);
-            return 1;
-        case "update_sam_device":
-            this.updateDevice(detail);
-            return 1;
-        case "delete_sam_device":
-            this.deleteDevice(detail);
-            return 1;
-        case "add_sam_device":
-            this.addNewDevice(detail);
-            return 1;
-        default:
-            return 0;
+      case "save_sam_device":
+        this.addNewDevice(detail);
+        return 1;
+      case "update_sam_device":
+        this.updateDevice(detail);
+        return 1;
+      case "delete_sam_device":
+        this.deleteDevice(detail);
+        return 1;
+      case "add_sam_device":
+        this.addNewDevice(detail);
+        return 1;
+      default:
+        return 0;
     }
-
   }
-
 }
 
