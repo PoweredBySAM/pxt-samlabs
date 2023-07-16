@@ -11,7 +11,7 @@ import SliderDevice from "./SliderDevice";
 import TiltDevice from "./TiltDevice";
 
 
-export const storeMap = {
+const storeMap = {
   "SAM Button": ButtonDevice,
   "SAM Buzzer": BuzzerDevice,
   "SAM RGB Light": LEDDevice,

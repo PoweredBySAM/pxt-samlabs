@@ -22,7 +22,7 @@ export default class SamDeviceManager {
   }
 
   private loadDevices(): Array<any> {
-    const devices = localStorage.getItem(this.devicesKey);
+    const devices = localStorage.getItem(this.devicesKey); 
     if (!!devices) {
       return JSON.parse(devices);
     } else {
@@ -34,35 +34,35 @@ export default class SamDeviceManager {
   private saveDevices(devices: Array<any>): void {
     localStorage.setItem(this.devicesKey, JSON.stringify(devices));
   }
+  public emptySamSimState(): void {
+    localStorage.setItem(this.devicesKey, JSON.stringify([]));
+  }
 
   public addNewDevice(device: any): void {
-    const { id } = device || {};
-    if (!this.getDevice(id)) {
+    const {deviceId} = device || {};
+    if (!this.getDevice(deviceId)) {
       const devices = this.loadDevices();
-      devices.push(device);
-      this.saveDevices(devices);
-    } else {
-      throw new Error("Device already exists");
-    }
+      this.saveDevices([...devices,device]);
+    } 
   }
 
   public getDevice(id: string): any {
     const devices = this.loadDevices();
-    return devices.find((device) => device.id === id);
+    return devices.find((device) => device.deviceId === id);
   }
 
   public updateDevice(updatedDevice: any): void {
-    const isDeviceInStore = this.getDevice(updatedDevice.id);
+    const isDeviceInStore = this.getDevice(updatedDevice.deviceId);
     if (!isDeviceInStore) {
       this.addNewDevice(updatedDevice);
     } else {
       let devices = this.loadDevices();
-      devices = devices.map((device) =>
-        device.id === updatedDevice.id
+      const newDevices = devices.map((device) =>
+        device.deviceId === updatedDevice.deviceId
           ? { ...device, ...updatedDevice }
           : { ...device }
       );
-      this.saveDevices(devices);
+      this.saveDevices(newDevices);
       this.dispatchEvent(
         `${samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED}_${updatedDevice.deviceId}`,
         devices.find((device) => device.id === updatedDevice.id)
@@ -72,7 +72,7 @@ export default class SamDeviceManager {
 
   public deleteDevice(id: string): void {
     let devices = this.loadDevices();
-    devices = devices.filter((device) => device.id !== id);
+    devices = devices.filter((device) => device.deviceId !== id);
     this.saveDevices([...devices]);
     this.dispatchEvent("delete_sam_device", id);
   }
