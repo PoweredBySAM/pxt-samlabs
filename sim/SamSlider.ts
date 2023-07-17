@@ -1,51 +1,100 @@
-//% color="#ff69b4" weight=100 icon="\uf0e7" block="Button" subcategory="Sam Button"
 namespace pxsim.Slider {
-    /**
-     * Wait until the slider value changes
-     * @param sliderId The ID of the slider to wait for
-     */
-    //% blockId="wait_until_slider_value_changes" block="wait until slider with ID $sliderId value changes"
-    //% sliderId.defl=0
-    //% color="#ff4500"
-    export function waitUntilSliderValueChanges(sliderId: number): void {
-        // TODO: Implement the waiting mechanism for the slider value change
+    //% blockId="on_slider_value_changes" block="when slider %variable value changes"
+    //% variable.shadow=variables_get
+    //% variable.defl="Slider1"
+    //% color="#ff69b4"
+    export function onSliderValueChanges(
+      variable: pxsim.SamSlider,
+      handler: () => void
+    ): void {
+      variable.receiveEvent(handler);
     }
-
-    /**
-     * Register an event handler to run when the slider value changes
-     * @param sliderId The ID of the slider to listen for
-     * @param handler The function to run when the slider value changes
-     */
-    //% blockId="on_slider_value_changes" block="when slider with ID $sliderId value changes"
-    //% sliderId.defl=0
-    //% color="#ff4500"
-    export function onSliderValueChanges(sliderId: number, handler: () => void): void {
-        // TODO: Implement the event listener for the slider value change
+  
+    //% blockId="get_slider_value" block="get slider %variable value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Slider1"
+    //% color="#ff69b4"
+    export function getSamSliderValue(variable: pxsim.SamSlider): any {
+      return variable.getValue();
     }
-
-    /**
-     * Get the value of the slider with a given ID
-     * @param sliderId The ID of the slider to get the value of
-     */
-    //% blockId="get_slider_value" block="get value of slider with ID $sliderId"
-    //% sliderId.defl=0
-    //% color="#ff4500"
-    export function getSliderValue(sliderId: number): number {
-        // TODO: Read the slider value from the simulator's UI or the hardware
-        // Placeholder implementation that returns a default value (0)
-        return 0;
+  
+    //% blockId="set_slider_color" block="set slider %variable color to %value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Slider1"
+    //% color="#ff69b4"
+    export function setSamSliderColor(
+      variable: pxsim.SamSlider,
+      value: string
+    ): void {
+      variable.setDeviceColor(value);
     }
-
-    /**
-     * Set the border color of the slider
-     * @param sliderId The ID of the slider to change the border color
-     * @param color The new border color for the slider
-     */
-    //% blockId="set_slider_border_color" block="set border color of slider with ID $sliderId to $color"
-    //% sliderId.defl=0
-    //% color.shadow="colorNumberPicker"
-    //% color="#ff4500"
-    export function setSliderBorderColor(sliderId: number, color: string): void {
-        // TODO: Update the simulator's UI or the hardware
+  
+    //% blockId="create_slider" block="Create new slider"
+    //% variable.defl="Slider1"
+    //% color="#ff69b4"
+    export function createSlider(): pxsim.SamSlider {
+      return new pxsim.SamSlider();
     }
-}
+  }
+  
+  namespace pxsim {
+    /**
+     * A Slider.
+     */
+    //%
+    export class SamSlider {
+      public deviceName = "sam_slider";
+      private _id: string;
+      private _value: number;
+  
+      constructor() {
+        this._id = samlabs.uuidv4();
+        const detail = {
+          device: this.deviceName,
+          event: "device_created",
+          id: this._id,
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_CREATED
+        );
+        window.console.log("Slider created");
+      }
+  
+      public getValue() {
+        return this._value;
+      }
+  
+      public setDeviceColor(color: string) {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value: color,
+          property: "color",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+  
+      public receiveEvent(handler: () => any) {
+        samlabs.WindowEventService.getInstance().sendEvent(
+          samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED, this._id),
+          () => handler()
+        );
+      }
+  
+      get deviceId() {
+        return this._id;
+      }
+  
+      public _dispatch(payload: any, type: string) {
+        samlabs.WindowEventService.getInstance().sendEvent(type, {
+          ...payload,
+        });
+      }
+    }
+  }
+  

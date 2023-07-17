@@ -1,42 +1,145 @@
-//% color="#FF5733" weight=100 icon="\uf0eb" block="Light Sensor" subcategory="Light Sensor"
 namespace pxsim.LightSensor {
-    /**
-     * Get the current value of the light sensor
-     */
-    //% blockId="get_light_sensor_value" block="get light sensor value"
+  
+    //% blockId="get_light_sensor_value" block="value of light sensor %variable"
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor1"
     //% color="#FF5733"
-    export function getLightSensorValue(): number {
-        // TODO: Implement the functionality to read the light sensor's value
-        return 0; // placeholder return
+    export function getSamLightSensorValue(
+      variable: pxsim.SamLightSensor
+    ): any {
+      return variable.getValue();
     }
-    
-    /**
-     * Set the border color of the light sensor
-     * @param color The new color for the light sensor border
-     */
-    //% blockId="set_light_sensor_border_color" block="set light sensor border color to $color"
-    //% color.shadow="colorNumberPicker"
+    //% blockId="get_light_sensor_value_equals" block="value of light sensor %variable is equal to %number"
+    //% variable.shadow=variables_get
+     //% number.min=0 number.max=100
+    //% variable.defl="LightSensor1"
     //% color="#FF5733"
-    export function setLightSensorBorderColor(color: string): void {
-        // TODO: Implement the functionality to change the light sensor's border color
+    export function lightSensorValueIsEqualTo(
+      variable: pxsim.SamLightSensor,
+      number: number
+    ): any {
+      return variable.getValue()===number;
     }
-
-    /**
-     * Wait until the light sensor's value changes
-     */
-    //% blockId="wait_until_light_sensor_value_changes" block="wait until light sensor value changes"
+    //% blockId="get_light_sensor_value_less" block="value of light sensor %variable is less than %number"
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor1"
+     //% number.min=0 number.max=100
     //% color="#FF5733"
-    export function waitUntilLightSensorValueChanges(): void {
-        // TODO: Implement the functionality to wait until the light sensor's value changes
+    export function lightSensorValueIsLessThan(
+      variable: pxsim.SamLightSensor,
+      number: number
+    ): any {
+      return variable.getValue() < number;
     }
-
-    /**
-     * Registers a handler that runs when the light sensor's value changes
-     * @param handler The function to run when the light sensor's value changes
-     */
-    //% blockId="on_light_sensor_value_change" block="when light sensor value changes"
+    //% blockId="get_light_sensor_value_greater" block="value of light sensor %variable is greater than %number"
+    //% variable.shadow=variables_get
+     //% number.min=0 number.max=100
+    //% variable.defl="LightSensor1"
     //% color="#FF5733"
-    export function onLightSensorValueChange(handler: () => void): void {
-        // TODO: Implement the functionality to handle the event when the light sensor's value changes
+    export function lightSensorValueIsGreaterThan(
+      variable: pxsim.SamLightSensor,
+      number:number
+    ): any {
+      return variable.getValue() > number;
     }
-}
+  
+    //% blockId="get_light_sensor_color" block="get color of light sensor %variable"
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    export function getSamLightSensorColor(variable: pxsim.SamLightSensor): any {
+      return variable.getSensorColor();
+    }
+  
+    //% blockId="set_light_sensor_color" block="set color of light sensor %variable to %value"
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    export function setSamLightSensorColor(
+      variable: pxsim.SamLightSensor,
+      value: string
+    ): void {
+      variable.setDeviceColor(value);
+    }
+  
+    //% blockId="create_light_sensor" block="Create new light sensor"
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    export function createLightSensor(): pxsim.SamLightSensor {
+      return new pxsim.SamLightSensor();
+    }
+  }
+  
+  namespace pxsim {
+    /**
+     * A Light Sensor.
+     */
+    //%
+    export class SamLightSensor {
+      public deviceName = "sam_light_sensor";
+      private _id: string;
+      private previousValue:number
+  
+      constructor() {
+        this._id = samlabs.uuidv4();
+        this.previousValue = 0;
+        const detail = {
+          device: this.deviceName,
+          event: "device_created",
+          id: this._id,
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_CREATED
+        );
+      }
+  
+      public getValue() {
+        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+          this._id
+        );
+        return deviceData?.currentValue || 0;
+      }
+  
+      public getSensorColor() {
+          const deviceData =
+          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
+        return deviceData.color;
+      }
+  
+      public setDeviceColor(color: string) {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value: color,
+          property: "color",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+  
+      get deviceId() {
+        return this._id;
+      }
+   
+  
+      public getDeviceColor() {
+        const deviceData =
+          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
+        return deviceData.color;
+      }
+      public receiveEvent(handler: ()=>any) {
+          samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
+      }
+  
+      public _dispatch(payload: any, type: string) {
+        samlabs.WindowEventService.getInstance().sendEvent(type, {
+          ...payload,
+        });
+      }
+    }
+  }
+  

@@ -1,41 +1,103 @@
-//% color="#ff69b4" weight=100 icon="\uf021" block="Button" subcategory="Sam Button"
 namespace pxsim.ServoMotor {
-    /**
-     * Set the position of the servo motor with a given ID
-     * @param motorId The ID of the servo motor to set the position of
-     * @param position The new position for the servo motor
-     */
-    //% blockId="set_servo_motor_position" block="set position of servo motor with ID $motorId to $position"
-    //% motorId.defl=0
-    //% position.min=0 position.max=180
-    //% color="#dc143c"
-    export function setServoMotorPosition(motorId: number, position: number): void {
-        // TODO: Set the servo motor position in the simulator's UI or the hardware
+    //% blockId="set_servo_motor_position" block="set servo motor %variable position to %value"
+    //% value.min=0 value.max=180
+    //% variable.shadow=variables_get
+    //% variable.defl="ServoMotor1"
+    //% color="#ff69b4"
+    export function setServoMotorPosition(variable: pxsim.SamServoMotor, value: number): void {
+      variable.setPosition(value);
     }
-
-    /**
-     * Set the border color of the servo motor
-     * @param motorId The ID of the servo motor to change border color
-     * @param color The new border color for the servo motor
-     */
-    //% blockId="set_servo_motor_border_color" block="set border color of servo motor with ID $motorId to $color"
-    //% motorId.defl=0
-    //% color.shadow="colorNumberPicker"
-    //% color="#dc143c"
-    export function setServoMotorBorderColor(motorId: number, color: string): void {
-        // TODO: Update the simulator's UI or the hardware
+  
+    //% blockId="get_servo_motor_position" block="get servo motor %variable position"
+    //% variable.shadow=variables_get
+    //% variable.defl="ServoMotor1"
+    //% color="#ff69b4"
+    export function getServoMotorPosition(variable: pxsim.SamServoMotor): any {
+      return variable.getPosition();
     }
-
-    /**
-     * Get the position of the servo motor with a given ID
-     * @param motorId The ID of the servo motor to get the position of
-     */
-    //% blockId="get_servo_motor_position" block="get position of servo motor with ID $motorId"
-    //% motorId.defl=0
-    //% color="#dc143c"
-    export function getServoMotorPosition(motorId: number): number {
-        // TODO: Read the servo motor position from the simulator's UI or the hardware
-        // Placeholder implementation that returns a default value (0)
-        return 0;
+  
+    //% blockId="set_servo_motor_color" block="set servo motor %variable color to %value"
+    //% variable.shadow=variables_get
+    //% variable.defl="ServoMotor1"
+    //% color="#ff69b4"
+    export function setServoMotorColor(variable: pxsim.SamServoMotor, value: string): void {
+      variable.setDeviceColor(value);
     }
-}
+  
+    //% blockId="create_servo_motor" block="Create new servo motor"
+    //% variable.defl="ServoMotor1"
+    //% color="#ff69b4"
+    export function createServoMotor(): pxsim.SamServoMotor {
+      return new pxsim.SamServoMotor();
+    }
+  }
+  
+  namespace pxsim {
+    /**
+     * A ServoMotor.
+     */
+    //%
+    export class SamServoMotor {
+      public deviceName = "sam_servo_motor";
+      private _id: string;
+      private _position: number;
+  
+      constructor() {
+        this._id = samlabs.uuidv4();
+        const detail = {
+          device: this.deviceName,
+          event: "device_created",
+          id: this._id,
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_CREATED
+        );
+        window.console.log("ServoMotor created");
+      }
+  
+      public setPosition(value: number) {
+        this._position = value;
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value: this._position,
+          property: "position",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+  
+      public getPosition() {
+        return this._position;
+      }
+  
+      public setDeviceColor(color: string) {
+        const detail = {
+          device: this.deviceName,
+          event: "device_value_changed",
+          id: this._id,
+          value: color,
+          property: "color",
+        };
+        this._dispatch(
+          { device: this.deviceName, detail },
+          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        );
+      }
+  
+      get deviceId() {
+        return this._id;
+      }
+  
+      public _dispatch(payload: any, type: string) {
+        samlabs.WindowEventService.getInstance().sendEvent(type, {
+          ...payload,
+        });
+      }
+    }
+  }
+  

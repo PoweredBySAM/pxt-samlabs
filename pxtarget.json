@@ -20,7 +20,7 @@
       "variablesBlocks": true,
       "textBlocks": false,
       "functionBlocks": false,
-      "listsBlocks": false
+      "listsBlocks": true
     },
     "blockColors":{
         "button":"#e3008c",
@@ -36,7 +36,7 @@
         "tiltSensor":"#9400d3"
     },
     "simulator": {
-        "autoRun": true,
+        "autoRun": false,
         "aspectRatio": 1
     },
     "compile": {
@@ -98,6 +98,7 @@
         "print": true,
         "highContrast": true,
         "python": true,
+        "pythonToolbox": true,
         "greenScreen": true,
         "monacoColors": {
             "editor.background": "#ecf0f1"

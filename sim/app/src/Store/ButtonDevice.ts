@@ -1,5 +1,6 @@
 import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
-import { makePersistable } from 'mobx-persist-store';
+import { CustomEventGenerator } from '../Features/CustomEventGenerator';
+import SamDeviceManager from 'src/Features/SamSimState';
 
 class ButtonDevice {
   private _virtualController: any;
@@ -17,10 +18,13 @@ class ButtonDevice {
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted : boolean;
+  customEventGenerator: CustomEventGenerator;
+  lsStateStore:SamDeviceManager;
 
 
   constructor(deviceData: any) {
-    ;
+    this.lsStateStore = SamDeviceManager.getInstance()
+    this.customEventGenerator = CustomEventGenerator.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -41,7 +45,7 @@ class ButtonDevice {
     this.deleted = false
     this.Color=meta?.hue;
     makeAutoObservable(this)
-    makePersistable(this, { name: 'ButtonStore', properties: ['virtualController','bluetoothController'] });
+    this.updateLsStateStore()
 
   }
 
@@ -49,6 +53,7 @@ class ButtonDevice {
   updateState(newState: string) {
     if (this.possibleStates.includes(newState)) {
       this.currentState = newState;
+      this.updateLsStateStore()
     }
   }
 
@@ -68,7 +73,7 @@ class ButtonDevice {
   @action
   updateColor(value:string) {
     this.Color = value;
-  }
+    this.updateLsStateStore()  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -88,10 +93,23 @@ class ButtonDevice {
   get bluetoothController() {
     return this._bluetoothController;
   }
+  getAllData(){
+    return {
+      deviceId:this._deviceId,
+      deviceType:this.virtualInteractionComponentName,
+      deviceState:this.currentState,
+      deviceColor:this.Color,
+      isDeleted:this.deleted,
+    }
+  }
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
   
+  updateLsStateStore(){
+    this.lsStateStore.updateDevice(this.getAllData())
+  }
+
 
 }
 

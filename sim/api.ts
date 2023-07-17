@@ -1,3 +1,4 @@
+
 /// <reference path="../libs/core/enums.d.ts"/>
 
 
@@ -145,8 +146,16 @@ namespace pxsim {
             return delay(400)
         }
     }
-}
 
+    export enum MotorProperties {
+        Speed = "speed",
+        Direction = "direction",
+        // Add more properties as required
+    }
+
+
+
+}
 namespace pxsim.sprites {
     /**
      * Creates a new sprite
@@ -156,7 +165,25 @@ namespace pxsim.sprites {
         return new Sprite();
     }
 }
+namespace pxsim.TiltSensor{
+    /**
+     * Creates a new ServoMotor
+     */
+    //% variable.shadow=variables_get
+    //% variable.defl="TiltSensor 1"
+    //% blockId="createTiltSensor" block="createTiltSensor"
+    export function createProximitySensor(): SamTiltSensor {
+        return new pxsim.SamTiltSensor();
+    }
+}
+
+
 namespace samlabs{
+    export enum samSimEvents{
+        TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
+        TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
+        FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
+    }
     export class SimulatorQueue {
         private items: any[];
         constructor() {
@@ -199,9 +226,9 @@ export class WindowEventService {
         window.dispatchEvent(event);
     }
 
-    receiveEvent(eventName: any, callback: (detail: any) => void) {
+    receiveEvent(eventName: any, callback: (detail ?: any) => void) {
         window.addEventListener(eventName, (event: CustomEvent) => {
-            callback(event.detail);
+            callback(event);
         });
     }
 
@@ -212,8 +239,48 @@ export class WindowEventService {
         return WindowEventService.instance;
     }
 }
+export function uuidv4() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    let r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+export function buildEventName(eventName: string, deviceId: string) {
+  return `${eventName}_${deviceId}`;
+}
+export class SamSimDataService {
+    private devicesKey: string = "sam_devices_state";
+    public static instance: SamSimDataService;
 
-    
-    
+    private constructor() {}
+
+    public static getInstance(): SamSimDataService {
+      if (!SamSimDataService.instance) {
+        SamSimDataService.instance = new SamSimDataService();
+      }
+      return SamSimDataService.instance;
+    }
+
+    private loadDevices(): Array<any> {
+      const devices = localStorage.getItem(this.devicesKey);
+      return devices ? JSON.parse(devices) : [];
+    }
+
+    public getDeviceProps(id: string): any {
+        const devices = this.loadDevices();
+        return devices.find((device) => device.deviceId === id);  
+    }
+  }
+
 
 }
+
+
+  
+  
+  
+
+    
+    
+

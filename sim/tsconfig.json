@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
-        "target": "es2017",
+        "target": "es6",
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "declaration": true,
-        "out": "../built/sim.js",
+        "outFile": "../built/sim.js",
         "rootDir": ".",
         "newLine": "LF",
-        "sourceMap": false,
-        "skipLibCheck": true
+        "moduleResolution": "node",
+        "sourceMap": true
     },
     "exclude": [
         "app"
