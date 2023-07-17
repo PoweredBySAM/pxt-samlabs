@@ -20,7 +20,7 @@
       "variablesBlocks": true,
       "textBlocks": false,
       "functionBlocks": false,
-      "listsBlocks": true
+      "listsBlocks": false
     },
     "blockColors":{
         "button":"#e3008c",
@@ -36,7 +36,7 @@
         "tiltSensor":"#9400d3"
     },
     "simulator": {
-        "autoRun": false,
+        "autoRun": true,
         "aspectRatio": 1
     },
     "compile": {

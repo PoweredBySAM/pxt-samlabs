@@ -1,6 +1,4 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
-import { CustomEventGenerator } from "../Features/CustomEventGenerator";
-import SamDeviceManager from "src/Features/SamSimState";
 
 class DCMotorDevice {
    _virtualController: any;
@@ -8,8 +6,6 @@ class DCMotorDevice {
    _deviceId: string;
   restProps: any;
   virtualInteractionComponentName: string;
-  lsStateStore:SamDeviceManager;
-
 
   @observable isConnected = false;
   @observable isConnecting = false;
@@ -22,12 +18,8 @@ class DCMotorDevice {
   @observable testModeSpeed:number;
    @observable speed: number;
     _adjustedSpeed: number;
-  customEventGenerator: CustomEventGenerator;
 
   constructor(deviceData: any) {
-    this.customEventGenerator = CustomEventGenerator.getInstance();
-    this.lsStateStore = SamDeviceManager.getInstance();
-
     const {
       deviceIdOnCreate,
       meta,
@@ -50,7 +42,6 @@ class DCMotorDevice {
     this.deleted = false;
     this.testModeSpeed = 0
     makeAutoObservable(this);
-    this.updateLsStateStore()
 
   }
   @action
@@ -74,24 +65,12 @@ class DCMotorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
-    this.updateLsStateStore();
   }
 
   @action
   setSpeed(value: number) {
     this.speed = value;
     this.isConnected && this._bluetoothController?.setSpeed(value);
-    this.updateLsStateStore();
-  }
-  @action
-  setDeviceProp(property:string,value: number) {
-    switch (property) {
-      case 'speed':
-        this.setSpeed(value)
-        break;
-      default:
-        return "Invalid property"
-    }
   }
 
   @action
@@ -120,9 +99,8 @@ class DCMotorDevice {
   }
   @action
   deleteDevice() {
-    this.deleted = true; 
+    this.deleted = true;
   }
-
   @action
   setTestModeSpeed(value:number) {
     this.testModeSpeed = value;
@@ -134,22 +112,8 @@ class DCMotorDevice {
   get bluetoothController() {
     return this._bluetoothController;
   }
- 
-  getAllData(){
-    return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      deviceSpeed:this.speed,
-
-    }
-  }
   set virtualController(controller: any) {
     this._virtualController = controller;
-  }
-  updateLsStateStore(data?:any){ 
-    this.lsStateStore.updateDevice(this.getAllData())
   }
 }
 

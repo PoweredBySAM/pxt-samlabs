@@ -1,133 +1,53 @@
+//% color="#08D0C4" weight=100 icon= "\uf185" block="Button" subcategory="Sam Button"
 namespace pxsim.ProximitySensor {
-    //% blockId="on_proximity_sensor_value_changes" block="when proximity sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#1e90ff"
-    export function onProximitySensorValueChanges(
-      variable: pxsim.SamProximitySensor,
-      handler: () => void
-    ): void {
-      variable.receiveEvent(handler);
-    }
-  
-    //% blockId="get_proximity_sensor_value" block="get proximity %variable sensor value"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    export function getSamProximitySensorValue(
-      variable: pxsim.SamProximitySensor
-    ): any {
-      return variable.getValue();
-    }
-  
-    //% blockId="get_proximity_sensor_color" block="get proximity sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    export function getSamProximitySensorColor(variable: pxsim.SamProximitySensor): any {
-      return variable.getSensorColor();
-    }
-  
-    //% blockId="set_proximity_sensor_color" block="set proximity sensor %variable  color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    export function setSamProximitySensorColor(
-      variable: pxsim.SamProximitySensor,
-      value: string
-    ): void {
-      variable.setDeviceColor(value);
-    }
-  
     /**
      * Wait until the proximity sensor value changes
-     * @param sensorId The ID of the proximity sensor to wait for
+     * @param sensorId The ID of the proximity sensor to monitor
      */
-    //% blockId="wait_until_proximity_sensor_value_changes" block="wait until proximity sensor $variable value changes"
-    //% variable.shadow=variables_get
+    //% blockId="wait_until_proximity_sensor_value_changes" block="wait until proximity sensor with ID $sensorId value changes"
     //% sensorId.defl=0
     //% color="#1e90ff"
-    export function waitUntilProximitySensorValueChanges(variable:SamProximitySensor,handler:()=>any): void {
-      variable.receiveEvent(handler);  
+    export function waitUntilProximitySensorValueChanges(sensorId: number): void {
+        // TODO: Implement functionality to wait for proximity sensor value to change
+        // You may use event listeners, loops, or hardware-specific methods
     }
-  
-    //% blockId="create_proximity_sensor" block="Create new proximity sensor"
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    export function createProximitySensor(): pxsim.SamProximitySensor {
-      return new pxsim.SamProximitySensor();
-    }
-  }
-  
-  namespace pxsim {
+
     /**
-     * A Proximity Sensor.
+     * Registers a handler that runs when the proximity sensor value changes
+     * @param sensorId The ID of the proximity sensor to monitor
+     * @param handler The function to run when the proximity sensor value changes
      */
-    //%
-    export class SamProximitySensor {
-      public deviceName = "sam_proximity_sensor";
-      private _id: string;
-  
-      constructor() {
-        this._id = samlabs.uuidv4();
-        const detail = {
-          device: this.deviceName,
-          event: "device_created",
-          id: this._id,
-        };
-        this._dispatch(
-          { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_CREATED
-        );
-        window.console.log("ProximitySensor created");
-      }
-  
-      public getValue() {
-        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
-          this._id
-        );
-        return deviceData?.value || 0;
-      }
-  
-      public getSensorColor() {
-          const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
-  
-      public setDeviceColor(color: string) {
-        const detail = {
-          device: this.deviceName,
-          event: "device_value_changed",
-          id: this._id,
-          value: color,
-          property: "color",
-        };
-        this._dispatch(
-          { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-        );
-      }
-  
-      get deviceId() {
-        return this._id;
-      }
-  
-      public getDeviceColor() {
-        const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
-      public receiveEvent(handler: ()=>any) {
-          samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
-      }
-  
-      public _dispatch(payload: any, type: string) {
-        samlabs.WindowEventService.getInstance().sendEvent(type, {
-          ...payload,
-        });
-      }
+    //% blockId="when_proximity_sensor_value_changes" block="when proximity sensor with ID $sensorId value changes"
+    //% sensorId.defl=0
+    //% color="#1e90ff"
+    export function whenProximitySensorValueChanges(sensorId: number, handler: () => void): void {
+        // TODO: Add an event listener, use hardware-specific methods, or simulate the event in a loop
+        // This is a placeholder implementation that does not interact with any hardware or simulator
     }
-  }
-  
+
+    /**
+     * Get the value of the proximity sensor with a given ID
+     * @param sensorId The ID of the proximity sensor to get the value of
+     */
+    //% blockId="get_proximity_sensor_value" block="get value of proximity sensor with ID $sensorId"
+    //% sensorId.defl=0
+    //% color="#1e90ff"
+    export function getProximitySensorValue(sensorId: number): number {
+        // TODO: Read the proximity sensor value from the simulator's UI or the hardware
+        // Placeholder implementation that returns a default value (0)
+        return 0;
+    }
+
+    /**
+     * Set the border color of the proximity sensor
+     * @param sensorId The ID of the proximity sensor to change border color
+     * @param color The new border color for the proximity sensor
+     */
+    //% blockId="set_proximity_sensor_border_color" block="set border color of proximity sensor with ID $sensorId to $color"
+    //% sensorId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#1e90ff"
+    export function setProximitySensorBorderColor(sensorId: number, color: string): void {
+        // TODO: Update the simulator's UI or the hardware
+    }
+}

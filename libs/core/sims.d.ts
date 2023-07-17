@@ -109,257 +109,212 @@ declare namespace sprites {
     function createSprite(): Sprite;
 
 }
-declare namespace TiltSensor {
-    /**
-     * Creates a new ServoMotor
-     */
-    //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor 1"
-    //% blockId="createTiltSensor" block="createTiltSensor"
-    //% shim=TiltSensor::createProximitySensor
-    function createProximitySensor(): SamTiltSensor;
-
-}
 declare namespace button {
-    //% blockId="set_button_color" block="set color of Button $variable to $color"
-    //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  
+    /**
+     * Registers a handler that runs when the button with the given ID is pressed
+     * @param buttonId The ID of the button to listen for
+     * @param handler The function to run when the button is pressed
+     */
+    //% blockId="on_button_pressed" block="when Button with ID $buttonId is pressed"
+    //% buttonId.defl=0
+    //% weight=1 icon="\uf11b"
+    //% shim=button::onButtonPressed
+    function onButtonPressed(buttonId: number, handler: () => void): void;
+
+    /**
+     * Wait until the button with the given ID is pressed
+     * @param buttonId The ID of the button to wait for
+     */
+    //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
+    //% buttonId.defl=0
+    //% advanced=true
+    //% shim=button::waitUntilButtonPressed
+    function waitUntilButtonPressed(buttonId: number): void;
+
+    /**
+     * Set the color of the button
+     * @param buttonId The ID of the button to change color
+     * @param color The new color for the button
+     */
+    //% blockId="set_button_color" block="set color of Button with ID $buttonId to $color"
+    //% buttonId.defl=0
     //% color.shadow="colorNumberPicker"
     //% advanced=true
     //% shim=button::setButtonColor
-    function setButtonColor(variable: SamBuzzer, color: string): void;
+    function setButtonColor(buttonId: number, color: string): void;
 
-    //% blockId="create_button" block="create new button"
-    //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  //% weight=2
-    //% shim=button::createNewButton
-    function createNewButton(): SamButton;
-
-    //% blockId="get_is_pressed" block="$variable is pressed"
-    //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  //% weight=2
-    //% shim=button::buttonIsPressed
-    function buttonIsPressed(variable: SamButton): boolean;
+    /**
+     * Get the state of the button with a given ID
+     * @param buttonId The ID of the button to get the state of
+     */
+    //% blockId="get_button_state" block="get state of Button with ID $buttonId"
+    //% buttonId.defl=0
+    //% advanced=true
+    //% shim=button::getButtonState
+    function getButtonState(buttonId: number): boolean;
 
 }
-    /**
-     * A Button.
-     */
-    //%
-    declare class SamButton {
-    }
 declare namespace buzzer {
     /**
      * Set the volume of the buzzer with the given ID
-     * @param variable The buzzer instance to set the volume for
+     * @param buzzerId The ID of the buzzer to set the volume for
      * @param volume The new volume for the buzzer (0-100)
      */
-    //% blockId="set_buzzer_volume" block="set volume of Buzzer in variable $variable to $volume"
-    //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% blockId="set_buzzer_volume" block="set volume of Buzzer with ID $buzzerId to $volume"
+    //% buzzerId.defl=0
     //% volume.min=0 volume.max=100
     //% color="#d400d4"
     //% shim=buzzer::setBuzzerVolume
-    function setBuzzerVolume(variable: SamBuzzer, volume: number): void;
+    function setBuzzerVolume(buzzerId: number, volume: number): void;
 
     /**
      * Set the pitch of the buzzer with the given ID
      * @param buzzerId The ID of the buzzer to set the pitch for
      * @param pitch The new pitch for the buzzer (in Hz)
      */
-    //% blockId="set_buzzer_pitch" block="set pitch of Buzzer in variable $variable to $pitch Hz"
-    //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
-    //% volume.min=0 volume.max=100
+    //% blockId="set_buzzer_pitch" block="set pitch of Buzzer with ID $buzzerId to $pitch Hz"
+    //% buzzerId.defl=0
     //% pitch.min=20 pitch.max=20000
     //% color="#d400d4"
     //% shim=buzzer::setBuzzerPitch
-    function setBuzzerPitch(variable: SamBuzzer, pitch: number): void;
+    function setBuzzerPitch(buzzerId: number, pitch: number): void;
 
     /**
      * Clear the buzzer with the given ID by setting its volume and pitch to zero
-     * @param variable The buzzer instance to clear
+     * @param buzzerId The ID of the buzzer to clear
      */
-    //% blockId="clear_buzzer" block="clear Buzzer in $variable"
-    //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% blockId="clear_buzzer" block="clear Buzzer with ID $buzzerId"
+    //% buzzerId.defl=0
     //% color="#d400d4"
     //% shim=buzzer::clearBuzzer
-    function clearBuzzer(variable: SamBuzzer): void;
+    function clearBuzzer(buzzerId: number): void;
 
     /**
      * Set the color of the buzzer with the given ID
      * @param buzzerId The ID of the buzzer to set the color for
      * @param color The new color for the buzzer
      */
-    //% blockId="set_buzzer_color" block="set color of Buzzer $variable to $color"
-    //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% blockId="set_buzzer_color" block="set color of Buzzer with ID $buzzerId to $color"
+    //% buzzerId.defl=0
     //% color.shadow="colorNumberPicker"
     //% color="#d400d4"
     //% shim=buzzer::setBuzzerColor
-    function setBuzzerColor(variable: SamBuzzer, color: string): void;
-
-    /**
-     * Creates a new Buzzer
-     */
-    //% blockId="createBuzzer" block="createBuzzer"
-    //% shim=buzzer::createBuzzer
-    function createBuzzer(): SamBuzzer;
+    function setBuzzerColor(buzzerId: number, color: string): void;
 
 }
-    /**
-     * A Buzzer.
-     */
-    //%
-    declare class SamBuzzer {
-    }
 declare namespace DCMotor {
-    //% blockId="set_motor_speed" block="set %variable motor speed to %value"
-    //% speed.min=0 speed.max=100
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    /**
+     * Set the speed of the DC motor with the given ID
+     * @param motorId The ID of the DC motor to set the speed for
+     * @param speed The new speed for the DC motor (-100 to 100)
+     */
+    //% blockId="set_dc_motor_speed" block="set speed of DC Motor with ID $motorId to $speed"
+    //% motorId.defl=0
+    //% speed.min=-100 speed.max=100
     //% color="#32cd32"
-    //% shim=DCMotor::setSamMotorSpeed
-    function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
+    //% shim=DCMotor::setDCMotorSpeed
+    function setDCMotorSpeed(motorId: number, speed: number): void;
 
-    //% blockId="stop_motor" block="stop motor %variable "
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    /**
+     * Set the color of the DC motor with the given ID
+     * @param motorId The ID of the DC motor to set the color for
+     * @param color The new color for the DC motor
+     */
+    //% blockId="set_dc_motor_color" block="set color of DC Motor with ID $motorId to $color"
+    //% motorId.defl=0
+    //% color.shadow="colorNumberPicker"
     //% color="#32cd32"
-    //% shim=DCMotor::stopMotor
-    function stopMotor(variable: SamDCMotor): void;
+    //% shim=DCMotor::setDCMotorColor
+    function setDCMotorColor(motorId: number, color: string): void;
 
-    //% blockId="set_motor_color" block="set %variable motor color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    /**
+     * Get the speed of the DC motor with the given ID
+     * @param motorId The ID of the DC motor to get the speed of
+     */
+    //% blockId="get_dc_motor_speed" block="get speed of DC Motor with ID $motorId"
+    //% motorId.defl=0
     //% color="#32cd32"
-    //% shim=DCMotor::setSamMotorColor
-    function setSamMotorColor(variable: SamDCMotor, value: string): void;
-
-    //% blockId="get_motor_speed" block="get %variable motor speed"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
-    //% shim=DCMotor::getSamMotorSpeed
-    function getSamMotorSpeed(variable: SamDCMotor): any;
-
-    //% blockId="get_motor_color" block="get %variable motor color"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
-    // % prop.shadow=motor_property_dropdown
-    //% shim=DCMotor::getSamMotorColor
-    function getSamMotorColor(variable: SamDCMotor): any;
-
-    //% blockId="create_motor" block="Create new motor"
-    //% variable.defl="Motor 1"
-    //% shim=DCMotor::createMotor
-    function createMotor(): SamDCMotor;
+    //% shim=DCMotor::getDCMotorSpeed
+    function getDCMotorSpeed(motorId: number): number;
 
 }
-    /**
-     * A DC Motor.
-     */
-    //%
-    declare class SamDCMotor {
-    }
 declare namespace HeatSensor {
-    //% blockId="on_heat_sensor_value_changes" block="when heat sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#3455db"
-    //% shim=HeatSensor::onHeatSensorValueChanges
-    function onHeatSensorValueChanges(variable: SamHeatSensor, handler: () => void): void;
-
-    //% blockId="get_heat_sensor_value_celsius" block="get heat %variable sensor value in Celsius"
-    //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::getSamHeatSensorValueCelsius
-    function getSamHeatSensorValueCelsius(variable: SamHeatSensor): any;
-
-    //% blockId="get_heat_sensor_value_fahrenheit" block="get heat sensor  %variable value in Fahrenheit"
-    //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::getSamHeatSensorValueFahrenheit
-    function getSamHeatSensorValueFahrenheit(variable: SamHeatSensor): any;
-
-    //% blockId="get_heat_sensor_color" block="get heat sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::getSamHeatSensorColor
-    function getSamHeatSensorColor(variable: SamHeatSensor): any;
-
-    //% blockId="set_heat_sensor_color" block="set heat sensor %variable  color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::setSamHeatSensorColor
-    function setSamHeatSensorColor(variable: SamHeatSensor, value: string): void;
-
     /**
      * Wait until the heat sensor value changes
      * @param sensorId The ID of the heat sensor to wait for
      */
-    //% blockId="wait_until_heat_sensor_value_changes" block="wait until heat sensor $variable value changes"
-    //% variable.shadow=variables_get
+    //% blockId="wait_until_heat_sensor_value_changes" block="wait until heat sensor with ID $sensorId value changes"
     //% sensorId.defl=0
     //% color="#3455db"
     //% shim=HeatSensor::waitUntilHeatSensorValueChanges
-    function waitUntilHeatSensorValueChanges(variable: SamHeatSensor, handler: () => any): void;
+    function waitUntilHeatSensorValueChanges(sensorId: number): void;
 
-    //% blockId="create_heat_sensor" block="Create new heat sensor"
-    //% variable.defl="HeatSensor1"
+    /**
+     * Register an event handler to run when the heat sensor value changes
+     * @param sensorId The ID of the heat sensor to listen for
+     * @param handler The function to run when the heat sensor value changes
+     */
+    //% blockId="on_heat_sensor_value_changes" block="when heat sensor with ID $sensorId value changes"
+    //% sensorId.defl=0
     //% color="#3455db"
-    //% shim=HeatSensor::createHeatSensor
-    function createHeatSensor(): SamHeatSensor;
+    //% shim=HeatSensor::onHeatSensorValueChanges
+    function onHeatSensorValueChanges(sensorId: number, handler: () => void): void;
+
+    /**
+     * Get the value of the heat sensor with a given ID in Celsius
+     * @param sensorId The ID of the heat sensor to get the value of
+     */
+    //% blockId="get_heat_sensor_value_celsius" block="get value of heat sensor with ID $sensorId in Celsius"
+    //% sensorId.defl=0
+    //% color="#3455db"
+    //% shim=HeatSensor::getHeatSensorValueCelsius
+    function getHeatSensorValueCelsius(sensorId: number): number;
+
+    /**
+     * Get the value of the heat sensor with a given ID in Fahrenheit
+     * @param sensorId The ID of the heat sensor to get the value of
+     */
+    //% blockId="get_heat_sensor_value_fahrenheit" block="get value of heat sensor with ID $sensorId in Fahrenheit"
+    //% sensorId.defl=0
+    //% color="#3455db"
+    //% shim=HeatSensor::getHeatSensorValueFahrenheit
+    function getHeatSensorValueFahrenheit(sensorId: number): number;
+
+    /**
+     * Set the border color of the heat sensor
+     * @param sensorId The ID of the heat sensor to change the border color
+     * @param color The new border color for the heat sensor
+     */
+    //% blockId="set_heat_sensor_border_color" block="set border color of heat sensor with ID $sensorId to $color"
+    //% sensorId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#3455db"
+    //% shim=HeatSensor::setHeatSensorBorderColor
+    function setHeatSensorBorderColor(sensorId: number, color: string): void;
 
 }
-    /**
-     * A Heat Sensor.
-     */
-    //%
-    declare class SamHeatSensor {
-    }
 declare namespace LED {
     /**
      * Turn the LED with the given ID on
-     * @param variable The  LED to turn on
+     * @param ledId The ID of the LED to turn on
      */
-    //% blockId="turn_led_on" block="turn LED $variable on"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED1"
+    //% blockId="turn_led_on" block="turn LED with ID $ledId on"
+    //% ledId.defl=0
     //% color="#4169e1"
     //% shim=LED::turnLEDOn
-    function turnLEDOn(variable: SamLED): void;
+    function turnLEDOn(ledId: number): void;
 
     /**
-     * Set the color of the LED with the given ID
-     * @param variable The LED to set the color for
+     * Change the color of the LED with the given ID
+     * @param ledId The ID of the LED to change the color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_color" block="set color of LED $variable to  $color"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED1"
+    //% blockId="change_led_color" block="change color of LED with ID $ledId to $color"
+    //% ledId.defl=0
     //% color.shadow="colorNumberPicker"
     //% color="#4169e1"
-    //% shim=LED::setLEDColor
-    function setLEDColor(variable: SamLED, color: string): void;
-
-    /**
-     * Set the body color of the LED with the given ID
-     * @param variable The  LED to set the Body color for
-     * @param color The new color for the LED
-     */
-    //% blockId="set_led__body_color" block="set color of LED $variable to  $color"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
-    //% color.shadow="colorNumberPicker"
-    //% color="#4169e1"
-    //% shim=LED::setLEDBodyColor
-    function setLEDBodyColor(variable: SamLED, color: string): void;
+    //% shim=LED::changeLEDColor
+    function changeLEDColor(ledId: number, color: string): void;
 
     /**
      * Change the brightness of the LED with the given ID
@@ -367,334 +322,327 @@ declare namespace LED {
      * @param brightness The new brightness for the LED (0 to 100)
      */
     //% blockId="change_led_brightness" block="change brightness of LED with ID $ledId to $brightness"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% ledId.defl=0
     //% brightness.min=0 brightness.max=100
     //% color="#4169e1"
     //% shim=LED::changeLEDBrightness
-    function changeLEDBrightness(variable: SamLED, brightness: number): void;
+    function changeLEDBrightness(ledId: number, brightness: number): void;
+
+    /**
+     * Set the color of the LED with the given ID
+     * @param ledId The ID of the LED to set the color for
+     * @param color The new color for the LED
+     */
+    //% blockId="set_led_color" block="set color of LED with ID $ledId to $color"
+    //% ledId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#4169e1"
+    //% shim=LED::setLEDColor
+    function setLEDColor(ledId: number, color: string): void;
+
+    /**
+     * Set the border color of the LED with the given ID
+     * @param ledId The ID of the LED to set the border color for
+     * @param borderColor The new border color for the LED
+     */
+    //% blockId="set_led_border_color" block="set border color of LED with ID $ledId to $borderColor"
+    //% ledId.defl=0
+    //% borderColor.shadow="colorNumberPicker"
+    //% color="#4169e1"
+    //% shim=LED::setLEDBlockColor
+    function setLEDBlockColor(ledId: number, borderColor: string): void;
 
     /**
      * Get the brightness of the LED with the given ID
      * @param ledId The ID of the LED to get the brightness of
      */
-    //% blockId="get_led_brightness" block="get brightness of LED $variable"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% blockId="get_led_brightness" block="get brightness of LED with ID $ledId"
+    //% ledId.defl=0
     //% color="#4169e1"
     //% shim=LED::getLEDBrightness
-    function getLEDBrightness(variable: SamLED): number;
+    function getLEDBrightness(ledId: number): number;
 
     /**
-     * Get the brightness of the LED with the given ID
-     * @param variable The LED to get the brightness of
+     * Get the color of the LED with the given ID
+     * @param ledId The ID of the LED to get the color of
      */
-    //% blockId="get_led_color" block="get color of LED $variable"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% blockId="get_led_color" block="get color of LED with ID $ledId"
+    //% ledId.defl=0
     //% color="#4169e1"
     //% shim=LED::getLEDColor
-    function getLEDColor(variable: SamLED): number;
+    function getLEDColor(ledId: number): string;
 
     /**
      * Check if the LED with the given ID is on
      * @param ledId The ID of the LED to check if it's on
      */
-    //% blockId="is_led_on" block="is LED $variable on"
-    //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% blockId="is_led_on" block="is LED with ID $ledId on"
     //% ledId.defl=0
     //% color="#4169e1"
     //% shim=LED::isLEDOn
-    function isLEDOn(variable: SamLED): boolean;
+    function isLEDOn(ledId: number): boolean;
 
-    //% blockId="create_led" block="Create new LED"
-    //% variable.defl="LED1"
+    /**
+     * When the light sensor value changes
+     */
+    //% blockId="when_light_sensor_value_changes" block="when light sensor value changes"
     //% color="#4169e1"
-    //% shim=LED::createLED
-    function createLED(): SamLED;
+    //% shim=LED::whenLightSensorValueChanges
+    function whenLightSensorValueChanges(handler: (newValue: number) => void): void;
 
 }
-    /**
-     * A LED.
-     */
-    //%
-    declare class SamLED {
-    }
 declare namespace LightSensor {
-    //% blockId="on_light_sensor_value_changes" block="when light sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
+    /**
+     * Get the current value of the light sensor
+     */
+    //% blockId="get_light_sensor_value" block="get light sensor value"
     //% color="#FF5733"
-    //% shim=LightSensor::onLightSensorValueChanges
-    function onLightSensorValueChanges(variable: SamLightSensor, handler: () => void): void;
-
-    //% blockId="get_light_sensor_value" block="get light %variable sensor value"
-    //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::getSamLightSensorValue
-    function getSamLightSensorValue(variable: SamLightSensor): any;
-
-    //% blockId="get_light_sensor_color" block="get light sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::getSamLightSensorColor
-    function getSamLightSensorColor(variable: SamLightSensor): any;
-
-    //% blockId="set_light_sensor_color" block="set light sensor %variable  color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::setSamLightSensorColor
-    function setSamLightSensorColor(variable: SamLightSensor, value: string): void;
+    //% shim=LightSensor::getLightSensorValue
+    function getLightSensorValue(): number;
 
     /**
-     * Wait until the light sensor value changes
-     * @param sensorId The ID of the light sensor to wait for
+     * Set the border color of the light sensor
+     * @param color The new color for the light sensor border
      */
-    //% blockId="wait_until_light_sensor_value_changes" block="wait until light sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% sensorId.defl=0
+    //% blockId="set_light_sensor_border_color" block="set light sensor border color to $color"
+    //% color.shadow="colorNumberPicker"
+    //% color="#FF5733"
+    //% shim=LightSensor::setLightSensorBorderColor
+    function setLightSensorBorderColor(color: string): void;
+
+    /**
+     * Wait until the light sensor's value changes
+     */
+    //% blockId="wait_until_light_sensor_value_changes" block="wait until light sensor value changes"
     //% color="#FF5733"
     //% shim=LightSensor::waitUntilLightSensorValueChanges
-    function waitUntilLightSensorValueChanges(variable: SamLightSensor, handler: () => any): void;
+    function waitUntilLightSensorValueChanges(): void;
 
-    //% blockId="create_light_sensor" block="Create new light sensor"
-    //% variable.defl="LightSensor1"
+    /**
+     * Registers a handler that runs when the light sensor's value changes
+     * @param handler The function to run when the light sensor's value changes
+     */
+    //% blockId="on_light_sensor_value_change" block="when light sensor value changes"
     //% color="#FF5733"
-    //% shim=LightSensor::createLightSensor
-    function createLightSensor(): SamLightSensor;
+    //% shim=LightSensor::onLightSensorValueChange
+    function onLightSensorValueChange(handler: () => void): void;
 
 }
-    /**
-     * A Light Sensor.
-     */
-    //%
-    declare class SamLightSensor {
-    }
 declare namespace PressureSensor {
-    //% blockId="on_pressure_sensor_value_changes" block="when pressure sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#00aa00"
-    //% shim=PressureSensor::onPressureSensorValueChanges
-    function onPressureSensorValueChanges(variable: SamPressureSensor, handler: () => void): void;
-
-    //% blockId="get_pressure_sensor_value" block="get pressure %variable sensor value"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    //% shim=PressureSensor::getSamPressureSensorValue
-    function getSamPressureSensorValue(variable: SamPressureSensor): any;
-
-    //% blockId="get_pressure_sensor_color" block="get pressure sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    //% shim=PressureSensor::getSamPressureSensorColor
-    function getSamPressureSensorColor(variable: SamPressureSensor): any;
-
-    //% blockId="set_pressure_sensor_color" block="set pressure sensor %variable  color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    //% shim=PressureSensor::setSamPressureSensorColor
-    function setSamPressureSensorColor(variable: SamPressureSensor, value: string): void;
-
     /**
      * Wait until the pressure sensor value changes
-     * @param sensorId The ID of the pressure sensor to wait for
+     * @param sensorId The ID of the pressure sensor to monitor
      */
-    //% blockId="wait_until_pressure_sensor_value_changes" block="wait until pressure sensor $variable value changes"
-    //% variable.shadow=variables_get
+    //% blockId="wait_until_pressure_sensor_value_changes" block="wait until pressure sensor with ID $sensorId value changes"
     //% sensorId.defl=0
     //% color="#00aa00"
     //% shim=PressureSensor::waitUntilPressureSensorValueChanges
-    function waitUntilPressureSensorValueChanges(variable: SamPressureSensor, handler: () => any): void;
+    function waitUntilPressureSensorValueChanges(sensorId: number): void;
 
-    //% blockId="create_pressure_sensor" block="Create new pressure sensor"
-    //% variable.defl="PressureSensor1"
+    /**
+     * Registers a handler that runs when the pressure sensor value changes
+     * @param sensorId The ID of the pressure sensor to monitor
+     * @param handler The function to run when the pressure sensor value changes
+     */
+    //% blockId="when_pressure_sensor_value_changes" block="when pressure sensor with ID $sensorId value changes"
+    //% sensorId.defl=0
     //% color="#00aa00"
-    //% shim=PressureSensor::createPressureSensor
-    function createPressureSensor(): SamPressureSensor;
+    //% shim=PressureSensor::whenPressureSensorValueChanges
+    function whenPressureSensorValueChanges(sensorId: number, handler: () => void): void;
+
+    /**
+     * Get the value of the pressure sensor with a given ID
+     * @param sensorId The ID of the pressure sensor to get the value of
+     */
+    //% blockId="get_pressure_sensor_value" block="get value of pressure sensor with ID $sensorId"
+    //% sensorId.defl=0
+    //% color="#00aa00"
+    //% shim=PressureSensor::getPressureSensorValue
+    function getPressureSensorValue(sensorId: number): number;
+
+    /**
+     * Set the border color of the pressure sensor
+     * @param sensorId The ID of the pressure sensor to change border color
+     * @param color The new border color for the pressure sensor
+     */
+    //% blockId="set_pressure_sensor_border_color" block="set border color of pressure sensor with ID $sensorId to $color"
+    //% sensorId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#00aa00"
+    //% shim=PressureSensor::setPressureSensorBorderColor
+    function setPressureSensorBorderColor(sensorId: number, color: string): void;
 
 }
-    /**
-     * A Pressure Sensor.
-     */
-    //%
-    declare class SamPressureSensor {
-    }
 declare namespace ProximitySensor {
-    //% blockId="on_proximity_sensor_value_changes" block="when proximity sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::onProximitySensorValueChanges
-    function onProximitySensorValueChanges(variable: SamProximitySensor, handler: () => void): void;
-
-    //% blockId="get_proximity_sensor_value" block="get proximity %variable sensor value"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::getSamProximitySensorValue
-    function getSamProximitySensorValue(variable: SamProximitySensor): any;
-
-    //% blockId="get_proximity_sensor_color" block="get proximity sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::getSamProximitySensorColor
-    function getSamProximitySensorColor(variable: SamProximitySensor): any;
-
-    //% blockId="set_proximity_sensor_color" block="set proximity sensor %variable  color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::setSamProximitySensorColor
-    function setSamProximitySensorColor(variable: SamProximitySensor, value: string): void;
-
     /**
      * Wait until the proximity sensor value changes
-     * @param sensorId The ID of the proximity sensor to wait for
+     * @param sensorId The ID of the proximity sensor to monitor
      */
-    //% blockId="wait_until_proximity_sensor_value_changes" block="wait until proximity sensor $variable value changes"
-    //% variable.shadow=variables_get
+    //% blockId="wait_until_proximity_sensor_value_changes" block="wait until proximity sensor with ID $sensorId value changes"
     //% sensorId.defl=0
     //% color="#1e90ff"
     //% shim=ProximitySensor::waitUntilProximitySensorValueChanges
-    function waitUntilProximitySensorValueChanges(variable: SamProximitySensor, handler: () => any): void;
+    function waitUntilProximitySensorValueChanges(sensorId: number): void;
 
-    //% blockId="create_proximity_sensor" block="Create new proximity sensor"
-    //% variable.defl="ProximitySensor1"
+    /**
+     * Registers a handler that runs when the proximity sensor value changes
+     * @param sensorId The ID of the proximity sensor to monitor
+     * @param handler The function to run when the proximity sensor value changes
+     */
+    //% blockId="when_proximity_sensor_value_changes" block="when proximity sensor with ID $sensorId value changes"
+    //% sensorId.defl=0
     //% color="#1e90ff"
-    //% shim=ProximitySensor::createProximitySensor
-    function createProximitySensor(): SamProximitySensor;
+    //% shim=ProximitySensor::whenProximitySensorValueChanges
+    function whenProximitySensorValueChanges(sensorId: number, handler: () => void): void;
+
+    /**
+     * Get the value of the proximity sensor with a given ID
+     * @param sensorId The ID of the proximity sensor to get the value of
+     */
+    //% blockId="get_proximity_sensor_value" block="get value of proximity sensor with ID $sensorId"
+    //% sensorId.defl=0
+    //% color="#1e90ff"
+    //% shim=ProximitySensor::getProximitySensorValue
+    function getProximitySensorValue(sensorId: number): number;
+
+    /**
+     * Set the border color of the proximity sensor
+     * @param sensorId The ID of the proximity sensor to change border color
+     * @param color The new border color for the proximity sensor
+     */
+    //% blockId="set_proximity_sensor_border_color" block="set border color of proximity sensor with ID $sensorId to $color"
+    //% sensorId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#1e90ff"
+    //% shim=ProximitySensor::setProximitySensorBorderColor
+    function setProximitySensorBorderColor(sensorId: number, color: string): void;
 
 }
-    /**
-     * A Proximity Sensor.
-     */
-    //%
-    declare class SamProximitySensor {
-    }
 declare namespace ServoMotor {
-    //% blockId="set_servo_motor_position" block="set servo motor %variable position to %value"
-    //% value.min=0 value.max=180
-    //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
-    //% color="#ff69b4"
+    /**
+     * Set the position of the servo motor with a given ID
+     * @param motorId The ID of the servo motor to set the position of
+     * @param position The new position for the servo motor
+     */
+    //% blockId="set_servo_motor_position" block="set position of servo motor with ID $motorId to $position"
+    //% motorId.defl=0
+    //% position.min=0 position.max=180
+    //% color="#dc143c"
     //% shim=ServoMotor::setServoMotorPosition
-    function setServoMotorPosition(variable: SamServoMotor, value: number): void;
+    function setServoMotorPosition(motorId: number, position: number): void;
 
-    //% blockId="get_servo_motor_position" block="get servo motor %variable position"
-    //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
-    //% color="#ff69b4"
+    /**
+     * Set the border color of the servo motor
+     * @param motorId The ID of the servo motor to change border color
+     * @param color The new border color for the servo motor
+     */
+    //% blockId="set_servo_motor_border_color" block="set border color of servo motor with ID $motorId to $color"
+    //% motorId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#dc143c"
+    //% shim=ServoMotor::setServoMotorBorderColor
+    function setServoMotorBorderColor(motorId: number, color: string): void;
+
+    /**
+     * Get the position of the servo motor with a given ID
+     * @param motorId The ID of the servo motor to get the position of
+     */
+    //% blockId="get_servo_motor_position" block="get position of servo motor with ID $motorId"
+    //% motorId.defl=0
+    //% color="#dc143c"
     //% shim=ServoMotor::getServoMotorPosition
-    function getServoMotorPosition(variable: SamServoMotor): any;
-
-    //% blockId="set_servo_motor_color" block="set servo motor %variable color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
-    //% color="#ff69b4"
-    //% shim=ServoMotor::setServoMotorColor
-    function setServoMotorColor(variable: SamServoMotor, value: string): void;
-
-    //% blockId="create_servo_motor" block="Create new servo motor"
-    //% variable.defl="ServoMotor1"
-    //% color="#ff69b4"
-    //% shim=ServoMotor::createServoMotor
-    function createServoMotor(): SamServoMotor;
+    function getServoMotorPosition(motorId: number): number;
 
 }
-    /**
-     * A ServoMotor.
-     */
-    //%
-    declare class SamServoMotor {
-    }
 declare namespace Slider {
-    //% blockId="on_slider_value_changes" block="when slider %variable value changes"
-    //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
-    //% color="#ff69b4"
+    /**
+     * Wait until the slider value changes
+     * @param sliderId The ID of the slider to wait for
+     */
+    //% blockId="wait_until_slider_value_changes" block="wait until slider with ID $sliderId value changes"
+    //% sliderId.defl=0
+    //% color="#ff4500"
+    //% shim=Slider::waitUntilSliderValueChanges
+    function waitUntilSliderValueChanges(sliderId: number): void;
+
+    /**
+     * Register an event handler to run when the slider value changes
+     * @param sliderId The ID of the slider to listen for
+     * @param handler The function to run when the slider value changes
+     */
+    //% blockId="on_slider_value_changes" block="when slider with ID $sliderId value changes"
+    //% sliderId.defl=0
+    //% color="#ff4500"
     //% shim=Slider::onSliderValueChanges
-    function onSliderValueChanges(variable: SamSlider, handler: () => void): void;
+    function onSliderValueChanges(sliderId: number, handler: () => void): void;
 
-    //% blockId="get_slider_value" block="get slider %variable value"
-    //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
-    //% color="#ff69b4"
-    //% shim=Slider::getSamSliderValue
-    function getSamSliderValue(variable: SamSlider): any;
+    /**
+     * Get the value of the slider with a given ID
+     * @param sliderId The ID of the slider to get the value of
+     */
+    //% blockId="get_slider_value" block="get value of slider with ID $sliderId"
+    //% sliderId.defl=0
+    //% color="#ff4500"
+    //% shim=Slider::getSliderValue
+    function getSliderValue(sliderId: number): number;
 
-    //% blockId="set_slider_color" block="set slider %variable color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
-    //% color="#ff69b4"
-    //% shim=Slider::setSamSliderColor
-    function setSamSliderColor(variable: SamSlider, value: string): void;
-
-    //% blockId="create_slider" block="Create new slider"
-    //% variable.defl="Slider1"
-    //% color="#ff69b4"
-    //% shim=Slider::createSlider
-    function createSlider(): SamSlider;
+    /**
+     * Set the border color of the slider
+     * @param sliderId The ID of the slider to change the border color
+     * @param color The new border color for the slider
+     */
+    //% blockId="set_slider_border_color" block="set border color of slider with ID $sliderId to $color"
+    //% sliderId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#ff4500"
+    //% shim=Slider::setSliderBorderColor
+    function setSliderBorderColor(sliderId: number, color: string): void;
 
 }
-    /**
-     * A Slider.
-     */
-    //%
-    declare class SamSlider {
-    }
 declare namespace TiltSensor {
-    //% blockId="on_tilt_sensor_tilted" block="when tilt sensor %variable is tilted"
-    //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    /**
+     * Register an event handler to run when the tilt sensor with the given ID is tilted
+     * @param sensorId The ID of the tilt sensor to listen for
+     * @param handler The function to run when the tilt sensor is tilted
+     */
+    //% blockId="on_tilt_sensor_tilted" block="when tilt sensor with ID $sensorId is tilted"
+    //% sensorId.defl=0
     //% color="#9400d3"
     //% shim=TiltSensor::onTiltSensorTilted
-    function onTiltSensorTilted(variable: SamTiltSensor, handler: () => void): void;
+    function onTiltSensorTilted(sensorId: number, handler: () => void): void;
 
-    //% blockId="wait_until_tilt_sensor_tilted" block="wait until tilt sensor %variable is tilted"
-    //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    /**
+     * Wait until the tilt sensor with the given ID is tilted
+     * @param sensorId The ID of the tilt sensor to wait for
+     */
+    //% blockId="wait_until_tilt_sensor_tilted" block="wait until tilt sensor with ID $sensorId is tilted"
+    //% sensorId.defl=0
     //% color="#9400d3"
     //% shim=TiltSensor::waitUntilTiltSensorTilted
-    function waitUntilTiltSensorTilted(variable: SamTiltSensor, handler: () => void): void;
+    function waitUntilTiltSensorTilted(sensorId: number): void;
 
-    //% blockId="set_tilt_sensor_border_color" block="set tilt sensor %variable border color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    /**
+     * Set the border color of the tilt sensor
+     * @param sensorId The ID of the tilt sensor to change the border color
+     * @param color The new border color for the tilt sensor
+     */
+    //% blockId="set_tilt_sensor_border_color" block="set border color of tilt sensor with ID $sensorId to $color"
+    //% sensorId.defl=0
+    //% color.shadow="colorNumberPicker"
     //% color="#9400d3"
     //% shim=TiltSensor::setTiltSensorBorderColor
-    function setTiltSensorBorderColor(variable: SamTiltSensor, value: string): void;
+    function setTiltSensorBorderColor(sensorId: number, color: string): void;
 
-    //% blockId="is_tilt_sensor_tilted" block="is tilt sensor %variable tilted?"
-    //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    /**
+     * Check if the tilt sensor with a given ID is tilted
+     * @param sensorId The ID of the tilt sensor to check
+     */
+    //% blockId="is_tilt_sensor_tilted" block="is tilt sensor with ID $sensorId tilted"
+    //% sensorId.defl=0
     //% color="#9400d3"
     //% shim=TiltSensor::isTiltSensorTilted
-    function isTiltSensorTilted(variable: SamTiltSensor): boolean;
-
-    //% blockId="create_tilt_sensor" block="Create new tilt sensor"
-    //% variable.defl="TiltSensor1"
-    //% color="#9400d3"
-    //% shim=TiltSensor::createTiltSensor
-    function createTiltSensor(): SamTiltSensor;
+    function isTiltSensorTilted(sensorId: number): boolean;
 
 }
-    /**
-     * A Tilt Sensor.
-     */
-    //%
-    declare class SamTiltSensor {
-    }
 
 // Auto-generated. Do not edit. Really.

@@ -11,16 +11,14 @@ class SAMDeviceBuilder {
   deviceName: deviceNameType;
   deviceType: any;
   defaultDeviceName: string;
-  id: string | undefined;
 
   constructor(deviceType: DeviceMenuItemType) {
     this.deviceType = deviceType;
     this.deviceName = deviceType?.label?.name;
     this.defaultDeviceName = deviceType?.label?.defaultName;
-    this.id = deviceType?.id;
   }
   build(): IBuiltDevice {
-    const deviceIdOnCreate = this.id || uuidv4();
+    const deviceIdOnCreate = uuidv4();
     const {
       VirtualController,
       Controller,

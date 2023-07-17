@@ -53,7 +53,8 @@ function SelectorComponent({
   };
 
   useEffect(() => {
-    if(window.samlabs){
+    if (window.samlabs) {
+      console.log("samlabs is here!");
       window.addEventListener("set_dc_motor_speed", (device: any) => {
         console.log(device, "set_dc_motor_speed");
       });

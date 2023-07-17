@@ -1,80 +1,56 @@
+//% color=190
+//% advanced=true blockGap=8
 namespace pxsim.button {
+    /**
+     * Registers a handler that runs when the button with the given ID is pressed
+     * @param buttonId The ID of the button to listen for
+     * @param handler The function to run when the button is pressed
+     */
+    //% blockId="on_button_pressed" block="when Button with ID $buttonId is pressed"
+    //% buttonId.defl=0
+    //% weight=1 icon="\uf11b"
 
-  //% blockId="set_button_color" block="set color of Button $variable to $color"
-  //% variable.shadow=variables_get
-  //% variable.defl="Button 1"  
-  //% color.shadow="colorNumberPicker"
-  //% advanced=true
-  export function setButtonColor(variable: pxsim.SamBuzzer, color: string): void {
-    variable.setColor(color);
-  }
 
-  //% blockId="create_button" block="create new button"
-  //% variable.shadow=variables_get
-  //% variable.defl="Button 1"  //% weight=2
-  export function createNewButton(): pxsim.SamButton {
-    return new pxsim.SamButton()
-  }
-  //% blockId="get_is_pressed" block="$variable is pressed"
-  //% variable.shadow=variables_get
-  //% variable.defl="Button 1"  //% weight=2
-  export function buttonIsPressed(variable:SamButton): boolean {
-    return variable.getIsPressed();
-  }
-}
-namespace pxsim {
-  /**
-   * A Button.
-   */
-  //%
-  export class SamButton {
-    private _pressed: boolean;
-    public deviceName = "sam_button";
-    private _id: string;
-    constructor() {
-      this._id = samlabs.uuidv4();
-      const detail = {
-        device: this.deviceName,
-        event: "device_created",
-        id: this._id,
-      };
-      this._dispatch(
-        { device: this.deviceName, detail },
-        samlabs.samSimEvents.TOSIM_DEVICE_CREATED
-      );
-    }
-    public setColor(color: string) {
-      const detail = {
-          device: this.deviceName,
-          event: "value_changed",
-          properties: ["color"],
-          newValue: [color],
-      };
-      this._dispatch(
-          { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-      );
-      }
-
-    public getIsPressed(){
-      return samlabs.SamSimDataService.getInstance().getDeviceProps(this._id)?.deviceState==='pressed';
+    export function onButtonPressed(buttonId: number, handler: () => void): void {
+      // add an event listener, use a hardware-specific method, or simulate the event in a loop
+      // This is a placeholder implementation that does not interact with any hardware or simulator
     }
 
-    get deviceId() {
-      return this.deviceName;
+    /**
+     * Wait until the button with the given ID is pressed
+     * @param buttonId The ID of the button to wait for
+     */
+    //% blockId="wait_until_button_pressed" block="wait until Button with ID $buttonId is pressed"
+    //% buttonId.defl=0
+    //% advanced=true
+    export function waitUntilButtonPressed(buttonId: number): void {
+      // For example, you could use an event listener, a loop, or a hardware-specific method
+      // This is a placeholder implementation that does not interact with any hardware or simulator
+      //TODO control.pause(1);
     }
-    _dispatch(payload: any, type: string) {
-      samlabs.WindowEventService.getInstance().sendEvent(type, { ...payload });
+    /**
+     * Set the color of the button
+     * @param buttonId The ID of the button to change color
+     * @param color The new color for the button
+     */
+    //% blockId="set_button_color" block="set color of Button with ID $buttonId to $color"
+    //% buttonId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% advanced=true
+    export function setButtonColor(buttonId: number, color: string): void {
+      //TODO update the simulator's UI
     }
-
-    listen(handler: any) {
-      samlabs.WindowEventService.getInstance().receiveEvent(
-        `${samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED}_${this._id}`,
-        (detail: any) => {
-            handler();
-          
-        }
-      );
+  
+    /**
+     * Get the state of the button with a given ID
+     * @param buttonId The ID of the button to get the state of
+     */
+    //% blockId="get_button_state" block="get state of Button with ID $buttonId"
+    //% buttonId.defl=0
+    //% advanced=true
+    export function getButtonState(buttonId: number): boolean {
+      // TODO read the button state the simulator's UI
+      // placeholder implementation that returns 'false' by default
+      return false;
     }
   }
-}

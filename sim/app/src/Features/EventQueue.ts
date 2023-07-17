@@ -8,7 +8,7 @@ class StorageQueue {
     private constructor(queueKey: string, public SamDevicesState: typeof SamSimState ) {
         this.queueKey = queueKey; 
         this.queue = this.loadQueue() || []; 
-        this.samDevicesState = SamDevicesState.getInstance();
+        this.samDevicesState = new SamDevicesState();
     }
 
     public static getInstance(queueKey: string): StorageQueue {

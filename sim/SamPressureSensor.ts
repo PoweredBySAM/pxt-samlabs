@@ -1,133 +1,53 @@
+//% color="#ff69b4" weight=100 icon="\uf200" block="Button" subcategory="Sam Button"
 namespace pxsim.PressureSensor {
-    //% blockId="on_pressure_sensor_value_changes" block="when pressure sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#00aa00"
-    export function onPressureSensorValueChanges(
-      variable: pxsim.SamPressureSensor,
-      handler: () => void
-    ): void {
-      variable.receiveEvent(handler);
-    }
-  
-    //% blockId="get_pressure_sensor_value" block="get pressure %variable sensor value"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    export function getSamPressureSensorValue(
-      variable: pxsim.SamPressureSensor
-    ): any {
-      return variable.getValue();
-    }
-  
-    //% blockId="get_pressure_sensor_color" block="get pressure sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    export function getSamPressureSensorColor(variable: pxsim.SamPressureSensor): any {
-      return variable.getSensorColor();
-    }
-  
-    //% blockId="set_pressure_sensor_color" block="set pressure sensor %variable  color to %value"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    export function setSamPressureSensorColor(
-      variable: pxsim.SamPressureSensor,
-      value: string
-    ): void {
-      variable.setDeviceColor(value);
-    }
-  
     /**
      * Wait until the pressure sensor value changes
-     * @param sensorId The ID of the pressure sensor to wait for
+     * @param sensorId The ID of the pressure sensor to monitor
      */
-    //% blockId="wait_until_pressure_sensor_value_changes" block="wait until pressure sensor $variable value changes"
-    //% variable.shadow=variables_get
+    //% blockId="wait_until_pressure_sensor_value_changes" block="wait until pressure sensor with ID $sensorId value changes"
     //% sensorId.defl=0
     //% color="#00aa00"
-    export function waitUntilPressureSensorValueChanges(variable:SamPressureSensor,handler:()=>any): void {
-      variable.receiveEvent(handler);  
+    export function waitUntilPressureSensorValueChanges(sensorId: number): void {
+        // TODO: Implement functionality to wait for pressure sensor value to change
+        // You may use event listeners, loops, or hardware-specific methods
     }
-  
-    //% blockId="create_pressure_sensor" block="Create new pressure sensor"
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    export function createPressureSensor(): pxsim.SamPressureSensor {
-      return new pxsim.SamPressureSensor();
-    }
-  }
-  
-  namespace pxsim {
+
     /**
-     * A Pressure Sensor.
+     * Registers a handler that runs when the pressure sensor value changes
+     * @param sensorId The ID of the pressure sensor to monitor
+     * @param handler The function to run when the pressure sensor value changes
      */
-    //%
-    export class SamPressureSensor {
-      public deviceName = "sam_pressure_sensor";
-      private _id: string;
-  
-      constructor() {
-        this._id = samlabs.uuidv4();
-        const detail = {
-          device: this.deviceName,
-          event: "device_created",
-          id: this._id,
-        };
-        this._dispatch(
-          { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_CREATED
-        );
-        window.console.log("PressureSensor created");
-      }
-  
-      public getValue() {
-        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
-          this._id
-        );
-        return deviceData?.value || 0;
-      }
-  
-      public getSensorColor() {
-          const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
-  
-      public setDeviceColor(color: string) {
-        const detail = {
-          device: this.deviceName,
-          event: "device_value_changed",
-          id: this._id,
-          value: color,
-          property: "color",
-        };
-        this._dispatch(
-          { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-        );
-      }
-  
-      get deviceId() {
-        return this._id;
-      }
-  
-      public getDeviceColor() {
-        const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
-      public receiveEvent(handler: ()=>any) {
-          samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
-      }
-  
-      public _dispatch(payload: any, type: string) {
-        samlabs.WindowEventService.getInstance().sendEvent(type, {
-          ...payload,
-        });
-      }
+    //% blockId="when_pressure_sensor_value_changes" block="when pressure sensor with ID $sensorId value changes"
+    //% sensorId.defl=0
+    //% color="#00aa00"
+    export function whenPressureSensorValueChanges(sensorId: number, handler: () => void): void {
+        // TODO: Add an event listener, use hardware-specific methods, or simulate the event in a loop
+        // This is a placeholder implementation that does not interact with any hardware or simulator
     }
-  }
-  
+
+        /**
+     * Get the value of the pressure sensor with a given ID
+     * @param sensorId The ID of the pressure sensor to get the value of
+     */
+    //% blockId="get_pressure_sensor_value" block="get value of pressure sensor with ID $sensorId"
+    //% sensorId.defl=0
+    //% color="#00aa00"
+    export function getPressureSensorValue(sensorId: number): number {
+        // TODO: Read the pressure sensor value from the simulator's UI or the hardware
+        // Placeholder implementation that returns a default value (0)
+        return 0;
+    }
+
+    /**
+     * Set the border color of the pressure sensor
+     * @param sensorId The ID of the pressure sensor to change border color
+     * @param color The new border color for the pressure sensor
+     */
+    //% blockId="set_pressure_sensor_border_color" block="set border color of pressure sensor with ID $sensorId to $color"
+    //% sensorId.defl=0
+    //% color.shadow="colorNumberPicker"
+    //% color="#00aa00"
+    export function setPressureSensorBorderColor(sensorId: number, color: string): void {
+        // TODO: Update the simulator's UI or the hardware
+    }
+}

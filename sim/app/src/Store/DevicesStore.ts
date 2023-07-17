@@ -1,44 +1,16 @@
+import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
 
+import { storeMap } from '.';
 import type { IBuiltDevice } from '../SAMDevices/Types/SAMDeviceTypes';
-import { observable, action,makeAutoObservable } from 'mobx';
-
-import ButtonDevice from "./ButtonDevice";
-import BuzzerDevice from "./BuzzerDevice";
-import DCMotorDevice from "./DCMotorDevice";
-import HeatSensorDevice from "./HeatSensorDevice";
-import LEDDevice from "./LEDDevice";
-import LightSensorDevice from "./LightSensorDevice";
-import MicrobitDevice from "./MicrobitDevice";
-import PressureSensorDevice from "./PressureSensorDevice";
-import ServoMotorDevice from "./ServoMotorDevice";
-import SliderDevice from "./SliderDevice";
-import TiltDevice from "./TiltDevice";
-import SamDeviceManager from 'src/Features/SamSimState';
-
-
-export const storeMap = {
-  "SAM Button": ButtonDevice,
-  "SAM Buzzer": BuzzerDevice,
-  "SAM RGB Light": LEDDevice,
-  "SAM DC Motor": DCMotorDevice,
-  "SAM Light Sensor": LightSensorDevice,
-  "SAM Servo Motor":ServoMotorDevice,
-  "SAM Pressure Sensor":PressureSensorDevice,
-  "SAM Proximity Sensor":PressureSensorDevice,
-  "SAM Slider": SliderDevice,
-  "SAM Heat Sensor": HeatSensorDevice,
-  "SAM Tilt": TiltDevice,
-  "BBC Microbit": MicrobitDevice,
-};
-
-
+import { makePersistable } from 'mobx-persist-store';
 
 class DevicesStore {
   @observable devices:any[] = [];
-  lsStateStore: any;
+
   constructor() {
-    makeAutoObservable(this);
-    this.lsStateStore = SamDeviceManager.getInstance();
+    makeObservable(this);
+    makePersistable(this, { name: 'DevicesStore', properties: ['devices'] });
+
   }
 
   @action addDevice(deviceData: IBuiltDevice) {
@@ -64,21 +36,15 @@ class DevicesStore {
     device?.toggleVisibility();
   }
 
-  @action emptyDevicesStore() {
-    this.devices = [];
-    this.lsStateStore.emptySamSimState();
-
-  }
-
-
+  
   buildStore(deviceData:IBuiltDevice){
     const store = storeMap[deviceData.labels.defaultName as keyof typeof storeMap];
+    console.log(deviceData.labels.defaultName,"store")
     if (store) {
       return new store(deviceData);
     }
     throw new Error('No store in storemap for device');
   }
 }
-const devicesStore = new DevicesStore();
 
-export default devicesStore;
+export default new DevicesStore();

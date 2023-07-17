@@ -8,12 +8,10 @@ import { observer } from "mobx-react";
 import { Box, Slider, Typography } from "@mui/material";
 import { customSliderStyle } from "src/SAMDevices/Common/commonJsStyles";
 import { bluetoothEvents } from "src/SAMDevices/Animatable";
-import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function DCMotor({ device }: { device: DCMotorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const [showMotor, setShowMotor] = React.useState(false);
-  const {addPxtEvents,removePxtEvents} = usePxtToSimEvents(device);
 
   const { addEvents, removeEvents } = useEventsController(
     device,
@@ -48,12 +46,6 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
       setShowMotor(true);
     }, 0);
   }, [testModeSpeed, speed]);
-  useEffect(() => {
-    addPxtEvents();
-    return () => {
-      removePxtEvents()
-    }
-  },[])
 
   return (
     <>
@@ -94,7 +86,3 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
 }
 
 export default observer(DCMotor);
-function usePxtEvents(device: DCMotorDevice, handleBasicControllerEvents: (event: import("src/Hooks/useBasicEvents").BasicEventType, value: any) => any): { addPxtEvents: any; removePxtEvents: any; } {
-  throw new Error("Function not implemented.");
-}
-

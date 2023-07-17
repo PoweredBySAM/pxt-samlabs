@@ -1,6 +1,4 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
-import { CustomEventGenerator } from "../Features/CustomEventGenerator";
-import SamDeviceManager from "src/Features/SamSimState";
 
 class TiltDevice {
   private _virtualController: any;
@@ -20,12 +18,8 @@ class TiltDevice {
   @observable _value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  customEventGenerator: CustomEventGenerator;
-  lsStateStore: SamDeviceManager;
 
   constructor(deviceData: any) {
-    this.customEventGenerator = CustomEventGenerator.getInstance();
-    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -79,7 +73,6 @@ class TiltDevice {
   @action
   setIsTilted(value: boolean) {
     this.isTilted = value;
-    this.updateLsStateStore()
     }
 
   getIsTilted() {
@@ -92,23 +85,6 @@ class TiltDevice {
   @action
   deleteDevice() {
     this.deleted = true;
-  }
-  getAllData(){
-    return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this.getIsTilted(),
-    }
-  }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
-    });
-  }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
   }
   
 
