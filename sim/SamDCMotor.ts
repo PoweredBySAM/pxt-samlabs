@@ -82,7 +82,6 @@ namespace pxsim{
             { device: this.deviceName, detail },
             `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
             );
-            window.console.log( `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`)
         }
       public stopMotor() {
         const detail = {
@@ -96,7 +95,6 @@ namespace pxsim{
             { device: this.deviceName, detail },
             `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
             );
-            window.console.log( `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`)
         }
 
         public setMotorColor(color: string) {
@@ -104,11 +102,12 @@ namespace pxsim{
                 device: this.deviceName,
                 event: "device_value_changed",
                 id: this._id,
+                property: "color",
                 value: color,
                 };
                 this._dispatch(
                 { device: this.deviceName, detail },
-                samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+                `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
                 );
             }
         public getMotorColor() {

@@ -269,7 +269,7 @@ export class SamSimDataService {
 
     public getDeviceProps(id: string): any {
         const devices = this.loadDevices();
-        return devices.find((device) => device.id === id);  
+        return devices.find((device) => device.deviceId === id);  
     }
   }
 

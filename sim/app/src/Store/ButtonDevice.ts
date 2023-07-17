@@ -1,5 +1,4 @@
 import { observable, action, makeObservable,makeAutoObservable } from 'mobx';
-import { makePersistable } from 'mobx-persist-store';
 import { CustomEventGenerator } from '../Features/CustomEventGenerator';
 import SamDeviceManager from 'src/Features/SamSimState';
 
@@ -46,7 +45,6 @@ class ButtonDevice {
     this.deleted = false
     this.Color=meta?.hue;
     makeAutoObservable(this)
-    makePersistable(this, { name: 'ButtonStore', properties: ['virtualController','bluetoothController'] });
     this.updateLsStateStore()
 
   }
@@ -108,7 +106,7 @@ class ButtonDevice {
     this._virtualController = controller;
   }
   
-  updateLsStateStore(){ 
+  updateLsStateStore(){
     this.lsStateStore.updateDevice(this.getAllData())
   }
 
