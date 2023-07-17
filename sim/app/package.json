@@ -7,7 +7,7 @@
     "test": "npm run test",
     "start": "NODE_ENV=development webpack --mode development",
     "watch": "nodemon --watch src --ext ts,tsx,js,jsx,json,html --exec npm run build",
-    "build": "webpack --mode production"
+    "build": "webpack --mode development"
   },
   "author": "",
   "license": "ISC",

@@ -14,7 +14,6 @@ import { deviceNameType } from "./Icons/deviceIconTypes";
 class DeviceDependencies
 {
     getDeviceControlUtilities(deviceName:deviceNameType) {
-        console.log(deviceName)
         switch (deviceName){
             case "Button":
                 return {
