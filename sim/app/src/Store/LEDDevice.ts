@@ -1,6 +1,4 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
-import { CustomEventGenerator } from "../Features/CustomEventGenerator";
-import SamDeviceManager from "src/Features/SamSimState";
 
 class LEDDevice {
   private _virtualController: any;
@@ -9,7 +7,6 @@ class LEDDevice {
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
-  
 
   @observable isConnected = false;
   @observable isConnecting = false;
@@ -22,15 +19,9 @@ class LEDDevice {
   @observable testLEDColor: string
 
   @observable _ledColor: string;
-  _ledBrightness: number;
-  customEventGenerator: CustomEventGenerator;
-  lsStateStore: SamDeviceManager;
-  
+    _ledBrightness: number;
 
   constructor(deviceData: any) {
-    this.lsStateStore = SamDeviceManager.getInstance();
-    this.customEventGenerator = CustomEventGenerator.getInstance();
-
     const {
       deviceIdOnCreate,
       meta,
@@ -53,7 +44,6 @@ class LEDDevice {
     this.testLEDColor = '#ffffff'
     this.deleted = false;
     makeAutoObservable(this);
-    this.updateLsStateStore();
 
   }
   @action
@@ -131,22 +121,6 @@ class LEDDevice {
     this.deleted = true;
   }
 
-  getAllData(){
-    return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      ledColor:this._ledColor,
-      ledBrightness:this._ledBrightness,
-    }
-  }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
-    });
-  }
-
   get virtualController() {
     return this._virtualController;
   }
@@ -155,9 +129,6 @@ class LEDDevice {
   }
   set virtualController(controller: any) {
     this._virtualController = controller;
-  }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
   }
 }
 

@@ -8,14 +8,12 @@ enum BasicEvents {
   CONNECTING = "connecting",
   DISCONNECTED = "disconnected",
   VALUE_CHANGED = "valueChanged",
-  TOSIM_DEVICE_VALUE_CHANGED = "TOSIM_DEVICE_VALUE_CHANGED",
 }
 export type BasicEventType =
   | "connecting"
   | "connected"
   | "batteryLevelChange"
-  | "disconnected"
-  |"TOSIM_DEVICE_VALUE_CHANGED";
+  | "disconnected";
 function useBasicEvents(device: SamDeviceStoreType) {
   const { singleDeviceStore } = useSingleDeviceStore(device);
   const handleBasicControllerEvents = (event: BasicEventType, value: any) => {

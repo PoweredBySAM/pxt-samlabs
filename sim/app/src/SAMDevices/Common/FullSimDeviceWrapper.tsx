@@ -5,9 +5,11 @@ import { getDeviceIcon } from "../Icons";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import { observer } from "mobx-react";
 import { useSingleDeviceStore } from "../../Hooks/useSingleDeviceStore";
+import { useStores } from "../../Hooks/useStores";
 
 const FullSimDeviceWrapper = observer(
   ({ device, children, ...rest }: { device: any; children: any }) => {
+    const { devicesStore } = useStores();
     const { singleDeviceStore } = useSingleDeviceStore(device);
     const deviceName = device.restProps?.labels.name as deviceNameType;
     const Icon = getDeviceIcon(deviceName, {

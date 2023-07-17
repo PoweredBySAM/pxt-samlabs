@@ -1,6 +1,4 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
-import { CustomEventGenerator } from "../Features/CustomEventGenerator";
-import SamDeviceManager from "src/Features/SamSimState";
 
 class LightSensorDevice {
   private _virtualController: any;
@@ -19,12 +17,8 @@ class LightSensorDevice {
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  customEventGenerator: CustomEventGenerator;
-  lsStateStore: SamDeviceManager;
 
   constructor(deviceData: any) {
-    this.customEventGenerator = CustomEventGenerator.getInstance();
-    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -45,7 +39,6 @@ class LightSensorDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     makeAutoObservable(this);
-    this.updateLsStateStore();
 
   }
   @action
@@ -74,8 +67,7 @@ class LightSensorDevice {
   @action
   setValue(newValue: number) {
     this.value = newValue;
-    this.updateLsStateStore();
-    this.broadcastState();
+    console.log(newValue, "value in store")
   }
 
   @action
@@ -98,21 +90,6 @@ class LightSensorDevice {
   deleteDevice() {
     this.deleted = true;
   }
-  getAllData(){
-    return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this.getValue(),
-
-    }
-  }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
-    });
-  }
 
   get virtualController() {
     return this._virtualController;
@@ -123,10 +100,6 @@ class LightSensorDevice {
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
-  }
-
 }
 
 export default LightSensorDevice;
