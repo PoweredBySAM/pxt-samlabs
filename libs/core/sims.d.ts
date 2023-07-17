@@ -504,45 +504,50 @@ declare namespace LED {
     declare class SamLED {
     }
 declare namespace LightSensor {
-    //% blockId="on_light_sensor_value_changes" block="when light sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#FF5733"
-    //% shim=LightSensor::onLightSensorValueChanges
-    function onLightSensorValueChanges(variable: SamLightSensor, handler: () => void): void;
-
-    //% blockId="get_light_sensor_value" block="get light %variable sensor value"
+    //% blockId="get_light_sensor_value" block="value of light sensor %variable"
     //% variable.shadow=variables_get
     //% variable.defl="LightSensor1"
     //% color="#FF5733"
     //% shim=LightSensor::getSamLightSensorValue
     function getSamLightSensorValue(variable: SamLightSensor): any;
 
-    //% blockId="get_light_sensor_color" block="get light sensor %variable  color"
+    //% blockId="get_light_sensor_value_equals" block="value of light sensor %variable is equal to %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    //% shim=LightSensor::lightSensorValueIsEqualTo
+    function lightSensorValueIsEqualTo(variable: SamLightSensor, number: number): any;
+
+    //% blockId="get_light_sensor_value_less" block="value of light sensor %variable is less than %number"
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor1"
+    //% number.min=0 number.max=100
+    //% color="#FF5733"
+    //% shim=LightSensor::lightSensorValueIsLessThan
+    function lightSensorValueIsLessThan(variable: SamLightSensor, number: number): any;
+
+    //% blockId="get_light_sensor_value_greater" block="value of light sensor %variable is greater than %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    //% shim=LightSensor::lightSensorValueIsGreaterThan
+    function lightSensorValueIsGreaterThan(variable: SamLightSensor, number: number): any;
+
+    //% blockId="get_light_sensor_color" block="get color of light sensor %variable"
     //% variable.shadow=variables_get
     //% variable.defl="LightSensor1"
     //% color="#FF5733"
     //% shim=LightSensor::getSamLightSensorColor
     function getSamLightSensorColor(variable: SamLightSensor): any;
 
-    //% blockId="set_light_sensor_color" block="set light sensor %variable  color to %value"
+    //% blockId="set_light_sensor_color" block="set color of light sensor %variable to %value"
     //% variable.shadow=variables_get
     //% variable.defl="LightSensor1"
     //% color="#FF5733"
     //% shim=LightSensor::setSamLightSensorColor
     function setSamLightSensorColor(variable: SamLightSensor, value: string): void;
-
-    /**
-     * Wait until the light sensor value changes
-     * @param sensorId The ID of the light sensor to wait for
-     */
-    //% blockId="wait_until_light_sensor_value_changes" block="wait until light sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% sensorId.defl=0
-    //% color="#FF5733"
-    //% shim=LightSensor::waitUntilLightSensorValueChanges
-    function waitUntilLightSensorValueChanges(variable: SamLightSensor, handler: () => any): void;
 
     //% blockId="create_light_sensor" block="Create new light sensor"
     //% variable.defl="LightSensor1"

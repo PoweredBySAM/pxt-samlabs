@@ -1,17 +1,6 @@
 namespace pxsim.LightSensor {
-    //% blockId="on_light_sensor_value_changes" block="when light sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#FF5733"
-    export function onLightSensorValueChanges(
-      variable: pxsim.SamLightSensor,
-      handler: () => void
-    ): void {
-      variable.receiveEvent(handler);
-    }
   
-    //% blockId="get_light_sensor_value" block="get light %variable sensor value"
+    //% blockId="get_light_sensor_value" block="value of light sensor %variable"
     //% variable.shadow=variables_get
     //% variable.defl="LightSensor1"
     //% color="#FF5733"
@@ -20,8 +9,41 @@ namespace pxsim.LightSensor {
     ): any {
       return variable.getValue();
     }
+    //% blockId="get_light_sensor_value_equals" block="value of light sensor %variable is equal to %number"
+    //% variable.shadow=variables_get
+     //% number.min=0 number.max=100
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    export function lightSensorValueIsEqualTo(
+      variable: pxsim.SamLightSensor,
+      number: number
+    ): any {
+      return variable.getValue()===number;
+    }
+    //% blockId="get_light_sensor_value_less" block="value of light sensor %variable is less than %number"
+    //% variable.shadow=variables_get
+    //% variable.defl="LightSensor1"
+     //% number.min=0 number.max=100
+    //% color="#FF5733"
+    export function lightSensorValueIsLessThan(
+      variable: pxsim.SamLightSensor,
+      number: number
+    ): any {
+      return variable.getValue() < number;
+    }
+    //% blockId="get_light_sensor_value_greater" block="value of light sensor %variable is greater than %number"
+    //% variable.shadow=variables_get
+     //% number.min=0 number.max=100
+    //% variable.defl="LightSensor1"
+    //% color="#FF5733"
+    export function lightSensorValueIsGreaterThan(
+      variable: pxsim.SamLightSensor,
+      number:number
+    ): any {
+      return variable.getValue() > number;
+    }
   
-    //% blockId="get_light_sensor_color" block="get light sensor %variable  color"
+    //% blockId="get_light_sensor_color" block="get color of light sensor %variable"
     //% variable.shadow=variables_get
     //% variable.defl="LightSensor1"
     //% color="#FF5733"
@@ -29,7 +51,7 @@ namespace pxsim.LightSensor {
       return variable.getSensorColor();
     }
   
-    //% blockId="set_light_sensor_color" block="set light sensor %variable  color to %value"
+    //% blockId="set_light_sensor_color" block="set color of light sensor %variable to %value"
     //% variable.shadow=variables_get
     //% variable.defl="LightSensor1"
     //% color="#FF5733"
@@ -38,18 +60,6 @@ namespace pxsim.LightSensor {
       value: string
     ): void {
       variable.setDeviceColor(value);
-    }
-  
-    /**
-     * Wait until the light sensor value changes
-     * @param sensorId The ID of the light sensor to wait for
-     */
-    //% blockId="wait_until_light_sensor_value_changes" block="wait until light sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% sensorId.defl=0
-    //% color="#FF5733"
-    export function waitUntilLightSensorValueChanges(variable:SamLightSensor,handler:()=>any): void {
-      variable.receiveEvent(handler);  
     }
   
     //% blockId="create_light_sensor" block="Create new light sensor"
@@ -68,9 +78,11 @@ namespace pxsim.LightSensor {
     export class SamLightSensor {
       public deviceName = "sam_light_sensor";
       private _id: string;
+      private previousValue:number
   
       constructor() {
         this._id = samlabs.uuidv4();
+        this.previousValue = 0;
         const detail = {
           device: this.deviceName,
           event: "device_created",
@@ -80,14 +92,13 @@ namespace pxsim.LightSensor {
           { device: this.deviceName, detail },
           samlabs.samSimEvents.TOSIM_DEVICE_CREATED
         );
-        window.console.log("LightSensor created");
       }
   
       public getValue() {
         const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
           this._id
         );
-        return deviceData?.value || 0;
+        return deviceData?.currentValue || 0;
       }
   
       public getSensorColor() {
@@ -113,6 +124,7 @@ namespace pxsim.LightSensor {
       get deviceId() {
         return this._id;
       }
+   
   
       public getDeviceColor() {
         const deviceData =
