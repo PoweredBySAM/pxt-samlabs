@@ -152,6 +152,19 @@ namespace pxsim.Microbit {
     return new pxsim.BBCMicrobit();
   }
 
+  //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% x.min=-0 x.max=4
+  //% y.min=-0 y.max=4
+  //% group="Values"
+  export function isMicrobitLedOn(
+    variable: pxsim.BBCMicrobit,
+    x: number,
+    y: number
+  ): boolean {
+    return variable.isMicrobitLedOn(x, y);
+  }
   //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
@@ -319,6 +332,14 @@ namespace pxsim {
         case 2:
           return deviceData?.pin2;
       }
+    }
+
+    public isMicrobitLedOn(x: number, y: number) {
+      const ledData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      ).ledMatrix;
+
+      return !!ledData[4 - y][x];
     }
 
     dispatchToSimValueChange = (detail: any) => {

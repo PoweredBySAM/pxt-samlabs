@@ -56,6 +56,7 @@
   "Microbit.clearLED|block": "clear %variable LEDs",
   "Microbit.createMicrobit|block": "Create new Microbit",
   "Microbit.isMicrobitButtonPressed|block": "is %variable button $buttonOption pressed",
+  "Microbit.isMicrobitLedOn|block": "is %variable LED on X: $x Y: $y",
   "Microbit.isMicrobitPinPressed|block": "is %variable V2 $analogPinOption pressed",
   "Microbit.isMicrobitTemperatureChanged|block": "is %variable temperature changed",
   "Microbit.onMicrobitDisplayShape|block": "on %variable display $shape",

@@ -188,6 +188,15 @@ declare namespace Microbit {
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
+    //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% x.min=-0 x.max=4
+    //% y.min=-0 y.max=4
+    //% group="Values"
+    //% shim=Microbit::isMicrobitLedOn
+    function isMicrobitLedOn(variable: BBCMicrobit, x: number, y: number): boolean;
+
     //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"

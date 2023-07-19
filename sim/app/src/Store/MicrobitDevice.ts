@@ -119,6 +119,7 @@ class MicrobitDevice {
   @action
   onLEDChanged = () => {
     this.ledMatrix = this._virtualController.ledMatrix;
+    this.updateLsStateStore();
   };
 
   @action
