@@ -24,12 +24,6 @@ declare const enum MicrobitButtonOptions {
   B,
 }
 
-declare const enum MicrobitButtonVelocity {
-  pressed,
-  released,
-  longPressed,
-}
-
 declare const enum MicrobitPinOptions {
   P0,
   P1,
@@ -48,6 +42,12 @@ declare const enum MicrobitPinOptions {
   P14,
   P15,
   P16,
+}
+
+declare const enum MicrobitAnalogPinOptions {
+  P0,
+  P1,
+  P2,
 }
 
 declare const enum MicrobitLEDShapes {

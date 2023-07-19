@@ -188,12 +188,26 @@ declare namespace Microbit {
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
-    //% blockId="when_button_pressed" block="when %variable button $buttonOption $velocityOption"
+    //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"
-    //% group="Events"
-    //% shim=Microbit::whenButtonPressed
-    function whenButtonPressed(variable: BBCMicrobit, buttonOption: MicrobitButtonOptions, velocityOption: MicrobitButtonVelocity): void;
+    //% group="Values"
+    //% shim=Microbit::isMicrobitPinPressed
+    function isMicrobitPinPressed(variable: BBCMicrobit, analogPinOption: MicrobitAnalogPinOptions): boolean;
+
+    //% blockId="microbit_temperature_changed" block="is %variable temperature changed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::isMicrobitTemperatureChanged
+    function isMicrobitTemperatureChanged(variable: BBCMicrobit): boolean;
+
+    //% blockId="microbit_button_pressed" block="is %variable button $buttonOption pressed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::isMicrobitButtonPressed
+    function isMicrobitButtonPressed(variable: BBCMicrobit, buttonOption: MicrobitButtonOptions): boolean;
 
 }
     /**

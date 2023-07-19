@@ -55,13 +55,15 @@
   "Math|block": "Math",
   "Microbit.clearLED|block": "clear %variable LEDs",
   "Microbit.createMicrobit|block": "Create new Microbit",
+  "Microbit.isMicrobitButtonPressed|block": "is %variable button $buttonOption pressed",
+  "Microbit.isMicrobitPinPressed|block": "is %variable V2 $analogPinOption pressed",
+  "Microbit.isMicrobitTemperatureChanged|block": "is %variable temperature changed",
   "Microbit.onMicrobitDisplayShape|block": "on %variable display $shape",
   "Microbit.onMicrobitDisplayWord|block": "on %variable display  $word",
   "Microbit.onMicrobitPlot|block": "on %variable plot X: $x Y: $y",
   "Microbit.onMicrobitToggle|block": "on %variable toggle X: $x Y: $y",
   "Microbit.onMicrobitUnPlot|block": "on %variable unplot X: $x Y: $y",
   "Microbit.shapeConversion|block": "$shapes",
-  "Microbit.whenButtonPressed|block": "when %variable button $buttonOption $velocityOption",
   "Microbit.writeDigitalPin|block": "on %variable V2 write digital pin $pinId value $value",
   "Number|block": "Number",
   "Object|block": "Object",
@@ -158,8 +160,8 @@
   "{id:category}TiltSensor": "TiltSensor",
   "{id:category}Turtle": "Turtle",
   "{id:group}Actions": "Actions",
-  "{id:group}Events": "Events",
   "{id:group}Modify": "Modify",
   "{id:group}Operations": "Operations",
-  "{id:group}Read": "Read"
+  "{id:group}Read": "Read",
+  "{id:group}Values": "Values"
 }

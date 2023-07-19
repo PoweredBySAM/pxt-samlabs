@@ -1,4 +1,4 @@
-//% groups=['Actions','Events','Values']
+//% groups=['Actions','Values']
 namespace pxsim.Microbit {
   //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
   //% variable.shadow=variables_get
@@ -152,15 +152,35 @@ namespace pxsim.Microbit {
     return new pxsim.BBCMicrobit();
   }
 
-  //% blockId="when_button_pressed" block="when %variable button $buttonOption $velocityOption"
+  //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
-  //% group="Events"
-  export function whenButtonPressed(
+  //% group="Values"
+  export function isMicrobitPinPressed(
     variable: pxsim.BBCMicrobit,
-    buttonOption: MicrobitButtonOptions,
-    velocityOption: MicrobitButtonVelocity
-  ): void {
+    analogPinOption: MicrobitAnalogPinOptions
+  ): boolean {
+    return variable.isMicrobitPinPressed(analogPinOption);
+  }
+
+  //% blockId="microbit_temperature_changed" block="is %variable temperature changed"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function isMicrobitTemperatureChanged(
+    variable: pxsim.BBCMicrobit
+  ): boolean {
+    return variable.isMicrobitTemperatureChanged();
+  }
+
+  //% blockId="microbit_button_pressed" block="is %variable button $buttonOption pressed"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function isMicrobitButtonPressed(
+    variable: pxsim.BBCMicrobit,
+    buttonOption: MicrobitButtonOptions
+  ): boolean {
     const buttonSelected = (): string => {
       switch (buttonOption) {
         case MicrobitButtonOptions.A:
@@ -171,19 +191,7 @@ namespace pxsim.Microbit {
           return "A";
       }
     };
-    switch (velocityOption) {
-      case MicrobitButtonVelocity.pressed:
-        variable.whenButtonPressed(buttonSelected());
-        break;
-      case MicrobitButtonVelocity.released:
-        //TODO
-        window.console.log("whenMicrobitButtonReleased called");
-        break;
-      case MicrobitButtonVelocity.longPressed:
-        //TODO
-        window.console.log("whenMicrobitButtonLongPressed called");
-        break;
-    }
+    return variable.isMicrobitButtonPressed(buttonSelected());
   }
 }
 
@@ -286,16 +294,33 @@ namespace pxsim {
       this.dispatchToSimValueChange(detail);
     };
 
-    public whenButtonPressed(button: string) {
-      const detail = {
-        device: this.deviceName,
-        event: "device_value_changed",
-        id: this._id,
-        value: true,
-        property: button === "A" ? "buttonAPressed" : "buttonBPressed",
-      };
-      this.dispatchToSimValueChange(detail);
+    public isMicrobitButtonPressed(button: string) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return button === "A" ? deviceData?.aDown : deviceData?.bDown;
     }
+    public isMicrobitTemperatureChanged() {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.isTemperatureChanged;
+    }
+    public isMicrobitPinPressed(pinOption: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      switch (pinOption) {
+        case 0:
+          return deviceData?.pin0;
+
+        case 1:
+          return deviceData?.pin1;
+        case 2:
+          return deviceData?.pin2;
+      }
+    }
+
     dispatchToSimValueChange = (detail: any) => {
       this._dispatch(
         { device: this.deviceName, detail },

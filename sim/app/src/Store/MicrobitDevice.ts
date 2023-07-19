@@ -1,5 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { CustomEventGenerator } from "src/Features/CustomEventGenerator";
+import SamDeviceManager from "src/Features/SamSimState";
 class MicrobitDevice {
   private _virtualController: any;
   private _bluetoothController: any;
@@ -22,16 +23,21 @@ class MicrobitDevice {
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  @observable aPressed: boolean;
-  @observable bPressed: boolean;
+  @observable aDown: boolean;
+  @observable bDown: boolean;
   @observable pin0: boolean = false;
   @observable pin1: boolean = false;
   @observable pin2: boolean = false;
   @observable pin3: boolean = false;
   @observable pinGND: boolean = false;
+  @observable isTemperatureChanged: boolean = false;
+  aLongPressTimeout: any;
+  bLongPressTimeout: any;
   customEventGenerator: CustomEventGenerator;
+  lsStateStore: SamDeviceManager;
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
+    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -50,15 +56,21 @@ class MicrobitDevice {
     this.blockVisibility = true;
     this.deviceInTestMode = false;
     this.deleted = false;
-    this.aPressed = false;
-    this.bPressed = false;
+    this.aLongPressTimeout;
+    this.bLongPressTimeout;
+    this.aDown = false;
+    this.bDown = false;
     this.pin0 = false;
     this.pin1 = false;
     this.pin2 = false;
     this.pin3 = false;
     this.pinGND = false;
-    this._virtualController.on("LEDChanged", this.onLEDChanged);
+    this.isTemperatureChanged = false;
     makeAutoObservable(this);
+    this._virtualController.on("LEDChanged", this.onLEDChanged);
+    this._virtualController.on("temperatureChanged", this.onTemperatureChanged);
+    this._virtualController.on("ioPinChanged", this.onAnalogPinPressed);
+    this.updateLsStateStore();
   }
 
   @action
@@ -85,43 +97,113 @@ class MicrobitDevice {
       case "writeDigitalPin":
         this._virtualController.writeDigitalPin(value.pinId, value.value);
         break;
-      case "buttonAPressed":
-        value ? this.onAButtonDown() : this.onAButtonUp();
-        break;
-      case "buttonBPressed":
-        value ? this.onBButtonDown() : this.onBButtonUp();
-        break;
       default:
         return "Invalid property";
     }
   }
 
   @action
+  onAnalogPinPressed = () => {
+    const controller = this._virtualController;
+
+    this.pin0 = controller.isPin0Pressed();
+    this.pin1 = controller.isPin1Pressed();
+    this.pin2 = controller.isPin2Pressed();
+
+    this.updateLsStateStore();
+  };
+  @action
+  onTemperatureChanged = () => {
+    this.isTemperatureChanged = this._virtualController._temperature;
+  };
+  @action
   onLEDChanged = () => {
     this.ledMatrix = this._virtualController.ledMatrix;
-    this.broadcastState();
   };
 
   @action
-  onBButtonDown = () => {
-    this.bPressed = true;
-    this.broadcastState();
-  };
-  @action
-  onBButtonUp = () => {
-    this.bPressed = false;
-    this.broadcastState();
-  };
-  @action
   onAButtonDown = () => {
-    this.aPressed = true;
-    this.broadcastState();
+    this.aDown = true;
+    this._virtualController._characteristics.buttonB.oncharacteristicvaluechanged(
+      {
+        target: {
+          value: {
+            buffer: [1],
+          },
+        },
+      }
+    );
+
+    this.bLongPressTimeout = setTimeout(() => {
+      this._virtualController._characteristics.buttonB.oncharacteristicvaluechanged(
+        {
+          target: {
+            value: {
+              buffer: [2],
+            },
+          },
+        }
+      );
+    }, 1000);
+    this.updateLsStateStore();
   };
   @action
   onAButtonUp = () => {
-    this.aPressed = false;
-    this.broadcastState();
+    this.aDown = false;
+    clearTimeout(this.aLongPressTimeout);
+    this._virtualController._characteristics.buttonA.oncharacteristicvaluechanged(
+      {
+        target: {
+          value: {
+            buffer: [0],
+          },
+        },
+      }
+    );
+    this.updateLsStateStore();
   };
+  @action
+  onBButtonDown = () => {
+    this.bDown = true;
+    this._virtualController._characteristics.buttonB.oncharacteristicvaluechanged(
+      {
+        target: {
+          value: {
+            buffer: [1],
+          },
+        },
+      }
+    );
+
+    this.bLongPressTimeout = setTimeout(() => {
+      this._virtualController._characteristics.buttonB.oncharacteristicvaluechanged(
+        {
+          target: {
+            value: {
+              buffer: [2],
+            },
+          },
+        }
+      );
+    }, 1000);
+    this.updateLsStateStore();
+  };
+  @action
+  onBButtonUp = () => {
+    this.bDown = false;
+    clearTimeout(this.bLongPressTimeout);
+    this._virtualController._characteristics.buttonB.oncharacteristicvaluechanged(
+      {
+        target: {
+          value: {
+            buffer: [0],
+          },
+        },
+      }
+    );
+    this.updateLsStateStore();
+  };
+
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -133,7 +215,6 @@ class MicrobitDevice {
   @action
   deleteDevice() {
     this.deleted = true;
-    this.broadcastState();
   }
   get virtualController() {
     return this._virtualController;
@@ -141,23 +222,24 @@ class MicrobitDevice {
   get bluetoothController() {
     return this._bluetoothController;
   }
-  broadcastState() {
-    this.customEventGenerator.dispatchEvent("deviceStateChange", {
-      data: this.getAllData(),
-    });
+  @action
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
+
   getAllData() {
     return {
       deviceId: this._deviceId,
       deviceType: this.virtualInteractionComponentName,
       ledMatrix: this.ledMatrix,
-      aPressed: this.aPressed,
-      bPressed: this.bPressed,
+      aDown: this.aDown,
+      bDown: this.bDown,
       pin0: this.pin0,
       pin1: this.pin1,
       pin2: this.pin2,
       pin3: this.pin3,
       pinGND: this.pinGND,
+      isTemperatureChanged: this.isTemperatureChanged,
       isDeleted: this.deleted,
     };
   }
