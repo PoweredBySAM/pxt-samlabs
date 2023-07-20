@@ -152,6 +152,14 @@ namespace pxsim.Microbit {
     return new pxsim.BBCMicrobit();
   }
 
+  //% blockId="get_microbit_Temperature" block="get %variable temperature"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitTemperature(variable: pxsim.BBCMicrobit): number {
+    return variable.getMicrobitTemperature();
+  }
+
   //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
@@ -340,6 +348,13 @@ namespace pxsim {
       ).ledMatrix;
 
       return !!ledData[4 - y][x];
+    }
+
+    public getMicrobitTemperature() {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.temperature;
     }
 
     dispatchToSimValueChange = (detail: any) => {

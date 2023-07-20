@@ -188,6 +188,13 @@ declare namespace Microbit {
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
+    //% blockId="get_microbit_Temperature" block="get %variable temperature"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitTemperature
+    function getMicrobitTemperature(variable: BBCMicrobit): number;
+
     //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"
