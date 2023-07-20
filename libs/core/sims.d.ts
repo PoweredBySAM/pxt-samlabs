@@ -188,6 +188,13 @@ declare namespace Microbit {
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
+    //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitAccelerometerValues
+    function getMicrobitAccelerometerValues(variable: BBCMicrobit, AccelerometerAxisOptions: MicrobitAccelerometerAxisOptions): number;
+
     //% blockId="get_microbit_Temperature" block="get %variable temperature"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"

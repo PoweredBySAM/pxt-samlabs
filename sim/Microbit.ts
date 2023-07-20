@@ -152,6 +152,17 @@ namespace pxsim.Microbit {
     return new pxsim.BBCMicrobit();
   }
 
+  //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitAccelerometerValues(
+    variable: pxsim.BBCMicrobit,
+    AccelerometerAxisOptions: MicrobitAccelerometerAxisOptions
+  ): number {
+    return variable.getMicrobitAccelerometerValues(AccelerometerAxisOptions);
+  }
+
   //% blockId="get_microbit_Temperature" block="get %variable temperature"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
@@ -356,7 +367,19 @@ namespace pxsim {
       );
       return deviceData?.temperature;
     }
-
+    public getMicrobitAccelerometerValues(value: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      switch (value) {
+        case 0:
+          return deviceData?.xAccel;
+        case 1:
+          return deviceData?.yAccel;
+        case 2:
+          return deviceData?.zAccel;
+      }
+    }
     dispatchToSimValueChange = (detail: any) => {
       this._dispatch(
         { device: this.deviceName, detail },

@@ -55,6 +55,7 @@
   "Math|block": "Math",
   "Microbit.clearLED|block": "clear %variable LEDs",
   "Microbit.createMicrobit|block": "Create new Microbit",
+  "Microbit.getMicrobitAccelerometerValues|block": "get %variable $AccelerometerAxisOptions acceleration",
   "Microbit.getMicrobitTemperature|block": "get %variable temperature",
   "Microbit.isMicrobitButtonPressed|block": "is %variable button $buttonOption pressed",
   "Microbit.isMicrobitLedOn|block": "is %variable LED on X: $x Y: $y",

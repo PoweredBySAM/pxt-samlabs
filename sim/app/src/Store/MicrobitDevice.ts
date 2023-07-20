@@ -32,6 +32,9 @@ class MicrobitDevice {
   @observable pinGND: boolean = false;
   @observable isTemperatureChanged: boolean = false;
   @observable temperature: number;
+  @observable xAccel: number;
+  @observable yAccel: number;
+  @observable zAccel: number;
   aLongPressTimeout: any;
   bLongPressTimeout: any;
   customEventGenerator: CustomEventGenerator;
@@ -68,10 +71,17 @@ class MicrobitDevice {
     this.pinGND = false;
     this.isTemperatureChanged = false;
     this.temperature = this._virtualController._temperature;
+    this.xAccel = this._virtualController._xAccel;
+    this.yAccel = this._virtualController._yAccel;
+    this.zAccel = this._virtualController._zAccel;
     makeAutoObservable(this);
     this._virtualController.on("LEDChanged", this.onLEDChanged);
     this._virtualController.on("temperatureChanged", this.onTemperatureChanged);
     this._virtualController.on("ioPinChanged", this.onAnalogPinPressed);
+    this._virtualController.on(
+      "accelerometerChanged",
+      this.onAccelerometerChanged
+    );
     this.updateLsStateStore();
   }
 
@@ -118,6 +128,13 @@ class MicrobitDevice {
   onTemperatureChanged = () => {
     this.isTemperatureChanged = this._virtualController._isTemperatureChanged;
     this.temperature = this._virtualController._temperature;
+    this.updateLsStateStore();
+  };
+  @action
+  onAccelerometerChanged = () => {
+    this.xAccel = this._virtualController._xAccel;
+    this.yAccel = this._virtualController._yAccel;
+    this.zAccel = this._virtualController._zAccel;
     this.updateLsStateStore();
   };
   @action
@@ -245,6 +262,9 @@ class MicrobitDevice {
       pin3: this.pin3,
       pinGND: this.pinGND,
       temperature: this.temperature,
+      xAccel: this.xAccel,
+      yAccel: this.yAccel,
+      zAccel: this.zAccel,
       isTemperatureChanged: this.isTemperatureChanged,
       isDeleted: this.deleted,
     };
