@@ -1,37 +1,54 @@
 namespace pxsim.Slider {
-    //% blockId="on_slider_value_changes" block="when slider %variable value changes"
-    //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
-    //% color="#ff69b4"
-    export function onSliderValueChanges(
-      variable: pxsim.SamSlider,
-      handler: () => void
-    ): void {
-      variable.receiveEvent(handler);
-    }
   
     //% blockId="get_slider_value" block="get slider %variable value"
     //% variable.shadow=variables_get
     //% variable.defl="Slider1"
-    //% color="#ff69b4"
+    //% color="#ff4500"
     export function getSamSliderValue(variable: pxsim.SamSlider): any {
       return variable.getValue();
+    }
+
+    //% blockId="get_slider_value_equals" block="slider %variable value equals %number"
+    //% variable.shadow=variables_get
+    //% variable.defl="Slider1"
+    //% number.min=0 number.max=100
+    //% color="#ff4500"
+    export function sliderValueEquals(variable: pxsim.SamSlider,number:number): any {
+      return variable.getValue()===number;
+    }
+
+    //% blockId="get_slider_value_greater" block="slider %variable value is greater than $number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="Slider1"
+    //% color="#ff4500"
+    export function sliderValuegreater(variable: pxsim.SamSlider,number:number): any {
+      return variable.getValue() > number;
+    }
+
+    //% blockId="get_slider_value_less" block="slider %variable value is less than %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="Slider1"
+    //% color="#ff4500"
+    export function sliderValueLess(variable: pxsim.SamSlider,number:number): any {
+      return variable.getValue() < number;
     }
   
     //% blockId="set_slider_color" block="set slider %variable color to %value"
     //% variable.shadow=variables_get
     //% variable.defl="Slider1"
-    //% color="#ff69b4"
+    //% color="#ff4500"
     export function setSamSliderColor(
       variable: pxsim.SamSlider,
-      value: string
+      value: samLedColors
     ): void {
       variable.setDeviceColor(value);
     }
   
     //% blockId="create_slider" block="Create new slider"
     //% variable.defl="Slider1"
-    //% color="#ff69b4"
+    //% color="#ff4500"
     export function createSlider(): pxsim.SamSlider {
       return new pxsim.SamSlider();
     }
@@ -62,21 +79,24 @@ namespace pxsim.Slider {
       }
   
       public getValue() {
-        return this._value;
+        const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+          this._id
+        );
+        return deviceData?.value || 0;
       }
   
-      public setDeviceColor(color: string) {
+      public setDeviceColor(color: samLedColors) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value: color,
+          value: samlabs.hexColorFromCode(color),
           property: "color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-        );
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`        
+          );
       }
   
       public receiveEvent(handler: () => any) {

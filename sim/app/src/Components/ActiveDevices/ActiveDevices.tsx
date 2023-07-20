@@ -24,6 +24,7 @@ const ActiveDevices =
   ({ showActiveDevices }: { showActiveDevices?: boolean }) => {
     const { devicesStore } = useStores();
     const devices: SamDeviceStoreType[] = devicesStore.devices;
+    const x = devices.map(device=>console.log(device._deviceId))
     return (
       <Box
         sx={
@@ -38,7 +39,7 @@ const ActiveDevices =
         }
       >
         {devices.map((device: SamDeviceStoreType) => (
-          <ActiveDeviceItem key={device.id} device={device} />
+          <ActiveDeviceItem key={device._deviceId} device={device} />
         ))}
       </Box>
     );

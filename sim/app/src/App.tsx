@@ -50,12 +50,6 @@ const App: React.FC = observer(() => {
         addNewDeviceEventHandler(event.detail);
       }
     );
-    const valueChangedEvent = CustomEventGenerator.getInstance().receiveEvent(
-      "TOSIM_DEVICE_VALUE_CHANGED",
-      (event: CustomEvent) => {
-        addNewDeviceEventHandler(event.detail);
-      }
-    );
     const simMessageEvent = CustomEventGenerator.getInstance().receiveEvent(
       "message",
       (event: any) => {
@@ -67,10 +61,6 @@ const App: React.FC = observer(() => {
     );
     const eventsArr = [
       { event: createdEvent, name: samSimEvents.TOSIM_DEVICE_CREATED },
-      {
-        event: valueChangedEvent,
-        name: samSimEvents.TOSIM_DEVICE_VALUE_CHANGED,
-      },
       { event: simMessageEvent, name: "message" },
     ];
     return () => {

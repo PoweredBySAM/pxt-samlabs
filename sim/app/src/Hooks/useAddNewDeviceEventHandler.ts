@@ -12,7 +12,7 @@ export const pxtToSimDeviceNameMap: { [key: string]: deviceNameType } = {
   sam_dcmotor: "DCMotor",
   sam_button: "Button",
   sam_led: "RGBLight",
-  sam_servo: "ServoMotor",
+  sam_servo_motor: "ServoMotor",
   sam_buzzer: "Buzzer",
   sam_light_sensor: "LightSensor",
   sam_proximity_sensor: "ProximitySensor",
