@@ -5,7 +5,7 @@ namespace pxsim.button {
   //% variable.defl="Button 1"  
   //% color.shadow="colorNumberPicker"
   //% advanced=true
-  export function setButtonColor(variable: pxsim.SamBuzzer, color: string): void {
+  export function setButtonColor(variable: pxsim.SamBuzzer, color: samLedColors): void {
     variable.setColor(color);
   }
 
@@ -43,18 +43,19 @@ namespace pxsim {
         samlabs.samSimEvents.TOSIM_DEVICE_CREATED
       );
     }
-    public setColor(color: string) {
+    public setColor(color: samLedColors) {
       const detail = {
-          device: this.deviceName,
-          event: "value_changed",
-          properties: ["color"],
-          newValue: [color],
+        device: this.deviceName,
+        event: "device_value_changed",
+        id: this._id,
+        value: samlabs.hexColorFromCode(color),
+        property: "color",
       };
       this._dispatch(
-          { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+        { device: this.deviceName, detail },
+        `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
       );
-      }
+    }
 
     public getIsPressed(){
       return samlabs.SamSimDataService.getInstance().getDeviceProps(this._id)?.deviceState==='pressed';

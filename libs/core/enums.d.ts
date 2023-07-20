@@ -86,3 +86,13 @@ declare const enum MicrobitLEDShapes {
   Umbrella,
   Snake,
 }
+declare const enum samLedColors {
+Red=1,
+Green=2,
+Blue=3,
+Yellow=4,
+Orange=5,
+Purple=6,
+White=7,
+Black=8,
+}

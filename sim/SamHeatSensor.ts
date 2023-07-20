@@ -1,16 +1,5 @@
 
 namespace pxsim.HeatSensor {
-  //% blockId="on_heat_sensor_value_changes" block="when heat sensor $variable value changes"
-  //% variable.shadow=variables_get
-  //% buttonId.defl=0
-  //% sensorId.defl=0
-  //% color="#3455db"
-  export function onHeatSensorValueChanges(
-    variable: pxsim.SamHeatSensor,
-    handler: () => void
-  ): void {
-    variable.receiveEvent(handler);
-  }
 
   //% blockId="get_heat_sensor_value_celsius" block="get heat %variable sensor value in Celsius"
   //% variable.shadow=variables_get
@@ -30,6 +19,73 @@ namespace pxsim.HeatSensor {
   ): any {
     return variable.getValueFahrenheit();
   }
+
+
+    //% blockId="get_heat_sensor_value_equal_fahrenheit" block="value of heat sensor %variable equals %number fahrenheit"
+    //% variable.shadow=variables_get
+    //% number.min=0 
+    //% variable.defl="Heat Sensor1"
+    //% color="#3455db"
+    export function heatSensorfahrenHeitValueIsEqualTo(
+      variable: pxsim.SamHeatSensor,
+      number:number
+    ): any {
+      return variable.getValueFahrenheit() === number;
+    }
+    //% blockId="get_heat_sensor_value_greater_fahrenheit" block="value of heat sensor %variable is greater than %number fahrenheit"
+    //% variable.shadow=variables_get
+    //% number.min=0 
+    //% variable.defl="Heat Sensor1"
+    //% color="#3455db"
+    export function heatSensorfahrenHeitValueIsGreaterThan(
+      variable: pxsim.SamHeatSensor,
+      number:number
+    ): any {
+      return variable.getValueFahrenheit() > number;
+    }
+    //% blockId="get_heat_sensor_value_less_fahrenheit" block="value of heat sensor %variable is less than %number fahrenheit"
+    //% variable.shadow=variables_get
+    //% number.min=0 
+    //% variable.defl="Heat Sensor1"
+    //% color="#3455db"
+    export function heatSensorfahrenHeitValueIsLessThan(
+      variable: pxsim.SamHeatSensor,
+      number:number
+    ): any {
+      return variable.getValueFahrenheit() < number;
+    }
+    //% blockId="get_heat_sensor_value_equals_celsius" block="value of heat sensor %variable equals %number celsius"
+    //% variable.shadow=variables_get
+    //% variable.defl="Heat Sensor1"
+    //% color="#3455db"
+    export function heatSensorCelciusValueEquals(
+      variable: pxsim.SamHeatSensor,
+      number:number
+    ): any {
+      return variable.getValueCelsius() === number;
+    }
+    //% blockId="get_heat_sensor_value_greater_celsius" block="value of heat sensor %variable is greater than %number celsius"
+    //% variable.shadow=variables_get
+    //% variable.defl="Heat Sensor1"
+    //% color="#3455db"
+    export function heatSensorCelciusValueIsGreaterThan(
+      variable: pxsim.SamHeatSensor,
+      number:number
+    ): any {
+      return variable.getValueCelsius() > number;
+    }
+    //% blockId="get_heat_sensor_value_less_celcius" block="value of heat sensor %variable is less than %number celsius"
+    //% variable.shadow=variables_get
+    //% variable.defl="Heat Sensor1"
+    //% color="#3455db"
+    export function heatSensorCelciusValueIsLessThan(
+      variable: pxsim.SamHeatSensor,
+      number:number
+    ): any {
+      return variable.getValueCelsius() < number;
+    }
+
+
   //% blockId="get_heat_sensor_color" block="get heat sensor %variable  color"
   //% variable.shadow=variables_get
   //% variable.defl="HeatSensor1"
@@ -37,27 +93,18 @@ namespace pxsim.HeatSensor {
   export function getSamHeatSensorColor(variable: pxsim.SamHeatSensor): any {
     return variable.getHeatSensorColor();
   }
-  //% blockId="set_heat_sensor_color" block="set heat sensor %variable  color to %value"
+  //% blockId="set_heat_sensor_color" block="set heat sensor %variable  color to $value"
   //% variable.shadow=variables_get
+  //% color.shadow=1
   //% variable.defl="HeatSensor1"
   //% color="#3455db"
   export function setSamHeatSensorColor(
     variable: pxsim.SamHeatSensor,
-    value: string
+    value: samLedColors
   ): void {
     variable.setDeviceColor(value);
   }
-    /**
-     * Wait until the heat sensor value changes
-     * @param sensorId The ID of the heat sensor to wait for
-     */
-    //% blockId="wait_until_heat_sensor_value_changes" block="wait until heat sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% sensorId.defl=0
-    //% color="#3455db"
-    export function waitUntilHeatSensorValueChanges(variable:SamHeatSensor,handler:()=>any): void {
-        variable.receiveEvent(handler);  
-    }
+
 
   //% blockId="create_heat_sensor" block="Create new heat sensor"
   //% variable.defl="HeatSensor1"
@@ -85,8 +132,8 @@ namespace pxsim {
       };
       this._dispatch(
         { device: this.deviceName, detail },
-        samlabs.samSimEvents.TOSIM_DEVICE_CREATED
-      );
+        `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+        );
       window.console.log("HeatSensor created");
     }
 
@@ -110,29 +157,24 @@ namespace pxsim {
       return deviceData.color;
     }
 
-    public setDeviceColor(color: string) {
+    public setDeviceColor(color: samLedColors) {
       const detail = {
         device: this.deviceName,
         event: "device_value_changed",
         id: this._id,
-        value: color,
+        value: samlabs.hexColorFromCode(color),
         property: "color",
       };
       this._dispatch(
         { device: this.deviceName, detail },
-        samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-      );
+        `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+        );
     }
 
     get deviceId() {
       return this._id;
     }
 
-    public getDeviceColor() {
-      const deviceData =
-        samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-      return deviceData.color;
-    }
     public receiveEvent(handler: ()=>any) {
         samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
     }

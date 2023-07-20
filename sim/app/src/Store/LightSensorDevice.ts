@@ -74,8 +74,7 @@ class LightSensorDevice {
   @action
   setValue(newValue: number) {
     this.value = newValue;
-    this.updateLsStateStore();
-    this.broadcastState();
+    this.updateLsStateStore();  
   }
 
   @action
@@ -108,11 +107,7 @@ class LightSensorDevice {
 
     }
   }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
-    });
-  }
+
 
   get virtualController() {
     return this._virtualController;

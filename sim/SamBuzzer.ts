@@ -53,7 +53,7 @@ export function clearBuzzer(variable: pxsim.SamBuzzer): void {
 //% variable.defl="Buzzer 1"
 //% color.shadow="colorNumberPicker"
 //% color="#d400d4"
-export function setBuzzerColor(variable: pxsim.SamBuzzer, color: string): void {
+export function setBuzzerColor(variable: pxsim.SamBuzzer, color: samLedColors): void {
     variable.setColor(color);
 }
 
@@ -91,9 +91,10 @@ namespace pxsim {
         public setVolume(newVolume: number) {
         const detail = {
             device: this.deviceName,
-            event: "value_changed",
-            properties: ["volume"],
-            newValues: [newVolume],
+            event: "device_value_changed",
+            properties: "pitch",
+            id: this._id,
+            value: newVolume,
         };
         this._dispatch(
             { device: this.deviceName, detail },
@@ -103,9 +104,10 @@ namespace pxsim {
         public setPitch(newPitch: number) {
         const detail = {
             device: this.deviceName,
-            event: "value_changed",
-            properties: ["pitch"],
-            newValues: [newPitch],
+            event: "device_value_changed",
+            id: this._id,
+            property: "pitch",
+            value: newPitch,
         };
         this._dispatch(
             { device: this.deviceName, detail },
@@ -115,21 +117,23 @@ namespace pxsim {
         public clear() {
         const detail = {
             device: this.deviceName,
-            event: "value_changed",
-            properties: ["pitch", "volume"],
-            newValue: [0, 0],
+            event: "device_value_changed",
+            property: 'clear',
+            id: this._id,
+            value: 0,
         };
         this._dispatch(
             { device: this.deviceName, detail },
             samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
         );
         }
-        public setColor(color: string) {
+        public setColor(color: samLedColors) {
         const detail = {
             device: this.deviceName,
-            event: "value_changed",
-            properties: ["color"],
-            newValue: [color],
+            event: "device_value_changed",
+            id: this._id,
+            property: "color",
+            value: samlabs.hexColorFromCode(color),
         };
         this._dispatch(
             { device: this.deviceName, detail },

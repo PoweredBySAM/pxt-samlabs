@@ -3,24 +3,35 @@ namespace pxsim.LED {
      * Turn the LED with the given ID on
      * @param variable The  LED to turn on
      */
-    //% blockId="turn_led_on" block="turn LED $variable on"
+    //% blockId="turn_led_ff" block="turn LED $variable on"
     //% variable.shadow=variables_get
     //% variable.defl="LED1"
     //% color="#4169e1"
     export function turnLEDOn(variable:SamLED): void {
-      variable.turnOn();
+      variable.turnOn(	"#008000");
+    }
+    /**
+     * Turn the LED with the given ID on
+     * @param variable The  LED to turn on
+     */
+    //% blockId="turn_led_on" block="turn LED $variable off"
+    //% variable.shadow=variables_get
+    //% variable.defl="LED1"
+    //% color="#4169e1"
+    export function turnLEDOff(variable:SamLED): void {
+      variable.turnOn(	"#ffffff");
     }
      /**
      * Set the color of the LED with the given ID
      * @param variable The LED to set the color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_color" block="set color of LED $variable to  $color"
+    //% blockId="set_led_color" block="set color of LED $variable to $color"
     //% variable.shadow=variables_get
     //% variable.defl="LED1"
-    //% color.shadow="colorNumberPicker"
+    //% color.shadow="1"
     //% color="#4169e1"
-    export function setLEDColor(variable: SamLED, color: string): void {
+    export function setLEDColor(variable: SamLED, color: samLedColors): void {
       variable.setLEDColor(color);
     }
      /**
@@ -28,12 +39,12 @@ namespace pxsim.LED {
      * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led__body_color" block="set color of LED $variable to  $color"
+    //% blockId="set_led_body_color" block="set body color of LED %variable to $color"
     //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
-    //% color.shadow="colorNumberPicker"
+    //% variable.defl="LED1"
+    //% color.shadow="1"
     //% color="#4169e1"
-    export function setLEDBodyColor(variable: SamLED, color: string): void {
+    export function setLEDBodyColor(variable: SamLED, color: samLedColors): void {
       variable.setBodyColor(color);
     }
   
@@ -139,30 +150,30 @@ namespace pxsim.LED {
         return deviceData.brighness;
       }
   
-      public setBodyColor(color: string) {
+      public setBodyColor(color: samLedColors) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value: color,
+          value: this.hexColorFromCode(color),
           property: "color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
       }
-      public setLEDColor(color: string) {
+      public setLEDColor(color: samLedColors) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value: color,
-          property: "color",
+          value: this.hexColorFromCode(color),
+          property: "led_color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
       }
       public setBrightness(value: number) {
@@ -175,20 +186,20 @@ namespace pxsim.LED {
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
       }
-      public turnOn() {
+      public turnOn(value: string) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value:true,
-          property: "state",
+          value,
+          property: "color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
       }
       public turnOff() {
@@ -201,8 +212,30 @@ namespace pxsim.LED {
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
+      }
+      private hexColorFromCode(colorCode: number) {
+        switch(colorCode) {
+          case 1:
+            return '#FF0000'; // Red
+          case 2:
+            return '#00FF00'; // Green
+          case 3:
+            return '#0000FF'; // Blue
+          case 4:
+            return '#FFFF00'; // Yellow
+          case 5:
+            return '#FFA500'; // Orange
+          case 6:
+            return '#800080'; // Purple
+          case 7:
+            return '#FFFFFF'; // White
+          case 8:
+            return '#000000'; // Black
+          default:
+            return '#ffffff'; 
+        }
       }
   
       get deviceId() {
