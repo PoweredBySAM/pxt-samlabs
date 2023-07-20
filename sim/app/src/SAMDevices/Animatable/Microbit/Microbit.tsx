@@ -10,7 +10,7 @@ import MicrobitDevice from "src/Store/MicrobitDevice";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 const Microbit = ({ device }: { device: MicrobitDevice }) => {
   const { handleBasicControllerEvents } = useBasicEvents(device);
-  const { addEvents, removeEvents } = useEventsController(
+  const { addEvents } = useEventsController(
     device,
     handleBasicControllerEvents
   );
@@ -43,8 +43,8 @@ const Microbit = ({ device }: { device: MicrobitDevice }) => {
         >
           <BBCMicrobit
             ledArray={device.ledMatrix}
-            aPressed={device.aPressed}
-            bPressed={device.bPressed}
+            aPressed={device.aDown}
+            bPressed={device.bDown}
             pin0={device.pin0}
             pin1={device.pin1}
             pin2={device.pin2}

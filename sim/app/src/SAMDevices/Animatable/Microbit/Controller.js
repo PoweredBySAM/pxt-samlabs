@@ -43,6 +43,7 @@ class Controller extends eventEmitter {
     this._aPressed = false;
     this._bPressed = false;
     this._temperature = null;
+    this._isTemperatureChanged = false;
 
     // IO Pins
     this._pins = [];
@@ -502,8 +503,10 @@ class Controller extends eventEmitter {
     var value = new Uint8Array(event.target.value.buffer)[0];
     if (value !== this._temperature) {
       this._temperature = value;
+      this._isTemperatureChanged = true;
       this.emit("temperatureChanged");
     }
+    this._isTemperatureChanged = false;
   };
 
   _onButtonAChange = (event) => {
@@ -636,7 +639,7 @@ class Controller extends eventEmitter {
     this.emit("ioPinChanged");
   };
 
-  _checkAnalogPinPressed = (pinId, value) => {
+  _checkAnalogPinPressed = (pinId) => {
     // Only check pins 0, 1, 2
     if (pinId !== 0 && pinId !== 1 && pinId !== 2) {
       return;
