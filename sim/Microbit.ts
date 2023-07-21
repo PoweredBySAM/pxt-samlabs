@@ -152,6 +152,28 @@ namespace pxsim.Microbit {
     return new pxsim.BBCMicrobit();
   }
 
+  //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitAnalogPin(
+    variable: pxsim.BBCMicrobit,
+    pin: MicrobitAnalogPinOptions
+  ): number {
+    return variable.getMicrobitAnalogPin(pin);
+  }
+
+  //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitDigitalPin(
+    variable: pxsim.BBCMicrobit,
+    pin: MicrobitPinOptions
+  ): number {
+    return variable.getMicrobitDigitalPin(pin);
+  }
+
   //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
@@ -344,12 +366,11 @@ namespace pxsim {
       );
       switch (pinOption) {
         case 0:
-          return deviceData?.pin0;
-
+          return deviceData?.pins.pin0Pressed;
         case 1:
-          return deviceData?.pin1;
+          return deviceData?.pins.pin1Pressed;
         case 2:
-          return deviceData?.pin2;
+          return deviceData?.pins.pin2Pressed;
       }
     }
 
@@ -379,6 +400,20 @@ namespace pxsim {
         case 2:
           return deviceData?.zAccel;
       }
+    }
+    public getMicrobitDigitalPin(pin: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.pins;
+    }
+
+    public getMicrobitAnalogPin(pin: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+
+      return deviceData?.pins;
     }
     dispatchToSimValueChange = (detail: any) => {
       this._dispatch(

@@ -25,10 +25,11 @@ class MicrobitDevice {
   @observable deleted: boolean;
   @observable aDown: boolean;
   @observable bDown: boolean;
-  @observable pin0: boolean = false;
-  @observable pin1: boolean = false;
-  @observable pin2: boolean = false;
-  @observable pin3: boolean = false;
+  @observable pins: [] = [];
+  @observable pin0Pressed: boolean = false;
+  @observable pin1Pressed: boolean = false;
+  @observable pin2Pressed: boolean = false;
+  @observable pin3Pressed: boolean = false;
   @observable pinGND: boolean = false;
   @observable isTemperatureChanged: boolean = false;
   @observable temperature: number;
@@ -64,10 +65,10 @@ class MicrobitDevice {
     this.bLongPressTimeout;
     this.aDown = false;
     this.bDown = false;
-    this.pin0 = false;
-    this.pin1 = false;
-    this.pin2 = false;
-    this.pin3 = false;
+    this.pins = this._virtualController._pins;
+    this.pin0Pressed = false;
+    this.pin1Pressed = false;
+    this.pin2Pressed = false;
     this.pinGND = false;
     this.isTemperatureChanged = false;
     this.temperature = this._virtualController._temperature;
@@ -116,12 +117,7 @@ class MicrobitDevice {
 
   @action
   onAnalogPinPressed = () => {
-    const controller = this._virtualController;
-
-    this.pin0 = controller.isPin0Pressed();
-    this.pin1 = controller.isPin1Pressed();
-    this.pin2 = controller.isPin2Pressed();
-
+    this.pins = this._virtualController._pins;
     this.updateLsStateStore();
   };
   @action
@@ -256,11 +252,7 @@ class MicrobitDevice {
       ledMatrix: this.ledMatrix,
       aDown: this.aDown,
       bDown: this.bDown,
-      pin0: this.pin0,
-      pin1: this.pin1,
-      pin2: this.pin2,
-      pin3: this.pin3,
-      pinGND: this.pinGND,
+      pins: this.pins,
       temperature: this.temperature,
       xAccel: this.xAccel,
       yAccel: this.yAccel,

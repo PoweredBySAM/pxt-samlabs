@@ -188,6 +188,20 @@ declare namespace Microbit {
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
+    //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitAnalogPin
+    function getMicrobitAnalogPin(variable: BBCMicrobit, pin: MicrobitAnalogPinOptions): number;
+
+    //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitDigitalPin
+    function getMicrobitDigitalPin(variable: BBCMicrobit, pin: MicrobitPinOptions): number;
+
     //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"
