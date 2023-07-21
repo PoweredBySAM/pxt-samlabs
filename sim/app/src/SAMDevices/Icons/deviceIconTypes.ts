@@ -11,4 +11,4 @@ export type deviceNameType =
   | "HeatSensor"
   | "Tilt"
   | "Microbit"
- ;
+  | "GoogleSheet";

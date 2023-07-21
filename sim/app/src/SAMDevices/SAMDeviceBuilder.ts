@@ -1,9 +1,6 @@
 import DeviceDependencies from "./DeviceDependencies";
 import { v4 as uuidv4 } from "uuid";
-import {
-  DeviceMenuItemType,
-  IBuiltDevice,
-} from "./Types/SAMDeviceTypes";
+import { DeviceMenuItemType, IBuiltDevice } from "./Types/SAMDeviceTypes";
 import { deviceNameType } from "./Icons/deviceIconTypes";
 export const defaultDeviceColor = "#000000";
 
@@ -29,6 +26,7 @@ class SAMDeviceBuilder {
     } =
       DeviceDependencies.getDeviceControlUtilities(this.deviceName)
         ?.controlUtilities || {};
+
     const virtualController = new VirtualController(
       defaultDeviceColor,
       this.defaultDeviceName

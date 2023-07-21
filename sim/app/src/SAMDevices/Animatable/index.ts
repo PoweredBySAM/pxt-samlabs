@@ -12,13 +12,17 @@ import Servo from "src/SAMDevices/Animatable/Servo/Servo";
 import Slider from "src/SAMDevices/Animatable/Slider/Slider";
 import Tilt from "src/SAMDevices/Animatable/Tilt/Tilt";
 import PressureSensor from "src/SAMDevices/Animatable/PresureSensor/PressureSensor";
+import GoogleSheet from "src/SAMDevices/Animatable/GoogleSheet/GoogleSheet";
 import {
+  GoogleSheetDeviceType,
+  IGoogleSheetVirtualDevice,
   IMicrobitVirtualDevice,
   ISamVirtualDevices,
   MicrobitDeviceType,
   SamVirtualDeviceType,
 } from "src/SAMDevices/Types/SAMDeviceTypes";
 import { deviceNameType } from "src/SAMDevices/Icons/deviceIconTypes";
+
 const Button = React.lazy(() => import("./Button/Button"));
 export default {
   Button: SAMDevices.Button,
@@ -35,6 +39,7 @@ export default {
   Tilt: SAMDevices.Tilt,
   VibrationMotor: SAMDevices.VibrationMotor,
   Microbit: MicrobitBlock,
+  GoogleSheet: GoogleSheet,
 };
 
 const samVirtualDevices: ISamVirtualDevices = {
@@ -53,6 +58,9 @@ const samVirtualDevices: ISamVirtualDevices = {
 const MicrobitVirtualDevice: IMicrobitVirtualDevice = {
   Microbit: Microbit,
 };
+const GoogleSheetVirtualDevice: IGoogleSheetVirtualDevice = {
+  GoogleSheet: GoogleSheet,
+};
 
 export const bluetoothEvents = [
   "connecting",
@@ -62,9 +70,11 @@ export const bluetoothEvents = [
 ];
 export const getVirtualDevice = (
   deviceName: deviceNameType
-): SamVirtualDeviceType | MicrobitDeviceType => {
+): GoogleSheetDeviceType | MicrobitDeviceType | SamVirtualDeviceType => {
   if (deviceName === "Microbit") {
     return MicrobitVirtualDevice["Microbit"];
+  } else if (deviceName === "GoogleSheet") {
+    return GoogleSheetVirtualDevice["GoogleSheet"];
   } else {
     return samVirtualDevices[deviceName];
   }

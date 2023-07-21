@@ -6,6 +6,7 @@ import {
   MicrobitDeviceType,
   SamDeviceStoreType,
   SamVirtualDeviceType,
+  GoogleSheetDeviceType,
 } from "src/SAMDevices/Types/SAMDeviceTypes";
 import { observer } from "mobx-react";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
@@ -14,8 +15,10 @@ function ActiveDeviceItem({ device }: { device: SamDeviceStoreType }) {
   const { virtualInteractionComponentName } = device || {};
   const { singleDeviceStore } = useSingleDeviceStore(device);
 
-  const VirtualInteractionComponent: SamVirtualDeviceType | MicrobitDeviceType =
-    getVirtualDevice(virtualInteractionComponentName);
+  const VirtualInteractionComponent:
+    | SamVirtualDeviceType
+    | MicrobitDeviceType
+    | GoogleSheetDeviceType = getVirtualDevice(virtualInteractionComponentName);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import ButtonDevice from "src/Store/ButtonDevice";
 import BuzzerDevice from "src/Store/BuzzerDevice";
 import MicrobitDevice from "src/Store/MicrobitDevice";
+import GoogleSheetDevice from "src/Store/GoogleSheetDevice";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import { LazyExoticComponent } from "react";
 
@@ -28,12 +29,13 @@ export interface IDeviceLabels<deviceNameType> {
   HeatSensor: IDeviceLabelObject;
   Tilt: IDeviceLabelObject;
   Microbit: IDeviceLabelObject;
+  GoogleSheet: IDeviceLabelObject;
 }
 
 export type DeviceMenuItemType = {
   label: IDeviceLabelObject;
   icon: JSX.Element;
-  id ?: string;
+  id?: string;
 };
 
 export type SamVirtualDeviceType = ISamVirtualDevices[keyof ISamVirtualDevices];
@@ -54,17 +56,24 @@ export interface ISamVirtualDevices {
   Tilt: ({ device }: { device: any }) => JSX.Element;
 }
 
+export type GoogleSheetDeviceType =
+  IGoogleSheetVirtualDevice[keyof IGoogleSheetVirtualDevice];
+export interface IGoogleSheetVirtualDevice {
+  GoogleSheet: ({ device }: { device: any }) => JSX.Element;
+}
+
 export type MicrobitDeviceType =
   IMicrobitVirtualDevice[keyof IMicrobitVirtualDevice];
+
 export interface IMicrobitVirtualDevice {
-  Microbit: ({ device }: { device: MicrobitDevice }) => JSX.Element;
+  Microbit: ({ device }: { device: any }) => JSX.Element;
 }
 export interface IBuiltDevice {
   deviceIdOnCreate: string;
   virtualInteractionComponentName: string;
   deviceAnimation: any;
   labels: IDeviceLabelObject;
-  virtualController: any;
+  virtualController?: any;
   controller: any;
   rest?: any;
 }
