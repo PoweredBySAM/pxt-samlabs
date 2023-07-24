@@ -209,9 +209,10 @@ export class WindowEventService {
 
     sendEvent(eventName: any, payload: any) {
         const event = new CustomEvent(eventName, {
-            detail: payload,
+            detail: {...payload,globals: pxsim.runtime.globals},
             bubbles: true,
-            cancelable: true
+            cancelable: true,
+            
         });
         window.dispatchEvent(event);
     }

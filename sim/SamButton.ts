@@ -13,6 +13,7 @@ namespace pxsim.button {
   //% variable.shadow=variables_get
   //% variable.defl="Button 1"  //% weight=2
   export function createNewButton(): pxsim.SamButton {
+    window.console.log(runtime.globals,"globalsssssss" )
     return new pxsim.SamButton()
   }
   //% blockId="get_is_pressed" block="$variable is pressed"

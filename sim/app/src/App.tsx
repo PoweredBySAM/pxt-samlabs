@@ -31,7 +31,7 @@ const App: React.FC = observer(() => {
       }
   })
 
-  console.log(devicesStore,"devicesStore.devices",)
+  console.log(devicesStore,"devicesStore.devices",window.samlabs,'runtimeeeeeeeeeeeeeeeee')
 
   const addDeviceHandler = (device: DeviceMenuItemType):void => {
     const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
