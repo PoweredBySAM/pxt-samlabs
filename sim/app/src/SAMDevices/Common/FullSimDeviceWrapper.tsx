@@ -4,7 +4,7 @@ import { Box, Card } from "@mui/material";
 import { getDeviceIcon } from "../Icons";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import { observer } from "mobx-react";
-import { useSingleDeviceStore } from "../../Hooks/useSingleDeviceStore";
+import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 
 const FullSimDeviceWrapper = observer(
   ({ device, children, ...rest }: { device: any; children: any }) => {

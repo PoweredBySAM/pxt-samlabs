@@ -7,7 +7,7 @@ function getOAuthToken() {
     .access_token;
 }
 
-function loadGoogleAPI() {
+export function loadGoogleAPI() {
   return new Promise((resolve, reject) => {
     if (window.gapi) return resolve();
 
@@ -27,17 +27,42 @@ function loadGoogleAPI() {
   });
 }
 
-function loadLibraries() {
+export function loadLibraries() {
   return new Promise((resolve, reject) => {
-    if (window.gapi.auth2 && window.gapi.client && window.google)
-      return resolve();
-
-    // TODO I don't think I need to include client here.
-    window.gapi.load("auth2:client:picker", (err) => {
-      // TODO will an error ever exist?
-      if (err) reject(err);
-      else resolve();
+    window.gapi.load("client", {
+      callback: () => {
+        window.gapi.client.init({}).then(() => {
+          console.log("gapi client loaded.");
+          resolve();
+        });
+      },
+      onerror: (err) => {
+        console.error("gapi load error.", err);
+        reject();
+      },
+      timeout: 10000,
+      ontimeout: () => {
+        console.error("gapi load timed out.");
+        reject();
+      },
     });
+  });
+}
+
+export function loadGIS() {
+  return new Promise((resolve, reject) => {
+    const id = "GIS-google-script";
+    const script = document.createElement("script");
+    script.id = id;
+    script.onload = function () {
+      resolve();
+    };
+    script.onerror = function () {
+      reject(new Error("No internet connection"));
+    };
+    script.src = "https://accounts.google.com/gsi/client";
+
+    document.head.appendChild(script);
   });
 }
 
@@ -56,34 +81,50 @@ function loadLibraries() {
  */
 export function connect(clientId, apiKey, discoveryDocs, callback = () => {}) {
   loadGoogleAPI()
+    .then(loadGIS)
     .then(loadLibraries)
     .then(() => {
-      var options = {
-        apiKey: apiKey,
-        discoveryDocs: discoveryDocs,
-      };
-      if (!window.gapi.auth2.getAuthInstance()) {
-        options.clientId = clientId;
-        options.scope = SCOPES;
-      }
-
-      return window.gapi.client.init(options);
+      // var options = {
+      //   apiKey: apiKey,
+      //   discoveryDocs: discoveryDocs,
+      //   clientId: clientId,
+      //   scope: SCOPES,
+      // };
+      // console.log("Google API loaded : ", window.gapi.client.init(options));
+      // return window.gapi.client.init(options);
+      return google.accounts.oauth2.initTokenClient({
+        client_id: clientId,
+        scope: SCOPES,
+        // apiKey: apiKey,
+        // discoveryDocs: discoveryDocs,
+        callback: (resp) => {
+          console.log(resp, "111111");
+          if (resp.error !== undefined) {
+            throw resp;
+          }
+        },
+      });
     })
-    .then(() => {
-      var authInstance = window.gapi.auth2.getAuthInstance();
-
-      if (!authInstance.isSignedIn.get()) {
-        return authInstance.signIn({
-          prompt: "select_account",
-        });
-      }
+    .then((resp) => {
+      console.log(google.accounts, "22222 accounts");
+      console.log(resp, "33333 resp");
+      resp.requestAccessToken({ prompt: "" });
+      // var authInstance = window.gapi.auth2.getAuthInstance();
+      //
+      // console.log("authInstance", authInstance);
+      //
+      // if (!authInstance.isSignedIn.get()) {
+      //   return authInstance.signIn({
+      //     prompt: "select_account",
+      //   });
+      // }
     })
-    .then(() => {
+    .then(() =>
       callback(
         undefined,
         window.gapi.auth2.getAuthInstance().currentUser.get().getId()
-      );
-    })
+      )
+    )
     .catch(callback);
 }
 

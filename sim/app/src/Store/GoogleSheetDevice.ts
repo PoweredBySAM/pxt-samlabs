@@ -4,7 +4,7 @@ import SamDeviceManager from "src/Features/SamSimState";
 
 class GoogleSheetDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
+  private bluetoothController: any;
   private _deviceId: string;
   restProps: any;
   virtualInteractionComponentName: string;
@@ -31,7 +31,7 @@ class GoogleSheetDevice {
 
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
-    this._bluetoothController = controller;
+    this.bluetoothController = controller;
     this.restProps = restprops;
     this.blockVisibility = true;
     this.deviceInTestMode = false;
