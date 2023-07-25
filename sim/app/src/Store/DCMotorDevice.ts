@@ -23,6 +23,7 @@ class DCMotorDevice {
    @observable speed: number;
     _adjustedSpeed: number;
   customEventGenerator: CustomEventGenerator;
+  deviceVarNameInPxt: any;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -49,6 +50,7 @@ class DCMotorDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     this.testModeSpeed = 0
+    this.deviceVarNameInPxt = deviceData.deviceVarNameInPxt;
     makeAutoObservable(this);
     this.updateLsStateStore()
 

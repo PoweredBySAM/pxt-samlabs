@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import SelectorComponent from './Components/selector/SelectorComponent';
+import BTDeviceSelector from './Components/selector/BTDeviceSelector';
 import MuiThemeLayout from './Layouts/MuiThemeLayout';
 import SAMDeviceBuilder from './SAMDevices/SAMDeviceBuilder';
 import ActiveDevices from './Components/ActiveDevices/ActiveDevices';
@@ -83,7 +84,7 @@ const App: React.FC = observer(() => {
           m: 2,
         }}
       >
-        <SelectorComponent addDevice={addDeviceHandler} toggleActiveDevicesVisibility={toggleActiveDevicesVisibility} />
+        <BTDeviceSelector addDevice={addDeviceHandler} toggleActiveDevicesVisibility={toggleActiveDevicesVisibility} />
         {<ActiveDevices showActiveDevices={showActiveDevices} />}
       </Box>
     </MuiThemeLayout>

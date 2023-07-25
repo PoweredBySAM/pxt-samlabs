@@ -19,6 +19,7 @@ function CompactSimDevice({
   toggleTestMode,
   removeDevice,
   isInTestMode,
+  varNameInPxt
 }: {
   Icon?: any;
   controller?: any;
@@ -28,6 +29,7 @@ function CompactSimDevice({
   toggleTestMode?: any;
   removeDevice?: any;
   isInTestMode: boolean;
+  varNameInPxt?: string;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -75,7 +77,7 @@ function CompactSimDevice({
           }}
         >
           <Typography variant="body2" sx={{ padding: "0 !important" }}>
-            {labels?.displayName}
+            {labels?.displayName} {varNameInPxt}
           </Typography>
           <Typography
             variant="body2"
@@ -97,11 +99,11 @@ function CompactSimDevice({
                 backgroundColor: "#26D0C4",
                 "&:hover": { backgroundColor: "#21B8A8" },
               }}
-              startIcon={
-                <BluetoothIcon sx={{ fontSize: "1.2rem !important" }} />
-              }
+              // startIcon={
+              //   <BluetoothIcon sx={{ fontSize: "1.2rem !important" }} />
+              // }
             >
-              <Typography variant="subtitle2">Connect</Typography>
+              <Typography variant="subtitle2">Pair Device</Typography>
             </Button>
           </Box>
         </Grid>

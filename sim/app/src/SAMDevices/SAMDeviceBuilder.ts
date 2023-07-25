@@ -5,19 +5,22 @@ import {
   IBuiltDevice,
 } from "./Types/SAMDeviceTypes";
 import { deviceNameType } from "./Icons/deviceIconTypes";
+import { getGlobalName } from "src/Utils/getGlobalName";
 export const defaultDeviceColor = "#000000";
 
 class SAMDeviceBuilder {
   deviceName: deviceNameType;
   deviceType: any;
   defaultDeviceName: string;
-  id: string | undefined;
+  id: any ;
+  deviceVarInPxt: any;
 
   constructor(deviceType: DeviceMenuItemType) {
     this.deviceType = deviceType;
     this.deviceName = deviceType?.label?.name;
     this.defaultDeviceName = deviceType?.label?.defaultName;
     this.id = deviceType?.id;
+    this.deviceVarInPxt = deviceType?.globalVar
   }
   build(): IBuiltDevice {
     const deviceIdOnCreate = this.id || uuidv4();
@@ -41,6 +44,7 @@ class SAMDeviceBuilder {
       labels: this.deviceType?.label,
       virtualController: virtualController,
       controller: controller,
+      deviceVarInPxt: this.deviceVarInPxt,
       ...rest,
     };
   }

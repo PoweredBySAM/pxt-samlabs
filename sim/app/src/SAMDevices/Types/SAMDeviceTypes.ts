@@ -34,6 +34,7 @@ export type DeviceMenuItemType = {
   label: IDeviceLabelObject;
   icon: JSX.Element;
   id ?: string;
+  globalVar?: any;
 };
 
 export type SamVirtualDeviceType = ISamVirtualDevices[keyof ISamVirtualDevices];
@@ -66,5 +67,6 @@ export interface IBuiltDevice {
   labels: IDeviceLabelObject;
   virtualController: any;
   controller: any;
+  deviceVarInPxt ?: string;
   rest?: any;
 }

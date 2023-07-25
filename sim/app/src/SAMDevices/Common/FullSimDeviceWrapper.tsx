@@ -47,6 +47,7 @@ const FullSimDeviceWrapper = observer(
         <Box>
           <CompactSimDevice
             labels={device.restProps?.labels}
+            varNameInPxt = {device.deviceVarNameInPxt}
             Icon={Icon}
             controller={{
               disconnectBluetooth,

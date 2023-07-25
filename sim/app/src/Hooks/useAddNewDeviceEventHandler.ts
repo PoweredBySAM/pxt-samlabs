@@ -7,6 +7,7 @@ import { getDeviceIcon } from "../SAMDevices/Icons";
 import SAMDeviceBuilder from "../SAMDevices/SAMDeviceBuilder";
 import { useStores } from "./useStores";
 import { deviceNameType } from "../SAMDevices/Icons/deviceIconTypes";
+import { getGlobalName } from "src/Utils/getGlobalName";
 
 export const pxtToSimDeviceNameMap: { [key: string]: deviceNameType } = {
   sam_dcmotor: "DCMotor",
@@ -27,8 +28,8 @@ type pxtDeviceCodeType = keyof DeviceNameType;
 
 const useAddNewDeviceEventHandler = () => {
   const { devicesStore } = useStores();
-  const addNewDeviceEventHandler = (detail: any) => {
-    const pxtDeviceCode: pxtDeviceCodeType = detail?.device;
+  const addNewDeviceEventHandler = (detail:any) => {
+    const pxtDeviceCode: pxtDeviceCodeType = detail.detail?.device;
     const id: string = detail.detail.id;
     const deviceNameInSim = pxtToSimDeviceNameMap[pxtDeviceCode];
     if (deviceNameInSim) {
@@ -37,11 +38,12 @@ const useAddNewDeviceEventHandler = () => {
         icon: getDeviceIcon(deviceNameInSim as deviceNameType),
         id,
       };
-      const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
+      const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder({...device});
       const builtDevice: IBuiltDevice = newDevice.build();
       devicesStore.addDevice(builtDevice);
     }
   };
+
   return { addNewDeviceEventHandler };
 };
 export default useAddNewDeviceEventHandler;
