@@ -9,12 +9,12 @@ function useControllerEvents(device: SamDeviceStoreType, customDeviceEventsHandl
   const addVirtualEventsConditional = hasCustomEvents && virtualController
 
   const addEvents = (bluetoothEvents: string[], virtualEvents: string[]) => {
-    !!customDeviceEventsHandler && bluetoothEvents.forEach((event: string) => {
+    !!addBluetoothEventsConditional && bluetoothEvents.forEach((event: string) => {
       bluetoothController.on(event, (value: any) => {
         customDeviceEventsHandler(event, value);
       });
     });
-    !!customDeviceEventsHandler && virtualEvents.forEach((event: string) => {
+    !!addVirtualEventsConditional && virtualEvents.forEach((event: string) => {
       virtualController.on(event, (value: any) => {
         customDeviceEventsHandler(event, value);
       });

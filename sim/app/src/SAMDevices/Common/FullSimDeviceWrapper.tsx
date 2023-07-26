@@ -28,6 +28,15 @@ const FullSimDeviceWrapper = observer(
     const toggleTestMode = () => {
       singleDeviceStore.toggleTestMode();
     };
+
+    const assignBlueToothDevice = (device: any) => {
+      if(!device.assignedName )return
+      console.log(device,"something in")
+      singleDeviceStore.setBluetoothController(device);
+      singleDeviceStore._bluetoothCOntroller.setPairedToSimDevice(true)
+      console.log('device in assign',device,singleDeviceStore)
+
+    }
     const removeDevice = () => {
       //Todo: add confirmation and check if device is used in project, disconnect if connected to bluetooth
       singleDeviceStore.deleteDevice();
@@ -47,6 +56,7 @@ const FullSimDeviceWrapper = observer(
         <Box>
           <CompactSimDevice
             labels={device.restProps?.labels}
+            deviceNameInSim={device.restProps?.id}
             varNameInPxt = {device.deviceVarNameInPxt}
             Icon={Icon}
             controller={{
@@ -54,11 +64,14 @@ const FullSimDeviceWrapper = observer(
               connectBluetooth,
               connnected: device.isConnected,
             }}
+            assignBlueToothDevice={assignBlueToothDevice}
             toggleVisibility={toggleVisibility}
             visibility={device.blockVisibility}
             toggleTestMode={toggleTestMode}
             removeDevice={removeDevice}
             isInTestMode={device.deviceInTestMode}
+            isConnected={singleDeviceStore.isConnected}
+            connectedDeviceName={singleDeviceStore._bluetoothController?.assignedName}
           />
         </Box>
         <Box sx={{ width: "100%" }}>{children}</Box>

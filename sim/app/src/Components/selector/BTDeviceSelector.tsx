@@ -6,7 +6,7 @@ import DeviceMenuItem from "./DeviceMenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import BluetoothIcon from '@mui/icons-material/Bluetooth';
 import { deviceLabels } from "../../Constants/DeviceLabel";
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert, { AlertColor, AlertProps } from '@mui/material/Alert';
 import {
   DeviceMenuItemType,
   IDeviceLabelObject,
@@ -40,9 +40,10 @@ function BTDeviceSelector({
   toggleActiveDevicesVisibility: () => void;
 }) {
     const [showOptions, setShowOptions] = React.useState<boolean>(false);
-    const {connectBTDevice} = useAddNewBTDevice();
     const [open, setOpen] = React.useState(false);
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = React.useState<{message:string; severity:AlertColor}>({message:'',severity:'success'});
+    const {connectBTDevice} = useAddNewBTDevice(showAlert);
+
     const deviceKeys: deviceNameType[] = Object.keys(
       deviceLabels
     ) as deviceNameType[];
@@ -59,16 +60,18 @@ function BTDeviceSelector({
       toggleActiveDevicesVisibility();
     };
 
-    const handleAddBlueTooth = async (item: DeviceMenuItemType) => {
-      const res = await connectBTDevice(item.label.name);
-      console.log(res, "res");
-      if (res.status === "error") {
-        //   setMessage(res);
+    function showAlert(err:any) {
+      if(!err){
+      setMessage({message:"Bluetooth Device Added", severity:"success"});
+      setOpen(true);}
+      else{
+        setMessage({message:"Error connecting Bluetooth device", severity:"error"});
         setOpen(true);
-        return;
       }
-      setMessage("Bluetooth Device Added");
-      setOpen(true);
+    };
+
+    const handleAddBlueTooth = async (item: DeviceMenuItemType) => {
+      connectBTDevice(item.label.name);
     };
 
       
@@ -86,15 +89,15 @@ function BTDeviceSelector({
     <div className={styles.dropdown}>
         <Box sx={{ width: 500 }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          {message}
+        <Alert onClose={handleClose} severity={message?.severity} sx={{ width: '100%' }}>
+          {message?.message}
         </Alert>
       </Snackbar>
     </Box>
       <div className={styles["selected-option"]} onClick={handleshowOptions}>
         <Box sx={localStyles().inputToggle}>
           <BluetoothIcon sx={{ fontSize: "1.6rem" }} />
-          <Typography variant="h6">Connect a Device</Typography>
+          <Typography variant="h6">Pair Device</Typography>
         </Box>
       </div>
       <div className={showOptions ? styles.options : styles["options-none"]}>

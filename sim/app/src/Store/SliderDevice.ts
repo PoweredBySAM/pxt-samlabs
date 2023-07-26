@@ -36,7 +36,6 @@ class SliderDevice {
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
-    this._bluetoothController = controller;
     this.restProps = restprops;
     this.Color = meta?.hue;
     this.isActive = false;
@@ -47,6 +46,18 @@ class SliderDevice {
     makeAutoObservable(this);
 
     this.updateLsStateStore()
+  }
+
+  @action 
+  setBluetoothController(controller:any){
+    this._bluetoothController = controller
+    this.isConnected = true
+  }
+
+  @action
+  disconnectBluetoothController(){
+    this._bluetoothController = null
+    this.isConnected = false
   }
   @action
   toggleVisibility() {

@@ -53,7 +53,6 @@ class MicrobitDevice {
     } = deviceData;
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
-    this._bluetoothController = controller;
     this._virtualController = virtualController;
     this.ledMatrix = this._virtualController.ledMatrix;
     this.restProps = restprops;
@@ -91,6 +90,17 @@ class MicrobitDevice {
       this.onAccelerometerChanged
     );
     this.updateLsStateStore();
+  }
+  @action 
+  setBluetoothController(controller:any){
+    this._bluetoothController = controller
+    this.isConnected = true
+  }
+
+  @action
+  disconnectBluetoothController(){
+    this._bluetoothController = null
+    this.isConnected = false
   }
 
   @action

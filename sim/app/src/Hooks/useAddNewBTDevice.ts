@@ -12,8 +12,14 @@ import Servo from 'src/SAMDevices/Animatable/Servo/Controller'
 import Slider from 'src/SAMDevices/Animatable/Slider/Controller'
 import Tilt from 'src/SAMDevices/Animatable/Tilt/Controller'
 import HeatSensor from 'src/SAMDevices/Animatable/TemperatureSensor/Controller'
+import pairedDevicesManager from 'src/Store/PairedDevicesManager'
 
-function useAddNewBTDevice() {
+
+
+
+
+
+function useAddNewBTDevice(showAlert:any) {
     const controllers = {
         Button: ButtonController(BaseController),
         Buzzer: BuzzerController(BaseController),
@@ -31,15 +37,18 @@ function useAddNewBTDevice() {
     const connectBTDevice = async (device: any) => {
         const deviceIndex:keyof typeof controllers = device
         const mappedController = controllers[deviceIndex]
-        console.log(device,!!mappedController,"mappedController")
 
         try{
             if(!mappedController) throw new Error("Device not found")
             const readyController:any = new mappedController('#000000')
-            await readyController.connect((err?:any)=>{console.log(err,'success');console.log("shitttttttt")})
-            return {status:"success", controller:readyController}
+            readyController.connect((err:any)=>{
+                if(err)return showAlert("error")
+                pairedDevicesManager.addNewlyConnectedDevice(readyController)
+                showAlert()
+            })
+            
         }catch(error){
-            return {status:"error",message:"Connection Error"}
+            return 
         }  
     }
   return {connectBTDevice}

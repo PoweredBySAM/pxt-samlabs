@@ -1,14 +1,29 @@
-import React, { FormEvent } from 'react'
-import {  Box, Button, Grid, IconButton, Tooltip, Typography } from '@mui/material'
-import styles from '../../Components/selector/SelectorComponent.module.css'
-import BluetoothIcon from '@mui/icons-material/Bluetooth';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { LightTooltip } from './LightToolTip';
-import MiniMenu from './MiniMenu';
-import ConstructionIcon from '@mui/icons-material/Construction';
-
+import React, { FormEvent } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import styles from "../../Components/selector/SelectorComponent.module.css";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuList from "@mui/material/MenuList";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { LightTooltip } from "./LightToolTip";
+import MiniMenu from "./MiniMenu";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import pairedDevicesManager from "src/Store/PairedDevicesManager";
+import { deviceNameType } from "../Icons/deviceIconTypes";
+import { connected } from "process";
 
 function CompactSimDevice({
   Icon,
@@ -19,7 +34,11 @@ function CompactSimDevice({
   toggleTestMode,
   removeDevice,
   isInTestMode,
-  varNameInPxt
+  varNameInPxt,
+  deviceNameInSim,
+  assignBlueToothDevice,
+  isConnected,
+  connectedDeviceName,
 }: {
   Icon?: any;
   controller?: any;
@@ -30,11 +49,50 @@ function CompactSimDevice({
   removeDevice?: any;
   isInTestMode: boolean;
   varNameInPxt?: string;
+  deviceNameInSim?: string;
+  assignBlueToothDevice: (device:any)=>any;
+  isConnected:boolean;
+  connectedDeviceName:string
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose2 = (event: Event | React.SyntheticEvent) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+    assignBlueToothDevice(event)
+    setOpen(false);
+  };
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current!.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
+  function handleListKeyDown(event: React.KeyboardEvent) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
   const handleSelection = (e: any, value: any) => {
     console.log(value, "value");
   };
@@ -55,7 +113,7 @@ function CompactSimDevice({
           item
           xs={3}
           sx={{
-            backgroundColor: isInTestMode ?"#c4c4c4": "#26D0C4",
+            backgroundColor: isInTestMode ? "#c4c4c4" : "#26D0C4",
             p: 1,
             display: "flex",
             alignItems: "center",
@@ -86,25 +144,78 @@ function CompactSimDevice({
             {labels?.maker}
           </Typography>
           <Box>
-            <Button
-              disableElevation
-              disabled = {isInTestMode}
-              onClick={
-                controller?.isConnected
-                  ? controller?.disconnectBluetooth
-                  : controller?.connectBluetooth
-              }
-              variant="contained"
-              sx={{
-                backgroundColor: "#26D0C4",
-                "&:hover": { backgroundColor: "#21B8A8" },
-              }}
-              // startIcon={
-              //   <BluetoothIcon sx={{ fontSize: "1.2rem !important" }} />
-              // }
-            >
-              <Typography variant="subtitle2">Pair Device</Typography>
-            </Button>
+            <div>
+              <Button
+                ref={anchorRef}
+                id="composition-button"
+                aria-controls={open ? "composition-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
+                disableElevation
+                disabled={isInTestMode}
+                variant="contained"
+                sx={{
+                  textTransform: "none",
+                  backgroundColor: "#26D0C4",
+                  "&:hover": { backgroundColor: "#21B8A8" },
+                }}
+              >
+                {isConnected? `Connected to ${connectedDeviceName}`:"Connect"}
+              </Button>
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                placement="bottom-start"
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom-start"
+                          ? "left top"
+                          : "left bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose2}>
+                        <MenuList
+                          autoFocusItem={open}
+                          id="composition-menu"
+                          aria-labelledby="composition-button"
+                          onKeyDown={handleListKeyDown}
+                        >
+                          {pairedDevicesManager.getBTDevicesOfTypePairedOnly(
+                            deviceNameInSim as deviceNameType
+                          ).length
+                            ? pairedDevicesManager
+                                .getBTDevicesOfTypePairedOnly(
+                                  deviceNameInSim as deviceNameType
+                                )
+                                .map((device: any) => (
+                                  <MenuItem
+                                    onClick={()=>handleClose2(device)}
+                                    key={device.assignedName}
+                                  >
+                                    {device.assignedName}
+                                  </MenuItem>
+                                ))
+                            : [1].map((device: any) => (
+                                <MenuItem onClick={handleClose2} key={device}>
+                                  {"No device available!"}
+                                </MenuItem>
+                              ))}
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </div>
           </Box>
         </Grid>
         <Grid
@@ -130,7 +241,7 @@ function CompactSimDevice({
               )}
             </IconButton>
           </LightTooltip>
-          <LightTooltip title ="Test Mode" placement="top-start">
+          <LightTooltip title="Test Mode" placement="top-start">
             <IconButton
               aria-label="toggle"
               onClick={toggleTestMode}
@@ -157,7 +268,7 @@ function CompactSimDevice({
               <MiniMenu
                 anchor={anchorEl}
                 handleClose={handleClose}
-                items={[ "Remove from Project"]}
+                items={["Remove from Project"]}
                 handleSelection={handleSelection}
               />
             </>
@@ -168,5 +279,4 @@ function CompactSimDevice({
   );
 }
 
-
-export default CompactSimDevice
+export default CompactSimDevice;
