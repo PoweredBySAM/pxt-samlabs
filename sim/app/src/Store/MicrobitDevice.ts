@@ -83,6 +83,10 @@ class MicrobitDevice {
       "accelerometerChanged",
       this.onAccelerometerChanged
     );
+    this._bluetoothController.on("APressed", this.onAButtonDown);
+    this._bluetoothController.on("AReleased", this.onAButtonUp);
+    this._bluetoothController.on("BPressed", this.onBButtonDown);
+    this._bluetoothController.on("BReleased", this.onBButtonUp);
     this.updateLsStateStore();
   }
 
@@ -91,23 +95,33 @@ class MicrobitDevice {
     switch (property) {
       case "ledDisplayShape":
         this._virtualController.displayPattern(value);
+        if (this._bluetoothController._connected) {
+          this._bluetoothController.displayPattern(value);
+        }
+
         break;
       case "ledDisplayWord":
+        this._bluetoothController.displayText(value);
         this._virtualController.displayText(value);
         break;
       case "plot":
+        this._bluetoothController.plot(value.x, value.y);
         this._virtualController.plot(value.x, value.y);
         break;
       case "unplot":
+        this._bluetoothController.unplot(value.x, value.y);
         this._virtualController.unplot(value.x, value.y);
         break;
       case "toggle":
+        this._bluetoothController.toggle(value.x, value.y);
         this._virtualController.toggle(value.x, value.y);
         break;
       case "clearLED":
+        this._bluetoothController.clearLED();
         this._virtualController.clearLED();
         break;
       case "writeDigitalPin":
+        this._bluetoothController.writeDigitalPin(value.pinId, value.value);
         this._virtualController.writeDigitalPin(value.pinId, value.value);
         break;
       default:
