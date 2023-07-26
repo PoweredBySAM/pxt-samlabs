@@ -53,6 +53,7 @@
   "Array@type": "Add, remove, and replace items in lists.",
   "BBCMicrobit": "A Microbit.",
   "Boolean.toString": "Returns a string representation of an object.",
+  "GoogleSheet": "A GoogleSheet.",
   "HeatSensor.waitUntilHeatSensorValueChanges": "Wait until the heat sensor value changes",
   "Infinity": "Constant representing positive infinity.",
   "LED.changeLEDBrightness": "Change the brightness of the LED with the given ID",

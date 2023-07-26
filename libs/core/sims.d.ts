@@ -120,6 +120,19 @@ declare namespace TiltSensor {
     function createProximitySensor(): SamTiltSensor;
 
 }
+declare namespace GoogleSheets {
+    //% blockId="create_google_sheet" block="Create new Google Sheet"
+    //% variable.defl="GoogleSheet 1"
+    //% shim=GoogleSheets::createGoogleSheets
+    function createGoogleSheets(): GoogleSheet;
+
+}
+    /**
+     * A GoogleSheet.
+     */
+    //%
+    declare class GoogleSheet {
+    }
 declare namespace Microbit {
     //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
     //% variable.shadow=variables_get

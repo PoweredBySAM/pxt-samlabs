@@ -10,8 +10,11 @@ import {
   loadLibraries,
 } from "./utilities";
 import { SCOPES } from "src/SAMDevices/Animatable/GoogleSheet/gcpConfig";
+import { observable, when } from "mobx";
 
 export default class BaseController extends EventEmitter {
+  @observable
+  _isSignedIn = false;
   constructor(appManager, initOptions) {
     super();
     this.initGapi();
@@ -53,19 +56,36 @@ export default class BaseController extends EventEmitter {
             if (resp.error !== undefined) {
               throw resp;
             }
+            console.log(window.gapi.client.getToken());
+            this._isSignedIn = !!window.gapi.client.getToken();
           },
         });
-        this._isSignedIn = !!window.gapi.client.getToken();
+
         console.log(this._isSignedIn, "this._isSignedIn");
-      })
-      .then((resp) => {
-        console.log(google.accounts, "22222 accounts");
-        console.log(resp, "33333 resp");
-        resp.requestAccessToken({ prompt: "" });
+        console.log(this._gisTokenClient, "gisTokenClient 2");
       });
+    console.log(this._gisTokenClient, "gisTokenClient 3");
+
+    // .then((resp) => {
+    //   console.log(google.accounts, "22222 accounts");
+    //   console.log(resp, "33333 resp");
+    //   resp.requestAccessToken({ prompt: "" });
+    // });
   };
 
   connect = (callback) => {
+    console.log(this._isSignedIn, "this._isSignedIn");
+    // this._gisTokenClient.requestAccessToken({ prompt: "" });
+
+    const elements = document.getElementById("simulators");
+    // const firstElement = elements[0];
+    console.log(elements, "elements");
+
+    //
+    // if (existingIframe) {
+    //   existingIframe.setAttribute("allow-popups", "");
+    // }
+
     if (window.cordova) {
       const err = new Error("Google Sheets is unavailable on iOS.");
       err.displayToUser = true;

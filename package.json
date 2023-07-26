@@ -41,7 +41,9 @@
   },
   "dependencies": {
     "mobx-react": "^7.6.0",
-    "pxt-core": "9.1.5",
+    "@types/gapi": "0.0.44",
+    "@types/google.accounts": "0.0.6",
+    "pxt-core": "8.1.13",
     "pxt": "^0.5.1",
     "pxt-common-packages": "10.1.1",
     "uuid": "^9.0.0"

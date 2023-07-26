@@ -108,7 +108,6 @@ export function connect(clientId, apiKey, discoveryDocs, callback = () => {}) {
     .then((resp) => {
       console.log(google.accounts, "22222 accounts");
       console.log(resp, "33333 resp");
-      resp.requestAccessToken({ prompt: "" });
       // var authInstance = window.gapi.auth2.getAuthInstance();
       //
       // console.log("authInstance", authInstance);
