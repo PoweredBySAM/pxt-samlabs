@@ -188,6 +188,43 @@ declare namespace Microbit {
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
+    //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitAnalogPin
+    function getMicrobitAnalogPin(variable: BBCMicrobit, pin: MicrobitAnalogPinOptions): number;
+
+    //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitDigitalPin
+    function getMicrobitDigitalPin(variable: BBCMicrobit, pin: MicrobitPinOptions): number;
+
+    //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitAccelerometerValues
+    function getMicrobitAccelerometerValues(variable: BBCMicrobit, AccelerometerAxisOptions: MicrobitAccelerometerAxisOptions): number;
+
+    //% blockId="get_microbit_Temperature" block="get %variable temperature"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% group="Values"
+    //% shim=Microbit::getMicrobitTemperature
+    function getMicrobitTemperature(variable: BBCMicrobit): number;
+
+    //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
+    //% variable.shadow=variables_get
+    //% variable.defl="Microbit 1"
+    //% x.min=-0 x.max=4
+    //% y.min=-0 y.max=4
+    //% group="Values"
+    //% shim=Microbit::isMicrobitLedOn
+    function isMicrobitLedOn(variable: BBCMicrobit, x: number, y: number): boolean;
+
     //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
     //% variable.shadow=variables_get
     //% variable.defl="Microbit 1"

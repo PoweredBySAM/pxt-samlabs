@@ -45,11 +45,11 @@ const Microbit = ({ device }: { device: MicrobitDevice }) => {
             ledArray={device.ledMatrix}
             aPressed={device.aDown}
             bPressed={device.bDown}
-            pin0={device.pin0}
-            pin1={device.pin1}
-            pin2={device.pin2}
-            pin3={device.pin3}
-            pinGND={device.pinGND}
+            pin0={false}
+            pin1={false}
+            pin2={false}
+            pin3={false}
+            pinGND={false}
             onAButtonDown={device.onAButtonDown}
             onAButtonUp={device.onAButtonUp}
             onBButtonDown={device.onBButtonDown}

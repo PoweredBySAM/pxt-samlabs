@@ -152,6 +152,60 @@ namespace pxsim.Microbit {
     return new pxsim.BBCMicrobit();
   }
 
+  //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitAnalogPin(
+    variable: pxsim.BBCMicrobit,
+    pin: MicrobitAnalogPinOptions
+  ): number {
+    return variable.getMicrobitAnalogPin(pin);
+  }
+
+  //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitDigitalPin(
+    variable: pxsim.BBCMicrobit,
+    pin: MicrobitPinOptions
+  ): number {
+    return variable.getMicrobitDigitalPin(pin);
+  }
+
+  //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitAccelerometerValues(
+    variable: pxsim.BBCMicrobit,
+    AccelerometerAxisOptions: MicrobitAccelerometerAxisOptions
+  ): number {
+    return variable.getMicrobitAccelerometerValues(AccelerometerAxisOptions);
+  }
+
+  //% blockId="get_microbit_Temperature" block="get %variable temperature"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% group="Values"
+  export function getMicrobitTemperature(variable: pxsim.BBCMicrobit): number {
+    return variable.getMicrobitTemperature();
+  }
+
+  //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
+  //% variable.shadow=variables_get
+  //% variable.defl="Microbit 1"
+  //% x.min=-0 x.max=4
+  //% y.min=-0 y.max=4
+  //% group="Values"
+  export function isMicrobitLedOn(
+    variable: pxsim.BBCMicrobit,
+    x: number,
+    y: number
+  ): boolean {
+    return variable.isMicrobitLedOn(x, y);
+  }
   //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
   //% variable.shadow=variables_get
   //% variable.defl="Microbit 1"
@@ -312,15 +366,55 @@ namespace pxsim {
       );
       switch (pinOption) {
         case 0:
-          return deviceData?.pin0;
-
+          return deviceData?.pins.pin0Pressed;
         case 1:
-          return deviceData?.pin1;
+          return deviceData?.pins.pin1Pressed;
         case 2:
-          return deviceData?.pin2;
+          return deviceData?.pins.pin2Pressed;
       }
     }
 
+    public isMicrobitLedOn(x: number, y: number) {
+      const ledData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      ).ledMatrix;
+
+      return !!ledData[4 - y][x];
+    }
+
+    public getMicrobitTemperature() {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.temperature;
+    }
+    public getMicrobitAccelerometerValues(value: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      switch (value) {
+        case 0:
+          return deviceData?.xAccel;
+        case 1:
+          return deviceData?.yAccel;
+        case 2:
+          return deviceData?.zAccel;
+      }
+    }
+    public getMicrobitDigitalPin(pin: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.pins;
+    }
+
+    public getMicrobitAnalogPin(pin: number) {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+
+      return deviceData?.pins;
+    }
     dispatchToSimValueChange = (detail: any) => {
       this._dispatch(
         { device: this.deviceName, detail },

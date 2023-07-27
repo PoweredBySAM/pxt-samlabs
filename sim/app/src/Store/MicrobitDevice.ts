@@ -25,12 +25,17 @@ class MicrobitDevice {
   @observable deleted: boolean;
   @observable aDown: boolean;
   @observable bDown: boolean;
-  @observable pin0: boolean = false;
-  @observable pin1: boolean = false;
-  @observable pin2: boolean = false;
-  @observable pin3: boolean = false;
+  @observable pins: [] = [];
+  @observable pin0Pressed: boolean = false;
+  @observable pin1Pressed: boolean = false;
+  @observable pin2Pressed: boolean = false;
+  @observable pin3Pressed: boolean = false;
   @observable pinGND: boolean = false;
   @observable isTemperatureChanged: boolean = false;
+  @observable temperature: number;
+  @observable xAccel: number;
+  @observable yAccel: number;
+  @observable zAccel: number;
   aLongPressTimeout: any;
   bLongPressTimeout: any;
   customEventGenerator: CustomEventGenerator;
@@ -60,16 +65,31 @@ class MicrobitDevice {
     this.bLongPressTimeout;
     this.aDown = false;
     this.bDown = false;
-    this.pin0 = false;
-    this.pin1 = false;
-    this.pin2 = false;
-    this.pin3 = false;
+    this.pins = this._bluetoothController._pins;
+    this.pin0Pressed = false;
+    this.pin1Pressed = false;
+    this.pin2Pressed = false;
     this.pinGND = false;
     this.isTemperatureChanged = false;
+    this.temperature = this._virtualController._temperature;
+    this.xAccel = this._bluetoothController._xAccel;
+    this.yAccel = this._bluetoothController._yAccel;
+    this.zAccel = this._bluetoothController._zAccel;
     makeAutoObservable(this);
     this._virtualController.on("LEDChanged", this.onLEDChanged);
-    this._virtualController.on("temperatureChanged", this.onTemperatureChanged);
-    this._virtualController.on("ioPinChanged", this.onAnalogPinPressed);
+    this._bluetoothController.on("APressed", this.onAButtonDown);
+    this._bluetoothController.on("AReleased", this.onAButtonUp);
+    this._bluetoothController.on("BPressed", this.onBButtonDown);
+    this._bluetoothController.on("BReleased", this.onBButtonUp);
+    this._bluetoothController.on(
+      "temperatureChanged",
+      this.onTemperatureChanged
+    );
+    this._bluetoothController.on("ioPinChanged", this.onAnalogPinPressed);
+    this._bluetoothController.on(
+      "accelerometerChanged",
+      this.onAccelerometerChanged
+    );
     this.updateLsStateStore();
   }
 
@@ -78,23 +98,33 @@ class MicrobitDevice {
     switch (property) {
       case "ledDisplayShape":
         this._virtualController.displayPattern(value);
+        if (this._bluetoothController._connected) {
+          this._bluetoothController.displayPattern(value);
+        }
+
         break;
       case "ledDisplayWord":
+        this._bluetoothController.displayText(value);
         this._virtualController.displayText(value);
         break;
       case "plot":
+        this._bluetoothController.plot(value.x, value.y);
         this._virtualController.plot(value.x, value.y);
         break;
       case "unplot":
+        this._bluetoothController.unplot(value.x, value.y);
         this._virtualController.unplot(value.x, value.y);
         break;
       case "toggle":
+        this._bluetoothController.toggle(value.x, value.y);
         this._virtualController.toggle(value.x, value.y);
         break;
       case "clearLED":
+        this._bluetoothController.clearLED();
         this._virtualController.clearLED();
         break;
       case "writeDigitalPin":
+        this._bluetoothController.writeDigitalPin(value.pinId, value.value);
         this._virtualController.writeDigitalPin(value.pinId, value.value);
         break;
       default:
@@ -104,21 +134,26 @@ class MicrobitDevice {
 
   @action
   onAnalogPinPressed = () => {
-    const controller = this._virtualController;
-
-    this.pin0 = controller.isPin0Pressed();
-    this.pin1 = controller.isPin1Pressed();
-    this.pin2 = controller.isPin2Pressed();
-
+    this.pins = this._virtualController._pins;
     this.updateLsStateStore();
   };
   @action
   onTemperatureChanged = () => {
-    this.isTemperatureChanged = this._virtualController._temperature;
+    this.isTemperatureChanged = this._bluetoothController._isTemperatureChanged;
+    this.temperature = this._bluetoothController._temperature;
+    this.updateLsStateStore();
+  };
+  @action
+  onAccelerometerChanged = () => {
+    this.xAccel = this._bluetoothController._xAccel;
+    this.yAccel = this._bluetoothController._yAccel;
+    this.zAccel = this._bluetoothController._zAccel;
+    this.updateLsStateStore();
   };
   @action
   onLEDChanged = () => {
     this.ledMatrix = this._virtualController.ledMatrix;
+    this.updateLsStateStore();
   };
 
   @action
@@ -234,11 +269,11 @@ class MicrobitDevice {
       ledMatrix: this.ledMatrix,
       aDown: this.aDown,
       bDown: this.bDown,
-      pin0: this.pin0,
-      pin1: this.pin1,
-      pin2: this.pin2,
-      pin3: this.pin3,
-      pinGND: this.pinGND,
+      pins: this.pins,
+      temperature: this.temperature,
+      xAccel: this.xAccel,
+      yAccel: this.yAccel,
+      zAccel: this.zAccel,
       isTemperatureChanged: this.isTemperatureChanged,
       isDeleted: this.deleted,
     };

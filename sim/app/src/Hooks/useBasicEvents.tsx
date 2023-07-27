@@ -23,15 +23,6 @@ function useBasicEvents(device: SamDeviceStoreType) {
       case BasicEvents.BATTERY_LEVEL_CHANGE: {
         return singleDeviceStore.updateBatteryLevel(value);
       }
-      case BasicEvents.CONNECTED: {
-        return singleDeviceStore.updateIsconnected(true);
-      }
-      case BasicEvents.CONNECTING: {
-        return singleDeviceStore.updateIsconnecting(true);
-      }
-      case BasicEvents.DISCONNECTED: {
-        return singleDeviceStore.updateIsconnected(false);
-      }
 
       default: {
         return "";

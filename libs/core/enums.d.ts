@@ -24,6 +24,14 @@ declare const enum MicrobitButtonOptions {
   B,
 }
 
+declare const enum MicrobitAccelerometerAxisOptions {
+  X,
+
+  Y,
+
+  Z,
+}
+
 declare const enum MicrobitPinOptions {
   P0,
   P1,
