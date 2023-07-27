@@ -52,4 +52,5 @@ class PairedDevicesManager {
 }
 
 const pairedDevicesManager = new PairedDevicesManager();
+window.samPairedDevicesManager = pairedDevicesManager;
 export default pairedDevicesManager;

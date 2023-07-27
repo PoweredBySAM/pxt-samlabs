@@ -98,11 +98,17 @@ class BaseController extends EventEmitter {
             this._writing = false
         }
     }
+    getAbortController = () => {
+        const controller = new AbortController();
+        const signal = controller.signal;
+        return { controller, signal };
+    }
 
     connect = (callback) => {
         if(this._isConnected || this._connecting) return callback('already connected')
 
         var batteryLevel
+        const {signal}=this.getAbortController()||null;
 
         navigator.bluetooth.requestDevice(
             {
@@ -112,6 +118,7 @@ class BaseController extends EventEmitter {
                     },
                 ],
                 optionalServices: [standardServiceUUID, 0x180f],
+                signal:signal
             })
             .then((device) => this._device = device)
             .then(() => { if(this._device.name !== this._namePrefix) throw new Error('Incorrect Device') })
@@ -205,6 +212,11 @@ class BaseController extends EventEmitter {
                 callback()
             })
             .catch((err) => {
+                if (err.name === 'AbortError') {
+                    console.log('User aborted the Bluetooth pairing process');
+                    callback(err);
+                    return;
+                }
                 if(err.code === 8) {
                     callback()
                 }

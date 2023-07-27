@@ -33,7 +33,7 @@ const FullSimDeviceWrapper = observer(
       if(!device.assignedName )return
       console.log(device,"something in")
       singleDeviceStore.setBluetoothController(device);
-      singleDeviceStore._bluetoothCOntroller.setPairedToSimDevice(true)
+      singleDeviceStore._bluetoothController.setConnectedToSimDevice(true)
       console.log('device in assign',device,singleDeviceStore)
 
     }

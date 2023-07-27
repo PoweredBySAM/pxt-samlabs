@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./SelectorComponent.module.css";
 import { getDeviceIcon } from "../../SAMDevices/Icons";
 import { deviceLabels } from "../../Constants/DeviceLabel";
@@ -7,7 +7,6 @@ import DeviceMenuItem from "./DeviceMenuItem";
 import AddIcon from "@mui/icons-material/Add";
 import {
   DeviceMenuItemType,
-  IDeviceLabelObject,
 } from "../../SAMDevices/Types/SAMDeviceTypes";
 import { deviceNameType } from "../../SAMDevices/Icons/deviceIconTypes";
 
@@ -46,19 +45,11 @@ function SelectorComponent({
       };
     }
   );
-  console.log(window.samlabs, "samlabs");
   const handleshowOptions = (): void => {
     setShowOptions((prev) => !prev);
     toggleActiveDevicesVisibility();
   };
 
-  useEffect(() => {
-    if(window.samlabs){
-      window.addEventListener("set_dc_motor_speed", (device: any) => {
-        console.log(device, "set_dc_motor_speed");
-      });
-    }
-  }, []);
   return (
     <div className={styles.dropdown}>
       <div className={styles["selected-option"]} onClick={handleshowOptions}>

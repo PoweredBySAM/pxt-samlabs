@@ -19,7 +19,7 @@ import pairedDevicesManager from 'src/Store/PairedDevicesManager'
 
 
 
-function useAddNewBTDevice(showAlert:any) {
+function useAddNewBTDevice(showAlert:(err?:any)=>void,togglePairing:()=>void) {
     const controllers = {
         Button: ButtonController(BaseController),
         Buzzer: BuzzerController(BaseController),
@@ -39,17 +39,17 @@ function useAddNewBTDevice(showAlert:any) {
         const mappedController = controllers[deviceIndex]
 
         try{
-            if(!mappedController) throw new Error("Device not found")
+            if(!mappedController) return showAlert("error")
             const readyController:any = new mappedController('#000000')
+            readyController.on('connected',showAlert)
             readyController.connect((err:any)=>{
-                if(err)return showAlert("error")
+                if(err) {showAlert("error")}
                 pairedDevicesManager.addNewlyConnectedDevice(readyController)
-                showAlert()
             })
             
         }catch(error){
-            return 
-        }  
+            console.log(error,'closed window 2')
+        }
     }
   return {connectBTDevice}
 }

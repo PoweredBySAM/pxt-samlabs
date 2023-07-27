@@ -4,7 +4,6 @@ import SamDeviceManager from "src/Features/SamSimState";
 
 class DCMotorDevice {
    _virtualController: any;
-   _bluetoothController: any;
    _deviceId: string;
   restProps: any;
   virtualInteractionComponentName: string;
@@ -13,6 +12,7 @@ class DCMotorDevice {
 
   @observable isConnected = false;
   @observable isConnecting = false;
+  @observable _bluetoothController: any;
   @observable batteryLevel = 0;
   @observable Color = "";
   @observable  isActive: boolean;
@@ -20,8 +20,8 @@ class DCMotorDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   @observable testModeSpeed:number;
-   @observable speed: number;
-    _adjustedSpeed: number;
+  @observable speed: number;
+  _adjustedSpeed: number;
   customEventGenerator: CustomEventGenerator;
   deviceVarNameInPxt: any;
 
@@ -59,6 +59,7 @@ class DCMotorDevice {
   setBluetoothController(controller:any){
     this._bluetoothController = controller
     this.isConnected = true
+    this.hydrateBTController()
   }
 
   @action
@@ -87,20 +88,25 @@ class DCMotorDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.hydrateBTController()
     this.updateLsStateStore();
   }
 
   @action
   setSpeed(value: number) {
     this.speed = value;
-    this.isConnected && this._bluetoothController?.setSpeed(value);
+    this.hydrateBTController()
     this.updateLsStateStore();
   }
+
   @action
-  setDeviceProp(property:string,value: number) {
+  setDeviceProp(property:string,value: number|string) {
     switch (property) {
       case 'speed':
-        this.setSpeed(value)
+        this.setSpeed(value as number)
+        break;
+      case 'color':
+        this.updateColor(value as string)
         break;
       default:
         return "Invalid property"
@@ -139,6 +145,11 @@ class DCMotorDevice {
   @action
   setTestModeSpeed(value:number) {
     this.testModeSpeed = value;
+  }
+  hydrateBTController(){
+    if(!this._bluetoothController) return
+    this._bluetoothController.setSpeed(this.speed);
+    this._bluetoothController.setColor(this.Color);
   }
 
   get virtualController() {
