@@ -1,5 +1,5 @@
 namespace pxsim.ServoMotor {
-    //% blockId="set_servo_motor_position" block="set servo motor %variable position to %value"
+    //% blockId="set_servo_motor_position" block="set servo motor %variable position to %value degrees"
     //% value.min=0 value.max=180
     //% variable.shadow=variables_get
     //% variable.defl="ServoMotor1"
@@ -67,8 +67,8 @@ namespace pxsim.ServoMotor {
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-        );
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+          );
       }
   
       public getPosition() {
@@ -85,8 +85,8 @@ namespace pxsim.ServoMotor {
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-        );
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
+          );
       }
   
       get deviceId() {

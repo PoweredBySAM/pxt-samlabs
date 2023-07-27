@@ -55,3 +55,14 @@
   .options .option:hover {
     background-color: #ddd;
   }
+  .devicename:hover{
+    cursor:pointer;
+    background-color: #ddd;
+  }
+  .devicename{
+    padding: 8px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }

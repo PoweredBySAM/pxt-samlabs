@@ -40,6 +40,7 @@ class MicrobitDevice {
   bLongPressTimeout: any;
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
+  deviceVarNameInPxt: any;
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
     this.lsStateStore = SamDeviceManager.getInstance();
@@ -75,6 +76,7 @@ class MicrobitDevice {
     this.xAccel = this._bluetoothController._xAccel;
     this.yAccel = this._bluetoothController._yAccel;
     this.zAccel = this._bluetoothController._zAccel;
+    this.deviceVarNameInPxt = deviceData.deviceVarNameInPxt;
     makeAutoObservable(this);
     this._virtualController.on("LEDChanged", this.onLEDChanged);
     this._bluetoothController.on("APressed", this.onAButtonDown);
@@ -91,6 +93,17 @@ class MicrobitDevice {
       this.onAccelerometerChanged
     );
     this.updateLsStateStore();
+  }
+  @action
+  setBluetoothController(controller: any) {
+    this._bluetoothController = controller;
+    this.isConnected = true;
+  }
+
+  @action
+  disconnectBluetoothController() {
+    this._bluetoothController = null;
+    this.isConnected = false;
   }
 
   @action

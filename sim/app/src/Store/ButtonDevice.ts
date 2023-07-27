@@ -37,7 +37,6 @@ class ButtonDevice {
     this.possibleStates = meta?.possibleStates;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
-    this._bluetoothController = controller;
     this.restProps = restprops;
     this.currentState = meta?.defaultState;
     this.blockVisibility = true
@@ -85,6 +84,17 @@ class ButtonDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  @action 
+  setBluetoothController(controller:any){
+    this._bluetoothController = controller
+    this.isConnected = true
+  }
+
+  @action
+  disconnectBluetoothController(){
+    this._bluetoothController = null
+    this.isConnected = false
   }
 
   get virtualController() {

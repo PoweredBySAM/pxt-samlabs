@@ -6,7 +6,6 @@ namespace pxsim.DCMotor{
 //% variable.defl="Motor 1"
 //% color="#32cd32"
 export function setSamMotorSpeed(variable: pxsim.SamDCMotor, value: number): void {
-  window.console.log("setSamMotorSpeed called",variable)
     variable.setSpeed(value); 
 }
 //% blockId="stop_motor" block="stop motor %variable "
@@ -16,11 +15,12 @@ export function setSamMotorSpeed(variable: pxsim.SamDCMotor, value: number): voi
 export function stopMotor(variable: pxsim.SamDCMotor): void {
     variable.stopMotor(); 
 }
-//% blockId="set_motor_color" block="set %variable motor color to %value"
+//% blockId="set_motor_color" block="set %variable motor color to %color"
 //% variable.shadow=variables_get
 //% variable.defl="Motor 1"
+//% color.shadow="1"
 //% color="#32cd32"
-export function setSamMotorColor(variable: pxsim.SamDCMotor, value: string): void {
+export function setSamMotorColor(variable: pxsim.SamDCMotor, value: samLedColors): void {
     variable.setMotorColor(value); 
 }
 
@@ -41,7 +41,6 @@ export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
 //% blockId="create_motor" block="Create new motor"
 //% variable.defl="Motor 1"
 export function createMotor(): pxsim.SamDCMotor {
-  window.console.log("createMotor called")
     return new pxsim.SamDCMotor();  
 }
 }
@@ -97,7 +96,7 @@ namespace pxsim{
             );
         }
 
-        public setMotorColor(color: string) {
+        public setMotorColor(color: samLedColors) {
             const detail = {
                 device: this.deviceName,
                 event: "device_value_changed",
@@ -119,7 +118,7 @@ namespace pxsim{
 
       _dispatch(payload: any, type: string) {
         samlabs.WindowEventService.getInstance().sendEvent(type, {
-          ...payload,
+          ...payload,varNames:pxsim.runtime.globals
         });
       }
     }

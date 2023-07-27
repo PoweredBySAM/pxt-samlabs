@@ -23,6 +23,7 @@ class DCMotorDevice {
    @observable speed: number;
     _adjustedSpeed: number;
   customEventGenerator: CustomEventGenerator;
+  deviceVarNameInPxt: any;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -39,7 +40,6 @@ class DCMotorDevice {
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
-    this._bluetoothController = controller;
     this.restProps = restprops;
     this.Color = meta?.hue;
     this.isActive = false;
@@ -49,9 +49,22 @@ class DCMotorDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     this.testModeSpeed = 0
+    this.deviceVarNameInPxt = deviceData.deviceVarNameInPxt;
     makeAutoObservable(this);
     this.updateLsStateStore()
 
+  }
+  
+  @action 
+  setBluetoothController(controller:any){
+    this._bluetoothController = controller
+    this.isConnected = true
+  }
+
+  @action
+  disconnectBluetoothController(){
+    this._bluetoothController = null
+    this.isConnected = false
   }
   @action
   toggleVisibility() {

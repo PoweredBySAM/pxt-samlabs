@@ -1,24 +1,47 @@
 namespace pxsim.ProximitySensor {
-    //% blockId="on_proximity_sensor_value_changes" block="when proximity sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#1e90ff"
-    export function onProximitySensorValueChanges(
-      variable: pxsim.SamProximitySensor,
-      handler: () => void
-    ): void {
-      variable.receiveEvent(handler);
-    }
   
-    //% blockId="get_proximity_sensor_value" block="get proximity %variable sensor value"
+  
+    //% blockId="get_proximity_sensor_value" block="get proximity sensor %variable value"
     //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
+    //% variable.defl="Proximity Sensor 1"
     //% color="#1e90ff"
     export function getSamProximitySensorValue(
       variable: pxsim.SamProximitySensor
     ): any {
       return variable.getValue();
+    }
+    //% blockId="get_proximity_sensor_value_equals" block="proximity sensor %variable value equals %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="Proximity Sensor 1"
+    //% color="#1e90ff"
+    export function sensorValueEquals(
+      variable: pxsim.SamProximitySensor,
+      number: number
+    ): any {
+      return variable.getValue()===number;
+    }
+    //% blockId="get_proximity_sensor_value_less" block="proximity sensor %variable value is less than %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="Proximity Sensor 1"
+    //% color="#1e90ff"
+    export function sensorValueLessThan(
+      variable: pxsim.SamProximitySensor,
+      number: number
+    ): any {
+      return variable.getValue() < number;
+    }
+    //% blockId="get_proximity_sensor_value_more" block="proximity sensor %variable value is greater than %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="Proximity Sensor 1"
+    //% color="#1e90ff"
+    export function sensorValueMoreThan(
+      variable: pxsim.SamProximitySensor,
+      number: number
+    ): any {
+      return variable.getValue() > number;
     }
   
     //% blockId="get_proximity_sensor_color" block="get proximity sensor %variable  color"
@@ -32,25 +55,15 @@ namespace pxsim.ProximitySensor {
     //% blockId="set_proximity_sensor_color" block="set proximity sensor %variable  color to %value"
     //% variable.shadow=variables_get
     //% variable.defl="ProximitySensor1"
+    //% value.shadow="1"
     //% color="#1e90ff"
     export function setSamProximitySensorColor(
       variable: pxsim.SamProximitySensor,
-      value: string
+      value: samLedColors
     ): void {
       variable.setDeviceColor(value);
     }
   
-    /**
-     * Wait until the proximity sensor value changes
-     * @param sensorId The ID of the proximity sensor to wait for
-     */
-    //% blockId="wait_until_proximity_sensor_value_changes" block="wait until proximity sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% sensorId.defl=0
-    //% color="#1e90ff"
-    export function waitUntilProximitySensorValueChanges(variable:SamProximitySensor,handler:()=>any): void {
-      variable.receiveEvent(handler);  
-    }
   
     //% blockId="create_proximity_sensor" block="Create new proximity sensor"
     //% variable.defl="ProximitySensor1"
@@ -96,29 +109,23 @@ namespace pxsim.ProximitySensor {
         return deviceData.color;
       }
   
-      public setDeviceColor(color: string) {
+      public setDeviceColor(color: samLedColors) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value: color,
+          value: samlabs.hexColorFromCode(color),
           property: "color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
-        );
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`        );
       }
   
       get deviceId() {
         return this._id;
       }
   
-      public getDeviceColor() {
-        const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
       public receiveEvent(handler: ()=>any) {
           samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
       }

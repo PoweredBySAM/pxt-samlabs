@@ -1,6 +1,7 @@
 import { observable, action, makeObservable,makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
+import { update } from "@react-spring/web";
 
 class LEDDevice {
   private _virtualController: any;
@@ -42,7 +43,6 @@ class LEDDevice {
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
-    this._bluetoothController = controller;
     this.restProps = restprops;
     this.Color = meta?.hue;
     this.isActive = false;
@@ -55,6 +55,17 @@ class LEDDevice {
     makeAutoObservable(this);
     this.updateLsStateStore();
 
+  }
+  @action 
+  setBluetoothController(controller:any){
+    this._bluetoothController = controller
+    this.isConnected = true
+  }
+
+  @action
+  disconnectBluetoothController(){
+    this._bluetoothController = null
+    this.isConnected = false
   }
   @action
   toggleVisibility() {
@@ -77,6 +88,7 @@ class LEDDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
+    this.updateLsStateStore();
   }
 
   @action
@@ -84,6 +96,7 @@ class LEDDevice {
     this._ledBrightness = value;
     this._virtualController.setLEDBrightness = value;
     this.isConnected && this._bluetoothController?.setLEDBrightness(value);
+    this.updateLsStateStore();
   }
 
   @action
@@ -91,6 +104,7 @@ class LEDDevice {
     this._ledColor = value;
     this._virtualController.setLEDColor = value;
     this.isConnected && this._bluetoothController?.setLEDColor(value);
+    this.updateLsStateStore();
   }
   @action
   setLEDTestColor(value: string) {
@@ -130,11 +144,23 @@ class LEDDevice {
   deleteDevice() {
     this.deleted = true;
   }
+  @action
+  setDeviceProp(property:string,value: string|number) {
+    switch (property) {
+      case 'led_color':
+        this.setLEDColor(value as string)
+        break;
+      case 'brightness':
+        this.setLEDBrightness(value as number)
+        break;
+      default:
+        return "Invalid property"
+    }
+  }
 
   getAllData(){
     return {
       deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
       isDeviceActive:this.isActive,
       deviceColor:this.Color,
       ledColor:this._ledColor,
@@ -145,6 +171,9 @@ class LEDDevice {
     this.customEventGenerator.dispatchEvent('deviceStateChange', {
       data:this.getAllData()
     });
+  }
+  get ledColor() {
+    return this._ledColor;
   }
 
   get virtualController() {

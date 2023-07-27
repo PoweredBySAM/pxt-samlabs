@@ -429,6 +429,7 @@ namespace pxsim {
     _dispatch(payload: any, type: string) {
       samlabs.WindowEventService.getInstance().sendEvent(type, {
         ...payload,
+        varNames: pxsim.runtime.globals,
       });
     }
   }
