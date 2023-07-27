@@ -62,8 +62,6 @@ class VirtualController extends Controller {
       this.ledMatrix = this._ledMatrix;
     }
   };
-  // connect = () => {};
-  // disconnect = () => {};
 }
 
 export default VirtualController;

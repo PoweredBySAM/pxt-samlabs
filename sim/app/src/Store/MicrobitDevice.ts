@@ -65,28 +65,31 @@ class MicrobitDevice {
     this.bLongPressTimeout;
     this.aDown = false;
     this.bDown = false;
-    this.pins = this._virtualController._pins;
+    this.pins = this._bluetoothController._pins;
     this.pin0Pressed = false;
     this.pin1Pressed = false;
     this.pin2Pressed = false;
     this.pinGND = false;
     this.isTemperatureChanged = false;
     this.temperature = this._virtualController._temperature;
-    this.xAccel = this._virtualController._xAccel;
-    this.yAccel = this._virtualController._yAccel;
-    this.zAccel = this._virtualController._zAccel;
+    this.xAccel = this._bluetoothController._xAccel;
+    this.yAccel = this._bluetoothController._yAccel;
+    this.zAccel = this._bluetoothController._zAccel;
     makeAutoObservable(this);
     this._virtualController.on("LEDChanged", this.onLEDChanged);
-    this._virtualController.on("temperatureChanged", this.onTemperatureChanged);
-    this._virtualController.on("ioPinChanged", this.onAnalogPinPressed);
-    this._virtualController.on(
-      "accelerometerChanged",
-      this.onAccelerometerChanged
-    );
     this._bluetoothController.on("APressed", this.onAButtonDown);
     this._bluetoothController.on("AReleased", this.onAButtonUp);
     this._bluetoothController.on("BPressed", this.onBButtonDown);
     this._bluetoothController.on("BReleased", this.onBButtonUp);
+    this._bluetoothController.on(
+      "temperatureChanged",
+      this.onTemperatureChanged
+    );
+    this._bluetoothController.on("ioPinChanged", this.onAnalogPinPressed);
+    this._bluetoothController.on(
+      "accelerometerChanged",
+      this.onAccelerometerChanged
+    );
     this.updateLsStateStore();
   }
 
@@ -136,15 +139,15 @@ class MicrobitDevice {
   };
   @action
   onTemperatureChanged = () => {
-    this.isTemperatureChanged = this._virtualController._isTemperatureChanged;
-    this.temperature = this._virtualController._temperature;
+    this.isTemperatureChanged = this._bluetoothController._isTemperatureChanged;
+    this.temperature = this._bluetoothController._temperature;
     this.updateLsStateStore();
   };
   @action
   onAccelerometerChanged = () => {
-    this.xAccel = this._virtualController._xAccel;
-    this.yAccel = this._virtualController._yAccel;
-    this.zAccel = this._virtualController._zAccel;
+    this.xAccel = this._bluetoothController._xAccel;
+    this.yAccel = this._bluetoothController._yAccel;
+    this.zAccel = this._bluetoothController._zAccel;
     this.updateLsStateStore();
   };
   @action

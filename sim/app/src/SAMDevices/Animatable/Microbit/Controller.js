@@ -233,11 +233,12 @@ class Controller extends eventEmitter {
           );
         }
       })
-      .then(() => {
-        if (this._services.ioPinService) {
-          this._characteristics.ioPinData.startNotifications();
-        }
-      })
+      //TODO: this is the problematic code that is causing the button presses to not work
+      // .then(() => {
+      //   if (this._services.ioPinService) {
+      //     this._characteristics.ioPinData.startNotifications();
+      //   }
+      // })
       .then(() => {
         if (this._services.ioPinService) {
           this.resetPins(true);
