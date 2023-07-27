@@ -60,22 +60,12 @@ export default class BaseController extends EventEmitter {
             this._isSignedIn = !!window.gapi.client.getToken();
           },
         });
-
-        console.log(this._isSignedIn, "this._isSignedIn");
-        console.log(this._gisTokenClient, "gisTokenClient 2");
       });
-    console.log(this._gisTokenClient, "gisTokenClient 3");
-
-    // .then((resp) => {
-    //   console.log(google.accounts, "22222 accounts");
-    //   console.log(resp, "33333 resp");
-    //   resp.requestAccessToken({ prompt: "" });
-    // });
   };
 
   connect = (callback) => {
     console.log(this._isSignedIn, "this._isSignedIn");
-    // this._gisTokenClient.requestAccessToken({ prompt: "" });
+    this._gisTokenClient.requestAccessToken({ prompt: "" });
 
     const elements = document.getElementById("simulators");
     // const firstElement = elements[0];
