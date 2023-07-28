@@ -94,7 +94,5 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
 }
 
 export default observer(DCMotor);
-function usePxtEvents(device: DCMotorDevice, handleBasicControllerEvents: (event: import("src/Hooks/useBasicEvents").BasicEventType, value: any) => any): { addPxtEvents: any; removePxtEvents: any; } {
-  throw new Error("Function not implemented.");
-}
+
 

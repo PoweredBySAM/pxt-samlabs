@@ -1,16 +1,5 @@
 namespace pxsim.PressureSensor {
-    //% blockId="on_pressure_sensor_value_changes" block="when pressure sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% buttonId.defl=0
-    //% sensorId.defl=0
-    //% color="#00aa00"
-    export function onPressureSensorValueChanges(
-      variable: pxsim.SamPressureSensor,
-      handler: () => void
-    ): void {
-      variable.receiveEvent(handler);
-    }
-  
+
     //% blockId="get_pressure_sensor_value" block="get pressure %variable sensor value"
     //% variable.shadow=variables_get
     //% variable.defl="PressureSensor1"
@@ -19,6 +8,40 @@ namespace pxsim.PressureSensor {
       variable: pxsim.SamPressureSensor
     ): any {
       return variable.getValue();
+    }
+
+    //% blockId="get_pressure_sensor_value_equals" block="value of pressure sensor %variable is equal to %number"
+    //% variable.shadow=variables_get
+    //% number.min=0 number.max=100
+    //% variable.defl="PressureSensor1"
+    //% color="#00aa00"
+    export function pressureSensorValueIsEqualTo(
+      variable: pxsim.SamPressureSensor,
+      number: number
+    ): any {
+      return variable.getValue()===number;
+    }
+    //% blockId="get_pressure_sensor_value_less" block="value of pressure sensor %variable is less than %number"
+    //% variable.shadow=variables_get
+    //% variable.defl="PressureSensor1"
+    //% number.min=0 number.max=100
+    //% color=""#00aa00""
+    export function pressureSensorValueIsLessThan(
+      variable: pxsim.SamPressureSensor,
+      number: number
+    ): any {
+      return variable.getValue() < number;
+    }
+    //% blockId="get_pressure_sensor_value_greater" block="value of pressure sensor %variable is greater than %number"
+    //% variable.shadow=variables_get
+    //% variable.defl="PressureSensor1"
+    //% number.min=0 number.max=100
+    //% color=""#00aa00""
+    export function pressureSensorValueIsGreaterThan(
+      variable: pxsim.SamPressureSensor,
+      number: number
+    ): any {
+      return variable.getValue() > number;
     }
   
     //% blockId="get_pressure_sensor_color" block="get pressure sensor %variable  color"
@@ -35,24 +58,13 @@ namespace pxsim.PressureSensor {
     //% color="#00aa00"
     export function setSamPressureSensorColor(
       variable: pxsim.SamPressureSensor,
-      value: string
+      value: samLedColors
     ): void {
       variable.setDeviceColor(value);
     }
   
-    /**
-     * Wait until the pressure sensor value changes
-     * @param sensorId The ID of the pressure sensor to wait for
-     */
-    //% blockId="wait_until_pressure_sensor_value_changes" block="wait until pressure sensor $variable value changes"
-    //% variable.shadow=variables_get
-    //% sensorId.defl=0
-    //% color="#00aa00"
-    export function waitUntilPressureSensorValueChanges(variable:SamPressureSensor,handler:()=>any): void {
-      variable.receiveEvent(handler);  
-    }
-  
     //% blockId="create_pressure_sensor" block="Create new pressure sensor"
+    //% variable.shadow=variables_get
     //% variable.defl="PressureSensor1"
     //% color="#00aa00"
     export function createPressureSensor(): pxsim.SamPressureSensor {
@@ -96,29 +108,24 @@ namespace pxsim.PressureSensor {
         return deviceData.color;
       }
   
-      public setDeviceColor(color: string) {
+      public setDeviceColor(color: samLedColors) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value: color,
+          value: samlabs.hexColorFromCode(color),
           property: "color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
       }
   
       get deviceId() {
         return this._id;
       }
-  
-      public getDeviceColor() {
-        const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
+
       public receiveEvent(handler: ()=>any) {
           samlabs.WindowEventService.getInstance().sendEvent(samlabs.buildEventName(samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED,this._id), ()=>handler());
       }

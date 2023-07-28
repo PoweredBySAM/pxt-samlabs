@@ -18,11 +18,12 @@
     position: absolute;
     background-color: #f1f1f1;
     min-width: 100%;
+    height:80vh;
     box-shadow: 8px 0px 16px 0px rgba(0, 0, 0, 0.2);
   }
   .scrollable{
     overflow-y: scroll;
-    height: 13rem;
+    height: 80vh;
   }
   .options-none {
     display: none;
@@ -54,4 +55,15 @@
   
   .options .option:hover {
     background-color: #ddd;
+  }
+  .devicename:hover{
+    cursor:pointer;
+    background-color: #ddd;
+  }
+  .devicename{
+    padding: 10px 1.6rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }

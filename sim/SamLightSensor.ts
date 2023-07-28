@@ -2,7 +2,7 @@ namespace pxsim.LightSensor {
   
     //% blockId="get_light_sensor_value" block="value of light sensor %variable"
     //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
     //% color="#FF5733"
     export function getSamLightSensorValue(
       variable: pxsim.SamLightSensor
@@ -12,7 +12,7 @@ namespace pxsim.LightSensor {
     //% blockId="get_light_sensor_value_equals" block="value of light sensor %variable is equal to %number"
     //% variable.shadow=variables_get
      //% number.min=0 number.max=100
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
     //% color="#FF5733"
     export function lightSensorValueIsEqualTo(
       variable: pxsim.SamLightSensor,
@@ -22,7 +22,7 @@ namespace pxsim.LightSensor {
     }
     //% blockId="get_light_sensor_value_less" block="value of light sensor %variable is less than %number"
     //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
      //% number.min=0 number.max=100
     //% color="#FF5733"
     export function lightSensorValueIsLessThan(
@@ -34,7 +34,7 @@ namespace pxsim.LightSensor {
     //% blockId="get_light_sensor_value_greater" block="value of light sensor %variable is greater than %number"
     //% variable.shadow=variables_get
      //% number.min=0 number.max=100
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
     //% color="#FF5733"
     export function lightSensorValueIsGreaterThan(
       variable: pxsim.SamLightSensor,
@@ -45,25 +45,32 @@ namespace pxsim.LightSensor {
   
     //% blockId="get_light_sensor_color" block="get color of light sensor %variable"
     //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
     //% color="#FF5733"
     export function getSamLightSensorColor(variable: pxsim.SamLightSensor): any {
-      return variable.getSensorColor();
+      return variable.getDeviceColor();
     }
   
-    //% blockId="set_light_sensor_color" block="set color of light sensor %variable to %value"
+    //% blockId="set_light_sensor_color" block="set color of light sensor %variable to $value"
     //% variable.shadow=variables_get
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
+    //% color.shadow="1"
     //% color="#FF5733"
     export function setSamLightSensorColor(
       variable: pxsim.SamLightSensor,
-      value: string
+      value: samLedColors
     ): void {
       variable.setDeviceColor(value);
     }
+         /**
+     * Set the body color of the Light Sensor with the given ID
+     * @param variable The  LED to set the Body color for
+     * @param color The new color for the LED
+     */
+
   
     //% blockId="create_light_sensor" block="Create new light sensor"
-    //% variable.defl="LightSensor1"
+    //% variable.defl="Light Sensor1"
     //% color="#FF5733"
     export function createLightSensor(): pxsim.SamLightSensor {
       return new pxsim.SamLightSensor();
@@ -100,24 +107,19 @@ namespace pxsim.LightSensor {
         );
         return deviceData?.currentValue || 0;
       }
+
   
-      public getSensorColor() {
-          const deviceData =
-          samlabs.SamSimDataService.getInstance().getDeviceProps(this._id);
-        return deviceData.color;
-      }
-  
-      public setDeviceColor(color: string) {
+      public setDeviceColor(color: samLedColors) {
         const detail = {
           device: this.deviceName,
           event: "device_value_changed",
           id: this._id,
-          value: color,
+          value: samlabs.hexColorFromCode(color),
           property: "color",
         };
         this._dispatch(
           { device: this.deviceName, detail },
-          samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED
+          `${samlabs.samSimEvents.TOSIM_DEVICE_VALUE_CHANGED}_${this._id}`
         );
       }
   

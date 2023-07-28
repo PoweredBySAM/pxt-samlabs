@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import SelectorComponent from './Components/selector/SelectorComponent';
+import BTDeviceSelector from './Components/selector/BTDeviceSelector';
 import MuiThemeLayout from './Layouts/MuiThemeLayout';
 import SAMDeviceBuilder from './SAMDevices/SAMDeviceBuilder';
 import ActiveDevices from './Components/ActiveDevices/ActiveDevices';
@@ -31,7 +32,7 @@ const App: React.FC = observer(() => {
       }
   })
 
-  console.log(devicesStore,"devicesStore.devices",)
+  console.log(devicesStore,"devicesStore.devices",window.samlabs,'runtimeeeeeeeeeeeeeeeee')
 
   const addDeviceHandler = (device: DeviceMenuItemType):void => {
     const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
@@ -50,12 +51,6 @@ const App: React.FC = observer(() => {
         addNewDeviceEventHandler(event.detail);
       }
     );
-    const valueChangedEvent = CustomEventGenerator.getInstance().receiveEvent(
-      "TOSIM_DEVICE_VALUE_CHANGED",
-      (event: CustomEvent) => {
-        addNewDeviceEventHandler(event.detail);
-      }
-    );
     const simMessageEvent = CustomEventGenerator.getInstance().receiveEvent(
       "message",
       (event: any) => {
@@ -67,10 +62,6 @@ const App: React.FC = observer(() => {
     );
     const eventsArr = [
       { event: createdEvent, name: samSimEvents.TOSIM_DEVICE_CREATED },
-      {
-        event: valueChangedEvent,
-        name: samSimEvents.TOSIM_DEVICE_VALUE_CHANGED,
-      },
       { event: simMessageEvent, name: "message" },
     ];
     return () => {
@@ -93,7 +84,7 @@ const App: React.FC = observer(() => {
           m: 2,
         }}
       >
-        <SelectorComponent addDevice={addDeviceHandler} toggleActiveDevicesVisibility={toggleActiveDevicesVisibility} />
+        <BTDeviceSelector addDevice={addDeviceHandler} toggleActiveDevicesVisibility={toggleActiveDevicesVisibility} />
         {<ActiveDevices showActiveDevices={showActiveDevices} />}
       </Box>
     </MuiThemeLayout>

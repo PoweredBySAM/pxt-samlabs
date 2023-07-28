@@ -40,7 +40,6 @@ class BuzzerDevice {
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
-    this._bluetoothController = controller;
     this.restProps = restprops;
     this.pitch = virtualController?.pitch;
     this.volume = 100;
@@ -149,6 +148,17 @@ class BuzzerDevice {
   @action
   deleteDevice() {
     this.deleted = true;
+  }
+  @action 
+  setBluetoothController(controller:any){
+    this._bluetoothController = controller
+    this.isConnected = true
+  }
+
+  @action
+  disconnectBluetoothController(){
+    this._bluetoothController = null
+    this.isConnected = false
   }
   broadcastState() {
     this.customEventGenerator.dispatchEvent('deviceStateChange', {
