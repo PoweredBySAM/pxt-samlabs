@@ -24,8 +24,11 @@ class Pin {
 }
 
 class Controller extends eventEmitter {
+  assignedName = null;
+  _connectedToSimDevice = false;
   constructor() {
     super();
+    this._namePrefix = "BBC";
     this._connected = false;
     this._device = null;
     this._characteristics = {};
@@ -44,12 +47,17 @@ class Controller extends eventEmitter {
     this._bPressed = false;
     this._temperature = null;
     this._isTemperatureChanged = false;
-
+    this._connectedToSimDevice = false;
+    this.assignedName = null;
     // IO Pins
     this._pins = [];
     this._lastIOConfiguration;
     this._lastADConfiguration;
   }
+
+  setConnectedToSimDevice = (state) => {
+    this._connectedToSimDevice = !!state;
+  };
 
   // Called when RUN/STOP is pressed
   reset = () => {
