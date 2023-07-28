@@ -40,6 +40,7 @@ class MicrobitDevice {
   bLongPressTimeout: any;
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
+  deviceVarNameInPxt: any;
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
     this.lsStateStore = SamDeviceManager.getInstance();
@@ -53,6 +54,7 @@ class MicrobitDevice {
     } = deviceData;
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
+    this._bluetoothController = controller;
     this._virtualController = virtualController;
     this.ledMatrix = this._virtualController.ledMatrix;
     this.restProps = restprops;
@@ -74,6 +76,7 @@ class MicrobitDevice {
     this.xAccel = this._bluetoothController._xAccel;
     this.yAccel = this._bluetoothController._yAccel;
     this.zAccel = this._bluetoothController._zAccel;
+    this.deviceVarNameInPxt = deviceData.deviceVarNameInPxt;
     makeAutoObservable(this);
     this._virtualController.on("LEDChanged", this.onLEDChanged);
     this._bluetoothController.on("APressed", this.onAButtonDown);
@@ -84,23 +87,23 @@ class MicrobitDevice {
       "temperatureChanged",
       this.onTemperatureChanged
     );
-    this._bluetoothController.on("ioPinChanged", this.onAnalogPinPressed);
     this._bluetoothController.on(
       "accelerometerChanged",
       this.onAccelerometerChanged
     );
     this.updateLsStateStore();
   }
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
+  @action
+  setBluetoothController(controller: any) {
+    this._bluetoothController = controller;
+    this.isConnected = true;
+    this.hydrateBTController();
   }
 
   @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
+  disconnectBluetoothController() {
+    this._bluetoothController = null;
+    this.isConnected = false;
   }
 
   @action
@@ -270,6 +273,21 @@ class MicrobitDevice {
   @action
   updateLsStateStore() {
     this.lsStateStore.updateDevice(this.getAllData());
+  }
+  hydrateBTController() {
+    if (!this._bluetoothController) return;
+    this._bluetoothController.on("APressed", this.onAButtonDown);
+    this._bluetoothController.on("AReleased", this.onAButtonUp);
+    this._bluetoothController.on("BPressed", this.onBButtonDown);
+    this._bluetoothController.on("BReleased", this.onBButtonUp);
+    this._bluetoothController.on(
+      "temperatureChanged",
+      this.onTemperatureChanged
+    );
+    this._bluetoothController.on(
+      "accelerometerChanged",
+      this.onAccelerometerChanged
+    );
   }
 
   getAllData() {
