@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es2017",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "baseUrl": ".", // add this line
     "paths": {
       "src/*": ["./src/*"],
     },
@@ -29,8 +30,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*",
-    "src/types/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules"
