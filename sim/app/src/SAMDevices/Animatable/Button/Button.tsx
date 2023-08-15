@@ -7,12 +7,14 @@ import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import ButtonDevice from "src/Store/ButtonDevice";
 import useBasicEvents from "src/Hooks/useBasicEvents";
 import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Button({ device }: { device: ButtonDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { addEvents, removeEvents } =
     useEventsController(device, handleBasicControllerEvents) || {};
   const { singleDeviceStore } = useSingleDeviceStore(device);
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
   const addEventsBoolean =
     !!handleBasicControllerEvents && !!addEvents && !!removeEvents;
   const { blockVisibility, deviceInTestMode } = singleDeviceStore || {};
@@ -28,11 +30,13 @@ function Button({ device }: { device: ButtonDevice }) {
 
   useEffect(() => {
     addEventsBoolean && addEvents(bluetoothEvents, virtualEvents);
-    return () => {
-      // console.log(handleBasicControllerEvents,"handleBasicControllerEvents",)
-      // addEventsBoolean &&  removeEvents(bluetoothEvents, virtualEvents);
-    };
   }, [addEvents, removeEvents, handleBasicControllerEvents]);
+  useEffect(() => {
+    addPxtEvents();
+    return () => {
+      removePxtEvents();
+    };
+  }, []);
 
   return (
     <>

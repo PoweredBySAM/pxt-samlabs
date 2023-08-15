@@ -1,14 +1,13 @@
 namespace pxsim.button {
-  //% blockId="set_button_color" block="set color of Button $variable to $color"
+  //% blockId="set_button_color" block="set $variable color to %color"
   //% variable.shadow=variables_get
   //% variable.defl="Button 1"
-  //% color.shadow="colorNumberPicker"
-  //% advanced=true
+  //% color.shadow="1" //% weight=2
   export function setButtonColor(
-    variable: pxsim.SamBuzzer,
+    variable: pxsim.SamButton,
     color: samLedColors
   ): void {
-    variable.setColor(color);
+    variable.setButtonColor(color);
   }
 
   //% blockId="create_button" block="create new button"
@@ -31,6 +30,7 @@ namespace pxsim {
   //%
   export class SamButton {
     private _pressed: boolean;
+    private color: samLedColors;
     public deviceName = "sam_button";
     private _id: string;
     constructor() {
@@ -45,13 +45,17 @@ namespace pxsim {
         samlabs.samSimEvents.TOSIM_DEVICE_CREATED
       );
     }
-    public setColor(color: samLedColors) {
+    public setButtonColor(color: samLedColors) {
+      if (this.color === color) {
+        return;
+      }
+      this.color = color;
       const detail = {
         device: this.deviceName,
         event: "device_value_changed",
         id: this._id,
-        value: samlabs.hexColorFromCode(color),
         property: "color",
+        value: samlabs.hexColorFromCode(color),
       };
       this._dispatch(
         { device: this.deviceName, detail },
@@ -70,7 +74,10 @@ namespace pxsim {
       return this.deviceName;
     }
     _dispatch(payload: any, type: string) {
-      samlabs.WindowEventService.getInstance().sendEvent(type, { ...payload });
+      samlabs.WindowEventService.getInstance().sendEvent(type, {
+        ...payload,
+        varNames: pxsim.runtime.globals,
+      });
     }
 
     listen(handler: any) {

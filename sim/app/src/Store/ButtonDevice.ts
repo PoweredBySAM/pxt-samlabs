@@ -56,6 +56,16 @@ class ButtonDevice {
       }
     });
   }
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
+  }
 
   @action
   updateState(newState: string) {
@@ -85,7 +95,7 @@ class ButtonDevice {
     window.parent.postMessage(
       {
         type: `setButtonColor for ${this.assignedName}`,
-        value: this.Color,
+        value: value,
       },
       window.location.origin
     );

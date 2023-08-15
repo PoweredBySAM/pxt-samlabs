@@ -17,7 +17,7 @@ namespace pxsim.DCMotor {
   export function stopMotor(variable: pxsim.SamDCMotor): void {
     variable.stopMotor();
   }
-  //% blockId="set_motor_color" block="set %variable motor color to %color"
+  //% blockId="set_motor_color" block="set %variable color to %color"
   //% variable.shadow=variables_get
   //% variable.defl="Motor 1"
   //% color.shadow="1"
@@ -58,6 +58,7 @@ namespace pxsim {
 
   export class SamDCMotor {
     public deviceName = "sam_dcmotor";
+    private color: samLedColors;
     private _id: string;
     constructor() {
       this._id = samlabs.uuidv4();
@@ -101,12 +102,16 @@ namespace pxsim {
     }
 
     public setMotorColor(color: samLedColors) {
+      if (this.color === color) {
+        return;
+      }
+      this.color = color;
       const detail = {
         device: this.deviceName,
         event: "device_value_changed",
         id: this._id,
         property: "color",
-        value: color,
+        value: samlabs.hexColorFromCode(color),
       };
       this._dispatch(
         { device: this.deviceName, detail },

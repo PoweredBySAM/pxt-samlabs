@@ -189,13 +189,12 @@ declare namespace Microbit {
     declare class BBCMicrobit {
     }
 declare namespace button {
-    //% blockId="set_button_color" block="set color of Button $variable to $color"
+    //% blockId="set_button_color" block="set $variable color to %color"
     //% variable.shadow=variables_get
     //% variable.defl="Button 1"
-    //% color.shadow="colorNumberPicker"
-    //% advanced=true
+    //% color.shadow="1" //% weight=2
     //% shim=button::setButtonColor
-    function setButtonColor(variable: SamBuzzer, color: samLedColors): void;
+    function setButtonColor(variable: SamButton, color: samLedColors): void;
 
     //% blockId="create_button" block="create new button"
     //% variable.shadow=variables_get
@@ -298,7 +297,7 @@ declare namespace DCMotor {
     //% shim=DCMotor::stopMotor
     function stopMotor(variable: SamDCMotor): void;
 
-    //% blockId="set_motor_color" block="set %variable motor color to %color"
+    //% blockId="set_motor_color" block="set %variable color to %color"
     //% variable.shadow=variables_get
     //% variable.defl="Motor 1"
     //% color.shadow="1"

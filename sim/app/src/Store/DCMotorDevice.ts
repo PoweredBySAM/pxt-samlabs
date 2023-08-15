@@ -79,7 +79,7 @@ class DCMotorDevice {
     window.parent.postMessage(
       {
         type: `setDCMotorColor for ${this.assignedName}`,
-        value: this.Color,
+        value: value,
       },
       window.location.origin
     );
