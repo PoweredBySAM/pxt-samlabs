@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import SelectorComponent from "./Components/selector/SelectorComponent";
-// import BTDeviceSelector from "./Components/selector/BTDeviceSelector";
 import MuiThemeLayout from "./Layouts/MuiThemeLayout";
 import SAMDeviceBuilder from "./SAMDevices/SAMDeviceBuilder";
 import ActiveDevices from "./Components/ActiveDevices/ActiveDevices";
@@ -10,8 +9,6 @@ import { useStores } from "./Hooks/useStores";
 import {
   DeviceMenuItemType,
   IBuiltDevice,
-  IDeviceLabelObject,
-  IDeviceLabels,
 } from "./SAMDevices/Types/SAMDeviceTypes";
 import { CustomEventGenerator } from "./Features/CustomEventGenerator";
 import { deviceNameType } from "./SAMDevices/Icons/deviceIconTypes";

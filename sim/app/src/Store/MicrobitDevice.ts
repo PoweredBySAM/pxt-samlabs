@@ -90,17 +90,17 @@ class MicrobitDevice {
     this.updateLsStateStore();
     window.addEventListener("message", (event) => {
       switch (event.data.type) {
-        case "AButtonDown":
+        case `${this.assignedName} AButtonDown`:
           return this.onAButtonDown();
-        case "AButtonUp":
+        case `${this.assignedName} AButtonUp`:
           return this.onAButtonUp();
-        case "BButtonDown":
+        case `${this.assignedName} BButtonDown`:
           return this.onBButtonDown();
-        case "BButtonUp":
+        case `${this.assignedName} BButtonUp`:
           return this.onBButtonUp();
-        case "temperatureChanged":
+        case `${this.assignedName} temperatureChanged`:
           return this.onTemperatureChanged(event.data.value);
-        case "accelerometerChanged":
+        case `${this.assignedName} accelerometerChanged`:
           return this.onAccelerometerChanged(event.data.value);
       }
     });
@@ -175,11 +175,6 @@ class MicrobitDevice {
       default:
         return "Invalid property";
     }
-  }
-  @action
-  setAssignedPropsToDeviceStore(assignedName: string) {
-    this.assignedName = assignedName;
-    this.isConnected = true;
   }
 
   @action

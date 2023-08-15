@@ -191,7 +191,7 @@ declare namespace Microbit {
 declare namespace button {
     //% blockId="set_button_color" block="set color of Button $variable to $color"
     //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  
+    //% variable.defl="Button 1"
     //% color.shadow="colorNumberPicker"
     //% advanced=true
     //% shim=button::setButtonColor

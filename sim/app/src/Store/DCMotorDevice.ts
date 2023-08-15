@@ -53,21 +53,7 @@ class DCMotorDevice {
     makeAutoObservable(this);
     this.updateLsStateStore();
   }
-  @action
-  setAssignedPropsToDeviceStore(assignedName: string) {
-    this.assignedName = assignedName;
-    this.isConnected = true;
-  }
 
-  @action
-  setBluetoothController() {
-    this.isConnected = true;
-  }
-
-  @action
-  disconnectBluetoothController() {
-    this.isConnected = false;
-  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
