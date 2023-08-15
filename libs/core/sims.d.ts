@@ -286,14 +286,14 @@ declare namespace DCMotor {
     //% blockId="set_motor_speed" block="set %variable motor speed to %value"
     //% speed.min=0 speed.max=100
     //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor 1"
     //% color="#32cd32"
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
     //% blockId="stop_motor" block="stop motor %variable "
     //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor 1"
     //% color="#32cd32"
     //% shim=DCMotor::stopMotor
     function stopMotor(variable: SamDCMotor): void;
@@ -306,21 +306,21 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorColor
     function setSamMotorColor(variable: SamDCMotor, value: samLedColors): void;
 
-    //% blockId="get_motor_speed" block="get %variable motor speed"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
-    //% shim=DCMotor::getSamMotorSpeed
-    function getSamMotorSpeed(variable: SamDCMotor): any;
-
-    //% blockId="get_motor_color" block="get %variable motor color"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
-    // % prop.shadow=motor_property_dropdown
-    //% shim=DCMotor::getSamMotorColor
-    function getSamMotorColor(variable: SamDCMotor): any;
-
+    // //% blockId="get_motor_speed" block="get %variable motor speed"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="DCMotor 1"
+    // export function getSamMotorSpeed(variable: pxsim.SamDCMotor): any {
+    //   return variable.getSpeed();
+    // }
+    // //% blockId="get_motor_color" block="get %variable motor color"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="DCMotor 1"
+    // // % prop.shadow=motor_property_dropdown
+    // export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
+    //   return 0;
+    // }
     //% blockId="create_motor" block="Create new motor"
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor 1"
     //% shim=DCMotor::createMotor
     function createMotor(): SamDCMotor;
 

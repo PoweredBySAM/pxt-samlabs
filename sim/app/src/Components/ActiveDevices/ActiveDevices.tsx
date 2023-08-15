@@ -20,29 +20,30 @@ const additionalStyles = {
     background: "#555",
   },
 };
-const ActiveDevices =
-  ({ showActiveDevices }: { showActiveDevices?: boolean }) => {
-    const { devicesStore } = useStores();
-    const devices: SamDeviceStoreType[] = devicesStore.devices;
-    const x = devices.map(device=>console.log(device._deviceId))
-    return (
-      <Box
-        sx={
-          showActiveDevices
-            ? {
-                overflowY: "scroll",
-                height: "95vh",
-                pb: 10,
-                ...additionalStyles,
-              }
-            : { visibility: "hidden" }
-        }
-      >
-        {devices.map((device: SamDeviceStoreType) => (
-          <ActiveDeviceItem key={device._deviceId} device={device} />
-        ))}
-      </Box>
-    );
-  }
-;
+const ActiveDevices = ({
+  showActiveDevices,
+}: {
+  showActiveDevices?: boolean;
+}) => {
+  const { devicesStore } = useStores();
+  const devices: SamDeviceStoreType[] = devicesStore.devices;
+  return (
+    <Box
+      sx={
+        showActiveDevices
+          ? {
+              overflowY: "scroll",
+              height: "95vh",
+              pb: 10,
+              ...additionalStyles,
+            }
+          : { visibility: "hidden" }
+      }
+    >
+      {devices.map((device: SamDeviceStoreType) => (
+        <ActiveDeviceItem key={device._deviceId} device={device} />
+      ))}
+    </Box>
+  );
+};
 export default observer(ActiveDevices);

@@ -15,8 +15,6 @@
   "Array.unshift|block": "%list| insert %value| at beginning",
   "Array|block": "Array",
   "DCMotor.createMotor|block": "Create new motor",
-  "DCMotor.getSamMotorColor|block": "get %variable motor color",
-  "DCMotor.getSamMotorSpeed|block": "get %variable motor speed",
   "DCMotor.setSamMotorColor|block": "set %variable motor color to %color",
   "DCMotor.setSamMotorSpeed|block": "set %variable motor speed to %value",
   "DCMotor.stopMotor|block": "stop motor %variable ",
