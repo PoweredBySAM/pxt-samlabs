@@ -1,13 +1,16 @@
 {
     "name": "core",
     "description": "A target sample for PXT",
+    "additionalFilePath": "../../node_modules/pxt-common-packages/libs/base",
     "files": [
         "README.md",
         "pxt-core.d.ts",
         "pxt-helpers.ts",
         "enums.d.ts",
         "sims.d.ts",
-        "ns.ts"
+        "ns.ts",
+        "buffer.ts"
+
     ],
     "testFiles": [
         "test.ts"
