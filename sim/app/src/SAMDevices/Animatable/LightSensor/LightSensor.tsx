@@ -6,8 +6,9 @@ import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
 import { Box } from "@mui/material";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function LightSensor({ device }: { device: LightSensorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
@@ -16,6 +17,7 @@ function LightSensor({ device }: { device: LightSensorDevice }) {
     device,
     handleBasicControllerEvents
   );
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const virtualEvents = ["valueChanged"];
 
@@ -25,8 +27,11 @@ function LightSensor({ device }: { device: LightSensorDevice }) {
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
+  }, []);
+  useEffect(() => {
+    addPxtEvents();
     return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
+      removePxtEvents();
     };
   }, []);
   return (
@@ -38,7 +43,11 @@ function LightSensor({ device }: { device: LightSensorDevice }) {
       >
         {singleDeviceStore.blockVisibility && (
           <Box sx={{ display: "flex", justifyItems: "center" }}>
-            <SamLightSensor />
+            <SamLightSensor
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
+            />
           </Box>
         )}
       </SliderWithDisplayHOC>

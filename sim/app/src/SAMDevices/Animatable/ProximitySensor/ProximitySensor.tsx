@@ -7,6 +7,8 @@ import useEventsController from "../../../Hooks/useEventsController";
 import { observer } from "mobx-react";
 import SliderWithDisplayHOC from "../../Common/SliderWithDisplayHOC";
 import { Box } from "@mui/material";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
+import { hexToRGBA } from "src/SAMDevices/Animatable";
 
 function ProximitySensor({ device }: { device: PressureSensorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
@@ -15,6 +17,7 @@ function ProximitySensor({ device }: { device: PressureSensorDevice }) {
     device,
     handleBasicControllerEvents
   );
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
   const bluetoothEvents = [
     "connecting",
     "connected",
@@ -25,7 +28,7 @@ function ProximitySensor({ device }: { device: PressureSensorDevice }) {
 
   const handleChange = (event: any, newValue: number | number[]) => {
     singleDeviceStore.setValue(newValue as number);
-  }
+  };
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
@@ -43,7 +46,11 @@ function ProximitySensor({ device }: { device: PressureSensorDevice }) {
       >
         {singleDeviceStore.blockVisibility && (
           <Box sx={{ display: "flex", justifyItems: "center" }}>
-            <SamProximitySensor />
+            <SamProximitySensor
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
+            />
           </Box>
         )}
       </SliderWithDisplayHOC>

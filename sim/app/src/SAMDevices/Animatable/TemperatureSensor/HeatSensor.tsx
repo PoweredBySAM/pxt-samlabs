@@ -6,8 +6,9 @@ import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
 import { Box } from "@mui/material";
 import HeatSensorDevice from "src/Store/HeatSensorDevice";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function HeatSensor({ device }: { device: HeatSensorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
@@ -16,6 +17,7 @@ function HeatSensor({ device }: { device: HeatSensorDevice }) {
     device,
     handleBasicControllerEvents
   );
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const handleChange = (event: any, newValue: number | number[]) => {
     singleDeviceStore.setValue(newValue as number);
@@ -24,8 +26,11 @@ function HeatSensor({ device }: { device: HeatSensorDevice }) {
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
+  }, []);
+  useEffect(() => {
+    addPxtEvents();
     return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
+      removePxtEvents();
     };
   }, []);
 
@@ -38,7 +43,11 @@ function HeatSensor({ device }: { device: HeatSensorDevice }) {
       >
         {singleDeviceStore.blockVisibility && (
           <Box sx={{ mt: 2 }}>
-            <SamTemperatureSensor />
+            <SamTemperatureSensor
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
+            />
           </Box>
         )}
       </SliderWithDisplayHOC>

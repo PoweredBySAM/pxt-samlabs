@@ -1,4 +1,4 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { observable, action, makeObservable, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
@@ -13,14 +13,16 @@ class SliderDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
-  @observable  isActive: boolean;
+  @observable Color: string | undefined = undefined;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   customEventGenerator: any;
   lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -37,28 +39,18 @@ class SliderDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.value = 0
+    this.value = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.createMessageType = "createSlider";
+    this.assignedName = "Slider";
     makeAutoObservable(this);
 
-    this.updateLsStateStore()
+    this.updateLsStateStore();
   }
 
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
-  }
-
-  @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
-  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -80,16 +72,26 @@ class SliderDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
-    this.updateLsStateStore()
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setSliderColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
 
   @action
-  getValue():number {
-   return this._virtualController.getValue() || this._bluetoothController?.getValue();
+  getValue(): number {
+    return (
+      this._virtualController.getValue() ||
+      this._bluetoothController?.getValue()
+    );
   }
   setValue(value: number) {
     this.value = value;
-    this.updateLsStateStore()
+    this.updateLsStateStore();
   }
   @action
   toggleTestMode() {
@@ -99,14 +101,14 @@ class SliderDevice {
   deleteDevice() {
     this.deleted = true;
   }
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this.value,
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      currentValue: this.value,
+    };
   }
 
   get virtualController() {
@@ -118,8 +120,8 @@ class SliderDevice {
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
 }
 

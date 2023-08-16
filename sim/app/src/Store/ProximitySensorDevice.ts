@@ -1,4 +1,4 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { observable, action, makeObservable, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
@@ -13,15 +13,17 @@ class ProximitySensorDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
-  @observable  isActive: boolean;
+  @observable Color: string | undefined = undefined;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
 
-  @observable  value: number;
+  @observable value: number;
   customEventGenerator: any;
   lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   constructor(deviceData: any) {
     this.lsStateStore = SamDeviceManager.getInstance();
@@ -38,27 +40,17 @@ class ProximitySensorDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.value = 0
+    this.value = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.createMessageType = "createProximitySensor";
+    this.assignedName = "ProximitySensor";
     makeAutoObservable(this);
-    this.updateLsStateStore()
-
-  }
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
+    this.updateLsStateStore();
   }
 
-  @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
-  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -81,6 +73,13 @@ class ProximitySensorDevice {
   updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setProximitySensorColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
 
   @action
@@ -101,18 +100,18 @@ class ProximitySensorDevice {
   deleteDevice() {
     this.deleted = true;
   }
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      value:this.value,
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      value: this.value,
+    };
   }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
+  broadcastState(eventName?: string) {
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
     });
   }
 
@@ -125,8 +124,8 @@ class ProximitySensorDevice {
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
 }
 

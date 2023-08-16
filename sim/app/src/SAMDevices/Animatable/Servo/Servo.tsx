@@ -8,7 +8,8 @@ import { observer } from "mobx-react";
 import { Box } from "@mui/material";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Servo({ device }: { device: ServoMotorDevice }) {
   const [showMotor, setShowMotor] = React.useState(false);
@@ -19,6 +20,7 @@ function Servo({ device }: { device: ServoMotorDevice }) {
     device,
     handleBasicControllerEvents
   );
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   useEffect(() => {
     setShowMotor(false);
@@ -30,8 +32,11 @@ function Servo({ device }: { device: ServoMotorDevice }) {
   const virtualEvents = ["valueChanged"];
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
+  }, []);
+  useEffect(() => {
+    addPxtEvents();
     return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
+      removePxtEvents();
     };
   }, []);
 
@@ -67,6 +72,9 @@ function Servo({ device }: { device: ServoMotorDevice }) {
               deviceInTestMode
                 ? () => device.testPosition
                 : () => device._position
+            }
+            getColor={() =>
+              device.Color ? hexToRGBA(device.Color) : undefined
             }
           />
         </div>

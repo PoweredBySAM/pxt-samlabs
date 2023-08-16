@@ -15,7 +15,7 @@ class ButtonDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
+  @observable Color: string | undefined = undefined;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
@@ -42,7 +42,6 @@ class ButtonDevice {
     this.blockVisibility = true;
     this.deviceInTestMode = false;
     this.deleted = false;
-    this.Color = meta?.hue;
     this.createMessageType = "createButton";
     this.assignedName = "Button";
     makeAutoObservable(this);
@@ -89,7 +88,7 @@ class ButtonDevice {
     this.isConnected = value;
   }
   @action
-  updateColor(value: string) {
+  updateColor(value: string | undefined) {
     this.Color = value;
     this.updateLsStateStore();
     window.parent.postMessage(

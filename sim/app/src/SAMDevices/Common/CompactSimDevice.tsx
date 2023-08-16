@@ -31,10 +31,18 @@ function CompactSimDevice({
   const [bleError, setBleError] = React.useState(false);
 
   const handleConnect = () => {
-    console.log(device.assignedName);
     window.parent.postMessage(
       {
         type: `${device.assignedName} connect`,
+      },
+      window.location.origin
+    );
+  };
+
+  const handleDisconnect = () => {
+    window.parent.postMessage(
+      {
+        type: `${device.assignedName} disconnect`,
       },
       window.location.origin
     );
@@ -55,7 +63,12 @@ function CompactSimDevice({
         event.data.type === `${device.assignedName} bluetoothConnected` ||
         event.data.type === `${device.assignedName} bluetoothIsConnected`
       ) {
+        device.updateColor("#00FF00");
         setIsConnected(true);
+      }
+      if (event.data.type === `${device.assignedName} bluetoothDisconnected`) {
+        device.updateColor(undefined);
+        setIsConnected(false);
       }
     };
 
@@ -107,20 +120,22 @@ function CompactSimDevice({
             <div>
               <Button
                 id="composition-button"
-                onClick={handleConnect}
+                onClick={isConnected ? handleDisconnect : handleConnect}
                 disableElevation
                 disabled={isInTestMode}
                 variant="contained"
                 sx={{
                   textTransform: "none",
-                  backgroundColor: "#26D0C4",
-                  "&:hover": { backgroundColor: "#21B8A8" },
+                  backgroundColor: isConnected ? "#FF0000" : "#26D0C4",
+                  "&:hover": {
+                    backgroundColor: isConnected ? "#cc0101" : "#21B8A8",
+                  },
                 }}
               >
                 {bleError
                   ? "Error Connecting this device"
                   : isConnected
-                  ? `Connected`
+                  ? "Disconnect"
                   : "Connect"}
               </Button>
             </div>

@@ -1,4 +1,4 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { observable, action, makeObservable, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
@@ -13,14 +13,16 @@ class PressureSensorDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
-  @observable  isActive: boolean;
+  @observable Color: string | undefined = undefined;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -37,28 +39,17 @@ class PressureSensorDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.value = 0
+    this.value = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
     this.customEventGenerator = CustomEventGenerator.getInstance();
+    this.createMessageType = "createPressureSensor";
+    this.assignedName = "PressureSensor";
     makeAutoObservable(this);
-
   }
 
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
-  }
-
-  @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
-  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -81,6 +72,13 @@ class PressureSensorDevice {
   updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setPressureSensorColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
 
   @action
@@ -101,18 +99,18 @@ class PressureSensorDevice {
   deleteDevice() {
     this.deleted = true;
   }
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this.value,
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      currentValue: this.value,
+    };
   }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
+  broadcastState(eventName?: string) {
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
     });
   }
 
@@ -125,8 +123,8 @@ class PressureSensorDevice {
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
 }
 

@@ -1,4 +1,4 @@
-import { observable, action,makeAutoObservable } from "mobx";
+import { observable, action, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
@@ -13,8 +13,8 @@ class TiltDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
-  @observable  isActive: boolean;
+  @observable Color: string | undefined = undefined;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable isTilted: boolean;
   @observable _value: number;
@@ -22,6 +22,8 @@ class TiltDevice {
   @observable deleted: boolean;
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -38,27 +40,17 @@ class TiltDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._value = 0
-    this.isTilted = false
+    this._value = 0;
+    this.isTilted = false;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.createMessageType = "createTilt";
+    this.assignedName = "Tilt";
     makeAutoObservable(this);
-
-  }
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
   }
 
-  @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
-  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -89,12 +81,19 @@ class TiltDevice {
   @action
   setIsTilted(value: boolean) {
     this.isTilted = value;
-    this.updateLsStateStore()
-    }
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setTiltColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
+  }
 
   getIsTilted() {
     return this.isTilted;
-    }
+  }
   @action
   toggleTestMode() {
     this.deviceInTestMode = !this.deviceInTestMode;
@@ -103,24 +102,23 @@ class TiltDevice {
   deleteDevice() {
     this.deleted = true;
   }
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this.getIsTilted(),
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      currentValue: this.getIsTilted(),
+    };
   }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
+  broadcastState(eventName?: string) {
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
     });
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
-  
 
   get virtualController() {
     return this._virtualController;

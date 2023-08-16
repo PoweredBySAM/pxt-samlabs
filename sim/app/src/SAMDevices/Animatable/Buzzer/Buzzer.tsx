@@ -8,13 +8,14 @@ import { Box } from "@mui/material";
 import BuzzerDevice from "src/Store/BuzzerDevice";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Buzzer({ device }: { device: BuzzerDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
   const { blockVisibility, deviceInTestMode } = singleDeviceStore || {};
-
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
   const { addEvents, removeEvents } = useEventsController(
     device,
     handleBasicControllerEvents
@@ -32,8 +33,11 @@ function Buzzer({ device }: { device: BuzzerDevice }) {
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
+  }, []);
+  useEffect(() => {
+    addPxtEvents();
     return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
+      removePxtEvents();
     };
   }, []);
   return (
@@ -58,6 +62,9 @@ function Buzzer({ device }: { device: BuzzerDevice }) {
               deviceInTestMode
                 ? () => singleDeviceStore.testSoundActive
                 : () => singleDeviceStore.isActive
+            }
+            getColor={() =>
+              device.Color ? hexToRGBA(device.Color) : undefined
             }
           />
         </Box>

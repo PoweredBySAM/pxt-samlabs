@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import ButtonDevice from "src/Store/ButtonDevice";
 import useBasicEvents from "src/Hooks/useBasicEvents";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Button({ device }: { device: ButtonDevice }) {
@@ -63,7 +63,9 @@ function Button({ device }: { device: ButtonDevice }) {
             <SamButton
               buttonPressed={device.currentState === "pressed"}
               // wireFrame
-              // getColor={() => (device.Color)}
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
             />
           </Box>
         </Box>

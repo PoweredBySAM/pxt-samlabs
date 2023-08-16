@@ -6,8 +6,9 @@ import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
 import SliderDevice from "src/Store/SliderDevice";
 import { Box } from "@mui/material";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Slider({ device }: { device: SliderDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
@@ -16,6 +17,7 @@ function Slider({ device }: { device: SliderDevice }) {
     device,
     handleBasicControllerEvents
   );
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const virtualEvents = ["valueChanged"];
 
@@ -29,6 +31,12 @@ function Slider({ device }: { device: SliderDevice }) {
       // removeEvents(bluetoothEvents, virtualEvents);
     };
   }, []);
+  useEffect(() => {
+    addPxtEvents();
+    return () => {
+      removePxtEvents();
+    };
+  }, []);
 
   return (
     <>
@@ -39,7 +47,12 @@ function Slider({ device }: { device: SliderDevice }) {
       >
         {singleDeviceStore.blockVisibility && (
           <Box sx={{ mt: 4 }}>
-            <SamSlider getValue={() => singleDeviceStore.value} />
+            <SamSlider
+              getValue={() => singleDeviceStore.value}
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
+            />
           </Box>
         )}
       </SliderWithDisplayHOC>
