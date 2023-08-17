@@ -761,30 +761,30 @@ declare namespace Slider {
     declare class SamSlider {
     }
 declare namespace TiltSensor {
-    //% blockId="set_tilt_sensor_border_color" block="set tilt sensor %variable color to $value"
+    //% blockId="set_tilt_color" block="Set Tilt Sensor %variable color to $color"
     //% variable.shadow=variables_get
     //% value.shadow=1
-    //% variable.defl="TiltSensor1"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
-    //% shim=TiltSensor::setTiltSensorBorderColor
-    function setTiltSensorBorderColor(variable: SamTiltSensor, value: samLedColors): void;
+    //% shim=TiltSensor::setTiltColor
+    function setTiltColor(variable: SamTiltSensor, color: samLedColors): void;
 
-    //% blockId="is_tilt_sensor_tilted" block=" tilt sensor %variable is tilted"
+    //% blockId="is_tilt_sensor_tilted" block="Is Tilt Sensor  %variable  tilted"
     //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
-    //% shim=TiltSensor::isTiltSensorTilted
-    function isTiltSensorTilted(variable: SamTiltSensor): boolean;
+    //% shim=TiltSensor::IsTiltTilted
+    function IsTiltTilted(variable: SamTiltSensor): boolean;
 
-    //% blockId="tilt_sensor_not_tilted" block=" tilt sensor %variable is not tilted"
-    //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
-    //% color="#9400d3"
-    //% shim=TiltSensor::tiltSensorNotTilted
-    function tiltSensorNotTilted(variable: SamTiltSensor): boolean;
-
-    //% blockId="create_tilt_sensor" block="Create new tilt sensor"
-    //% variable.defl="TiltSensor1"
+    // //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Tilt 1"
+    // //% color="#9400d3"
+    // export function isTiltValueChanged(variable: pxsim.SamTiltSensor): boolean {
+    //   return variable.isTiltValueChanged();
+    // }
+    //% blockId="create_tilt_sensor" block="Create new Tilt Sensor"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
     //% shim=TiltSensor::createTiltSensor
     function createTiltSensor(): SamTiltSensor;

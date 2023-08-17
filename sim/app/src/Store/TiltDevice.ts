@@ -4,7 +4,6 @@ import SamDeviceManager from "src/Features/SamSimState";
 
 class TiltDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
@@ -17,7 +16,6 @@ class TiltDevice {
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable isTilted: boolean;
-  @observable _value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   customEventGenerator: CustomEventGenerator;
@@ -42,7 +40,6 @@ class TiltDevice {
     this.restProps = restprops;
     this.isActive = false;
     this.blockVisibility = true;
-    this._value = 0;
     this.isTilted = false;
     this.Color = "#FFFFFF";
     this.deviceInTestMode = false;
@@ -50,6 +47,21 @@ class TiltDevice {
     this.createMessageType = "createTilt";
     this.assignedName = "Tilt";
     makeAutoObservable(this);
+    window.addEventListener("message", (event) => {
+      if (event.data.type === `${this.assignedName} valueChanged`) {
+        this.setIsTilted(event.data.value);
+      }
+    });
+  }
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
 
   @action
@@ -58,30 +70,8 @@ class TiltDevice {
   }
 
   @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
     this.Color = value;
-  }
-
-  @action
-  getValue() {
-    this._virtualController.getValue() || this._bluetoothController?.getValue();
-  }
-  @action
-  setIsTilted(value: boolean) {
-    this.isTilted = value;
     this.updateLsStateStore();
     window.parent.postMessage(
       {
@@ -90,6 +80,16 @@ class TiltDevice {
       },
       window.location.origin
     );
+  }
+
+  @action
+  getValue() {
+    this._virtualController.getValue();
+  }
+  @action
+  setIsTilted(value: boolean) {
+    this.isTilted = value;
+    this.updateLsStateStore();
   }
 
   getIsTilted() {
@@ -109,7 +109,7 @@ class TiltDevice {
       deviceType: this.virtualInteractionComponentName,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
-      currentValue: this.getIsTilted(),
+      isTilted: this.isTilted,
     };
   }
   broadcastState(eventName?: string) {
@@ -124,9 +124,7 @@ class TiltDevice {
   get virtualController() {
     return this._virtualController;
   }
-  get bluetoothController() {
-    return this._bluetoothController;
-  }
+
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
