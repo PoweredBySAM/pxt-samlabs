@@ -13,7 +13,7 @@ class TiltDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable isTilted: boolean;
@@ -44,6 +44,7 @@ class TiltDevice {
     this.blockVisibility = true;
     this._value = 0;
     this.isTilted = false;
+    this.Color = "#FFFFFF";
     this.deviceInTestMode = false;
     this.deleted = false;
     this.createMessageType = "createTilt";

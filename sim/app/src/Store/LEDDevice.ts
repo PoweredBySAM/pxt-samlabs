@@ -14,7 +14,7 @@ class LEDDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
@@ -51,6 +51,7 @@ class LEDDevice {
     this.deviceInTestMode = false;
     this.testLEDColor = "#ffffff";
     this.deleted = false;
+    this.Color = "#FFFFFF";
     this.createMessageType = "createLED";
     this.assignedName = "LED";
     makeAutoObservable(this);

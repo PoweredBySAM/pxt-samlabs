@@ -52,24 +52,6 @@ class DevicesStore {
     });
   }
 
-  // @action connectDevice(id: string) {
-  //   const device = this.devices.find((device) => device.id === id);
-  //   if (device) {
-  //     device.connect();
-  //   }
-  // }
-  //
-  // @action disconnectDevice(id: string) {
-  //   const device = this.devices.find((device) => device.id === id);
-  //   if (device) {
-  //     device.disconnect();
-  //   }
-  // }
-  // @action toggleDeviceFullVisibility(id: string) {
-  //   const device: any = this.devices.find((device) => device.id === id);
-  //   device?.toggleVisibility();
-  // }
-
   @action emptyDevicesStore() {
     this.devices = [];
     this.lsStateStore.emptySamSimState();

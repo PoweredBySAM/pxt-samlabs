@@ -17,7 +17,7 @@ class BuzzerDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   pitch: any;
   volume: number;
   @observable isActive: boolean;
@@ -48,6 +48,7 @@ class BuzzerDevice {
     this.blockVisibility = true;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.Color = "#FFFFFF";
     this.createMessageType = "createBuzzer";
     this.assignedName = "Buzzer";
     makeAutoObservable(this);
@@ -72,7 +73,7 @@ class BuzzerDevice {
     this.isConnected = value;
   }
   @action
-  updateColor(value: string | undefined) {
+  updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
     window.parent.postMessage(

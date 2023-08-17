@@ -13,7 +13,7 @@ class ServoMotorDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable _position: number;
@@ -48,6 +48,7 @@ class ServoMotorDevice {
     this.deviceInTestMode = false;
     this.testPosition = 0;
     this.deleted = false;
+    this.Color = "#FFFFFF";
     this.createMessageType = "createServoMotor";
     this.assignedName = "ServoMotor";
     makeAutoObservable(this);

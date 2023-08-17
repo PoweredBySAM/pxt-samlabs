@@ -13,7 +13,7 @@ class SliderDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
@@ -44,6 +44,7 @@ class SliderDevice {
     this.value = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.Color = "#FFFFFF";
     this.createMessageType = "createSlider";
     this.assignedName = "Slider";
     makeAutoObservable(this);

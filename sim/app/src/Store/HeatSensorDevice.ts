@@ -14,7 +14,7 @@ class HeatSensorDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
@@ -48,6 +48,7 @@ class HeatSensorDevice {
     this._ledBrightness = 100;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.Color = "#FFFFFF";
     this.value = 0;
     this.customEventGenerator = CustomEventGenerator.getInstance();
     this.createMessageType = "createHeatSensor";
