@@ -528,47 +528,23 @@ declare namespace LED {
     declare class SamLED {
     }
 declare namespace LightSensor {
-    //% blockId="get_light_sensor_value" block="value of light sensor %variable"
+    //% blockId="get_light_sensor_value" block="get %variable value "
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light Sensor 1"
     //% color="#FF5733"
     //% shim=LightSensor::getSamLightSensorValue
-    function getSamLightSensorValue(variable: SamLightSensor): any;
+    function getSamLightSensorValue(variable: SamLightSensor): number;
 
-    //% blockId="get_light_sensor_value_equals" block="value of light sensor %variable is equal to %number"
+    //% blockId="get_light_sensor_color" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light Sensor 1"
     //% color="#FF5733"
-    //% shim=LightSensor::lightSensorValueIsEqualTo
-    function lightSensorValueIsEqualTo(variable: SamLightSensor, number: number): any;
-
-    //% blockId="get_light_sensor_value_less" block="value of light sensor %variable is less than %number"
-    //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
-    //% number.min=0 number.max=100
-    //% color="#FF5733"
-    //% shim=LightSensor::lightSensorValueIsLessThan
-    function lightSensorValueIsLessThan(variable: SamLightSensor, number: number): any;
-
-    //% blockId="get_light_sensor_value_greater" block="value of light sensor %variable is greater than %number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Light Sensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::lightSensorValueIsGreaterThan
-    function lightSensorValueIsGreaterThan(variable: SamLightSensor, number: number): any;
-
-    //% blockId="get_light_sensor_color" block="get color of light sensor %variable"
-    //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::getSamLightSensorColor
-    function getSamLightSensorColor(variable: SamLightSensor): any;
+    //% shim=LightSensor::isSamLightSensorValueChanged
+    function isSamLightSensorValueChanged(variable: SamLightSensor): boolean;
 
     //% blockId="set_light_sensor_color" block="set color of light sensor %variable to $value"
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light Sensor 1"
     //% color.shadow="1"
     //% color="#FF5733"
     //% shim=LightSensor::setSamLightSensorColor
