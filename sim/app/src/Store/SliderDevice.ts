@@ -19,6 +19,7 @@ class SliderDevice {
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable isSliderValueChanged: boolean;
   customEventGenerator: any;
   lsStateStore: SamDeviceManager;
   assignedName: string;
@@ -45,11 +46,27 @@ class SliderDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     this.Color = "#FFFFFF";
+    this.isSliderValueChanged = false;
     this.createMessageType = "createSlider";
     this.assignedName = "Slider";
     makeAutoObservable(this);
 
     this.updateLsStateStore();
+    window.addEventListener("message", (event) => {
+      if (event.data.type === `${this.assignedName} valueChanged`) {
+        this.sliderValueChanged(event.data.value);
+      }
+    });
+  }
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
 
   @action
@@ -84,11 +101,15 @@ class SliderDevice {
   }
 
   @action
+  sliderValueChanged(value: number) {
+    this.value = value;
+    this.isSliderValueChanged = true;
+    this.updateLsStateStore();
+  }
+
+  @action
   getValue(): number {
-    return (
-      this._virtualController.getValue() ||
-      this._bluetoothController?.getValue()
-    );
+    return this._virtualController.getValue();
   }
   setValue(value: number) {
     this.value = value;
@@ -108,7 +129,8 @@ class SliderDevice {
       deviceType: this.virtualInteractionComponentName,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
-      currentValue: this.value,
+      sliderValue: this.value,
+      isSliderValueChanged: this.isSliderValueChanged,
     };
   }
 

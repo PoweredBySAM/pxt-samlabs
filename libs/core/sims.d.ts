@@ -751,44 +751,28 @@ declare namespace ServoMotor {
 declare namespace Slider {
     //% blockId="get_slider_value" block="get slider %variable value"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% color="#ff4500"
     //% shim=Slider::getSamSliderValue
-    function getSamSliderValue(variable: SamSlider): any;
+    function getSamSliderValue(variable: SamSlider): number;
 
-    //% blockId="get_slider_value_equals" block="slider %variable value equals %number"
+    //% blockId="get_slider_value_equals" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% number.min=0 number.max=100
     //% color="#ff4500"
-    //% shim=Slider::sliderValueEquals
-    function sliderValueEquals(variable: SamSlider, number: number): any;
-
-    //% blockId="get_slider_value_greater" block="slider %variable value is greater than $number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Slider1"
-    //% color="#ff4500"
-    //% shim=Slider::sliderValuegreater
-    function sliderValuegreater(variable: SamSlider, number: number): any;
-
-    //% blockId="get_slider_value_less" block="slider %variable value is less than %number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Slider1"
-    //% color="#ff4500"
-    //% shim=Slider::sliderValueLess
-    function sliderValueLess(variable: SamSlider, number: number): any;
+    //% shim=Slider::isSliderValueChanged
+    function isSliderValueChanged(variable: SamSlider): boolean;
 
     //% blockId="set_slider_color" block="set slider %variable color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% color="#ff4500"
     //% shim=Slider::setSamSliderColor
     function setSamSliderColor(variable: SamSlider, value: samLedColors): void;
 
     //% blockId="create_slider" block="Create new slider"
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% color="#ff4500"
     //% shim=Slider::createSlider
     function createSlider(): SamSlider;

@@ -79,14 +79,5 @@ namespace pxsim {
         varNames: pxsim.runtime.globals,
       });
     }
-
-    listen(handler: any) {
-      samlabs.WindowEventService.getInstance().receiveEvent(
-        `${samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED}_${this._id}`,
-        (detail: any) => {
-          handler();
-        }
-      );
-    }
   }
 }
