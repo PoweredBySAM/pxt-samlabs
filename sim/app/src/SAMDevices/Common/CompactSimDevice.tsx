@@ -63,11 +63,12 @@ function CompactSimDevice({
         event.data.type === `${device.assignedName} bluetoothConnected` ||
         event.data.type === `${device.assignedName} bluetoothIsConnected`
       ) {
-        device.updateColor("#00FF00");
         setIsConnected(true);
       }
       if (event.data.type === `${device.assignedName} bluetoothDisconnected`) {
-        device.updateColor(undefined);
+        if (!device.assignedName.startsWith("Microbit")) {
+          device.updateColor("#FFFFFF");
+        }
         setIsConnected(false);
       }
     };

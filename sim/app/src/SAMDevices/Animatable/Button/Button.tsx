@@ -11,8 +11,10 @@ import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Button({ device }: { device: ButtonDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
-  const { addEvents, removeEvents } =
-    useEventsController(device, handleBasicControllerEvents) || {};
+  const { addEvents, removeEvents } = useEventsController(
+    device,
+    handleBasicControllerEvents
+  );
   const { singleDeviceStore } = useSingleDeviceStore(device);
   const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
   const addEventsBoolean =

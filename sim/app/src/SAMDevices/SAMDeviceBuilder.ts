@@ -1,18 +1,14 @@
 import DeviceDependencies from "./DeviceDependencies";
 import { v4 as uuidv4 } from "uuid";
-import {
-  DeviceMenuItemType,
-  IBuiltDevice,
-} from "./Types/SAMDeviceTypes";
+import { DeviceMenuItemType, IBuiltDevice } from "./Types/SAMDeviceTypes";
 import { deviceNameType } from "./Icons/deviceIconTypes";
-import { getGlobalName } from "src/Utils/getGlobalName";
 export const defaultDeviceColor = "#000000";
 
 class SAMDeviceBuilder {
   deviceName: deviceNameType;
   deviceType: any;
   defaultDeviceName: string;
-  id: any ;
+  id: any;
   deviceVarInPxt: any;
 
   constructor(deviceType: DeviceMenuItemType) {
@@ -20,30 +16,23 @@ class SAMDeviceBuilder {
     this.deviceName = deviceType?.label?.name;
     this.defaultDeviceName = deviceType?.label?.defaultName;
     this.id = deviceType?.id;
-    this.deviceVarInPxt = deviceType?.globalVar
+    this.deviceVarInPxt = deviceType?.globalVar;
   }
   build(): IBuiltDevice {
     const deviceIdOnCreate = this.id || uuidv4();
-    const {
-      VirtualController,
-      Controller,
-      VirtualInteractionComponent,
-      ...rest
-    } =
+    const { VirtualController, VirtualInteractionComponent, ...rest } =
       DeviceDependencies.getDeviceControlUtilities(this.deviceName)
         ?.controlUtilities || {};
     const virtualController = new VirtualController(
       defaultDeviceColor,
       this.defaultDeviceName
     );
-    const controller = new Controller(defaultDeviceColor);
     return {
       deviceIdOnCreate: deviceIdOnCreate,
       virtualInteractionComponentName: this.deviceName,
       deviceAnimation: VirtualInteractionComponent,
       labels: this.deviceType?.label,
       virtualController: virtualController,
-      controller: controller,
       deviceVarInPxt: this.deviceVarInPxt,
       ...rest,
     };

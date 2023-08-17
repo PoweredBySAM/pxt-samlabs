@@ -32,9 +32,6 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
-    return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
-    };
   }, []);
 
   const motorSpeed: () => number = deviceInTestMode
@@ -87,9 +84,7 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
           <div>
             <SamDCMotor
               getMotorSpeed={motorSpeed}
-              getColor={() =>
-                device.Color ? hexToRGBA(device.Color) : undefined
-              }
+              getColor={() => hexToRGBA(device.Color)}
             />
           </div>
         </Box>

@@ -88,10 +88,10 @@ const App: React.FC = observer(() => {
           m: 2,
         }}
       >
-        <SelectorComponent
-          addDevice={addDeviceHandler}
-          toggleActiveDevicesVisibility={toggleActiveDevicesVisibility}
-        />
+        {/*<SelectorComponent*/}
+        {/*  addDevice={addDeviceHandler}*/}
+        {/*  toggleActiveDevicesVisibility={toggleActiveDevicesVisibility}*/}
+        {/*/>*/}
         {<ActiveDevices showActiveDevices={showActiveDevices} />}
       </Box>
     </MuiThemeLayout>

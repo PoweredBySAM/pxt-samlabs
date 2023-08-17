@@ -12,7 +12,7 @@ class DCMotorDevice {
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color: string | undefined = undefined;
+  @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
@@ -43,6 +43,7 @@ class DCMotorDevice {
     this.isActive = false;
     this.blockVisibility = true;
     this.speed = 0;
+    this.Color = "#FFFFFF";
     this._adjustedSpeed = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
@@ -72,7 +73,8 @@ class DCMotorDevice {
     this.isConnected = value;
   }
   @action
-  updateColor(value: string | undefined) {
+  updateColor(value: string) {
+    this._virtualController.setColor(value);
     this.Color = value;
     this.updateLsStateStore();
     window.parent.postMessage(
