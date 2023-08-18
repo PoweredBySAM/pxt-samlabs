@@ -106,6 +106,7 @@
   "String.substr|block": "substring of %this=text|from %start|of length %length",
   "String|block": "String",
   "TiltSensor.IsTiltTilted|block": "Is Tilt Sensor  %variable  tilted",
+  "TiltSensor.IsTiltValueChanged|block": "Is Tilt Sensor %variable value changed",
   "TiltSensor.createTiltSensor|block": "Create new Tilt Sensor",
   "TiltSensor.setTiltColor|block": "Set Tilt Sensor %variable color to $color",
   "button.buttonIsPressed|block": "$variable is pressed",

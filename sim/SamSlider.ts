@@ -43,7 +43,7 @@ namespace pxsim {
   export class SamSlider {
     public deviceName = "sam_slider";
     private _id: string;
-    private _value: number;
+    private previousValue: number;
 
     constructor() {
       this._id = samlabs.uuidv4();
@@ -63,7 +63,12 @@ namespace pxsim {
       const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
         this._id
       );
-      return deviceData?.isSliderValueChanged;
+      if (this.previousValue === deviceData?.sliderValue) {
+        return false;
+      } else {
+        this.previousValue = deviceData?.sliderValue;
+        return true;
+      }
     }
 
     public getValue() {

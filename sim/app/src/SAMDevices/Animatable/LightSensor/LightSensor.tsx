@@ -22,7 +22,7 @@ function LightSensor({ device }: { device: LightSensorDevice }) {
   const virtualEvents = ["valueChanged"];
 
   const handleChange = (event: any, newValue: number | number[]) => {
-    singleDeviceStore.setValue(newValue as number);
+    singleDeviceStore.lightSensorValueChanged(newValue as number);
   };
 
   useEffect(() => {

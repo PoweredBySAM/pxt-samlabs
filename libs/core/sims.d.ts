@@ -775,13 +775,13 @@ declare namespace TiltSensor {
     //% shim=TiltSensor::IsTiltTilted
     function IsTiltTilted(variable: SamTiltSensor): boolean;
 
-    // //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
-    // //% variable.shadow=variables_get
-    // //% variable.defl="Tilt 1"
-    // //% color="#9400d3"
-    // export function isTiltValueChanged(variable: pxsim.SamTiltSensor): boolean {
-    //   return variable.isTiltValueChanged();
-    // }
+    //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
+    //% variable.shadow=variables_get
+    //% variable.defl="Tilt 1"
+    //% color="#9400d3"
+    //% shim=TiltSensor::IsTiltValueChanged
+    function IsTiltValueChanged(variable: SamTiltSensor): boolean;
+
     //% blockId="create_tilt_sensor" block="Create new Tilt Sensor"
     //% variable.defl="Tilt 1"
     //% color="#9400d3"

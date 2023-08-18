@@ -97,7 +97,12 @@ namespace pxsim {
       const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
         this._id
       );
-      return deviceData?.isLightSensorValueChanged || false;
+      if (this.previousValue === deviceData?.currentValue) {
+        return false;
+      } else {
+        this.previousValue = deviceData?.currentValue;
+        return true;
+      }
     }
 
     public _dispatch(payload: any, type: string) {

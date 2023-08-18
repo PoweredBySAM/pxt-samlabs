@@ -19,13 +19,13 @@ namespace pxsim.TiltSensor {
     return variable.IsTiltTilted();
   }
 
-  // //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
-  // //% variable.shadow=variables_get
-  // //% variable.defl="Tilt 1"
-  // //% color="#9400d3"
-  // export function isTiltValueChanged(variable: pxsim.SamTiltSensor): boolean {
-  //   return variable.isTiltValueChanged();
-  // }
+  //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
+  //% variable.shadow=variables_get
+  //% variable.defl="Tilt 1"
+  //% color="#9400d3"
+  export function IsTiltValueChanged(variable: pxsim.SamTiltSensor): boolean {
+    return variable.IsTiltValueChanged();
+  }
 
   //% blockId="create_tilt_sensor" block="Create new Tilt Sensor"
   //% variable.defl="Tilt 1"
@@ -43,6 +43,7 @@ namespace pxsim {
   export class SamTiltSensor {
     public deviceName = "sam_tilt";
     private _id: string;
+    private previousValue: boolean;
 
     constructor() {
       this._id = samlabs.uuidv4();
@@ -76,6 +77,17 @@ namespace pxsim {
         this._id
       );
       return deviceData?.isTilted;
+    }
+    public IsTiltValueChanged() {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      if (this.previousValue === deviceData?.isTilted) {
+        return false;
+      } else {
+        this.previousValue = deviceData?.isTilted;
+        return true;
+      }
     }
 
     get deviceId() {
