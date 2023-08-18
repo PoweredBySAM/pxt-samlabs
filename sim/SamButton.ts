@@ -1,5 +1,5 @@
 namespace pxsim.button {
-  //% blockId="set_button_color" block="set $variable color to %color"
+  //% blockId="set_button_color" block="Set Button $variable color to %color"
   //% variable.shadow=variables_get
   //% variable.defl="Button 1"
   //% color.shadow="1" //% weight=2
@@ -10,7 +10,7 @@ namespace pxsim.button {
     variable.setButtonColor(color);
   }
 
-  //% blockId="create_button" block="create new button"
+  //% blockId="create_button" block="Create new button"
   //% variable.shadow=variables_get
   //% variable.defl="Button 1"  //% weight=2
   export function createNewButton(): pxsim.SamButton {

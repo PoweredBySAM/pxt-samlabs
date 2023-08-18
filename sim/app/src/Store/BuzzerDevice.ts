@@ -54,6 +54,26 @@ class BuzzerDevice {
     makeAutoObservable(this);
     this.updateLsStateStore();
   }
+
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "volume":
+        this.setVolume(value as number);
+        break;
+      case "pitch":
+        this.setPitch(value as number);
+        break;
+      case "clear":
+        this.clear();
+        break;
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
+  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -89,10 +109,31 @@ class BuzzerDevice {
   setPitch(value: number) {
     this.pitch = value;
     this._virtualController?._toneGenerator?.setPitch(value);
-    this.isConnected && this._bluetoothController?.setPitch(value);
     this.updateLsStateStore();
     this.broadcastState();
+    window.parent.postMessage(
+      {
+        type: `setBuzzerPitch for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
+  @action
+  setVolume(value: number) {
+    this.volume = value;
+    this._virtualController?._toneGenerator?.setVolume(value);
+    this.broadcastState();
+
+    window.parent.postMessage(
+      {
+        type: `setBuzzerVolume for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
+  }
+
   getAllData() {
     return {
       deviceId: this._deviceId,
@@ -103,13 +144,7 @@ class BuzzerDevice {
       deviceColor: this.Color,
     };
   }
-  @action
-  setVolume(value: number) {
-    this.volume = value;
-    this._virtualController?._toneGenerator?.setVolume(value);
-    this.isConnected && this._bluetoothController?.setVolume(value);
-    this.broadcastState();
-  }
+
   @action
   start() {
     this.isActive = true;
@@ -144,9 +179,16 @@ class BuzzerDevice {
       this.testAudioController.stop();
     }
   }
-  @action
+
   clear() {
-    this.isConnected && this._bluetoothController?.clear();
+    this._virtualController?._toneGenerator?.setVolume(0);
+    this._virtualController?._toneGenerator?.setPitch(0);
+    window.parent.postMessage(
+      {
+        type: `clearBuzzer for ${this.assignedName}`,
+      },
+      window.location.origin
+    );
   }
 
   @action
@@ -155,7 +197,6 @@ class BuzzerDevice {
   }
   @action
   toggleTestMode() {
-    console.log("recieved!", this.deviceInTestMode);
     this.deviceInTestMode = !this.deviceInTestMode;
   }
   @action

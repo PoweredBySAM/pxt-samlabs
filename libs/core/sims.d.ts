@@ -189,14 +189,14 @@ declare namespace Microbit {
     declare class BBCMicrobit {
     }
 declare namespace button {
-    //% blockId="set_button_color" block="set $variable color to %color"
+    //% blockId="set_button_color" block="Set Button $variable color to %color"
     //% variable.shadow=variables_get
     //% variable.defl="Button 1"
     //% color.shadow="1" //% weight=2
     //% shim=button::setButtonColor
     function setButtonColor(variable: SamButton, color: samLedColors): void;
 
-    //% blockId="create_button" block="create new button"
+    //% blockId="create_button" block="Create new button"
     //% variable.shadow=variables_get
     //% variable.defl="Button 1"  //% weight=2
     //% shim=button::createNewButton
@@ -221,7 +221,7 @@ declare namespace buzzer {
      * @param variable The buzzer instance to set the volume for
      * @param volume The new volume for the buzzer (0-100)
      */
-    //% blockId="set_buzzer_volume" block="set volume of Buzzer in variable $variable to $volume"
+    //% blockId="set_buzzer_volume" block="Set Buzzer $variable volume to $volume"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% volume.min=0 volume.max=100
@@ -234,7 +234,7 @@ declare namespace buzzer {
      * @param buzzerId The ID of the buzzer to set the pitch for
      * @param pitch The new pitch for the buzzer (in Hz)
      */
-    //% blockId="set_buzzer_pitch" block="set pitch of Buzzer in variable $variable to $pitch Hz"
+    //% blockId="set_buzzer_pitch" block="Set Buzzer $variable pitch to $pitch Hz"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% volume.min=0 volume.max=100
@@ -247,7 +247,7 @@ declare namespace buzzer {
      * Clear the buzzer with the given ID by setting its volume and pitch to zero
      * @param variable The buzzer instance to clear
      */
-    //% blockId="clear_buzzer" block="clear Buzzer in $variable"
+    //% blockId="clear_buzzer" block="clear Buzzer $variable"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% color="#d400d4"
@@ -259,7 +259,7 @@ declare namespace buzzer {
      * @param buzzerId The ID of the buzzer to set the color for
      * @param color The new color for the buzzer
      */
-    //% blockId="set_buzzer_color" block="set color of Buzzer $variable to $color"
+    //% blockId="set_buzzer_color" block="Set Buzzer $variable color to $color"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% color.shadow="colorNumberPicker"
@@ -267,10 +267,9 @@ declare namespace buzzer {
     //% shim=buzzer::setBuzzerColor
     function setBuzzerColor(variable: SamBuzzer, color: samLedColors): void;
 
-    /**
-     * Creates a new Buzzer
-     */
-    //% blockId="createBuzzer" block="createBuzzer"
+    //% blockId="createBuzzer" block="Create new Buzzer"
+    //% variable.shadow=variables_get
+    //% variable.defl="Buzzer 1"  //% weight=2
     //% shim=buzzer::createBuzzer
     function createBuzzer(): SamBuzzer;
 

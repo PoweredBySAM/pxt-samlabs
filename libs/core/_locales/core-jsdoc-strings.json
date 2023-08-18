@@ -204,7 +204,6 @@
   "StringMap": "A dictionary from string key to string values",
   "buzzer.clearBuzzer": "Clear the buzzer with the given ID by setting its volume and pitch to zero",
   "buzzer.clearBuzzer|param|variable": "The buzzer instance to clear",
-  "buzzer.createBuzzer": "Creates a new Buzzer",
   "buzzer.setBuzzerColor": "Set the color of the buzzer with the given ID",
   "buzzer.setBuzzerColor|param|color": "The new color for the buzzer",
   "buzzer.setBuzzerPitch": "Set the pitch of the buzzer with the given ID",
