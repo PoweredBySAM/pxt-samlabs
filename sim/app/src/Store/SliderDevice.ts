@@ -4,14 +4,11 @@ import SamDeviceManager from "src/Features/SamSimState";
 
 class SliderDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
 
-  @observable isConnected = false;
-  @observable isConnecting = false;
   @observable batteryLevel = 0;
   @observable Color: string;
   @observable isActive: boolean;
@@ -19,7 +16,6 @@ class SliderDevice {
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  @observable isSliderValueChanged: boolean;
   customEventGenerator: any;
   lsStateStore: SamDeviceManager;
   assignedName: string;
@@ -46,7 +42,6 @@ class SliderDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     this.Color = "#FFFFFF";
-    this.isSliderValueChanged = false;
     this.createMessageType = "createSlider";
     this.assignedName = "Slider";
     makeAutoObservable(this);
@@ -79,15 +74,6 @@ class SliderDevice {
     this.batteryLevel = level;
   }
   @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
@@ -103,7 +89,6 @@ class SliderDevice {
   @action
   sliderValueChanged(value: number) {
     this.value = value;
-    this.isSliderValueChanged = true;
     this.updateLsStateStore();
   }
 
@@ -111,10 +96,7 @@ class SliderDevice {
   getValue(): number {
     return this._virtualController.getValue();
   }
-  setValue(value: number) {
-    this.value = value;
-    this.updateLsStateStore();
-  }
+
   @action
   toggleTestMode() {
     this.deviceInTestMode = !this.deviceInTestMode;
@@ -130,16 +112,13 @@ class SliderDevice {
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
       sliderValue: this.value,
-      isSliderValueChanged: this.isSliderValueChanged,
     };
   }
 
   get virtualController() {
     return this._virtualController;
   }
-  get bluetoothController() {
-    return this._bluetoothController;
-  }
+
   set virtualController(controller: any) {
     this._virtualController = controller;
   }

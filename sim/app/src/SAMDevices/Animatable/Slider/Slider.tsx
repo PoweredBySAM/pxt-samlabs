@@ -21,8 +21,12 @@ function Slider({ device }: { device: SliderDevice }) {
 
   const virtualEvents = ["valueChanged"];
 
-  const handleChange = (event: any, newValue: number | number[]) => {
-    singleDeviceStore.setValue(newValue as number);
+  const handleChange = (
+    event: Event,
+    value: number | number[],
+    activeThumb: number
+  ) => {
+    singleDeviceStore.sliderValueChanged(value as number);
   };
 
   useEffect(() => {

@@ -688,30 +688,30 @@ declare namespace ProximitySensor {
     declare class SamProximitySensor {
     }
 declare namespace ServoMotor {
-    //% blockId="set_servo_motor_position" block="set servo motor %variable position to %value degrees"
+    //% blockId="set_servo_motor_position" block="Set servo motor %variable position to %value degrees"
     //% value.min=0 value.max=180
     //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::setServoMotorPosition
     function setServoMotorPosition(variable: SamServoMotor, value: number): void;
 
-    //% blockId="get_servo_motor_position" block="get servo motor %variable position"
+    //% blockId="get_servo_motor_position" block="Get servo motor %variable position"
     //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::getServoMotorPosition
-    function getServoMotorPosition(variable: SamServoMotor): any;
+    function getServoMotorPosition(variable: SamServoMotor): number;
 
-    //% blockId="set_servo_motor_color" block="set servo motor %variable color to %value"
+    //% blockId="set_servo_motor_color" block="Set servo motor %variable color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::setServoMotorColor
-    function setServoMotorColor(variable: SamServoMotor, value: string): void;
+    function setServoMotorColor(variable: SamServoMotor, value: samLedColors): void;
 
     //% blockId="create_servo_motor" block="Create new servo motor"
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::createServoMotor
     function createServoMotor(): SamServoMotor;
