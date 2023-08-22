@@ -1,28 +1,27 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { observable, action, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
 class ServoMotorDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
 
-  @observable isConnected = false;
-  @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
-  @observable  isActive: boolean;
+  @observable Color: string;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable _position: number;
-  @observable  _adjustedPosition: number;
+  @observable _adjustedPosition: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   @observable testPosition: number;
   customEventGenerator: any;
   lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -39,28 +38,34 @@ class ServoMotorDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this._position = 0
-    this._adjustedPosition = 0
+    this._position = 0;
+    this._adjustedPosition = 0;
     this.deviceInTestMode = false;
-    this.testPosition = 0
+    this.testPosition = 0;
     this.deleted = false;
+    this.Color = "#FFFFFF";
+    this.createMessageType = "createServoMotor";
+    this.assignedName = "ServoMotor";
     makeAutoObservable(this);
     this.updateLsStateStore();
   }
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
-  }
 
   @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "setPosition":
+        this.setPosition(value as number);
+        break;
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
+
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
@@ -71,30 +76,29 @@ class ServoMotorDevice {
     this.batteryLevel = level;
   }
   @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
     this.Color = value;
-    this.updateLsStateStore()
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setServoMotorColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
 
   @action
-  getPosition() {
-    return this._virtualController.getPosition()||
-    this.isConnected && this._bluetoothController?.getPosition();
-  }
-  @action
   setPosition(value: number) {
-    this._virtualController.setPosition(value);
-    this.isConnected && this._bluetoothController?.setSpeed(value);
-    this.updateLsStateStore()
+    this._position = value;
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setPosition for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
   @action
   setTestPosition(value: number) {
@@ -104,13 +108,12 @@ class ServoMotorDevice {
   @action
   reset() {
     this._virtualController._reset();
-    this.isConnected && this._bluetoothController?._reset();
-  } 
+  }
 
   @action
   toggleTestMode() {
-    if(!this.deviceInTestMode){
-      this.testPosition = 0
+    if (!this.deviceInTestMode) {
+      this.testPosition = 0;
     }
     this.deviceInTestMode = !this.deviceInTestMode;
   }
@@ -120,31 +123,29 @@ class ServoMotorDevice {
     this.deleted = true;
   }
 
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this._position,
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      servoPosition: this._position,
+    };
   }
-  broadcastState(eventName ?:string) {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
+  broadcastState(eventName?: string) {
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
     });
   }
 
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
 
   get virtualController() {
     return this._virtualController;
   }
-  get bluetoothController() {
-    return this._bluetoothController;
-  }
+
   set virtualController(controller: any) {
     this._virtualController = controller;
   }

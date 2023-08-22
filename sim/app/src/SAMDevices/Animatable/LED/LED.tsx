@@ -6,7 +6,7 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
 import { Box } from "@mui/material";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function LED({ device }: { device: LEDDevice }) {
@@ -16,7 +16,7 @@ function LED({ device }: { device: LEDDevice }) {
     device,
     handleBasicControllerEvents
   );
-  const {addPxtEvents,removePxtEvents} = usePxtToSimEvents(device);
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const testColors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF"];
   const { blockVisibility, deviceInTestMode, ledColor, testLEDColor } =
@@ -30,16 +30,19 @@ function LED({ device }: { device: LEDDevice }) {
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
+  }, []);
+  useEffect(() => {
+    addPxtEvents();
     return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
+      removePxtEvents();
     };
   }, []);
   useEffect(() => {
     addPxtEvents();
     return () => {
-      removePxtEvents()
-    }
-  },[])
+      removePxtEvents();
+    };
+  }, []);
 
   return (
     <>
@@ -67,6 +70,9 @@ function LED({ device }: { device: LEDDevice }) {
                 color: deviceInTestMode ? testLEDColor : ledColor,
                 opacity: 100,
               }}
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
             />
           </Box>
         </Box>

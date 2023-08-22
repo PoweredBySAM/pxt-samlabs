@@ -257,6 +257,7 @@ namespace pxsim {
   export class BBCMicrobit {
     public deviceName = "bbc_microbit";
     private _id: string;
+    private displayWord: string;
     constructor() {
       this._id = samlabs.uuidv4();
       const detail = {
@@ -268,10 +269,11 @@ namespace pxsim {
         { device: this.deviceName, detail },
         samlabs.samSimEvents.TOSIM_DEVICE_CREATED
       );
-      window.console.log("Microbit created");
     }
 
     public onMicrobitDisplayWord(word: string) {
+      if (this.displayWord === word) return;
+      this.displayWord = word;
       const detail = {
         device: this.deviceName,
         event: "device_value_changed",

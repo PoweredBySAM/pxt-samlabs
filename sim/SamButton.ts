@@ -1,25 +1,25 @@
 namespace pxsim.button {
-
-  //% blockId="set_button_color" block="set color of Button $variable to $color"
+  //% blockId="set_button_color" block="Set Button $variable color to %color"
   //% variable.shadow=variables_get
-  //% variable.defl="Button 1"  
-  //% color.shadow="colorNumberPicker"
-  //% advanced=true
-  export function setButtonColor(variable: pxsim.SamBuzzer, color: samLedColors): void {
-    variable.setColor(color);
+  //% variable.defl="Button 1"
+  //% color.shadow="1" //% weight=2
+  export function setButtonColor(
+    variable: pxsim.SamButton,
+    color: samLedColors
+  ): void {
+    variable.setButtonColor(color);
   }
 
-  //% blockId="create_button" block="create new button"
+  //% blockId="create_button" block="Create new button"
   //% variable.shadow=variables_get
   //% variable.defl="Button 1"  //% weight=2
   export function createNewButton(): pxsim.SamButton {
-    window.console.log(runtime.globals,"globalsssssss" )
-    return new pxsim.SamButton()
+    return new pxsim.SamButton();
   }
   //% blockId="get_is_pressed" block="$variable is pressed"
   //% variable.shadow=variables_get
   //% variable.defl="Button 1"  //% weight=2
-  export function buttonIsPressed(variable:SamButton): boolean {
+  export function buttonIsPressed(variable: SamButton): boolean {
     return variable.getIsPressed();
   }
 }
@@ -30,6 +30,7 @@ namespace pxsim {
   //%
   export class SamButton {
     private _pressed: boolean;
+    private color: samLedColors;
     public deviceName = "sam_button";
     private _id: string;
     constructor() {
@@ -44,13 +45,17 @@ namespace pxsim {
         samlabs.samSimEvents.TOSIM_DEVICE_CREATED
       );
     }
-    public setColor(color: samLedColors) {
+    public setButtonColor(color: samLedColors) {
+      if (this.color === color) {
+        return;
+      }
+      this.color = color;
       const detail = {
         device: this.deviceName,
         event: "device_value_changed",
         id: this._id,
-        value: samlabs.hexColorFromCode(color),
         property: "color",
+        value: samlabs.hexColorFromCode(color),
       };
       this._dispatch(
         { device: this.deviceName, detail },
@@ -58,25 +63,21 @@ namespace pxsim {
       );
     }
 
-    public getIsPressed(){
-      return samlabs.SamSimDataService.getInstance().getDeviceProps(this._id)?.deviceState==='pressed';
+    public getIsPressed() {
+      return (
+        samlabs.SamSimDataService.getInstance().getDeviceProps(this._id)
+          ?.deviceState === "pressed"
+      );
     }
 
     get deviceId() {
       return this.deviceName;
     }
     _dispatch(payload: any, type: string) {
-      samlabs.WindowEventService.getInstance().sendEvent(type, { ...payload });
-    }
-
-    listen(handler: any) {
-      samlabs.WindowEventService.getInstance().receiveEvent(
-        `${samlabs.samSimEvents.FROMSIM_DEVICE_VALUE_CHANGED}_${this._id}`,
-        (detail: any) => {
-            handler();
-          
-        }
-      );
+      samlabs.WindowEventService.getInstance().sendEvent(type, {
+        ...payload,
+        varNames: pxsim.runtime.globals,
+      });
     }
   }
 }

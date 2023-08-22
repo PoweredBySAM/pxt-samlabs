@@ -4,7 +4,7 @@ import { Box, Card } from "@mui/material";
 import { getDeviceIcon } from "../Icons";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import { observer } from "mobx-react";
-import { useSingleDeviceStore } from "../../Hooks/useSingleDeviceStore";
+import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 
 const FullSimDeviceWrapper = observer(
   ({ device, children, ...rest }: { device: any; children: any }) => {
@@ -14,13 +14,6 @@ const FullSimDeviceWrapper = observer(
       width: "3rem !important",
       height: "3rem !important",
     });
-
-    const connectBluetooth = () => {
-      device.bluetoothController.connect();
-    };
-    const disconnectBluetooth = () => {
-      device.bluetoothController.disconnect();
-    };
     const toggleVisibility = () => {
       singleDeviceStore.toggleVisibility();
     };
@@ -29,14 +22,6 @@ const FullSimDeviceWrapper = observer(
       singleDeviceStore.toggleTestMode();
     };
 
-    const assignBlueToothDevice = (device: any) => {
-      if(!device.assignedName )return
-      console.log(device,"something in")
-      singleDeviceStore.setBluetoothController(device);
-      singleDeviceStore._bluetoothController.setConnectedToSimDevice(true)
-      console.log('device in assign',device,singleDeviceStore)
-
-    }
     const removeDevice = () => {
       //Todo: add confirmation and check if device is used in project, disconnect if connected to bluetooth
       singleDeviceStore.deleteDevice();
@@ -55,23 +40,14 @@ const FullSimDeviceWrapper = observer(
       >
         <Box>
           <CompactSimDevice
+            device={device}
             labels={device.restProps?.labels}
-            deviceNameInSim={device.restProps?.id}
-            varNameInPxt = {device.deviceVarNameInPxt}
             Icon={Icon}
-            controller={{
-              disconnectBluetooth,
-              connectBluetooth,
-              connnected: device.isConnected,
-            }}
-            assignBlueToothDevice={assignBlueToothDevice}
             toggleVisibility={toggleVisibility}
             visibility={device.blockVisibility}
             toggleTestMode={toggleTestMode}
             removeDevice={removeDevice}
             isInTestMode={device.deviceInTestMode}
-            isConnected={singleDeviceStore.isConnected}
-            connectedDeviceName={singleDeviceStore._bluetoothController?.assignedName}
           />
         </Box>
         <Box sx={{ width: "100%" }}>{children}</Box>

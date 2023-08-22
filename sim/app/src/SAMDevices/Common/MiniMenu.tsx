@@ -1,19 +1,17 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { Box, MenuList } from '@mui/material';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { Box, MenuList } from "@mui/material";
 
 export default function MiniMenu({
   items,
   anchor,
   handleClose,
-  handleSelection
 }: {
   items: string[];
-  anchor: null | HTMLElement;
-  handleClose: (e:any) => void;
-  handleSelection: any;
+  anchor?: null | HTMLElement;
+  handleClose: (e: any) => void;
 }) {
   const open = Boolean(anchor);
 
@@ -35,8 +33,14 @@ export default function MiniMenu({
         }}
       >
         <MenuList dense>
-          {items.map((item) => (
-            <MenuItem onClick={()=>handleClose(item)} value = {item}>{item}</MenuItem>
+          {items.map((item, index) => (
+            <MenuItem
+              key={item + index}
+              onClick={() => handleClose(item)}
+              value={item}
+            >
+              {item}
+            </MenuItem>
           ))}
         </MenuList>
       </Menu>

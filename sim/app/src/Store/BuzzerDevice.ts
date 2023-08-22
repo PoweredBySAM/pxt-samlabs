@@ -1,4 +1,4 @@
-import { observable, action,makeAutoObservable } from "mobx";
+import { observable, action, makeAutoObservable } from "mobx";
 import AudioController from "../Utils/Tones/toneGenerator/AudioController";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
@@ -10,16 +10,17 @@ class BuzzerDevice {
   restProps: any;
   virtualInteractionComponentName: string;
   testAudioController: AudioController = new AudioController();
-  lsStateStore:SamDeviceManager;
-
+  lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   @observable isConnected = false;
   @observable isConnecting = false;
   @observable batteryLevel = 0;
-  @observable Color = "";
+  @observable Color: string;
   pitch: any;
   volume: number;
-  @observable  isActive: boolean;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
@@ -28,7 +29,7 @@ class BuzzerDevice {
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
-    this.lsStateStore = SamDeviceManager.getInstance()
+    this.lsStateStore = SamDeviceManager.getInstance();
     const {
       deviceIdOnCreate,
       meta,
@@ -43,13 +44,35 @@ class BuzzerDevice {
     this.restProps = restprops;
     this.pitch = virtualController?.pitch;
     this.volume = 100;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.Color = "#FFFFFF";
+    this.createMessageType = "createBuzzer";
+    this.assignedName = "Buzzer";
     makeAutoObservable(this);
-    this.updateLsStateStore()
+    this.updateLsStateStore();
+  }
+
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "volume":
+        this.setVolume(value as number);
+        break;
+      case "pitch":
+        this.setPitch(value as number);
+        break;
+      case "clear":
+        this.clear();
+        break;
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
   @action
   toggleVisibility() {
@@ -72,68 +95,100 @@ class BuzzerDevice {
   @action
   updateColor(value: string) {
     this.Color = value;
-    this.updateLsStateStore()
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setBuzzerColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
 
   @action
   setPitch(value: number) {
     this.pitch = value;
     this._virtualController?._toneGenerator?.setPitch(value);
-    this.isConnected && this._bluetoothController?.setPitch(value);
-    this.updateLsStateStore()
-    this.broadcastState()
-  }
-  getAllData(){
-    return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      deviceVlume:this.volume,
-      devicePitch:this.pitch,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-    }
+    this.updateLsStateStore();
+    this.broadcastState();
+    window.parent.postMessage(
+      {
+        type: `setBuzzerPitch for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
   @action
   setVolume(value: number) {
     this.volume = value;
     this._virtualController?._toneGenerator?.setVolume(value);
-    this.isConnected && this._bluetoothController?.setVolume(value);
-    this.broadcastState()
+    this.broadcastState();
+
+    window.parent.postMessage(
+      {
+        type: `setBuzzerVolume for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
+
+  getAllData() {
+    return {
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      deviceVlume: this.volume,
+      devicePitch: this.pitch,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+    };
+  }
+
   @action
   start() {
-    this.isActive = true
+    this.isActive = true;
     this._virtualController?._toneGenerator?.start();
-    this.broadcastState()
+    this.broadcastState();
   }
   @action
-  testTone(key?:string,value?:number){
-    switch(key){
-      case 'start': {
-        this.testSoundActive = true;
-        this.testAudioController.start()
-        this.testAudioController.setVolume(100);
-
-      }; 
-      break;
-      case 'stop': {
-        this.testSoundActive = false;
-        this.testAudioController.stop();
-      }
-      break;
-      case 'volumeUp': value && this.testAudioController.setVolume(value);
-      break;
-      case 'volumeDown': value && this.testAudioController.setVolume(value);
+  testTone(key?: string, value?: number) {
+    switch (key) {
+      case "start":
+        {
+          this.testSoundActive = true;
+          this.testAudioController.start();
+          this.testAudioController.setVolume(100);
+        }
+        break;
+      case "stop":
+        {
+          this.testSoundActive = false;
+          this.testAudioController.stop();
+        }
+        break;
+      case "volumeUp":
+        value && this.testAudioController.setVolume(value);
+        break;
+      case "volumeDown":
+        value && this.testAudioController.setVolume(value);
     }
-   if(!key){ 
-    this.testAudioController.start();
-  }else {
-    this.testAudioController.stop()
+    if (!key) {
+      this.testAudioController.start();
+    } else {
+      this.testAudioController.stop();
+    }
   }
-  }
-  @action
+
   clear() {
-    this.isConnected && this._bluetoothController?.clear();
+    this._virtualController?._toneGenerator?.setVolume(0);
+    this._virtualController?._toneGenerator?.setPitch(0);
+    window.parent.postMessage(
+      {
+        type: `clearBuzzer for ${this.assignedName}`,
+      },
+      window.location.origin
+    );
   }
 
   @action
@@ -142,33 +197,20 @@ class BuzzerDevice {
   }
   @action
   toggleTestMode() {
-    console.log('recieved!',this.deviceInTestMode)
     this.deviceInTestMode = !this.deviceInTestMode;
   }
   @action
   deleteDevice() {
     this.deleted = true;
   }
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
-  }
-
-  @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
-  }
   broadcastState() {
-    this.customEventGenerator.dispatchEvent('deviceStateChange', {
-      data:this.getAllData()
+    this.customEventGenerator.dispatchEvent("deviceStateChange", {
+      data: this.getAllData(),
     });
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
-  
 
   get virtualController() {
     return this._virtualController;

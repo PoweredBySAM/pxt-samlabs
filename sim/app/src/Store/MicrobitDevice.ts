@@ -3,11 +3,12 @@ import { CustomEventGenerator } from "src/Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 class MicrobitDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
+  assignedName: string;
+  createMessageType: string;
 
   @observable
   ledMatrix: number[][] = [
@@ -54,9 +55,16 @@ class MicrobitDevice {
     } = deviceData;
     this._deviceId = deviceIdOnCreate;
     this.virtualInteractionComponentName = virtualInteractionComponentName;
-    this._bluetoothController = controller;
+    this.assignedName = "Microbit";
+    this.createMessageType = "createMicrobit";
     this._virtualController = virtualController;
-    this.ledMatrix = this._virtualController.ledMatrix;
+    this.ledMatrix = [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+    ];
     this.restProps = restprops;
     this.isActive = false;
     this.blockVisibility = true;
@@ -66,44 +74,36 @@ class MicrobitDevice {
     this.bLongPressTimeout;
     this.aDown = false;
     this.bDown = false;
-    this.pins = this._bluetoothController._pins;
+    this.pins = [];
     this.pin0Pressed = false;
     this.pin1Pressed = false;
     this.pin2Pressed = false;
     this.pinGND = false;
     this.isTemperatureChanged = false;
     this.temperature = this._virtualController._temperature;
-    this.xAccel = this._bluetoothController._xAccel;
-    this.yAccel = this._bluetoothController._yAccel;
-    this.zAccel = this._bluetoothController._zAccel;
+    this.xAccel = 0;
+    this.yAccel = 0;
+    this.zAccel = 0;
     this.deviceVarNameInPxt = deviceData.deviceVarNameInPxt;
     makeAutoObservable(this);
     this._virtualController.on("LEDChanged", this.onLEDChanged);
-    this._bluetoothController.on("APressed", this.onAButtonDown);
-    this._bluetoothController.on("AReleased", this.onAButtonUp);
-    this._bluetoothController.on("BPressed", this.onBButtonDown);
-    this._bluetoothController.on("BReleased", this.onBButtonUp);
-    this._bluetoothController.on(
-      "temperatureChanged",
-      this.onTemperatureChanged
-    );
-    this._bluetoothController.on(
-      "accelerometerChanged",
-      this.onAccelerometerChanged
-    );
     this.updateLsStateStore();
-  }
-  @action
-  setBluetoothController(controller: any) {
-    this._bluetoothController = controller;
-    this.isConnected = true;
-    this.hydrateBTController();
-  }
-
-  @action
-  disconnectBluetoothController() {
-    this._bluetoothController = null;
-    this.isConnected = false;
+    window.addEventListener("message", (event) => {
+      switch (event.data.type) {
+        case `${this.assignedName} AButtonDown`:
+          return this.onAButtonDown();
+        case `${this.assignedName} AButtonUp`:
+          return this.onAButtonUp();
+        case `${this.assignedName} BButtonDown`:
+          return this.onBButtonDown();
+        case `${this.assignedName} BButtonUp`:
+          return this.onBButtonUp();
+        case `${this.assignedName} temperatureChanged`:
+          return this.onTemperatureChanged(event.data.value);
+        case `${this.assignedName} accelerometerChanged`:
+          return this.onAccelerometerChanged(event.data.value);
+      }
+    });
   }
 
   @action
@@ -111,33 +111,65 @@ class MicrobitDevice {
     switch (property) {
       case "ledDisplayShape":
         this._virtualController.displayPattern(value);
-        if (this._bluetoothController._connected) {
-          this._bluetoothController.displayPattern(value);
-        }
 
+        window.parent.postMessage(
+          {
+            type: `${this.assignedName} ledDisplayShape`,
+            value: value,
+          },
+          window.location.origin
+        );
         break;
       case "ledDisplayWord":
-        this._bluetoothController.displayText(value);
         this._virtualController.displayText(value);
+        window.parent.postMessage(
+          {
+            type: `${this.assignedName} ledDisplayWord`,
+            value: value,
+          },
+          window.location.origin
+        );
         break;
       case "plot":
-        this._bluetoothController.plot(value.x, value.y);
         this._virtualController.plot(value.x, value.y);
+        window.parent.postMessage(
+          {
+            type: `${this.assignedName} plot`,
+            value: { x: value.x, y: value.y },
+          },
+          window.location.origin
+        );
         break;
       case "unplot":
-        this._bluetoothController.unplot(value.x, value.y);
         this._virtualController.unplot(value.x, value.y);
+        window.parent.postMessage(
+          {
+            type: `${this.assignedName} unplot`,
+            value: { x: value.x, y: value.y },
+          },
+          window.location.origin
+        );
         break;
       case "toggle":
-        this._bluetoothController.toggle(value.x, value.y);
         this._virtualController.toggle(value.x, value.y);
+        window.parent.postMessage(
+          {
+            type: `${this.assignedName} toggle`,
+            value: { x: value.x, y: value.y },
+          },
+          window.location.origin
+        );
         break;
       case "clearLED":
-        this._bluetoothController.clearLED();
         this._virtualController.clearLED();
+        window.parent.postMessage(
+          {
+            type: `${this.assignedName} clearLED`,
+          },
+          window.location.origin
+        );
         break;
       case "writeDigitalPin":
-        this._bluetoothController.writeDigitalPin(value.pinId, value.value);
         this._virtualController.writeDigitalPin(value.pinId, value.value);
         break;
       default:
@@ -151,16 +183,19 @@ class MicrobitDevice {
     this.updateLsStateStore();
   };
   @action
-  onTemperatureChanged = () => {
-    this.isTemperatureChanged = this._bluetoothController._isTemperatureChanged;
-    this.temperature = this._bluetoothController._temperature;
+  onTemperatureChanged = (value: {
+    temperature: number;
+    isTemperatureChanged: boolean;
+  }) => {
+    this.isTemperatureChanged = value.isTemperatureChanged;
+    this.temperature = value.temperature;
     this.updateLsStateStore();
   };
   @action
-  onAccelerometerChanged = () => {
-    this.xAccel = this._bluetoothController._xAccel;
-    this.yAccel = this._bluetoothController._yAccel;
-    this.zAccel = this._bluetoothController._zAccel;
+  onAccelerometerChanged = (value: { x: number; y: number; z: number }) => {
+    this.xAccel = value.x;
+    this.yAccel = value.y;
+    this.zAccel = value.z;
     this.updateLsStateStore();
   };
   @action
@@ -267,27 +302,9 @@ class MicrobitDevice {
   get virtualController() {
     return this._virtualController;
   }
-  get bluetoothController() {
-    return this._bluetoothController;
-  }
   @action
   updateLsStateStore() {
     this.lsStateStore.updateDevice(this.getAllData());
-  }
-  hydrateBTController() {
-    if (!this._bluetoothController) return;
-    this._bluetoothController.on("APressed", this.onAButtonDown);
-    this._bluetoothController.on("AReleased", this.onAButtonUp);
-    this._bluetoothController.on("BPressed", this.onBButtonDown);
-    this._bluetoothController.on("BReleased", this.onBButtonUp);
-    this._bluetoothController.on(
-      "temperatureChanged",
-      this.onTemperatureChanged
-    );
-    this._bluetoothController.on(
-      "accelerometerChanged",
-      this.onAccelerometerChanged
-    );
   }
 
   getAllData() {

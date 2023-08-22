@@ -1,9 +1,23 @@
-import { Box, Slider, Typography } from '@mui/material'
-import React from 'react'
-import { observer } from 'mobx-react';
-import toFixify from '../../Utils/toFixify';
+import { Box, Slider, Typography } from "@mui/material";
+import React from "react";
+import { observer } from "mobx-react";
+import toFixify from "../../Utils/toFixify";
 
-const SliderWithDisplayHOC=({setValue,currentValue,children,controlsVisibility}: {setValue:any, currentValue:number,children:any,controlsVisibility:boolean})=> {
+const SliderWithDisplayHOC = ({
+  setValue,
+  currentValue,
+  children,
+  controlsVisibility,
+}: {
+  setValue: (
+    event: Event,
+    value: number | number[],
+    activeThumb: number
+  ) => void;
+  currentValue: number;
+  children: any;
+  controlsVisibility: boolean;
+}) => {
   const customSliderStyle = {
     minWidth: "10rem !important",
     "& .MuiSlider-thumb": {
@@ -41,7 +55,7 @@ const SliderWithDisplayHOC=({setValue,currentValue,children,controlsVisibility}:
             variant="h6"
             sx={{
               fontFamily: "Orbitron",
-              width:"5rem",
+              width: "5rem",
               fontWeight: 400,
               m: 2,
               border: "solid 1px #c4c4c4",
@@ -58,6 +72,6 @@ const SliderWithDisplayHOC=({setValue,currentValue,children,controlsVisibility}:
       )}
     </Box>
   );
-}
+};
 
-export default observer(SliderWithDisplayHOC)
+export default observer(SliderWithDisplayHOC);

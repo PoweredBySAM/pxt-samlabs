@@ -33,7 +33,7 @@ export interface IDeviceLabels<deviceNameType> {
 export type DeviceMenuItemType = {
   label: IDeviceLabelObject;
   icon: JSX.Element;
-  id ?: string;
+  id?: string;
   globalVar?: any;
 };
 
@@ -66,7 +66,6 @@ export interface IBuiltDevice {
   deviceAnimation: any;
   labels: IDeviceLabelObject;
   virtualController: any;
-  controller: any;
-  deviceVarInPxt ?: string;
+  deviceVarInPxt?: string;
   rest?: any;
 }

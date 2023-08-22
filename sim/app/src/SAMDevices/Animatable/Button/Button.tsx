@@ -6,13 +6,17 @@ import { Box, Typography } from "@mui/material";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import ButtonDevice from "src/Store/ButtonDevice";
 import useBasicEvents from "src/Hooks/useBasicEvents";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
+import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function Button({ device }: { device: ButtonDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
-  const { addEvents, removeEvents } =
-    useEventsController(device, handleBasicControllerEvents) || {};
+  const { addEvents, removeEvents } = useEventsController(
+    device,
+    handleBasicControllerEvents
+  );
   const { singleDeviceStore } = useSingleDeviceStore(device);
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
   const addEventsBoolean =
     !!handleBasicControllerEvents && !!addEvents && !!removeEvents;
   const { blockVisibility, deviceInTestMode } = singleDeviceStore || {};
@@ -28,11 +32,13 @@ function Button({ device }: { device: ButtonDevice }) {
 
   useEffect(() => {
     addEventsBoolean && addEvents(bluetoothEvents, virtualEvents);
-    return () => {
-      // console.log(handleBasicControllerEvents,"handleBasicControllerEvents",)
-      // addEventsBoolean &&  removeEvents(bluetoothEvents, virtualEvents);
-    };
   }, [addEvents, removeEvents, handleBasicControllerEvents]);
+  useEffect(() => {
+    addPxtEvents();
+    return () => {
+      removePxtEvents();
+    };
+  }, []);
 
   return (
     <>
@@ -59,7 +65,9 @@ function Button({ device }: { device: ButtonDevice }) {
             <SamButton
               buttonPressed={device.currentState === "pressed"}
               // wireFrame
-              // getColor={() => (device.Color)}
+              getColor={() =>
+                device.Color ? hexToRGBA(device.Color) : undefined
+              }
             />
           </Box>
         </Box>

@@ -69,3 +69,25 @@ export const getVirtualDevice = (
     return samVirtualDevices[deviceName];
   }
 };
+export const hexToRGBA = (hex: string): any => {
+  let r: number = 0,
+    g: number = 0,
+    b: number = 0,
+    a: number | undefined = undefined;
+  if (hex.length === 9) {
+    r = parseInt(hex[1] + hex[2], 16);
+    g = parseInt(hex[3] + hex[4], 16);
+    b = parseInt(hex[5] + hex[6], 16);
+    a = parseInt(hex[7] + hex[8], 16) / 255;
+  } else if (hex.length === 7) {
+    r = parseInt(hex[1] + hex[2], 16);
+    g = parseInt(hex[3] + hex[4], 16);
+    b = parseInt(hex[5] + hex[6], 16);
+  } else if (hex.length === 4) {
+    r = parseInt(hex[1] + hex[1], 16);
+    g = parseInt(hex[2] + hex[2], 16);
+    b = parseInt(hex[3] + hex[3], 16);
+  }
+
+  return { r, g, b, a };
+};

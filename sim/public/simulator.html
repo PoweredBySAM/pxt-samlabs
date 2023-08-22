@@ -27,45 +27,4 @@
     <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
     <script type="module" src="./dist/bundle.js "></script>
-    <script>
-        // // MobX store
-        // const commonStore = (() => {
-            
-        //     class CommonStore {
-        //         constructor() {
-        //             mobx.makeObservable(this, {
-        //                 // count: mobx.observable,
-        //             });
-        //         }
-
-        //     }
-        //     return new CommonStore();
-        // })();
-        // // Attach the store to the window object
-        // window.commonStore = commonStore;
-        // Inside the iframe content (e.g., iframe-content.html)
-        window.addEventListener('TOSIM_EDITOR_DEVICE_CREATED', (event) => {
-        // You can add a check for the origin if necessary
-        // if (event.origin !== 'https://your-expected-origin.com') {
-        //   return;
-        // }
-
-        // Handle the message received
-        // const data = event.data;
-        const data = event?.detail;
-        console.log('Message received:', data);
-        });
-        window.addEventListener('message', (event) => {
-        // You can add a check for the origin if necessary
-        // if (event.origin !== 'https://your-expected-origin.com') {
-        //   return;
-        // }
-
-        // Handle the message received
-        // const data = event.data;
-        const data = event?.data;
-        console.log('Message received:', data);
-        });
-
-    </script>
 </body>

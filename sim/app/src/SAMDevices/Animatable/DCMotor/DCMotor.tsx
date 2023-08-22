@@ -7,13 +7,13 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { observer } from "mobx-react";
 import { Box, Slider, Typography } from "@mui/material";
 import { customSliderStyle } from "src/SAMDevices/Common/commonJsStyles";
-import { bluetoothEvents } from "src/SAMDevices/Animatable";
+import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
 function DCMotor({ device }: { device: DCMotorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const [showMotor, setShowMotor] = React.useState(false);
-  const {addPxtEvents,removePxtEvents} = usePxtToSimEvents(device);
+  const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const { addEvents, removeEvents } = useEventsController(
     device,
@@ -32,9 +32,6 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
-    return () => {
-      // removeEvents(bluetoothEvents, virtualEvents);
-    };
   }, []);
 
   const motorSpeed: () => number = deviceInTestMode
@@ -51,9 +48,9 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
   useEffect(() => {
     addPxtEvents();
     return () => {
-      removePxtEvents()
-    }
-  },[])
+      removePxtEvents();
+    };
+  }, []);
 
   return (
     <>
@@ -85,7 +82,10 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
       {blockVisibility && showMotor && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <div>
-            <SamDCMotor getMotorSpeed={motorSpeed} />
+            <SamDCMotor
+              getMotorSpeed={motorSpeed}
+              getColor={() => hexToRGBA(device.Color)}
+            />
           </div>
         </Box>
       )}
@@ -94,5 +94,3 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
 }
 
 export default observer(DCMotor);
-
-

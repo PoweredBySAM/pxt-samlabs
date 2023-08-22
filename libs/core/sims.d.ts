@@ -189,15 +189,14 @@ declare namespace Microbit {
     declare class BBCMicrobit {
     }
 declare namespace button {
-    //% blockId="set_button_color" block="set color of Button $variable to $color"
+    //% blockId="set_button_color" block="Set Button $variable color to %color"
     //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  
-    //% color.shadow="colorNumberPicker"
-    //% advanced=true
+    //% variable.defl="Button 1"
+    //% color.shadow="1" //% weight=2
     //% shim=button::setButtonColor
-    function setButtonColor(variable: SamBuzzer, color: samLedColors): void;
+    function setButtonColor(variable: SamButton, color: samLedColors): void;
 
-    //% blockId="create_button" block="create new button"
+    //% blockId="create_button" block="Create new button"
     //% variable.shadow=variables_get
     //% variable.defl="Button 1"  //% weight=2
     //% shim=button::createNewButton
@@ -222,7 +221,7 @@ declare namespace buzzer {
      * @param variable The buzzer instance to set the volume for
      * @param volume The new volume for the buzzer (0-100)
      */
-    //% blockId="set_buzzer_volume" block="set volume of Buzzer in variable $variable to $volume"
+    //% blockId="set_buzzer_volume" block="Set Buzzer $variable volume to $volume"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% volume.min=0 volume.max=100
@@ -235,7 +234,7 @@ declare namespace buzzer {
      * @param buzzerId The ID of the buzzer to set the pitch for
      * @param pitch The new pitch for the buzzer (in Hz)
      */
-    //% blockId="set_buzzer_pitch" block="set pitch of Buzzer in variable $variable to $pitch Hz"
+    //% blockId="set_buzzer_pitch" block="Set Buzzer $variable pitch to $pitch Hz"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% volume.min=0 volume.max=100
@@ -248,7 +247,7 @@ declare namespace buzzer {
      * Clear the buzzer with the given ID by setting its volume and pitch to zero
      * @param variable The buzzer instance to clear
      */
-    //% blockId="clear_buzzer" block="clear Buzzer in $variable"
+    //% blockId="clear_buzzer" block="clear Buzzer $variable"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% color="#d400d4"
@@ -260,7 +259,7 @@ declare namespace buzzer {
      * @param buzzerId The ID of the buzzer to set the color for
      * @param color The new color for the buzzer
      */
-    //% blockId="set_buzzer_color" block="set color of Buzzer $variable to $color"
+    //% blockId="set_buzzer_color" block="Set Buzzer $variable color to $color"
     //% variable.shadow=variables_get
     //% variable.defl="Buzzer 1"
     //% color.shadow="colorNumberPicker"
@@ -268,10 +267,9 @@ declare namespace buzzer {
     //% shim=buzzer::setBuzzerColor
     function setBuzzerColor(variable: SamBuzzer, color: samLedColors): void;
 
-    /**
-     * Creates a new Buzzer
-     */
-    //% blockId="createBuzzer" block="createBuzzer"
+    //% blockId="createBuzzer" block="Create new Buzzer"
+    //% variable.shadow=variables_get
+    //% variable.defl="Buzzer 1"  //% weight=2
     //% shim=buzzer::createBuzzer
     function createBuzzer(): SamBuzzer;
 
@@ -286,19 +284,19 @@ declare namespace DCMotor {
     //% blockId="set_motor_speed" block="set %variable motor speed to %value"
     //% speed.min=0 speed.max=100
     //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor 1"
     //% color="#32cd32"
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
     //% blockId="stop_motor" block="stop motor %variable "
     //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor 1"
     //% color="#32cd32"
     //% shim=DCMotor::stopMotor
     function stopMotor(variable: SamDCMotor): void;
 
-    //% blockId="set_motor_color" block="set %variable motor color to %color"
+    //% blockId="set_motor_color" block="set %variable color to %color"
     //% variable.shadow=variables_get
     //% variable.defl="Motor 1"
     //% color.shadow="1"
@@ -306,21 +304,21 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorColor
     function setSamMotorColor(variable: SamDCMotor, value: samLedColors): void;
 
-    //% blockId="get_motor_speed" block="get %variable motor speed"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
-    //% shim=DCMotor::getSamMotorSpeed
-    function getSamMotorSpeed(variable: SamDCMotor): any;
-
-    //% blockId="get_motor_color" block="get %variable motor color"
-    //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
-    // % prop.shadow=motor_property_dropdown
-    //% shim=DCMotor::getSamMotorColor
-    function getSamMotorColor(variable: SamDCMotor): any;
-
+    // //% blockId="get_motor_speed" block="get %variable motor speed"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="DCMotor 1"
+    // export function getSamMotorSpeed(variable: pxsim.SamDCMotor): any {
+    //   return variable.getSpeed();
+    // }
+    // //% blockId="get_motor_color" block="get %variable motor color"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="DCMotor 1"
+    // // % prop.shadow=motor_property_dropdown
+    // export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
+    //   return 0;
+    // }
     //% blockId="create_motor" block="Create new motor"
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor 1"
     //% shim=DCMotor::createMotor
     function createMotor(): SamDCMotor;
 
@@ -529,47 +527,23 @@ declare namespace LED {
     declare class SamLED {
     }
 declare namespace LightSensor {
-    //% blockId="get_light_sensor_value" block="value of light sensor %variable"
+    //% blockId="get_light_sensor_value" block="get %variable value "
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light Sensor 1"
     //% color="#FF5733"
     //% shim=LightSensor::getSamLightSensorValue
-    function getSamLightSensorValue(variable: SamLightSensor): any;
+    function getSamLightSensorValue(variable: SamLightSensor): number;
 
-    //% blockId="get_light_sensor_value_equals" block="value of light sensor %variable is equal to %number"
+    //% blockId="get_light_sensor_color" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light Sensor 1"
     //% color="#FF5733"
-    //% shim=LightSensor::lightSensorValueIsEqualTo
-    function lightSensorValueIsEqualTo(variable: SamLightSensor, number: number): any;
-
-    //% blockId="get_light_sensor_value_less" block="value of light sensor %variable is less than %number"
-    //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
-    //% number.min=0 number.max=100
-    //% color="#FF5733"
-    //% shim=LightSensor::lightSensorValueIsLessThan
-    function lightSensorValueIsLessThan(variable: SamLightSensor, number: number): any;
-
-    //% blockId="get_light_sensor_value_greater" block="value of light sensor %variable is greater than %number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Light Sensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::lightSensorValueIsGreaterThan
-    function lightSensorValueIsGreaterThan(variable: SamLightSensor, number: number): any;
-
-    //% blockId="get_light_sensor_color" block="get color of light sensor %variable"
-    //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
-    //% color="#FF5733"
-    //% shim=LightSensor::getSamLightSensorColor
-    function getSamLightSensorColor(variable: SamLightSensor): any;
+    //% shim=LightSensor::isSamLightSensorValueChanged
+    function isSamLightSensorValueChanged(variable: SamLightSensor): boolean;
 
     //% blockId="set_light_sensor_color" block="set color of light sensor %variable to $value"
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light Sensor 1"
     //% color.shadow="1"
     //% color="#FF5733"
     //% shim=LightSensor::setSamLightSensorColor
@@ -714,30 +688,30 @@ declare namespace ProximitySensor {
     declare class SamProximitySensor {
     }
 declare namespace ServoMotor {
-    //% blockId="set_servo_motor_position" block="set servo motor %variable position to %value degrees"
+    //% blockId="set_servo_motor_position" block="Set servo motor %variable position to %value degrees"
     //% value.min=0 value.max=180
     //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::setServoMotorPosition
     function setServoMotorPosition(variable: SamServoMotor, value: number): void;
 
-    //% blockId="get_servo_motor_position" block="get servo motor %variable position"
+    //% blockId="get_servo_motor_position" block="Get servo motor %variable position"
     //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::getServoMotorPosition
-    function getServoMotorPosition(variable: SamServoMotor): any;
+    function getServoMotorPosition(variable: SamServoMotor): number;
 
-    //% blockId="set_servo_motor_color" block="set servo motor %variable color to %value"
+    //% blockId="set_servo_motor_color" block="Set servo motor %variable color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::setServoMotorColor
-    function setServoMotorColor(variable: SamServoMotor, value: string): void;
+    function setServoMotorColor(variable: SamServoMotor, value: samLedColors): void;
 
     //% blockId="create_servo_motor" block="Create new servo motor"
-    //% variable.defl="ServoMotor1"
+    //% variable.defl="Servo Motor 1"
     //% color="#ff69b4"
     //% shim=ServoMotor::createServoMotor
     function createServoMotor(): SamServoMotor;
@@ -752,44 +726,28 @@ declare namespace ServoMotor {
 declare namespace Slider {
     //% blockId="get_slider_value" block="get slider %variable value"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% color="#ff4500"
     //% shim=Slider::getSamSliderValue
-    function getSamSliderValue(variable: SamSlider): any;
+    function getSamSliderValue(variable: SamSlider): number;
 
-    //% blockId="get_slider_value_equals" block="slider %variable value equals %number"
+    //% blockId="get_slider_value_equals" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% number.min=0 number.max=100
     //% color="#ff4500"
-    //% shim=Slider::sliderValueEquals
-    function sliderValueEquals(variable: SamSlider, number: number): any;
-
-    //% blockId="get_slider_value_greater" block="slider %variable value is greater than $number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Slider1"
-    //% color="#ff4500"
-    //% shim=Slider::sliderValuegreater
-    function sliderValuegreater(variable: SamSlider, number: number): any;
-
-    //% blockId="get_slider_value_less" block="slider %variable value is less than %number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Slider1"
-    //% color="#ff4500"
-    //% shim=Slider::sliderValueLess
-    function sliderValueLess(variable: SamSlider, number: number): any;
+    //% shim=Slider::isSliderValueChanged
+    function isSliderValueChanged(variable: SamSlider): boolean;
 
     //% blockId="set_slider_color" block="set slider %variable color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% color="#ff4500"
     //% shim=Slider::setSamSliderColor
     function setSamSliderColor(variable: SamSlider, value: samLedColors): void;
 
     //% blockId="create_slider" block="Create new slider"
-    //% variable.defl="Slider1"
+    //% variable.defl="Slider 1"
     //% color="#ff4500"
     //% shim=Slider::createSlider
     function createSlider(): SamSlider;
@@ -802,30 +760,30 @@ declare namespace Slider {
     declare class SamSlider {
     }
 declare namespace TiltSensor {
-    //% blockId="set_tilt_sensor_border_color" block="set tilt sensor %variable color to $value"
+    //% blockId="set_tilt_color" block="Set Tilt Sensor %variable color to $color"
     //% variable.shadow=variables_get
     //% value.shadow=1
-    //% variable.defl="TiltSensor1"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
-    //% shim=TiltSensor::setTiltSensorBorderColor
-    function setTiltSensorBorderColor(variable: SamTiltSensor, value: samLedColors): void;
+    //% shim=TiltSensor::setTiltColor
+    function setTiltColor(variable: SamTiltSensor, color: samLedColors): void;
 
-    //% blockId="is_tilt_sensor_tilted" block=" tilt sensor %variable is tilted"
+    //% blockId="is_tilt_sensor_tilted" block="Is Tilt Sensor  %variable  tilted"
     //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
-    //% shim=TiltSensor::isTiltSensorTilted
-    function isTiltSensorTilted(variable: SamTiltSensor): boolean;
+    //% shim=TiltSensor::IsTiltTilted
+    function IsTiltTilted(variable: SamTiltSensor): boolean;
 
-    //% blockId="tilt_sensor_not_tilted" block=" tilt sensor %variable is not tilted"
+    //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
     //% variable.shadow=variables_get
-    //% variable.defl="TiltSensor1"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
-    //% shim=TiltSensor::tiltSensorNotTilted
-    function tiltSensorNotTilted(variable: SamTiltSensor): boolean;
+    //% shim=TiltSensor::IsTiltValueChanged
+    function IsTiltValueChanged(variable: SamTiltSensor): boolean;
 
-    //% blockId="create_tilt_sensor" block="Create new tilt sensor"
-    //% variable.defl="TiltSensor1"
+    //% blockId="create_tilt_sensor" block="Create new Tilt Sensor"
+    //% variable.defl="Tilt 1"
     //% color="#9400d3"
     //% shim=TiltSensor::createTiltSensor
     function createTiltSensor(): SamTiltSensor;

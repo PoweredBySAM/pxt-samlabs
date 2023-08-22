@@ -1,26 +1,25 @@
-import { observable, action, makeObservable,makeAutoObservable } from "mobx";
+import { observable, action, makeObservable, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
 class LightSensorDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
 
-  @observable isConnected = false;
-  @observable isConnecting = false;
-  @observable batteryLevel = 0;
-  @observable Color = "";
-  @observable  isActive: boolean;
+  @observable Color: string;
+  @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable isLightSensorValueChanged: boolean;
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
+  assignedName: string;
+  createMessageType: string;
 
   constructor(deviceData: any) {
     this.customEventGenerator = CustomEventGenerator.getInstance();
@@ -37,65 +36,57 @@ class LightSensorDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.Color = meta?.hue;
     this.isActive = false;
     this.blockVisibility = true;
-    this.value = 0
+    this.value = 0;
     this.deviceInTestMode = false;
     this.deleted = false;
+    this.Color = "#FFFFFF";
+    this.isLightSensorValueChanged = false;
+    this.createMessageType = "createLightSensor";
+    this.assignedName = "LightSensor";
     makeAutoObservable(this);
     this.updateLsStateStore();
+    window.addEventListener("message", (event) => {
+      if (event.data.type === `${this.assignedName} valueChanged`) {
+        this.lightSensorValueChanged(event.data.value);
+      }
+    });
   }
-  @action 
-  setBluetoothController(controller:any){
-    this._bluetoothController = controller
-    this.isConnected = true
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
 
-  @action
-  disconnectBluetoothController(){
-    this._bluetoothController = null
-    this.isConnected = false
-  }
   @action
   toggleVisibility() {
     this.blockVisibility = !this.blockVisibility;
   }
 
   @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
     this.Color = value;
+    window.parent.postMessage(
+      {
+        type: `setLightSensorColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
   }
 
   @action
-  setValue(newValue: number) {
+  lightSensorValueChanged(newValue: number) {
     this.value = newValue;
-    this.updateLsStateStore();  
+    this.isLightSensorValueChanged = true;
+    this.updateLsStateStore();
   }
-
-  @action
-  getValue() {
-    return (this.isConnected && this._bluetoothController?.getValue)||this.value;
-  }
-
-  @action
-  reset() {
-    this._virtualController._reset();
-    this.isConnected && this._bluetoothController?._reset();
-  } 
 
   @action
   toggleTestMode() {
@@ -106,31 +97,26 @@ class LightSensorDevice {
   deleteDevice() {
     this.deleted = true;
   }
-  getAllData(){
+  getAllData() {
     return {
-      deviceId:this._deviceId,
-      deviceType:this.virtualInteractionComponentName,
-      isDeviceActive:this.isActive,
-      deviceColor:this.Color,
-      currentValue:this.getValue(),
-
-    }
+      deviceId: this._deviceId,
+      deviceType: this.virtualInteractionComponentName,
+      isDeviceActive: this.isActive,
+      deviceColor: this.Color,
+      currentValue: this.value,
+      isLightSensorValueChanged: this.isLightSensorValueChanged,
+    };
   }
-
 
   get virtualController() {
     return this._virtualController;
   }
-  get bluetoothController() {
-    return this._bluetoothController;
-  }
   set virtualController(controller: any) {
     this._virtualController = controller;
   }
-  updateLsStateStore(){ 
-    this.lsStateStore.updateDevice(this.getAllData())
+  updateLsStateStore() {
+    this.lsStateStore.updateDevice(this.getAllData());
   }
-
 }
 
 export default LightSensorDevice;
