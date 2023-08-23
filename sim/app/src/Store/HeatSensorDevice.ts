@@ -11,14 +11,12 @@ class HeatSensorDevice {
   virtualInteractionComponentName: string;
   lsStateStore: SamDeviceManager;
 
-  @observable isConnected = false;
-  @observable isConnecting = false;
-  @observable batteryLevel = 0;
   @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable isHeatSensorValueChanged: boolean;
 
   _ledColor: string;
   _ledBrightness: number;
@@ -50,11 +48,17 @@ class HeatSensorDevice {
     this.deleted = false;
     this.Color = "#FFFFFF";
     this.value = 0;
+    this.isHeatSensorValueChanged = false;
     this.customEventGenerator = CustomEventGenerator.getInstance();
     this.createMessageType = "createHeatSensor";
     this.assignedName = "HeatSensor";
     makeAutoObservable(this);
     this.updateLsStateStore();
+    window.addEventListener("message", (event) => {
+      if (event.data.type === `${this.assignedName} valueChanged`) {
+        this.heatSensorValueChanged(event.data.value);
+      }
+    });
   }
 
   @action
@@ -63,23 +67,19 @@ class HeatSensorDevice {
   }
 
   @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
   @action
   updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
-    this.broadcastState();
     window.parent.postMessage(
       {
         type: `setHeatSensorColor for ${this.assignedName}`,
@@ -87,6 +87,13 @@ class HeatSensorDevice {
       },
       window.location.origin
     );
+  }
+
+  @action
+  heatSensorValueChanged(newValue: number) {
+    this.value = newValue;
+    this.isHeatSensorValueChanged;
+    this.updateLsStateStore();
   }
   @action
   setValue(newValue: number) {
@@ -96,45 +103,26 @@ class HeatSensorDevice {
   @action
   getCelsiusValue() {
     return (
-      this._virtualController.getCelsiusValue ||
-      (this.isConnected && this._bluetoothController?.getCelsiusValue())
+      this.value
     );
   }
 
   @action
   getFarenheitValue() {
     return (
-      this._virtualController.getFarenheitValue ||
-      (this.isConnected && this._bluetoothController?.getFarenheitValue())
+      this.value
     );
   }
 
-  @action
-  getValue() {
-    return (
-      (this.isConnected && this._bluetoothController?.getValue) || this.value
-    );
-  }
 
-  @action
-  reset() {
-    this._virtualController._reset();
-    this.isConnected && this._bluetoothController?._reset();
-  }
 
   @action
   deleteDevice() {
     this.deleted = true;
-    this.broadcastState();
   }
 
   toggleTestMode() {
     this.deviceInTestMode = !this.deviceInTestMode;
-  }
-  broadcastState(eventName?: string) {
-    this.customEventGenerator.dispatchEvent("deviceStateChange", {
-      data: this.getAllData(),
-    });
   }
 
   getAllData() {
@@ -143,7 +131,8 @@ class HeatSensorDevice {
       deviceType: this.virtualInteractionComponentName,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
-      currentValue: this.getValue(),
+      currentValue: this.value,
+      isHeatSensorValueChanged: this.isHeatSensorValueChanged,
     };
   }
 

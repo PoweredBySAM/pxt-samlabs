@@ -10,14 +10,13 @@ class ProximitySensorDevice {
   restProps: any;
   virtualInteractionComponentName: string;
 
-  @observable isConnected = false;
-  @observable isConnecting = false;
-  @observable batteryLevel = 0;
+
   @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable isProximitySensorValueChanged: boolean;
 
   @observable value: number;
   customEventGenerator: any;
@@ -46,10 +45,26 @@ class ProximitySensorDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     this.Color = "#FFFFFF";
+    this.isProximitySensorValueChanged = false;
     this.createMessageType = "createProximitySensor";
     this.assignedName = "ProximitySensor";
     makeAutoObservable(this);
     this.updateLsStateStore();
+    window.addEventListener("message", (event) => {
+      if (event.data.type === `${this.assignedName} valueChanged`) {
+        this.proximitySensorValueChanged(event.data.value);
+      }
+    });
+  }
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
 
   @action
@@ -57,19 +72,6 @@ class ProximitySensorDevice {
     this.blockVisibility = !this.blockVisibility;
   }
 
-  @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
   @action
   updateColor(value: string) {
     this.Color = value;
@@ -82,6 +84,14 @@ class ProximitySensorDevice {
       window.location.origin
     );
   }
+
+  @action
+  proximitySensorValueChanged(newValue: number) {
+    this.value = newValue;
+    this.isProximitySensorValueChanged = true;
+    this.updateLsStateStore();
+  }
+
 
   @action
   getValue() {
@@ -107,13 +117,9 @@ class ProximitySensorDevice {
       deviceType: this.virtualInteractionComponentName,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
-      value: this.value,
+      currentValue: this.value,
+      isProximitySensorValueChanged:this.isProximitySensorValueChanged,
     };
-  }
-  broadcastState(eventName?: string) {
-    this.customEventGenerator.dispatchEvent("deviceStateChange", {
-      data: this.getAllData(),
-    });
   }
 
   get virtualController() {

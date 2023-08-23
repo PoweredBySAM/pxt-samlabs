@@ -10,15 +10,13 @@ class PressureSensorDevice {
   restProps: any;
   virtualInteractionComponentName: string;
 
-  @observable isConnected = false;
-  @observable isConnecting = false;
-  @observable batteryLevel = 0;
   @observable Color: string;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
+  @observable isPressureSensorValueChanged:boolean
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
   assignedName: string;
@@ -45,10 +43,28 @@ class PressureSensorDevice {
     this.deviceInTestMode = false;
     this.deleted = false;
     this.Color = "#FFFFFF";
+    this.isPressureSensorValueChanged = false;
     this.customEventGenerator = CustomEventGenerator.getInstance();
     this.createMessageType = "createPressureSensor";
     this.assignedName = "PressureSensor";
     makeAutoObservable(this);
+    this.updateLsStateStore();
+    window.addEventListener("message", (event) => {
+      if (event.data.type === `${this.assignedName} valueChanged`) {
+        this.pressureSensorValueChanged(event.data.value);
+      }
+    });
+  }
+
+  @action
+  setDeviceProp(property: string, value: number | string) {
+    switch (property) {
+      case "color":
+        this.updateColor(value as string);
+        break;
+      default:
+        return "Invalid property";
+    }
   }
 
   @action
@@ -56,19 +72,7 @@ class PressureSensorDevice {
     this.blockVisibility = !this.blockVisibility;
   }
 
-  @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
+ 
   @action
   updateColor(value: string) {
     this.Color = value;
@@ -80,6 +84,12 @@ class PressureSensorDevice {
       },
       window.location.origin
     );
+  }
+  @action
+  pressureSensorValueChanged(newValue: number) {
+    this.value = newValue;
+    this.isPressureSensorValueChanged = true;
+    this.updateLsStateStore();
   }
 
   @action
@@ -107,12 +117,8 @@ class PressureSensorDevice {
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
       currentValue: this.value,
+      isPressureSensorValueChanged:this.isPressureSensorValueChanged,
     };
-  }
-  broadcastState(eventName?: string) {
-    this.customEventGenerator.dispatchEvent("deviceStateChange", {
-      data: this.getAllData(),
-    });
   }
 
   get virtualController() {

@@ -26,7 +26,7 @@ namespace pxsim.LED {
      * @param variable The LED to set the color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_color" block="set color of LED $variable to $color"
+    //% blockId="set_led_color" block="set color of LED %variable to %color"
     //% variable.shadow=variables_get
     //% variable.defl="LED1"
     //% color.shadow="1"
@@ -39,7 +39,7 @@ namespace pxsim.LED {
      * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
-    //% blockId="set_led_body_color" block="set body color of LED %variable to $color"
+    //% blockId="set_led_body_color" block="set body color of LED %variable to %color"
     //% variable.shadow=variables_get
     //% variable.defl="LED1"
     //% color.shadow="1"
@@ -216,7 +216,7 @@ namespace pxsim.LED {
         );
       }
       private hexColorFromCode(colorCode: number) {
-        switch(colorCode) {
+        switch(+colorCode) {
           case 1:
             return '#FF0000'; // Red
           case 2:

@@ -56,6 +56,7 @@ class LEDDevice {
     this.assignedName = "LED";
     makeAutoObservable(this);
     this.updateLsStateStore();
+    
   }
 
   @action
@@ -88,33 +89,50 @@ class LEDDevice {
       window.location.origin
     );
   }
+  @action
+  setBodyColor(value: string) {
+    this.Color = value;
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setLEDDeviceBodyColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
+  }
 
   @action
   setLEDBrightness(value: number) {
     this._ledBrightness = value;
-    this._virtualController.setLEDBrightness = value;
-    this.isConnected && this._bluetoothController?.setLEDBrightness(value);
     this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setLEDBrightness for ${this.assignedName}`,
+        value: this._ledBrightness,
+      },
+      window.location.origin
+    );
   }
 
   @action
   setLEDColor(value: string) {
     this._ledColor = value;
-    this._virtualController.setLEDColor = value;
-    this.isConnected && this._bluetoothController?.setLEDColor(value);
     this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setLEDColor for ${this.assignedName}`,
+        value: this._ledColor,
+      },
+      window.location.origin
+    );
   }
+
   @action
   setLEDTestColor(value: string) {
     this.testLEDColor = value;
   }
 
-  @action
-  isLEDOn() {
-    return (
-      this._virtualController.isLEDOn || this._bluetoothController?.isLEDOn()
-    );
-  }
 
   @action
   turnLEDOff() {
@@ -151,6 +169,9 @@ class LEDDevice {
     switch (property) {
       case "led_color":
         this.setLEDColor(value as string);
+        break;
+      case "color":
+        this.setBodyColor(value as string);
         break;
       case "brightness":
         this.setLEDBrightness(value as number);
