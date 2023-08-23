@@ -117,7 +117,8 @@ class ProximitySensorDevice {
       deviceType: this.virtualInteractionComponentName,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
-      value: this.value,
+      currentValue: this.value,
+      isProximitySensorValueChanged:this.isProximitySensorValueChanged,
     };
   }
 

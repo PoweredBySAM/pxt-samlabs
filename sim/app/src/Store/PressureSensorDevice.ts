@@ -117,6 +117,7 @@ class PressureSensorDevice {
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
       currentValue: this.value,
+      isPressureSensorValueChanged:this.isPressureSensorValueChanged,
     };
   }
 
