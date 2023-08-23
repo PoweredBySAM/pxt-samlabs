@@ -89,6 +89,18 @@ class LEDDevice {
       window.location.origin
     );
   }
+  @action
+  setBodyColor(value: string) {
+    this.Color = value;
+    this.updateLsStateStore();
+    window.parent.postMessage(
+      {
+        type: `setLEDDeviceBodyColor for ${this.assignedName}`,
+        value: value,
+      },
+      window.location.origin
+    );
+  }
 
   @action
   setLEDBrightness(value: number) {
@@ -157,6 +169,9 @@ class LEDDevice {
     switch (property) {
       case "led_color":
         this.setLEDColor(value as string);
+        break;
+      case "color":
+        this.setBodyColor(value as string);
         break;
       case "brightness":
         this.setLEDBrightness(value as number);
