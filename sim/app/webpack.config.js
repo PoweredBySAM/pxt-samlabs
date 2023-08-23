@@ -8,8 +8,8 @@ module.exports = {
     filename: "bundle.js",
     publicPath: "dist/",
   },
-  mode: "development",
-  watch: true,
+  mode: "production",
+  watch: false,
   experiments: {
     outputModule: true,
   },

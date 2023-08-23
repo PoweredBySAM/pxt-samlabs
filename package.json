@@ -25,9 +25,13 @@
     "docs/**"
   ],
   "scripts": {
+    "build-pxt-core": "cd custom-core && npm install && gulp && cd ..",
     "serve": "pxt serve",
+    "link-pxt-core": "pxt link ./custom-core",
     "buildsim": "cd sim/app &&  npm run build",
-    "start": "npm-run-all -s buildsim serve"
+    "pxt-build":"pxt staticpkg",
+    "start": "npm-run-all -s buildsim serve",
+    "build-from-custom": "npm-run-all -s build-pxt-core link-pxt-core buildsim pxt-build "
   },
   "devDependencies": {
     "@types/jquery": "3.3.29",
