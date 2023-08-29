@@ -49,7 +49,7 @@ namespace LightSensor {
 namespace PressureSensor {
 
 }
-//% color="#1e90ff" weight=40 icon="\uf422"
+//% color="#1e90ff" weight=40 icon="\uf24d"
 namespace ProximitySensor {
 
 }
@@ -57,11 +57,11 @@ namespace ProximitySensor {
 namespace ServoMotor {
 
 }
-//% color="#ff4500" weight=40 icon='\uf3bf'
+//% color="#ff4500" weight=40 icon="\uf0a9"
 namespace Slider {
 
 }
-//% color="#9400d3" weight=40 icon="\uf515"
+//% color="#9400d3" weight=40 icon="\uf057"
 namespace TiltSensor {
 
 }
