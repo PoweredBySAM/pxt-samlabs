@@ -31,7 +31,7 @@
     "buildsim": "cd sim/app &&  npm run build",
     "pxt-build":"pxt staticpkg",
     "start": "npm-run-all -s buildsim serve",
-    "build-from-custom": "npm-run-all -s build-pxt-core link-pxt-core buildsim pxt-build "
+    "build-from-custom": "cd custom-core && git pull origin sam-develop && cd .. && npm-run-all -s build-pxt-core link-pxt-core buildsim pxt-build"
   },
   "devDependencies": {
     "@types/jquery": "3.3.29",
