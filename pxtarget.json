@@ -7,7 +7,7 @@
     "corepkg": "core",
     "cloud": {
         "workspace": false,
-        "packages": true
+        "packages": false
     },
     "bundleddirs": [
         "libs/core"
@@ -46,20 +46,9 @@
     "appTheme": {
         "simulator": true,
         "logoUrl": "https://github.com/Microsoft/pxt-sample",
-        "homeUrl": "http://microsoft.github.io/pxt-sample/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
         "betaUrl": "https://makecode.com/",
-        "docMenu": [
-            {
-                "name": "About",
-                "path": "/about"
-            },
-            {
-                "name": "Docs",
-                "path": "/docs"
-            }
-        ],
         "coloredToolbox": true,
         "invertedMenu": true,
         "invertedToolbox": false,
@@ -68,7 +57,7 @@
         "blocksCollapsing": true,
         "accessibleBlocks": true,
         "showHomeScreen": true,
-        "homeScreenHero": "./static/hero.png",
+        "homeScreenHero": "./static/hero.svg",
         "disableBlockIcons": false,
         "blocklyOptions": {
             "grid": {
