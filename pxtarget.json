@@ -61,16 +61,6 @@
         "showHomeScreen": true,
         "homeScreenHero": "./static/hero.svg",
         "disableBlockIcons": false,
-        "docMenu": [
-            {
-                "name": "About",
-                "path": "/about"
-            },
-            {
-                "name": "Docs",
-                "path": "/docs"
-            }
-        ],
         "blocklyOptions": {
             "grid": {
                 "spacing": 20,
