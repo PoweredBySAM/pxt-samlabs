@@ -59,7 +59,7 @@
         "blocksCollapsing": true,
         "accessibleBlocks": true,
         "showHomeScreen": true,
-        "homeScreenHero": "./static/hero.svg",
+        "homeScreenHero": "./static/SAMScript-Banner.png",
         "disableBlockIcons": false,
         "blocklyOptions": {
             "grid": {
