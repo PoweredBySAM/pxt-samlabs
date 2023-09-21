@@ -4,11 +4,11 @@ import SamDeviceManager from "src/Features/SamSimState";
 
 class PressureSensorDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
+  lsStateStore: SamDeviceManager;
 
   @observable Color: string;
   @observable isActive: boolean;
@@ -16,9 +16,8 @@ class PressureSensorDevice {
   @observable value: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  @observable isPressureSensorValueChanged:boolean
+  @observable isPressureSensorValueChanged: boolean;
   customEventGenerator: CustomEventGenerator;
-  lsStateStore: SamDeviceManager;
   assignedName: string;
   createMessageType: string;
 
@@ -72,7 +71,6 @@ class PressureSensorDevice {
     this.blockVisibility = !this.blockVisibility;
   }
 
- 
   @action
   updateColor(value: string) {
     this.Color = value;
@@ -93,16 +91,6 @@ class PressureSensorDevice {
   }
 
   @action
-  getValue() {
-    this._virtualController.getValue() || this._bluetoothController?.getValue();
-  }
-
-  @action
-  setValue(value: number) {
-    this.value = value;
-    this.updateLsStateStore();
-  }
-  @action
   toggleTestMode() {
     this.deviceInTestMode = !this.deviceInTestMode;
   }
@@ -117,15 +105,12 @@ class PressureSensorDevice {
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
       currentValue: this.value,
-      isPressureSensorValueChanged:this.isPressureSensorValueChanged,
+      isPressureSensorValueChanged: this.isPressureSensorValueChanged,
     };
   }
 
   get virtualController() {
     return this._virtualController;
-  }
-  get bluetoothController() {
-    return this._bluetoothController;
   }
   set virtualController(controller: any) {
     this._virtualController = controller;

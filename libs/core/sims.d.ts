@@ -517,52 +517,28 @@ declare namespace LightSensor {
 declare namespace PressureSensor {
     //% blockId="get_pressure_sensor_value" block="get pressure %variable sensor value"
     //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
+    //% variable.defl="Pressure_Sensor_1"
     //% color="#00aa00"
     //% shim=PressureSensor::getSamPressureSensorValue
     function getSamPressureSensorValue(variable: SamPressureSensor): any;
 
-    //% blockId="get_pressure_sensor_value_equals" block="value of pressure sensor %variable is equal to %number"
+    //% blockId="pressure_sensor_value_change" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="PressureSensor1"
+    //% variable.defl="Pressure_Sensor_1"
     //% color="#00aa00"
-    //% shim=PressureSensor::pressureSensorValueIsEqualTo
-    function pressureSensorValueIsEqualTo(variable: SamPressureSensor, number: number): any;
-
-    //% blockId="get_pressure_sensor_value_less" block="value of pressure sensor %variable is less than %number"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% number.min=0 number.max=100
-    //% color=""#00aa00""
-    //% shim=PressureSensor::pressureSensorValueIsLessThan
-    function pressureSensorValueIsLessThan(variable: SamPressureSensor, number: number): any;
-
-    //% blockId="get_pressure_sensor_value_greater" block="value of pressure sensor %variable is greater than %number"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% number.min=0 number.max=100
-    //% color=""#00aa00""
-    //% shim=PressureSensor::pressureSensorValueIsGreaterThan
-    function pressureSensorValueIsGreaterThan(variable: SamPressureSensor, number: number): any;
-
-    //% blockId="get_pressure_sensor_color" block="get pressure sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
-    //% color="#00aa00"
-    //% shim=PressureSensor::getSamPressureSensorColor
-    function getSamPressureSensorColor(variable: SamPressureSensor): any;
+    //% shim=PressureSensor::isSamPressureSensorValueChanged
+    function isSamPressureSensorValueChanged(variable: SamPressureSensor): boolean;
 
     //% blockId="set_pressure_sensor_color" block="set pressure sensor %variable  color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
+    //% variable.defl="Pressure_Sensor_1"
     //% color="#00aa00"
     //% shim=PressureSensor::setSamPressureSensorColor
     function setSamPressureSensorColor(variable: SamPressureSensor, value: samLedColors): void;
 
     //% blockId="create_pressure_sensor" block="Create new pressure sensor"
     //% variable.shadow=variables_get
-    //% variable.defl="PressureSensor1"
+    //% variable.defl="Pressure_Sensor_1"
     //% color="#00aa00"
     //% shim=PressureSensor::createPressureSensor
     function createPressureSensor(): SamPressureSensor;
