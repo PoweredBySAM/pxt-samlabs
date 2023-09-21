@@ -332,80 +332,27 @@ declare namespace DCMotor {
 declare namespace HeatSensor {
     //% blockId="get_heat_sensor_value_celsius" block="get heat %variable sensor value in Celsius"
     //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
+    //% variable.defl="Heat_Sensor_1"
     //% color="#3455db"
     //% shim=HeatSensor::getSamHeatSensorValueCelsius
     function getSamHeatSensorValueCelsius(variable: SamHeatSensor): any;
 
     //% blockId="get_heat_sensor_value_fahrenheit" block="get heat sensor  %variable value in Fahrenheit"
     //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
+    //% variable.defl="Heat_Sensor_1"
     //% color="#3455db"
     //% shim=HeatSensor::getSamHeatSensorValueFahrenheit
     function getSamHeatSensorValueFahrenheit(variable: SamHeatSensor): any;
 
-    //% blockId="get_heat_sensor_value_equal_fahrenheit" block="value of heat sensor %variable equals %number fahrenheit"
+    //% blockId="heat_sensor_value_change" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% number.min=0 
-    //% variable.defl="Heat Sensor1"
+    //% variable.defl="Heat_Sensor_1"
     //% color="#3455db"
-    //% shim=HeatSensor::heatSensorfahrenHeitValueIsEqualTo
-    function heatSensorfahrenHeitValueIsEqualTo(variable: SamHeatSensor, number: number): any;
-
-    //% blockId="get_heat_sensor_value_greater_fahrenheit" block="value of heat sensor %variable is greater than %number fahrenheit"
-    //% variable.shadow=variables_get
-    //% number.min=0 
-    //% variable.defl="Heat Sensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::heatSensorfahrenHeitValueIsGreaterThan
-    function heatSensorfahrenHeitValueIsGreaterThan(variable: SamHeatSensor, number: number): any;
-
-    //% blockId="get_heat_sensor_value_less_fahrenheit" block="value of heat sensor %variable is less than %number fahrenheit"
-    //% variable.shadow=variables_get
-    //% number.min=0 
-    //% variable.defl="Heat Sensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::heatSensorfahrenHeitValueIsLessThan
-    function heatSensorfahrenHeitValueIsLessThan(variable: SamHeatSensor, number: number): any;
-
-    //% blockId="get_heat_sensor_value_equals_celsius" block="value of heat sensor %variable equals %number celsius"
-    //% variable.shadow=variables_get
-    //% variable.defl="Heat Sensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::heatSensorCelciusValueEquals
-    function heatSensorCelciusValueEquals(variable: SamHeatSensor, number: number): any;
-
-    //% blockId="get_heat_sensor_value_greater_celsius" block="value of heat sensor %variable is greater than %number celsius"
-    //% variable.shadow=variables_get
-    //% variable.defl="Heat Sensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::heatSensorCelciusValueIsGreaterThan
-    function heatSensorCelciusValueIsGreaterThan(variable: SamHeatSensor, number: number): any;
-
-    //% blockId="get_heat_sensor_value_less_celcius" block="value of heat sensor %variable is less than %number celsius"
-    //% variable.shadow=variables_get
-    //% variable.defl="Heat Sensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::heatSensorCelciusValueIsLessThan
-    function heatSensorCelciusValueIsLessThan(variable: SamHeatSensor, number: number): any;
-
-    //% blockId="get_heat_sensor_color" block="get heat sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="HeatSensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::getSamHeatSensorColor
-    function getSamHeatSensorColor(variable: SamHeatSensor): any;
-
-    //% blockId="set_heat_sensor_color" block="set heat sensor %variable  color to $value"
-    //% variable.shadow=variables_get
-    //% color.shadow=1
-    //% variable.defl="HeatSensor1"
-    //% color="#3455db"
-    //% shim=HeatSensor::setSamHeatSensorColor
-    function setSamHeatSensorColor(variable: SamHeatSensor, value: samLedColors): void;
+    //% shim=HeatSensor::isSamHeatSensorValueChanged
+    function isSamHeatSensorValueChanged(variable: SamHeatSensor): boolean;
 
     //% blockId="create_heat_sensor" block="Create new heat sensor"
-    //% variable.defl="HeatSensor1"
+    //% variable.defl="Heat_Sensor_1"
     //% color="#3455db"
     //% shim=HeatSensor::createHeatSensor
     function createHeatSensor(): SamHeatSensor;

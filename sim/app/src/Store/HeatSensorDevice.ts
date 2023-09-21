@@ -17,6 +17,7 @@ class HeatSensorDevice {
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
   @observable isHeatSensorValueChanged: boolean;
+  @observable valueInFarenheit: number;
 
   _ledColor: string;
   _ledBrightness: number;
@@ -52,6 +53,7 @@ class HeatSensorDevice {
     this.customEventGenerator = CustomEventGenerator.getInstance();
     this.createMessageType = "createHeatSensor";
     this.assignedName = "HeatSensor";
+    this.valueInFarenheit = 0;
     makeAutoObservable(this);
     this.updateLsStateStore();
     window.addEventListener("message", (event) => {
@@ -92,29 +94,10 @@ class HeatSensorDevice {
   @action
   heatSensorValueChanged(newValue: number) {
     this.value = newValue;
-    this.isHeatSensorValueChanged;
+    this.isHeatSensorValueChanged = true;
+    this.valueInFarenheit = (this.value * 9) / 5 + 32;
     this.updateLsStateStore();
   }
-  @action
-  setValue(newValue: number) {
-    this.value = newValue;
-  }
-
-  @action
-  getCelsiusValue() {
-    return (
-      this.value
-    );
-  }
-
-  @action
-  getFarenheitValue() {
-    return (
-      this.value
-    );
-  }
-
-
 
   @action
   deleteDevice() {
@@ -132,6 +115,7 @@ class HeatSensorDevice {
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
       currentValue: this.value,
+      fahrenheitValue: this.valueInFarenheit,
       isHeatSensorValueChanged: this.isHeatSensorValueChanged,
     };
   }
