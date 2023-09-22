@@ -553,52 +553,28 @@ declare namespace PressureSensor {
 declare namespace ProximitySensor {
     //% blockId="get_proximity_sensor_value" block="get proximity sensor %variable value"
     //% variable.shadow=variables_get
-    //% variable.defl="Proximity Sensor 1"
+    //% variable.defl="Proximity_Sensor_1"
     //% color="#1e90ff"
     //% shim=ProximitySensor::getSamProximitySensorValue
     function getSamProximitySensorValue(variable: SamProximitySensor): any;
 
-    //% blockId="get_proximity_sensor_value_equals" block="proximity sensor %variable value equals %number"
+    //% blockId="proximity_sensor_value_change" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Proximity Sensor 1"
+    //% variable.defl="Proximity_Sensor_1"
     //% color="#1e90ff"
-    //% shim=ProximitySensor::sensorValueEquals
-    function sensorValueEquals(variable: SamProximitySensor, number: number): any;
-
-    //% blockId="get_proximity_sensor_value_less" block="proximity sensor %variable value is less than %number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Proximity Sensor 1"
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::sensorValueLessThan
-    function sensorValueLessThan(variable: SamProximitySensor, number: number): any;
-
-    //% blockId="get_proximity_sensor_value_more" block="proximity sensor %variable value is greater than %number"
-    //% variable.shadow=variables_get
-    //% number.min=0 number.max=100
-    //% variable.defl="Proximity Sensor 1"
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::sensorValueMoreThan
-    function sensorValueMoreThan(variable: SamProximitySensor, number: number): any;
-
-    //% blockId="get_proximity_sensor_color" block="get proximity sensor %variable  color"
-    //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
-    //% color="#1e90ff"
-    //% shim=ProximitySensor::getSamProximitySensorColor
-    function getSamProximitySensorColor(variable: SamProximitySensor): any;
+    //% shim=ProximitySensor::isSamProximitySensorValueChanged
+    function isSamProximitySensorValueChanged(variable: SamProximitySensor): boolean;
 
     //% blockId="set_proximity_sensor_color" block="set proximity sensor %variable  color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="ProximitySensor1"
+    //% variable.defl="Proximity_Sensor_1"
     //% value.shadow="1"
     //% color="#1e90ff"
     //% shim=ProximitySensor::setSamProximitySensorColor
     function setSamProximitySensorColor(variable: SamProximitySensor, value: samLedColors): void;
 
     //% blockId="create_proximity_sensor" block="Create new proximity sensor"
-    //% variable.defl="ProximitySensor1"
+    //% variable.defl="Proximity_Sensor_1"
     //% color="#1e90ff"
     //% shim=ProximitySensor::createProximitySensor
     function createProximitySensor(): SamProximitySensor;

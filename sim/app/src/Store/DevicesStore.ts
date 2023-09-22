@@ -9,6 +9,7 @@ import LEDDevice from "./LEDDevice";
 import LightSensorDevice from "./LightSensorDevice";
 import MicrobitDevice from "./MicrobitDevice";
 import PressureSensorDevice from "./PressureSensorDevice";
+import ProximitySensorDevice from "./ProximitySensorDevice";
 import ServoMotorDevice from "./ServoMotorDevice";
 import SliderDevice from "./SliderDevice";
 import TiltDevice from "./TiltDevice";
@@ -22,7 +23,7 @@ export const storeMap = {
   "SAM Light Sensor": LightSensorDevice,
   "SAM Servo Motor": ServoMotorDevice,
   "SAM Pressure Sensor": PressureSensorDevice,
-  "SAM Proximity Sensor": PressureSensorDevice,
+  "SAM Proximity Sensor": ProximitySensorDevice,
   "SAM Slider": SliderDevice,
   "SAM Heat Sensor": HeatSensorDevice,
   "SAM Tilt": TiltDevice,
