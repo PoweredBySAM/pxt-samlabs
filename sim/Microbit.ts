@@ -1,19 +1,20 @@
 //% groups=['Actions','Values']
 namespace pxsim.Microbit {
-  //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
-  //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
-  //% group="Actions"
-  export function writeDigitalPin(
-    variable: pxsim.BBCMicrobit,
-    pinId: MicrobitPinOptions,
-    value: number
-  ): void {
-    variable.writeDigitalPin(pinId, value);
-  }
+  //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
+  // //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
+  // //% variable.shadow=variables_get
+  // //% variable.defl="Microbit_1"
+  // //% group="Actions"
+  // export function writeDigitalPin(
+  //   variable: pxsim.BBCMicrobit,
+  //   pinId: MicrobitPinOptions,
+  //   value: number
+  // ): void {
+  //   variable.writeDigitalPin(pinId, value);
+  // }
   //% blockId="cleaar_led" block="clear %variable LEDs"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Actions"
   export function clearLED(variable: pxsim.BBCMicrobit): void {
     variable.clearLED();
@@ -21,7 +22,7 @@ namespace pxsim.Microbit {
 
   //% blockId="on_microbit_toggle" block="on %variable toggle X: $x Y: $y"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Actions"
   //% x.min=-0 x.max=4
   //% y.min=-0 y.max=4
@@ -35,7 +36,7 @@ namespace pxsim.Microbit {
 
   //% blockId="on_microbit_unplot" block="on %variable unplot X: $x Y: $y"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Actions"
   //% x.min=-0 x.max=4
   //% y.min=-0 y.max=4
@@ -49,7 +50,7 @@ namespace pxsim.Microbit {
 
   //% blockId="on_microbit_plot" block="on %variable plot X: $x Y: $y"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Actions"
   //% x.min=-0 x.max=4
   //% y.min=-0 y.max=4
@@ -63,7 +64,7 @@ namespace pxsim.Microbit {
 
   //% blockId="on_microbit_display_word" block="on %variable display  $word"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Actions"
   export function onMicrobitDisplayWord(
     variable: pxsim.BBCMicrobit,
@@ -135,7 +136,7 @@ namespace pxsim.Microbit {
 
   //% blockId="on_microbit_display_shape" block="on %variable display $shape"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% shape.shadow=shape_conv
   //% group="Actions"
   export function onMicrobitDisplayShape(
@@ -146,37 +147,37 @@ namespace pxsim.Microbit {
   }
 
   //% blockId="create_microbit" block="Create new Microbit"
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Actions"
   export function createMicrobit(): pxsim.BBCMicrobit {
     return new pxsim.BBCMicrobit();
   }
+  //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
+  // //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
+  // //% variable.shadow=variables_get
+  // //% variable.defl="Microbit_1"
+  // //% group="Values"
+  // export function getMicrobitAnalogPin(
+  //   variable: pxsim.BBCMicrobit,
+  //   pin: MicrobitAnalogPinOptions
+  // ): number {
+  //   return variable.getMicrobitAnalogPin(pin);
+  // }
 
-  //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
-  //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
-  //% group="Values"
-  export function getMicrobitAnalogPin(
-    variable: pxsim.BBCMicrobit,
-    pin: MicrobitAnalogPinOptions
-  ): number {
-    return variable.getMicrobitAnalogPin(pin);
-  }
-
-  //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
-  //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
-  //% group="Values"
-  export function getMicrobitDigitalPin(
-    variable: pxsim.BBCMicrobit,
-    pin: MicrobitPinOptions
-  ): number {
-    return variable.getMicrobitDigitalPin(pin);
-  }
+  // //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
+  // //% variable.shadow=variables_get
+  // //% variable.defl="Microbit_1"
+  // //% group="Values"
+  // export function getMicrobitDigitalPin(
+  //   variable: pxsim.BBCMicrobit,
+  //   pin: MicrobitPinOptions
+  // ): number {
+  //   return variable.getMicrobitDigitalPin(pin);
+  // }
 
   //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Values"
   export function getMicrobitAccelerometerValues(
     variable: pxsim.BBCMicrobit,
@@ -187,7 +188,7 @@ namespace pxsim.Microbit {
 
   //% blockId="get_microbit_Temperature" block="get %variable temperature"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Values"
   export function getMicrobitTemperature(variable: pxsim.BBCMicrobit): number {
     return variable.getMicrobitTemperature();
@@ -195,7 +196,7 @@ namespace pxsim.Microbit {
 
   //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% x.min=-0 x.max=4
   //% y.min=-0 y.max=4
   //% group="Values"
@@ -206,20 +207,22 @@ namespace pxsim.Microbit {
   ): boolean {
     return variable.isMicrobitLedOn(x, y);
   }
-  //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
-  //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
-  //% group="Values"
-  export function isMicrobitPinPressed(
-    variable: pxsim.BBCMicrobit,
-    analogPinOption: MicrobitAnalogPinOptions
-  ): boolean {
-    return variable.isMicrobitPinPressed(analogPinOption);
-  }
+
+  //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
+  // //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
+  // //% variable.shadow=variables_get
+  // //% variable.defl="Microbit_1"
+  // //% group="Values"
+  // export function isMicrobitPinPressed(
+  //   variable: pxsim.BBCMicrobit,
+  //   analogPinOption: MicrobitAnalogPinOptions
+  // ): boolean {
+  //   return variable.isMicrobitPinPressed(analogPinOption);
+  // }
 
   //% blockId="microbit_temperature_changed" block="is %variable temperature changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Values"
   export function isMicrobitTemperatureChanged(
     variable: pxsim.BBCMicrobit
@@ -229,7 +232,7 @@ namespace pxsim.Microbit {
 
   //% blockId="microbit_button_pressed" block="is %variable button $buttonOption pressed"
   //% variable.shadow=variables_get
-  //% variable.defl="Microbit 1"
+  //% variable.defl="Microbit_1"
   //% group="Values"
   export function isMicrobitButtonPressed(
     variable: pxsim.BBCMicrobit,

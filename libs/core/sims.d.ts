@@ -56,23 +56,28 @@ declare namespace console {
 
     }
 declare namespace Microbit {
-    //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
-    //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
-    //% group="Actions"
-    //% shim=Microbit::writeDigitalPin
-    function writeDigitalPin(variable: BBCMicrobit, pinId: MicrobitPinOptions, value: number): void;
-
+    //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
+    // //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Microbit_1"
+    // //% group="Actions"
+    // export function writeDigitalPin(
+    //   variable: pxsim.BBCMicrobit,
+    //   pinId: MicrobitPinOptions,
+    //   value: number
+    // ): void {
+    //   variable.writeDigitalPin(pinId, value);
+    // }
     //% blockId="cleaar_led" block="clear %variable LEDs"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% shim=Microbit::clearLED
     function clearLED(variable: BBCMicrobit): void;
 
     //% blockId="on_microbit_toggle" block="on %variable toggle X: $x Y: $y"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% x.min=-0 x.max=4
     //% y.min=-0 y.max=4
@@ -81,7 +86,7 @@ declare namespace Microbit {
 
     //% blockId="on_microbit_unplot" block="on %variable unplot X: $x Y: $y"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% x.min=-0 x.max=4
     //% y.min=-0 y.max=4
@@ -90,7 +95,7 @@ declare namespace Microbit {
 
     //% blockId="on_microbit_plot" block="on %variable plot X: $x Y: $y"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% x.min=-0 x.max=4
     //% y.min=-0 y.max=4
@@ -99,7 +104,7 @@ declare namespace Microbit {
 
     //% blockId="on_microbit_display_word" block="on %variable display  $word"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% shim=Microbit::onMicrobitDisplayWord
     function onMicrobitDisplayWord(variable: BBCMicrobit, word: string): void;
@@ -111,72 +116,83 @@ declare namespace Microbit {
 
     //% blockId="on_microbit_display_shape" block="on %variable display $shape"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% shape.shadow=shape_conv
     //% group="Actions"
     //% shim=Microbit::onMicrobitDisplayShape
     function onMicrobitDisplayShape(variable: BBCMicrobit, shape: string): void;
 
     //% blockId="create_microbit" block="Create new Microbit"
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Actions"
     //% shim=Microbit::createMicrobit
     function createMicrobit(): BBCMicrobit;
 
-    //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
-    //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
-    //% group="Values"
-    //% shim=Microbit::getMicrobitAnalogPin
-    function getMicrobitAnalogPin(variable: BBCMicrobit, pin: MicrobitAnalogPinOptions): number;
-
-    //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
-    //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
-    //% group="Values"
-    //% shim=Microbit::getMicrobitDigitalPin
-    function getMicrobitDigitalPin(variable: BBCMicrobit, pin: MicrobitPinOptions): number;
-
+    //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
+    // //% blockId="get_microbit_v2_analog_pin" block="get %variable V2 analog pin $pin value"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Microbit_1"
+    // //% group="Values"
+    // export function getMicrobitAnalogPin(
+    //   variable: pxsim.BBCMicrobit,
+    //   pin: MicrobitAnalogPinOptions
+    // ): number {
+    //   return variable.getMicrobitAnalogPin(pin);
+    // }
+    // //% blockId="get_microbit_v2_digital_pin" block="get %variable V2 digital pin $pin value"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Microbit_1"
+    // //% group="Values"
+    // export function getMicrobitDigitalPin(
+    //   variable: pxsim.BBCMicrobit,
+    //   pin: MicrobitPinOptions
+    // ): number {
+    //   return variable.getMicrobitDigitalPin(pin);
+    // }
     //% blockId="get_microbit_Accelerometer_axis_values" block="get %variable $AccelerometerAxisOptions acceleration"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Values"
     //% shim=Microbit::getMicrobitAccelerometerValues
     function getMicrobitAccelerometerValues(variable: BBCMicrobit, AccelerometerAxisOptions: MicrobitAccelerometerAxisOptions): number;
 
     //% blockId="get_microbit_Temperature" block="get %variable temperature"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Values"
     //% shim=Microbit::getMicrobitTemperature
     function getMicrobitTemperature(variable: BBCMicrobit): number;
 
     //% blockId="microbit_led_on" block="is %variable LED on X: $x Y: $y"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% x.min=-0 x.max=4
     //% y.min=-0 y.max=4
     //% group="Values"
     //% shim=Microbit::isMicrobitLedOn
     function isMicrobitLedOn(variable: BBCMicrobit, x: number, y: number): boolean;
 
-    //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
-    //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
-    //% group="Values"
-    //% shim=Microbit::isMicrobitPinPressed
-    function isMicrobitPinPressed(variable: BBCMicrobit, analogPinOption: MicrobitAnalogPinOptions): boolean;
-
+    //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
+    // //% blockId="microbit_pin_pressed" block="is %variable V2 $analogPinOption pressed"
+    // //% variable.shadow=variables_get
+    // //% variable.defl="Microbit_1"
+    // //% group="Values"
+    // export function isMicrobitPinPressed(
+    //   variable: pxsim.BBCMicrobit,
+    //   analogPinOption: MicrobitAnalogPinOptions
+    // ): boolean {
+    //   return variable.isMicrobitPinPressed(analogPinOption);
+    // }
     //% blockId="microbit_temperature_changed" block="is %variable temperature changed"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Values"
     //% shim=Microbit::isMicrobitTemperatureChanged
     function isMicrobitTemperatureChanged(variable: BBCMicrobit): boolean;
 
     //% blockId="microbit_button_pressed" block="is %variable button $buttonOption pressed"
     //% variable.shadow=variables_get
-    //% variable.defl="Microbit 1"
+    //% variable.defl="Microbit_1"
     //% group="Values"
     //% shim=Microbit::isMicrobitButtonPressed
     function isMicrobitButtonPressed(variable: BBCMicrobit, buttonOption: MicrobitButtonOptions): boolean;
@@ -191,20 +207,20 @@ declare namespace Microbit {
 declare namespace button {
     //% blockId="set_button_color" block="Set Button $variable color to %color"
     //% variable.shadow=variables_get
-    //% variable.defl="Button 1"
+    //% variable.defl="Button_1"
     //% color.shadow="1" //% weight=2
     //% shim=button::setButtonColor
     function setButtonColor(variable: SamButton, color: samLedColors): void;
 
     //% blockId="create_button" block="Create new button"
     //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  //% weight=2
+    //% variable.defl="Button_1"  //% weight=2
     //% shim=button::createNewButton
     function createNewButton(): SamButton;
 
     //% blockId="get_is_pressed" block="$variable is pressed"
     //% variable.shadow=variables_get
-    //% variable.defl="Button 1"  //% weight=2
+    //% variable.defl="Button_1"  //% weight=2
     //% shim=button::buttonIsPressed
     function buttonIsPressed(variable: SamButton): boolean;
 
@@ -223,7 +239,7 @@ declare namespace buzzer {
      */
     //% blockId="set_buzzer_volume" block="Set Buzzer $variable volume to $volume"
     //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% variable.defl="Buzzer_1"
     //% volume.min=0 volume.max=100
     //% color="#d400d4"
     //% shim=buzzer::setBuzzerVolume
@@ -236,7 +252,7 @@ declare namespace buzzer {
      */
     //% blockId="set_buzzer_pitch" block="Set Buzzer $variable pitch to $pitch Hz"
     //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% variable.defl="Buzzer_1"
     //% volume.min=0 volume.max=100
     //% pitch.min=20 pitch.max=20000
     //% color="#d400d4"
@@ -249,7 +265,7 @@ declare namespace buzzer {
      */
     //% blockId="clear_buzzer" block="clear Buzzer $variable"
     //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% variable.defl="Buzzer_1"
     //% color="#d400d4"
     //% shim=buzzer::clearBuzzer
     function clearBuzzer(variable: SamBuzzer): void;
@@ -261,7 +277,7 @@ declare namespace buzzer {
      */
     //% blockId="set_buzzer_color" block="Set Buzzer $variable color to $color"
     //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"
+    //% variable.defl="Buzzer_1"
     //% color.shadow="colorNumberPicker"
     //% color="#d400d4"
     //% shim=buzzer::setBuzzerColor
@@ -269,7 +285,7 @@ declare namespace buzzer {
 
     //% blockId="createBuzzer" block="Create new Buzzer"
     //% variable.shadow=variables_get
-    //% variable.defl="Buzzer 1"  //% weight=2
+    //% variable.defl="Buzzer_1"  //% weight=2
     //% shim=buzzer::createBuzzer
     function createBuzzer(): SamBuzzer;
 
@@ -284,41 +300,30 @@ declare namespace DCMotor {
     //% blockId="set_motor_speed" block="set %variable motor speed to %value"
     //% speed.min=0 speed.max=100
     //% variable.shadow=variables_get
-    //% variable.defl="DCMotor 1"
+    //% variable.defl="DCMotor_1"
     //% color="#32cd32"
     //% shim=DCMotor::setSamMotorSpeed
     function setSamMotorSpeed(variable: SamDCMotor, value: number): void;
 
     //% blockId="stop_motor" block="stop motor %variable "
     //% variable.shadow=variables_get
-    //% variable.defl="DCMotor 1"
+    //% variable.defl="DCMotor_1"
     //% color="#32cd32"
     //% shim=DCMotor::stopMotor
     function stopMotor(variable: SamDCMotor): void;
 
     //% blockId="set_motor_color" block="set %variable color to %color"
     //% variable.shadow=variables_get
-    //% variable.defl="Motor 1"
+    //% variable.defl="DCMotor_1"
     //% color.shadow="1"
     //% color="#32cd32"
     //% shim=DCMotor::setSamMotorColor
     function setSamMotorColor(variable: SamDCMotor, value: samLedColors): void;
 
-    // //% blockId="get_motor_speed" block="get %variable motor speed"
-    // //% variable.shadow=variables_get
-    // //% variable.defl="DCMotor 1"
-    // export function getSamMotorSpeed(variable: pxsim.SamDCMotor): any {
-    //   return variable.getSpeed();
-    // }
-    // //% blockId="get_motor_color" block="get %variable motor color"
-    // //% variable.shadow=variables_get
-    // //% variable.defl="DCMotor 1"
-    // // % prop.shadow=motor_property_dropdown
-    // export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
-    //   return 0;
-    // }
     //% blockId="create_motor" block="Create new motor"
-    //% variable.defl="DCMotor 1"
+    //% variable.defl="DCMotor_1"
+    //% color.shadow="1"
+    //% color="#32cd32"
     //% shim=DCMotor::createMotor
     function createMotor(): SamDCMotor;
 
@@ -371,7 +376,7 @@ declare namespace LED {
      */
     //% blockId="turn_led_ff" block="turn LED $variable on"
     //% variable.shadow=variables_get
-    //% variable.defl="LED1"
+    //% variable.defl="LED_1"
     //% color="#4169e1"
     //% shim=LED::turnLEDOn
     function turnLEDOn(variable: SamLED): void;
@@ -382,7 +387,7 @@ declare namespace LED {
      */
     //% blockId="turn_led_on" block="turn LED $variable off"
     //% variable.shadow=variables_get
-    //% variable.defl="LED1"
+    //% variable.defl="LED_1"
     //% color="#4169e1"
     //% shim=LED::turnLEDOff
     function turnLEDOff(variable: SamLED): void;
@@ -394,7 +399,7 @@ declare namespace LED {
      */
     //% blockId="set_led_color" block="set color of LED %variable to %color"
     //% variable.shadow=variables_get
-    //% variable.defl="LED1"
+    //% variable.defl="LED_1"
     //% color.shadow="1"
     //% color="#4169e1"
     //% shim=LED::setLEDColor
@@ -407,7 +412,7 @@ declare namespace LED {
      */
     //% blockId="set_led_body_color" block="set body color of LED %variable to %color"
     //% variable.shadow=variables_get
-    //% variable.defl="LED1"
+    //% variable.defl="LED_1"
     //% color.shadow="1"
     //% color="#4169e1"
     //% shim=LED::setLEDBodyColor
@@ -420,7 +425,7 @@ declare namespace LED {
      */
     //% blockId="change_led_brightness" block="change brightness of LED with ID $ledId to $brightness"
     //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% variable.defl="LED_1"
     //% brightness.min=0 brightness.max=100
     //% color="#4169e1"
     //% shim=LED::changeLEDBrightness
@@ -432,7 +437,7 @@ declare namespace LED {
      */
     //% blockId="get_led_brightness" block="get brightness of LED $variable"
     //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% variable.defl="LED_1"
     //% color="#4169e1"
     //% shim=LED::getLEDBrightness
     function getLEDBrightness(variable: SamLED): number;
@@ -443,7 +448,7 @@ declare namespace LED {
      */
     //% blockId="get_led_color" block="get color of LED $variable"
     //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% variable.defl="LED_1"
     //% color="#4169e1"
     //% shim=LED::getLEDColor
     function getLEDColor(variable: SamLED): number;
@@ -454,14 +459,14 @@ declare namespace LED {
      */
     //% blockId="is_led_on" block="is LED $variable on"
     //% variable.shadow=variables_get
-    //% variable.defl="LED 1"
+    //% variable.defl="LED_1"
     //% ledId.defl=0
     //% color="#4169e1"
     //% shim=LED::isLEDOn
     function isLEDOn(variable: SamLED): boolean;
 
     //% blockId="create_led" block="Create new LED"
-    //% variable.defl="LED1"
+    //% variable.defl="LED_1"
     //% color="#4169e1"
     //% shim=LED::createLED
     function createLED(): SamLED;
@@ -476,21 +481,21 @@ declare namespace LED {
 declare namespace LightSensor {
     //% blockId="get_light_sensor_value" block="get %variable value "
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor 1"
+    //% variable.defl="Light_Sensor_1"
     //% color="#FF5733"
     //% shim=LightSensor::getSamLightSensorValue
     function getSamLightSensorValue(variable: SamLightSensor): number;
 
     //% blockId="get_light_sensor_color" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor 1"
+    //% variable.defl="Light_Sensor_1"
     //% color="#FF5733"
     //% shim=LightSensor::isSamLightSensorValueChanged
     function isSamLightSensorValueChanged(variable: SamLightSensor): boolean;
 
     //% blockId="set_light_sensor_color" block="set color of light sensor %variable to $value"
     //% variable.shadow=variables_get
-    //% variable.defl="Light Sensor 1"
+    //% variable.defl="Light_Sensor_1"
     //% color.shadow="1"
     //% color="#FF5733"
     //% shim=LightSensor::setSamLightSensorColor
@@ -502,7 +507,7 @@ declare namespace LightSensor {
      * @param color The new color for the LED
      */
     //% blockId="create_light_sensor" block="Create new light sensor"
-    //% variable.defl="Light Sensor1"
+    //% variable.defl="Light_Sensor_1"
     //% color="#FF5733"
     //% shim=LightSensor::createLightSensor
     function createLightSensor(): SamLightSensor;
@@ -590,27 +595,27 @@ declare namespace ServoMotor {
     //% blockId="set_servo_motor_position" block="Set servo motor %variable position to %value degrees"
     //% value.min=0 value.max=180
     //% variable.shadow=variables_get
-    //% variable.defl="Servo Motor 1"
+    //% variable.defl="Servo_Motor_1"
     //% color="#ff69b4"
     //% shim=ServoMotor::setServoMotorPosition
     function setServoMotorPosition(variable: SamServoMotor, value: number): void;
 
     //% blockId="get_servo_motor_position" block="Get servo motor %variable position"
     //% variable.shadow=variables_get
-    //% variable.defl="Servo Motor 1"
+    //% variable.defl="Servo_Motor_1"
     //% color="#ff69b4"
     //% shim=ServoMotor::getServoMotorPosition
     function getServoMotorPosition(variable: SamServoMotor): number;
 
     //% blockId="set_servo_motor_color" block="Set servo motor %variable color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="Servo Motor 1"
+    //% variable.defl="Servo_Motor_1"
     //% color="#ff69b4"
     //% shim=ServoMotor::setServoMotorColor
     function setServoMotorColor(variable: SamServoMotor, value: samLedColors): void;
 
     //% blockId="create_servo_motor" block="Create new servo motor"
-    //% variable.defl="Servo Motor 1"
+    //% variable.defl="Servo_Motor_1"
     //% color="#ff69b4"
     //% shim=ServoMotor::createServoMotor
     function createServoMotor(): SamServoMotor;
@@ -625,14 +630,14 @@ declare namespace ServoMotor {
 declare namespace Slider {
     //% blockId="get_slider_value" block="get slider %variable value"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider 1"
+    //% variable.defl="Slider_1"
     //% color="#ff4500"
     //% shim=Slider::getSamSliderValue
     function getSamSliderValue(variable: SamSlider): number;
 
     //% blockId="get_slider_value_equals" block="is %variable value changed"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider 1"
+    //% variable.defl="Slider_1"
     //% number.min=0 number.max=100
     //% color="#ff4500"
     //% shim=Slider::isSliderValueChanged
@@ -640,13 +645,13 @@ declare namespace Slider {
 
     //% blockId="set_slider_color" block="set slider %variable color to %value"
     //% variable.shadow=variables_get
-    //% variable.defl="Slider 1"
+    //% variable.defl="Slider_1"
     //% color="#ff4500"
     //% shim=Slider::setSamSliderColor
     function setSamSliderColor(variable: SamSlider, value: samLedColors): void;
 
     //% blockId="create_slider" block="Create new slider"
-    //% variable.defl="Slider 1"
+    //% variable.defl="Slider_1"
     //% color="#ff4500"
     //% shim=Slider::createSlider
     function createSlider(): SamSlider;
@@ -662,27 +667,27 @@ declare namespace TiltSensor {
     //% blockId="set_tilt_color" block="Set Tilt Sensor %variable color to $color"
     //% variable.shadow=variables_get
     //% value.shadow=1
-    //% variable.defl="Tilt 1"
+    //% variable.defl="Tilt_Sensor_1"
     //% color="#9400d3"
     //% shim=TiltSensor::setTiltColor
     function setTiltColor(variable: SamTiltSensor, color: samLedColors): void;
 
     //% blockId="is_tilt_sensor_tilted" block="Is Tilt Sensor  %variable  tilted"
     //% variable.shadow=variables_get
-    //% variable.defl="Tilt 1"
+    //% variable.defl="Tilt_Sensor_1"
     //% color="#9400d3"
     //% shim=TiltSensor::IsTiltTilted
     function IsTiltTilted(variable: SamTiltSensor): boolean;
 
     //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
     //% variable.shadow=variables_get
-    //% variable.defl="Tilt 1"
+    //% variable.defl="Tilt_Sensor_1"
     //% color="#9400d3"
     //% shim=TiltSensor::IsTiltValueChanged
     function IsTiltValueChanged(variable: SamTiltSensor): boolean;
 
     //% blockId="create_tilt_sensor" block="Create new Tilt Sensor"
-    //% variable.defl="Tilt 1"
+    //% variable.defl="Tilt_Sensor_1"
     //% color="#9400d3"
     //% shim=TiltSensor::createTiltSensor
     function createTiltSensor(): SamTiltSensor;

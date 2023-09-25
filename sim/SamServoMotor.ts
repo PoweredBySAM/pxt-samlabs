@@ -2,7 +2,7 @@ namespace pxsim.ServoMotor {
   //% blockId="set_servo_motor_position" block="Set servo motor %variable position to %value degrees"
   //% value.min=0 value.max=180
   //% variable.shadow=variables_get
-  //% variable.defl="Servo Motor 1"
+  //% variable.defl="Servo_Motor_1"
   //% color="#ff69b4"
   export function setServoMotorPosition(
     variable: pxsim.SamServoMotor,
@@ -13,7 +13,7 @@ namespace pxsim.ServoMotor {
 
   //% blockId="get_servo_motor_position" block="Get servo motor %variable position"
   //% variable.shadow=variables_get
-  //% variable.defl="Servo Motor 1"
+  //% variable.defl="Servo_Motor_1"
   //% color="#ff69b4"
   export function getServoMotorPosition(variable: pxsim.SamServoMotor): number {
     return variable.getPosition();
@@ -21,7 +21,7 @@ namespace pxsim.ServoMotor {
 
   //% blockId="set_servo_motor_color" block="Set servo motor %variable color to %value"
   //% variable.shadow=variables_get
-  //% variable.defl="Servo Motor 1"
+  //% variable.defl="Servo_Motor_1"
   //% color="#ff69b4"
   export function setServoMotorColor(
     variable: pxsim.SamServoMotor,
@@ -31,7 +31,7 @@ namespace pxsim.ServoMotor {
   }
 
   //% blockId="create_servo_motor" block="Create new servo motor"
-  //% variable.defl="Servo Motor 1"
+  //% variable.defl="Servo_Motor_1"
   //% color="#ff69b4"
   export function createServoMotor(): pxsim.SamServoMotor {
     return new pxsim.SamServoMotor();

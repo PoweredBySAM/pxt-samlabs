@@ -2,7 +2,7 @@ namespace pxsim.DCMotor {
   //% blockId="set_motor_speed" block="set %variable motor speed to %value"
   //% speed.min=0 speed.max=100
   //% variable.shadow=variables_get
-  //% variable.defl="DCMotor 1"
+  //% variable.defl="DCMotor_1"
   //% color="#32cd32"
   export function setSamMotorSpeed(
     variable: pxsim.SamDCMotor,
@@ -12,14 +12,14 @@ namespace pxsim.DCMotor {
   }
   //% blockId="stop_motor" block="stop motor %variable "
   //% variable.shadow=variables_get
-  //% variable.defl="DCMotor 1"
+  //% variable.defl="DCMotor_1"
   //% color="#32cd32"
   export function stopMotor(variable: pxsim.SamDCMotor): void {
     variable.stopMotor();
   }
   //% blockId="set_motor_color" block="set %variable color to %color"
   //% variable.shadow=variables_get
-  //% variable.defl="Motor 1"
+  //% variable.defl="DCMotor_1"
   //% color.shadow="1"
   //% color="#32cd32"
   export function setSamMotorColor(
@@ -29,22 +29,10 @@ namespace pxsim.DCMotor {
     variable.setMotorColor(value);
   }
 
-  // //% blockId="get_motor_speed" block="get %variable motor speed"
-  // //% variable.shadow=variables_get
-  // //% variable.defl="DCMotor 1"
-  // export function getSamMotorSpeed(variable: pxsim.SamDCMotor): any {
-  //   return variable.getSpeed();
-  // }
-
-  // //% blockId="get_motor_color" block="get %variable motor color"
-  // //% variable.shadow=variables_get
-  // //% variable.defl="DCMotor 1"
-  // // % prop.shadow=motor_property_dropdown
-  // export function getSamMotorColor(variable: pxsim.SamDCMotor): any {
-  //   return 0;
-  // }
   //% blockId="create_motor" block="Create new motor"
-  //% variable.defl="DCMotor 1"
+  //% variable.defl="DCMotor_1"
+  //% color.shadow="1"
+  //% color="#32cd32"
   export function createMotor(): pxsim.SamDCMotor {
     return new pxsim.SamDCMotor();
   }
