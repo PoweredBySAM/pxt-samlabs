@@ -2,7 +2,7 @@ namespace pxsim.TiltSensor {
   //% blockId="set_tilt_color" block="Set Tilt Sensor %variable color to $color"
   //% variable.shadow=variables_get
   //% value.shadow=1
-  //% variable.defl="Tilt 1"
+  //% variable.defl="Tilt_Sensor_1"
   //% color="#9400d3"
   export function setTiltColor(
     variable: pxsim.SamTiltSensor,
@@ -13,7 +13,7 @@ namespace pxsim.TiltSensor {
 
   //% blockId="is_tilt_sensor_tilted" block="Is Tilt Sensor  %variable  tilted"
   //% variable.shadow=variables_get
-  //% variable.defl="Tilt 1"
+  //% variable.defl="Tilt_Sensor_1"
   //% color="#9400d3"
   export function IsTiltTilted(variable: pxsim.SamTiltSensor): boolean {
     return variable.IsTiltTilted();
@@ -21,14 +21,14 @@ namespace pxsim.TiltSensor {
 
   //% blockId="tilt_sensor_not_tilted" block="Is Tilt Sensor %variable value changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Tilt 1"
+  //% variable.defl="Tilt_Sensor_1"
   //% color="#9400d3"
   export function IsTiltValueChanged(variable: pxsim.SamTiltSensor): boolean {
     return variable.IsTiltValueChanged();
   }
 
   //% blockId="create_tilt_sensor" block="Create new Tilt Sensor"
-  //% variable.defl="Tilt 1"
+  //% variable.defl="Tilt_Sensor_1"
   //% color="#9400d3"
   export function createTiltSensor(): pxsim.SamTiltSensor {
     return new pxsim.SamTiltSensor();

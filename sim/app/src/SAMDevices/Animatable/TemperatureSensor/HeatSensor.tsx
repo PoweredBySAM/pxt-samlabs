@@ -40,6 +40,7 @@ function HeatSensor({ device }: { device: HeatSensorDevice }) {
         setValue={handleChange}
         currentValue={singleDeviceStore.value}
         controlsVisibility={singleDeviceStore.blockVisibility}
+        heatSensor
       >
         {singleDeviceStore.blockVisibility && (
           <Box sx={{ mt: 2 }}>

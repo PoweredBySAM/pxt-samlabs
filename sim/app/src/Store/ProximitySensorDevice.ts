@@ -1,15 +1,13 @@
-import { observable, action, makeObservable, makeAutoObservable } from "mobx";
+import { observable, action, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 
 class ProximitySensorDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
-
 
   @observable Color: string;
   @observable isActive: boolean;
@@ -92,17 +90,6 @@ class ProximitySensorDevice {
     this.updateLsStateStore();
   }
 
-
-  @action
-  getValue() {
-    this._virtualController.getValue() || this._bluetoothController?.getValue();
-  }
-
-  @action
-  setValue(value: number) {
-    this.value = value;
-    this.updateLsStateStore();
-  }
   @action
   toggleTestMode() {
     this.deviceInTestMode = !this.deviceInTestMode;
@@ -118,15 +105,12 @@ class ProximitySensorDevice {
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
       currentValue: this.value,
-      isProximitySensorValueChanged:this.isProximitySensorValueChanged,
+      isProximitySensorValueChanged: this.isProximitySensorValueChanged,
     };
   }
 
   get virtualController() {
     return this._virtualController;
-  }
-  get bluetoothController() {
-    return this._bluetoothController;
   }
   set virtualController(controller: any) {
     this._virtualController = controller;

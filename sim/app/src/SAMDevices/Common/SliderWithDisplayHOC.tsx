@@ -8,6 +8,7 @@ const SliderWithDisplayHOC = ({
   currentValue,
   children,
   controlsVisibility,
+  heatSensor,
 }: {
   setValue: (
     event: Event,
@@ -17,6 +18,7 @@ const SliderWithDisplayHOC = ({
   currentValue: number;
   children: any;
   controlsVisibility: boolean;
+  heatSensor?: boolean;
 }) => {
   const customSliderStyle = {
     minWidth: "10rem !important",
@@ -50,25 +52,81 @@ const SliderWithDisplayHOC = ({
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>{children}</Box>
       {controlsVisibility && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography
-            variant="h6"
-            sx={{
-              fontFamily: "Orbitron",
-              width: "5rem",
-              fontWeight: 400,
-              m: 2,
-              border: "solid 1px #c4c4c4",
-              px: 4,
-              borderRadius: "5px",
-              backgroundColor: "#d7d7d7",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            {toFixify(currentValue)}
-          </Typography>
-        </Box>
+        <>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            {heatSensor && (
+              <Typography
+                variant="h6"
+                sx={{
+                  width: "5rem",
+                  fontWeight: 400,
+                  mx: 2,
+                  my: heatSensor ? 1 : 2,
+                  px: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Celsius:
+              </Typography>
+            )}
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Orbitron",
+                width: "5rem",
+                fontWeight: 400,
+                m: 1,
+                border: "solid 1px #c4c4c4",
+                px: 4,
+                borderRadius: "5px",
+                backgroundColor: "#d7d7d7",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {toFixify(currentValue)}
+            </Typography>
+          </Box>
+          {heatSensor && (
+            <Box sx={{ display: "flex" }}>
+              {heatSensor && (
+                <Typography
+                  variant="h6"
+                  sx={{
+                    width: "5rem",
+                    fontWeight: 400,
+                    m: 2,
+                    px: 2,
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  Fahrenheit:
+                </Typography>
+              )}
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "Orbitron",
+                  width: "5rem",
+                  fontWeight: 400,
+                  m: 2,
+                  border: "solid 1px #c4c4c4",
+                  px: 2,
+                  borderRadius: "5px",
+                  backgroundColor: "#d7d7d7",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {toFixify(currentValue) === "0.0"
+                  ? "0.0"
+                  : (currentValue * 9) / 5 + 32}
+              </Typography>
+            </Box>
+          )}
+        </>
       )}
     </Box>
   );

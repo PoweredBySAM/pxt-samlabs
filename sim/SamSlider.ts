@@ -1,7 +1,7 @@
 namespace pxsim.Slider {
   //% blockId="get_slider_value" block="get slider %variable value"
   //% variable.shadow=variables_get
-  //% variable.defl="Slider 1"
+  //% variable.defl="Slider_1"
   //% color="#ff4500"
   export function getSamSliderValue(variable: pxsim.SamSlider): number {
     return variable.getValue();
@@ -9,7 +9,7 @@ namespace pxsim.Slider {
 
   //% blockId="get_slider_value_equals" block="is %variable value changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Slider 1"
+  //% variable.defl="Slider_1"
   //% number.min=0 number.max=100
   //% color="#ff4500"
   export function isSliderValueChanged(variable: pxsim.SamSlider): boolean {
@@ -18,7 +18,7 @@ namespace pxsim.Slider {
 
   //% blockId="set_slider_color" block="set slider %variable color to %value"
   //% variable.shadow=variables_get
-  //% variable.defl="Slider 1"
+  //% variable.defl="Slider_1"
   //% color="#ff4500"
   export function setSamSliderColor(
     variable: pxsim.SamSlider,
@@ -28,7 +28,7 @@ namespace pxsim.Slider {
   }
 
   //% blockId="create_slider" block="Create new slider"
-  //% variable.defl="Slider 1"
+  //% variable.defl="Slider_1"
   //% color="#ff4500"
   export function createSlider(): pxsim.SamSlider {
     return new pxsim.SamSlider();

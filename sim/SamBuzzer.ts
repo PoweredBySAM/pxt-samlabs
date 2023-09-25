@@ -7,7 +7,7 @@ namespace pxsim.buzzer {
    */
   //% blockId="set_buzzer_volume" block="Set Buzzer $variable volume to $volume"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer 1"
+  //% variable.defl="Buzzer_1"
   //% volume.min=0 volume.max=100
   //% color="#d400d4"
   export function setBuzzerVolume(
@@ -23,7 +23,7 @@ namespace pxsim.buzzer {
    */
   //% blockId="set_buzzer_pitch" block="Set Buzzer $variable pitch to $pitch Hz"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer 1"
+  //% variable.defl="Buzzer_1"
   //% volume.min=0 volume.max=100
   //% pitch.min=20 pitch.max=20000
   //% color="#d400d4"
@@ -41,7 +41,7 @@ namespace pxsim.buzzer {
    */
   //% blockId="clear_buzzer" block="clear Buzzer $variable"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer 1"
+  //% variable.defl="Buzzer_1"
   //% color="#d400d4"
   export function clearBuzzer(variable: pxsim.SamBuzzer): void {
     variable.clear();
@@ -53,7 +53,7 @@ namespace pxsim.buzzer {
    */
   //% blockId="set_buzzer_color" block="Set Buzzer $variable color to $color"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer 1"
+  //% variable.defl="Buzzer_1"
   //% color.shadow="colorNumberPicker"
   //% color="#d400d4"
   export function setBuzzerColor(
@@ -64,7 +64,7 @@ namespace pxsim.buzzer {
   }
   //% blockId="createBuzzer" block="Create new Buzzer"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer 1"  //% weight=2
+  //% variable.defl="Buzzer_1"  //% weight=2
   export function createBuzzer(): pxsim.SamBuzzer {
     return new pxsim.SamBuzzer();
   }
