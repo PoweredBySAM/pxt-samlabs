@@ -21,7 +21,7 @@ const FullSimDeviceWrapper = observer(
     return (
       <Card
         elevation={1}
-        style={{ margin: 2 }}
+        style={{ marginBottom: 10 }}
         sx={
           device.deviceInTestMode
             ? { border: "1px solid #D04226" }
