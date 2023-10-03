@@ -6,7 +6,6 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { LightTooltip } from "./LightToolTip";
 import MiniMenu from "./MiniMenu";
-import ConstructionIcon from "@mui/icons-material/Construction";
 
 function CompactSimDevice({
   device,
@@ -14,8 +13,6 @@ function CompactSimDevice({
   visibility,
   toggleVisibility,
   labels,
-  toggleTestMode,
-  removeDevice,
   isInTestMode,
 }: {
   device: any;
@@ -23,8 +20,6 @@ function CompactSimDevice({
   visibility: any;
   toggleVisibility?: any;
   labels?: any;
-  toggleTestMode?: any;
-  removeDevice?: any;
   isInTestMode: boolean;
 }) {
   const [isConnected, setIsConnected] = React.useState(false);
@@ -148,7 +143,7 @@ function CompactSimDevice({
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            justifyContent: "space-between",
+            justifyContent: "flex-end",
             pl: 1,
           }}
         >
@@ -156,7 +151,7 @@ function CompactSimDevice({
             <IconButton
               aria-label="toggle"
               onClick={toggleVisibility}
-              sx={{ m: 0, p: 0 }}
+              sx={{ m: 0, p: 0, mr: 1 }}
             >
               {visibility ? (
                 <VisibilityOffIcon sx={{ m: 0, p: 0, fontSize: "0.9rem" }} />
@@ -165,29 +160,10 @@ function CompactSimDevice({
               )}
             </IconButton>
           </LightTooltip>
-          <LightTooltip title="Test Mode" placement="top-start">
-            <IconButton
-              aria-label="toggle"
-              onClick={toggleTestMode}
-              sx={{ m: 0, p: 0 }}
-            >
-              {isInTestMode ? (
-                <ConstructionIcon
-                  sx={{ m: 0, p: 0, fontSize: "0.9rem", color: "#D04226" }}
-                />
-              ) : (
-                <ConstructionIcon sx={{ m: 0, p: 0, fontSize: "0.9rem" }} />
-              )}
-            </IconButton>
-          </LightTooltip>
           <LightTooltip title="Device Options" placement="top-start">
             <>
-              <IconButton
-                aria-label="menu"
-                sx={{ m: 0, p: 0 }}
-                // onClick={handleClick}
-              >
-                <SettingsIcon sx={{ m: 0, p: 0, mr: 1, fontSize: "0.9rem" }} />
+              <IconButton aria-label="menu" sx={{ m: 0, p: 0, mr: 1 }}>
+                <SettingsIcon sx={{ m: 0, p: 0, fontSize: "0.9rem" }} />
               </IconButton>
               <MiniMenu
                 handleClose={() => {}}

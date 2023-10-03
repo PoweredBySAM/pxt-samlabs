@@ -6,8 +6,6 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import { Box } from "@mui/material";
 import BuzzerDevice from "src/Store/BuzzerDevice";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
@@ -23,14 +21,6 @@ function Buzzer({ device }: { device: BuzzerDevice }) {
 
   const virtualEvents = ["valueChanged"];
 
-  const handleTestPlay = () => {
-    singleDeviceStore.testTone("start");
-    setTimeout(() => {
-      singleDeviceStore.testTone("stop");
-    }, 5000);
-  };
-  console.log(blockVisibility, "blockVisibility");
-
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
   }, []);
@@ -42,27 +32,10 @@ function Buzzer({ device }: { device: BuzzerDevice }) {
   }, []);
   return (
     <>
-      <Box>
-        {deviceInTestMode && blockVisibility && (
-          <Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-            <Box>
-              <span onClick={handleTestPlay}>
-                <PlayArrowIcon
-                  sx={{ fontSize: "1.6rem", ml: 1, cursor: "pointer" }}
-                />
-              </span>
-            </Box>
-          </Box>
-        )}
-      </Box>
       {blockVisibility && (
-        <Box>
+        <Box sx={{ mt: 5 }}>
           <SamBuzzer
-            getIsActive={
-              deviceInTestMode
-                ? () => singleDeviceStore.testSoundActive
-                : () => singleDeviceStore.isActive
-            }
+            getIsActive={() => singleDeviceStore.isActive}
             getColor={() =>
               device.Color ? hexToRGBA(device.Color) : undefined
             }

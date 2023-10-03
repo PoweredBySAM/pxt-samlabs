@@ -27,7 +27,7 @@ function ProximitySensor({ device }: { device: PressureSensorDevice }) {
   const virtualEvents = ["valueChanged"];
 
   const handleChange = (event: any, newValue: number | number[]) => {
-    singleDeviceStore.setValue(newValue as number);
+    singleDeviceStore.proximitySensorValueChanged(newValue as number);
   };
 
   useEffect(() => {

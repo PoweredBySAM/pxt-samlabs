@@ -1,5 +1,20 @@
 //% color=190 weight=100 icon="\uf025" block="Sam Labs" group="Buzzer"
 namespace pxsim.buzzer {
+  //% blockId="get_buzzer_volume_pitch" block="get Buzzer %variable pitch"
+  //% variable.shadow=variables_get
+  //% variable.defl="Buzzer_1"
+  //% color="#d400d4"
+  export function getBuzzerPitch(variable: pxsim.SamBuzzer): number {
+    return variable.getPitch();
+  }
+
+  //% blockId="get_buzzer_volume_value" block="get Buzzer %variable volume"
+  //% variable.shadow=variables_get
+  //% variable.defl="Buzzer_1"
+  //% color="#d400d4"
+  export function getBuzzerVolume(variable: pxsim.SamBuzzer): number {
+    return variable.getVolume();
+  }
   /**
    * Set the volume of the buzzer with the given ID
    * @param variable The buzzer instance to set the volume for
@@ -64,7 +79,7 @@ namespace pxsim.buzzer {
   }
   //% blockId="createBuzzer" block="Create new Buzzer"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"  //% weight=2
+  //% variable.defl="Buzzer_1"
   export function createBuzzer(): pxsim.SamBuzzer {
     return new pxsim.SamBuzzer();
   }
@@ -89,6 +104,20 @@ namespace pxsim {
         { device: this.deviceName, detail },
         samlabs.samSimEvents.TOSIM_DEVICE_CREATED
       );
+    }
+
+    public getVolume() {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.deviceVolume || 0;
+    }
+
+    public getPitch() {
+      const deviceData = samlabs.SamSimDataService.getInstance().getDeviceProps(
+        this._id
+      );
+      return deviceData?.devicePitch || 0;
     }
 
     public setVolume(newVolume: number) {

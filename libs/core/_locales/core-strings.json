@@ -97,6 +97,8 @@
   "button.setButtonColor|block": "Set Button $variable color to %color",
   "buzzer.clearBuzzer|block": "clear Buzzer $variable",
   "buzzer.createBuzzer|block": "Create new Buzzer",
+  "buzzer.getBuzzerPitch|block": "get Buzzer %variable pitch",
+  "buzzer.getBuzzerVolume|block": "get Buzzer %variable volume",
   "buzzer.setBuzzerColor|block": "Set Buzzer $variable color to $color",
   "buzzer.setBuzzerPitch|block": "Set Buzzer $variable pitch to $pitch Hz",
   "buzzer.setBuzzerVolume|block": "Set Buzzer $variable volume to $volume",

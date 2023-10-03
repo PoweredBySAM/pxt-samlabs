@@ -13,7 +13,7 @@ import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 function PressureSensor({ device }: { device: PressureSensorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
-  const { addEvents, removeEvents } = useEventsController(
+  const { addEvents } = useEventsController(
     device,
     handleBasicControllerEvents
   );
@@ -21,7 +21,7 @@ function PressureSensor({ device }: { device: PressureSensorDevice }) {
   const virtualEvents = ["valueChanged"];
 
   const handleChange = (event: any, newValue: number | number[]) => {
-    singleDeviceStore.setValue(newValue as number);
+    singleDeviceStore.pressureSensorValueChanged(newValue as number);
   };
 
   useEffect(() => {

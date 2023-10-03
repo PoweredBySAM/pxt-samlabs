@@ -212,17 +212,17 @@ declare namespace button {
     //% shim=button::setButtonColor
     function setButtonColor(variable: SamButton, color: samLedColors): void;
 
-    //% blockId="create_button" block="Create new button"
-    //% variable.shadow=variables_get
-    //% variable.defl="Button_1"  //% weight=2
-    //% shim=button::createNewButton
-    function createNewButton(): SamButton;
-
     //% blockId="get_is_pressed" block="$variable is pressed"
     //% variable.shadow=variables_get
     //% variable.defl="Button_1"  //% weight=2
     //% shim=button::buttonIsPressed
     function buttonIsPressed(variable: SamButton): boolean;
+
+    //% blockId="create_button" block="Create new button"
+    //% variable.shadow=variables_get
+    //% variable.defl="Button_1"  //% weight=2
+    //% shim=button::createNewButton
+    function createNewButton(): SamButton;
 
 }
     /**
@@ -232,6 +232,20 @@ declare namespace button {
     declare class SamButton {
     }
 declare namespace buzzer {
+    //% blockId="get_buzzer_volume_pitch" block="get Buzzer %variable pitch"
+    //% variable.shadow=variables_get
+    //% variable.defl="Buzzer_1"
+    //% color="#d400d4"
+    //% shim=buzzer::getBuzzerPitch
+    function getBuzzerPitch(variable: SamBuzzer): number;
+
+    //% blockId="get_buzzer_volume_value" block="get Buzzer %variable volume"
+    //% variable.shadow=variables_get
+    //% variable.defl="Buzzer_1"
+    //% color="#d400d4"
+    //% shim=buzzer::getBuzzerVolume
+    function getBuzzerVolume(variable: SamBuzzer): number;
+
     /**
      * Set the volume of the buzzer with the given ID
      * @param variable The buzzer instance to set the volume for
@@ -285,7 +299,7 @@ declare namespace buzzer {
 
     //% blockId="createBuzzer" block="Create new Buzzer"
     //% variable.shadow=variables_get
-    //% variable.defl="Buzzer_1"  //% weight=2
+    //% variable.defl="Buzzer_1"
     //% shim=buzzer::createBuzzer
     function createBuzzer(): SamBuzzer;
 

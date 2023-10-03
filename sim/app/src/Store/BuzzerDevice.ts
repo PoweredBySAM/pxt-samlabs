@@ -80,19 +80,6 @@ class BuzzerDevice {
   }
 
   @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
@@ -123,6 +110,7 @@ class BuzzerDevice {
   setVolume(value: number) {
     this.volume = value;
     this._virtualController?._toneGenerator?.setVolume(value);
+    this.isActive = value > 0;
     this.broadcastState();
 
     window.parent.postMessage(
@@ -138,7 +126,7 @@ class BuzzerDevice {
     return {
       deviceId: this._deviceId,
       deviceType: this.virtualInteractionComponentName,
-      deviceVlume: this.volume,
+      deviceVolume: this.volume,
       devicePitch: this.pitch,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
@@ -183,6 +171,7 @@ class BuzzerDevice {
   clear() {
     this._virtualController?._toneGenerator?.setVolume(0);
     this._virtualController?._toneGenerator?.setPitch(0);
+    this.isActive = false;
     window.parent.postMessage(
       {
         type: `clearBuzzer for ${this.assignedName}`,
