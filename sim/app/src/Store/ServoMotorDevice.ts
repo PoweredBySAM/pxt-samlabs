@@ -17,7 +17,6 @@ class ServoMotorDevice {
   @observable _adjustedPosition: number;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  @observable testPosition: number;
   customEventGenerator: any;
   lsStateStore: SamDeviceManager;
   assignedName: string;
@@ -43,7 +42,6 @@ class ServoMotorDevice {
     this._position = 0;
     this._adjustedPosition = 0;
     this.deviceInTestMode = false;
-    this.testPosition = 0;
     this.deleted = false;
     this.Color = "#FFFFFF";
     this.createMessageType = "createServoMotor";
@@ -102,20 +100,12 @@ class ServoMotorDevice {
   }
   @action
   setTestPosition(value: number) {
-    this.testPosition = this.testPosition + value;
+    this._position = this._position + value;
   }
 
   @action
   reset() {
     this._virtualController._reset();
-  }
-
-  @action
-  toggleTestMode() {
-    if (!this.deviceInTestMode) {
-      this.testPosition = 0;
-    }
-    this.deviceInTestMode = !this.deviceInTestMode;
   }
 
   @action

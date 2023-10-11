@@ -5,14 +5,13 @@ import useEventsController from "src/Hooks/useEventsController";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useBasicEvents from "src/Hooks/useBasicEvents";
 import { observer } from "mobx-react";
-import { Box, Slider, Typography } from "@mui/material";
-import { customSliderStyle } from "src/SAMDevices/Common/commonJsStyles";
+import { Box } from "@mui/material";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
+import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
 
 function DCMotor({ device }: { device: DCMotorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
-  const [showMotor, setShowMotor] = React.useState(false);
   const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const { addEvents, removeEvents } = useEventsController(
@@ -21,11 +20,14 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
   );
   const { singleDeviceStore } = useSingleDeviceStore(device);
 
-  const { blockVisibility, deviceInTestMode, testModeSpeed, speed } =
-    singleDeviceStore || {};
+  const { blockVisibility, speed } = singleDeviceStore || {};
 
-  const handleTestValues = (event: any, newValue: number | number[]) => {
-    singleDeviceStore.setTestModeSpeed(newValue as number);
+  const handleChange = (
+    event: Event,
+    value: number | number[],
+    activeThumb: number
+  ) => {
+    singleDeviceStore.setSpeed(value as number);
   };
 
   const virtualEvents = ["valueChanged"];
@@ -34,17 +36,6 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
     addEvents(bluetoothEvents, virtualEvents);
   }, []);
 
-  const motorSpeed: () => number = deviceInTestMode
-    ? () => testModeSpeed
-    : () => speed;
-
-  //temp effect to by-pass unnecessary useCallBack in DCMotor
-  useEffect(() => {
-    setShowMotor(false);
-    setTimeout(() => {
-      setShowMotor(true);
-    }, 0);
-  }, [testModeSpeed, speed]);
   useEffect(() => {
     addPxtEvents();
     return () => {
@@ -54,41 +45,22 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
 
   return (
     <>
-      <Box sx={{ width: "100% " }}>
-        {deviceInTestMode && blockVisibility && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="subtitle2">Min</Typography>
-            <Slider
-              size="small"
-              min={0}
-              max={100}
-              aria-label="Temperature"
-              value={singleDeviceStore.testModeSpeed}
-              onChange={handleTestValues}
-              sx={{ ...customSliderStyle, mx: 2 }}
-              step={10}
-              marks
-            />
-            <Typography variant="subtitle2">Max</Typography>
+      <SliderWithDisplayHOC
+        setValue={handleChange}
+        currentValue={singleDeviceStore.speed}
+        controlsVisibility={singleDeviceStore.blockVisibility}
+      >
+        {blockVisibility && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <div>
+              <SamDCMotor
+                getMotorSpeed={() => singleDeviceStore.speed}
+                getColor={() => hexToRGBA(device.Color)}
+              />
+            </div>
           </Box>
         )}
-      </Box>
-      {blockVisibility && showMotor && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <div>
-            <SamDCMotor
-              getMotorSpeed={motorSpeed}
-              getColor={() => hexToRGBA(device.Color)}
-            />
-          </div>
-        </Box>
-      )}
+      </SliderWithDisplayHOC>
     </>
   );
 }

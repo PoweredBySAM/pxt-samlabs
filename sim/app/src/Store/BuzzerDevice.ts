@@ -4,12 +4,10 @@ import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
 class BuzzerDevice {
   private _virtualController: any;
-  private _bluetoothController: any;
   private _deviceId: string;
   possibleStates: any;
   restProps: any;
   virtualInteractionComponentName: string;
-  testAudioController: AudioController = new AudioController();
   lsStateStore: SamDeviceManager;
   assignedName: string;
   createMessageType: string;
@@ -18,8 +16,8 @@ class BuzzerDevice {
   @observable isConnecting = false;
   @observable batteryLevel = 0;
   @observable Color: string;
-  pitch: any;
-  volume: number;
+  @observable pitch: number;
+  @observable volume: number;
   @observable isActive: boolean;
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
@@ -42,8 +40,8 @@ class BuzzerDevice {
     this.virtualInteractionComponentName = virtualInteractionComponentName;
     this._virtualController = virtualController;
     this.restProps = restprops;
-    this.pitch = virtualController?.pitch;
-    this.volume = 100;
+    this.pitch = 20;
+    this.volume = 70;
     this.isActive = false;
     this.blockVisibility = true;
     this.deviceInTestMode = false;
@@ -80,19 +78,6 @@ class BuzzerDevice {
   }
 
   @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
     this.Color = value;
     this.updateLsStateStore();
@@ -123,6 +108,13 @@ class BuzzerDevice {
   setVolume(value: number) {
     this.volume = value;
     this._virtualController?._toneGenerator?.setVolume(value);
+    this.isActive = value > 0;
+    if (value === 0) {
+      this._virtualController?._toneGenerator?.stop();
+    } else {
+      this._virtualController?._toneGenerator?.start();
+    }
+
     this.broadcastState();
 
     window.parent.postMessage(
@@ -138,7 +130,7 @@ class BuzzerDevice {
     return {
       deviceId: this._deviceId,
       deviceType: this.virtualInteractionComponentName,
-      deviceVlume: this.volume,
+      deviceVolume: this.volume,
       devicePitch: this.pitch,
       isDeviceActive: this.isActive,
       deviceColor: this.Color,
@@ -151,38 +143,11 @@ class BuzzerDevice {
     this._virtualController?._toneGenerator?.start();
     this.broadcastState();
   }
-  @action
-  testTone(key?: string, value?: number) {
-    switch (key) {
-      case "start":
-        {
-          this.testSoundActive = true;
-          this.testAudioController.start();
-          this.testAudioController.setVolume(100);
-        }
-        break;
-      case "stop":
-        {
-          this.testSoundActive = false;
-          this.testAudioController.stop();
-        }
-        break;
-      case "volumeUp":
-        value && this.testAudioController.setVolume(value);
-        break;
-      case "volumeDown":
-        value && this.testAudioController.setVolume(value);
-    }
-    if (!key) {
-      this.testAudioController.start();
-    } else {
-      this.testAudioController.stop();
-    }
-  }
 
   clear() {
     this._virtualController?._toneGenerator?.setVolume(0);
     this._virtualController?._toneGenerator?.setPitch(0);
+    this.isActive = false;
     window.parent.postMessage(
       {
         type: `clearBuzzer for ${this.assignedName}`,
@@ -191,18 +156,6 @@ class BuzzerDevice {
     );
   }
 
-  @action
-  reset() {
-    this.isConnected && this._bluetoothController?._reset();
-  }
-  @action
-  toggleTestMode() {
-    this.deviceInTestMode = !this.deviceInTestMode;
-  }
-  @action
-  deleteDevice() {
-    this.deleted = true;
-  }
   broadcastState() {
     this.customEventGenerator.dispatchEvent("deviceStateChange", {
       data: this.getAllData(),
@@ -214,9 +167,6 @@ class BuzzerDevice {
 
   get virtualController() {
     return this._virtualController;
-  }
-  get bluetoothController() {
-    return this._bluetoothController;
   }
   set virtualController(controller: any) {
     this._virtualController = controller;

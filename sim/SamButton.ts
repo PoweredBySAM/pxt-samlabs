@@ -10,17 +10,18 @@ namespace pxsim.button {
     variable.setButtonColor(color);
   }
 
-  //% blockId="create_button" block="Create new button"
-  //% variable.shadow=variables_get
-  //% variable.defl="Button_1"  //% weight=2
-  export function createNewButton(): pxsim.SamButton {
-    return new pxsim.SamButton();
-  }
   //% blockId="get_is_pressed" block="$variable is pressed"
   //% variable.shadow=variables_get
   //% variable.defl="Button_1"  //% weight=2
   export function buttonIsPressed(variable: SamButton): boolean {
     return variable.getIsPressed();
+  }
+
+  //% blockId="create_button" block="Create new button"
+  //% variable.shadow=variables_get
+  //% variable.defl="Button_1"  //% weight=2
+  export function createNewButton(): pxsim.SamButton {
+    return new pxsim.SamButton();
   }
 }
 namespace pxsim {

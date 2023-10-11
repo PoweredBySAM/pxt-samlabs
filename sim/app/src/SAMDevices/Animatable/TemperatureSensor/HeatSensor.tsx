@@ -13,14 +13,14 @@ import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 function HeatSensor({ device }: { device: HeatSensorDevice }) {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { singleDeviceStore } = useSingleDeviceStore(device);
-  const { addEvents, removeEvents } = useEventsController(
+  const { addEvents } = useEventsController(
     device,
     handleBasicControllerEvents
   );
   const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
   const handleChange = (event: any, newValue: number | number[]) => {
-    singleDeviceStore.setValue(newValue as number);
+    singleDeviceStore.heatSensorValueChanged(newValue as number);
   };
   const virtualEvents = ["valueChanged"];
 

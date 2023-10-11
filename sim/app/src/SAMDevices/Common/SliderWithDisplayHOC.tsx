@@ -73,7 +73,7 @@ const SliderWithDisplayHOC = ({
             <Typography
               variant="h6"
               sx={{
-                fontFamily: "Orbitron",
+                fontFamily: "Nunito",
                 width: "5rem",
                 fontWeight: 400,
                 m: 1,
@@ -108,7 +108,7 @@ const SliderWithDisplayHOC = ({
               <Typography
                 variant="h6"
                 sx={{
-                  fontFamily: "Orbitron",
+                  fontFamily: "Nunito",
                   width: "5rem",
                   fontWeight: 400,
                   m: 2,
