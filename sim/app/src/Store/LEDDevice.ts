@@ -1,7 +1,6 @@
-import { observable, action, makeObservable, makeAutoObservable } from "mobx";
+import { observable, action, makeAutoObservable } from "mobx";
 import { CustomEventGenerator } from "../Features/CustomEventGenerator";
 import SamDeviceManager from "src/Features/SamSimState";
-import { update } from "@react-spring/web";
 
 class LEDDevice {
   private _virtualController: any;
@@ -19,10 +18,9 @@ class LEDDevice {
   @observable blockVisibility: boolean;
   @observable deviceInTestMode: boolean;
   @observable deleted: boolean;
-  @observable testLEDColor: string;
 
   @observable _ledColor: string;
-  _ledBrightness: number;
+  @observable _ledBrightness: number;
   customEventGenerator: CustomEventGenerator;
   lsStateStore: SamDeviceManager;
   assignedName: string;
@@ -46,17 +44,15 @@ class LEDDevice {
     this.restProps = restprops;
     this.isActive = false;
     this.blockVisibility = true;
-    this._ledColor = "#ffffff";
-    this._ledBrightness = 100;
+    this._ledColor = "#000000";
+    this._ledBrightness = 0;
     this.deviceInTestMode = false;
-    this.testLEDColor = "#ffffff";
     this.deleted = false;
     this.Color = "#FFFFFF";
     this.createMessageType = "createLED";
     this.assignedName = "LED";
     makeAutoObservable(this);
     this.updateLsStateStore();
-    
   }
 
   @action
@@ -65,32 +61,8 @@ class LEDDevice {
   }
 
   @action
-  updateBatteryLevel(level: number) {
-    this.batteryLevel = level;
-  }
-  @action
-  updateIsConnected(value: boolean) {
-    this.isConnecting = false;
-    this.isConnected = value;
-  }
-  @action
-  updateIsConnecting(value: boolean) {
-    this.isConnected = value;
-  }
-  @action
   updateColor(value: string) {
-    this.Color = value;
-    this.updateLsStateStore();
-    window.parent.postMessage(
-      {
-        type: `setLEDDeviceColor for ${this.assignedName}`,
-        value: value,
-      },
-      window.location.origin
-    );
-  }
-  @action
-  setBodyColor(value: string) {
+    if (value === this.Color) return;
     this.Color = value;
     this.updateLsStateStore();
     window.parent.postMessage(
@@ -118,6 +90,8 @@ class LEDDevice {
   @action
   setLEDColor(value: string) {
     this._ledColor = value;
+    this._ledBrightness = 100;
+    this.isActive = this._ledColor !== "#000000";
     this.updateLsStateStore();
     window.parent.postMessage(
       {
@@ -129,21 +103,8 @@ class LEDDevice {
   }
 
   @action
-  setLEDTestColor(value: string) {
-    this.testLEDColor = value;
-  }
-
-
-  @action
-  turnLEDOff() {
-    this._virtualController.turnLEDOff();
-    this.isConnected && this._bluetoothController?.turnLEDOff();
-  }
-
-  @action
   reset() {
     this._virtualController._reset();
-    this.isConnected && this._bluetoothController?._reset();
   }
 
   @action
@@ -154,15 +115,20 @@ class LEDDevice {
     );
   }
   @action
-  toggleTestMode() {
-    if (!this.deviceInTestMode) {
-      this.testLEDColor = "#ffffff";
-    }
-    this.deviceInTestMode = !this.deviceInTestMode;
-  }
-  @action
   deleteDevice() {
     this.deleted = true;
+  }
+
+  @action
+  turnLEDOff() {
+    this._ledColor = "#000000";
+    this._ledBrightness = 0;
+    window.parent.postMessage(
+      {
+        type: `turnLEDOff for ${this.assignedName}`,
+      },
+      window.location.origin
+    );
   }
   @action
   setDeviceProp(property: string, value: string | number) {
@@ -171,10 +137,13 @@ class LEDDevice {
         this.setLEDColor(value as string);
         break;
       case "color":
-        this.setBodyColor(value as string);
+        this.updateColor(value as string);
         break;
       case "brightness":
         this.setLEDBrightness(value as number);
+        break;
+      case "turnOff":
+        this.turnLEDOff();
         break;
       default:
         return "Invalid property";
