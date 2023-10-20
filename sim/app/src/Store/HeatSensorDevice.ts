@@ -80,6 +80,7 @@ class HeatSensorDevice {
   }
   @action
   updateColor(value: string) {
+    if (value === this.Color) return;
     this.Color = value;
     this.updateLsStateStore();
     window.parent.postMessage(

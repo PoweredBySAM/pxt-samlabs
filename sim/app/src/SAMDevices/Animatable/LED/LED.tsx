@@ -18,15 +18,9 @@ function LED({ device }: { device: LEDDevice }) {
   );
   const { addPxtEvents, removePxtEvents } = usePxtToSimEvents(device);
 
-  const testColors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF"];
-  const { blockVisibility, deviceInTestMode, ledColor, testLEDColor } =
-    singleDeviceStore || {};
+  const { blockVisibility, ledColor, _ledBrightness } = singleDeviceStore || {};
 
   const virtualEvents = ["valueChanged"];
-
-  const handleTestColorChange = (color: string) => {
-    singleDeviceStore.setLEDTestColor(color);
-  };
 
   useEffect(() => {
     addEvents(bluetoothEvents, virtualEvents);
@@ -37,38 +31,16 @@ function LED({ device }: { device: LEDDevice }) {
       removePxtEvents();
     };
   }, []);
-  useEffect(() => {
-    addPxtEvents();
-    return () => {
-      removePxtEvents();
-    };
-  }, []);
 
   return (
     <>
-      {blockVisibility && deviceInTestMode && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          {testColors.map((color) => (
-            <Box
-              sx={{
-                height: "1rem",
-                backgroundColor: color,
-                width: "20%",
-                cursor: "pointer",
-                mb: 2,
-              }}
-              onClick={() => handleTestColorChange(color)}
-            ></Box>
-          ))}
-        </Box>
-      )}
       {blockVisibility && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
           <Box>
             <SamLED
               colorIndicator={{
-                color: deviceInTestMode ? testLEDColor : ledColor,
-                opacity: 100,
+                color: ledColor,
+                opacity: ledColor === "#000000" ? 0 : _ledBrightness,
               }}
               getColor={() =>
                 device.Color ? hexToRGBA(device.Color) : undefined
