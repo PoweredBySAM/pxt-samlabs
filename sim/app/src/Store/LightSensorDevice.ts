@@ -71,6 +71,7 @@ class LightSensorDevice {
 
   @action
   updateColor(value: string) {
+    if (value === this.Color) return;
     this.Color = value;
     window.parent.postMessage(
       {

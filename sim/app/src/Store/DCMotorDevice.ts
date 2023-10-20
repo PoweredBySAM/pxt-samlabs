@@ -74,6 +74,7 @@ class DCMotorDevice {
   }
   @action
   updateColor(value: string) {
+    if (value === this.Color) return;
     this._virtualController.setColor(value);
     this.Color = value;
     this.updateLsStateStore();
