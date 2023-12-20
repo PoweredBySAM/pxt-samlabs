@@ -55,6 +55,18 @@ declare namespace console {
         public forward(steps: number): void;
 
     }
+declare namespace general {
+    //% blockId="on_prompt_input_display" block="prompt for text with message $word"
+    //% shim=general::onPromptInputDisplay
+    function onPromptInputDisplay(word: string): string;
+
+}
+    /**
+     * General.
+     */
+    //%
+    declare class samGeneral {
+    }
 declare namespace Microbit {
     //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
     // //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"

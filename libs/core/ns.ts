@@ -37,3 +37,5 @@ namespace ServoMotor {}
 namespace Slider {}
 //% color="#9400d3" weight=40 icon="\uf057"
 namespace TiltSensor {}
+//% color="#C44E50" weight=40 icon="\uf0f1"
+namespace general {}

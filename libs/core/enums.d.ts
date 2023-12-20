@@ -99,6 +99,11 @@ White=7,
 Black=8,
 }
 
+declare const enum PromptType{
+  Text,
+  Number,
+}
+
 declare const enum NumberFormat {
   Int8LE = 1,
   UInt8LE = 2,

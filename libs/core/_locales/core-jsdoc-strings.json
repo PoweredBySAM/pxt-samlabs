@@ -218,5 +218,6 @@
   "parseInt|param|text": "A string to convert into an integral number. eg: \"123\"",
   "randint": "Returns a pseudorandom number between min and max included.\nIf both numbers are integral, the result is integral.",
   "randint|param|max": "the upper inclusive bound, eg: 10",
-  "randint|param|min": "the lower inclusive bound, eg: 0"
+  "randint|param|min": "the lower inclusive bound, eg: 0",
+  "samGeneral": "General."
 }
