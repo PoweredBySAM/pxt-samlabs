@@ -60,7 +60,7 @@ async function delay<T>(duration: number, value?: T | Promise<T>): Promise<T> {
 
 //     /**
 //      * Triggers when the turtle bumps a wall
-//      * @param handler 
+//      * @param handler
 //      */
 //     //% blockId=onBump block="on bump"
 //     export function onBump(handler: RefAction) {
@@ -77,7 +77,7 @@ namespace pxsim.loops {
     //  * @param body the code to repeat
     //  */
     // //% help=functions/forever weight=55 blockGap=8
-    // //% blockId=device_forever block="forever" 
+    // //% blockId=device_forever block="forever"
     // export function forever(body: RefAction): void {
     //     thread.forever(body)
     // }
@@ -99,9 +99,9 @@ namespace pxsim.console {
     /**
      * Print out message
      */
-    //% 
-    export function log(msg:string) {
-        logMsg("CONSOLE: " + msg)
+    //%
+    export function log(msg:string,testString?:string) {
+        logMsg("CONSOLE: " + msg + " " + testString)
         // why doesn't that work?
         board().writeSerial(msg + "\n")
     }
@@ -124,10 +124,10 @@ namespace pxsim {
         //%
         public y = 100;
         public angle = 90;
-        
+
         constructor() {
         }
-        
+
         private foobar() {}
 
         /**
@@ -170,6 +170,8 @@ namespace pxsim {
 
 namespace samlabs{
     export enum samSimEvents{
+        FROMSIM_EDITOR_GOT_PROMOPT="FROMSIM_EDITOR_GOT_PROMOPT",
+        TOSIM_EDITOR_GENERAL_STORE_CREATED="TOSIM_EDITOR_GENERAL_STORE_CREATED",
         TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
         TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
         FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
@@ -179,24 +181,24 @@ namespace samlabs{
         constructor() {
             this.items = [];
         }
-    
+
         enqueue(element:string) {
             this.items.push(element);
         }
-    
+
         dequeue() {
-            if(this.isEmpty()) 
-                throw "Underflow"; 
+            if(this.isEmpty())
+                throw "Underflow";
             return this.items.shift();
         }
-    
+
         isEmpty() {
             return this.items.length === 0;
         }
-    
+
         peek() {
-            if(this.isEmpty()) 
-                throw "No elements in Queue"; 
+            if(this.isEmpty())
+                throw "No elements in Queue";
             return this.items[0];
         }
     }
@@ -212,7 +214,7 @@ export class WindowEventService {
             detail: {...payload,},
             bubbles: true,
             cancelable: true,
-            
+
         });
         window.dispatchEvent(event);
     }
@@ -256,7 +258,7 @@ export function hexColorFromCode(colorCode: number) {
       case 8:
         return '#000000'; // Black
       default:
-        return '#ffffff'; 
+        return '#ffffff';
     }
   }
 export function buildEventName(eventName: string, deviceId: string) {
@@ -282,7 +284,7 @@ export class SamSimDataService {
 
     public getDeviceProps(id: string): any {
         const devices = this.loadDevices();
-        return devices.find((device) => device.deviceId === id);  
+        return devices.find((device) => device.deviceId === id);
     }
   }
 
@@ -290,10 +292,10 @@ export class SamSimDataService {
 }
 
 
-  
-  
-  
 
-    
-    
+
+
+
+
+
 
