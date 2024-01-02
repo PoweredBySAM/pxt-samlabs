@@ -13,6 +13,8 @@ import {deviceLabels} from './Constants/DeviceLabel';
 import {getDeviceIcon} from './SAMDevices/Icons';
 import useAddNewDeviceEventHandler from './Hooks/useAddNewDeviceEventHandler';
 import PromptModal from 'src/Components/PromptModal';
+import AIChatModal from 'src/Components/AIChatModal';
+import Button from '@mui/material/Button';
 
 export enum samSimEvents {
     FROMSIM_EDITOR_GOT_PROMOPT = 'FROMSIM_EDITOR_GOT_PROMOPT',
@@ -24,6 +26,7 @@ export enum samSimEvents {
 
 const App: React.FC = observer(() => {
     const {devicesStore} = useStores();
+    const [openChat, setOpenChat] = React.useState(false);
     const [showActiveDevices, setShowActiveDevices] = React.useState(true);
     const deviceKeys: deviceNameType[] = Object.keys(deviceLabels) as deviceNameType[];
     const {addNewDeviceEventHandler} = useAddNewDeviceEventHandler();
@@ -77,6 +80,7 @@ const App: React.FC = observer(() => {
     return (
         <MuiThemeLayout>
             <PromptModal />
+            <AIChatModal setOpenChat={setOpenChat} openChat={openChat} />
             <Box
                 sx={{
                     display: 'flex',
@@ -85,6 +89,32 @@ const App: React.FC = observer(() => {
                     m: 2,
                 }}
             >
+                <Button
+                    style={{
+                        marginBottom: '10px',
+                        fontFamily: 'Nunito',
+                    }}
+                    disableElevation
+                    variant='contained'
+                    sx={{
+                        textTransform: 'none',
+                        backgroundColor: '#26D0C4',
+                        '&:hover': {
+                            backgroundColor: '#21B8A8',
+                        },
+                    }}
+                    onClick={() => {
+                        window.parent.postMessage(
+                            {
+                                type: `getScriptText`,
+                            },
+                            window.location.origin
+                        );
+                        setOpenChat(true);
+                    }}
+                >
+                    GET AI ANSWER
+                </Button>
                 {/*<SelectorComponent*/}
                 {/*  addDevice={addDeviceHandler}*/}
                 {/*  toggleActiveDevicesVisibility={toggleActiveDevicesVisibility}*/}
