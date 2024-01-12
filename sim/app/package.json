@@ -27,6 +27,7 @@
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "node-sass": "^8.0.0",
+    "prettier": "^3.1.1",
     "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
@@ -39,6 +40,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mui/base": "^5.0.0-beta.28",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.16",
     "@react-spring/web": "^9.1.2",
@@ -52,5 +54,13 @@
     "react-dom": "^18.2.0",
     "react-svg": "^16.1.7",
     "uuid": "^9.0.0"
+  },
+  "prettier": {
+    "printWidth": 90,
+    "tabWidth": 4,
+    "bracketSpacing": false,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "jsxSingleQuote": true
   }
 }

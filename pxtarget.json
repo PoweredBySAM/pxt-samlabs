@@ -67,7 +67,8 @@
             "proximitySensor": "#1e90ff",
             "servoMotor": "#ff69b4",
             "slider": "#ff4500",
-            "tiltSensor":"#9400d3"
+            "tiltSensor":"#9400d3",
+            "general": "#C44E50"
         },
         "simAnimationEnter": "fly right in",
         "simAnimationExit": "fly right out",

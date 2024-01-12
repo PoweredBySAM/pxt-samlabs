@@ -5,7 +5,7 @@ declare namespace loops {
     //  * @param body the code to repeat
     //  */
     // //% help=functions/forever weight=55 blockGap=8
-    // //% blockId=device_forever block="forever" 
+    // //% blockId=device_forever block="forever"
     // export function forever(body: RefAction): void {
     //     thread.forever(body)
     // }
@@ -25,7 +25,7 @@ declare namespace console {
      */
     //%
     //% shim=console::log
-    function log(msg: string): void;
+    function log(msg: string, testString?: string): void;
 
 }
     /**
@@ -55,6 +55,22 @@ declare namespace console {
         public forward(steps: number): void;
 
     }
+    /**
+     * General.
+     */
+    //%
+    declare class samGeneral {
+    }
+declare namespace general {
+    //% blockId="on_prompt_input_display" block="Prompt for text with message $word"
+    //% shim=general::onPromptInputDisplayAsync promise
+    function onPromptInputDisplay(word: string): string;
+
+    //% blockId="on_prompt_input_number_display" block="Prompt for number with message $numPrompt"
+    //% shim=general::onPromptInputNumberDisplayAsync promise
+    function onPromptInputNumberDisplay(numPrompt: string): number;
+
+}
 declare namespace Microbit {
     //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
     // //% blockId="write_digital_pin" block="on %variable V2 write digital pin $pinId value $value"
