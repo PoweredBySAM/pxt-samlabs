@@ -7,8 +7,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import Input from 'src/Components/PromptModal/TextInput';
+
 const confiiguration = new Configuration({
-    apiKey: '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',
+    // apiKey: '',
 });
 
 const openai = new OpenAIApi(confiiguration);
@@ -20,8 +21,9 @@ const AIChatModal = ({
     setOpenChat: React.Dispatch<boolean>;
     openChat: boolean;
 }) => {
+    const [promptCount, setPromptCount] = React.useState(0);
+    const [promptRes, setPromptRes] = React.useState<string[]>(['']);
     const [CodePrompt, setCodePrompt] = React.useState('');
-    const [promptRes, setPromptRes] = React.useState('');
     const [question, setQuestion] = React.useState('');
     const handleClose = () => setOpenChat(false);
 
@@ -61,7 +63,7 @@ const AIChatModal = ({
         width: 400,
         bgcolor: 'background.paper',
         boxShadow: 24,
-        p: 4,
+        padding: '14px',
     };
 
     const makeReqToOpenAI = async () => {
@@ -74,7 +76,10 @@ const AIChatModal = ({
                     {
                         role: 'system',
                         content:
-                            'You are a CS instructor and teaching k6 to k9 students learn to code. you are explaining the output code in MICROSOFT PXT that is either Python or Javascript, they gonna ask you questions about the snipet they provide. help them understand the code based on their age and grade (k6 to k9) also dont mention anything about the microsoft PXT. also try to to not use many paragraphs basically dont over explain. ',
+                            'You are a steam and CS instructor and teaching middle school children students learn to code. ' +
+                            'You are explaining the output code in MICROSOFT PXT that is either Python or Javascript, they gonna ask you questions about the snippet they provide. ' +
+                            'Help them understand the code based on their age (9 to 13) and grades (5 to 9) also dont mention anything about the microsoft PXT. ' +
+                            'Also try to to not use many paragraphs basically dont over explain. and keep it 3 around sentences',
                     },
                     {
                         role: 'user',
@@ -102,12 +107,17 @@ const AIChatModal = ({
                     break;
                 }
                 const currentChunk = new TextDecoder().decode(value);
-                console.log('currentChunk', currentChunk);
-                setPromptRes((prev) => prev + currentChunk);
+                setPromptRes((oldArray) =>
+                    oldArray.map((item, i) =>
+                        i === promptCount ? item + currentChunk : item
+                    )
+                );
             }
+            setPromptRes((prev) => [...prev, '']);
+            setPromptCount((prev) => prev + 1);
         } catch (error) {
             console.error('Error:', error);
-            throw error; // Rethrow the error to handle it at a higher level if needed
+            throw error;
         }
     };
     return (
@@ -117,6 +127,9 @@ const AIChatModal = ({
                 onClose={handleClose}
                 aria-labelledby='modal-modal-title'
                 aria-describedby='modal-modal-description'
+                style={{
+                    padding: 10,
+                }}
             >
                 <Box sx={style}>
                     <Box display={'flex'}>
@@ -124,18 +137,22 @@ const AIChatModal = ({
                             <CloseIcon />
                         </Button>
                     </Box>
-                    <Typography
-                        style={{
-                            fontFamily: 'Nunito',
-                            padding: '10px',
-                        }}
-                        id='modal-modal-title'
-                        variant='h6'
-                        component='h2'
-                    >
-                        <br />
-                        {promptRes}
-                    </Typography>
+                    {promptRes.map((res: string) => {
+                        return (
+                            <Typography
+                                style={{
+                                    fontFamily: 'Nunito',
+                                    fontSize: 17,
+                                    padding: '10px',
+                                }}
+                                id='modal-modal-title'
+                                variant='h6'
+                                component='h2'
+                            >
+                                {res}
+                            </Typography>
+                        );
+                    })}
                     <Input
                         placeholder={'Ask a question'}
                         value={question}
