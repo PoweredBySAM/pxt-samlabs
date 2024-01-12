@@ -40,7 +40,7 @@ namespace pxsim.buzzer {
   //% variable.shadow=variables_get
   //% variable.defl="Buzzer_1"
   //% volume.min=0 volume.max=100
-  //% pitch.min=20 pitch.max=20000
+  //% pitch.min=20 pitch.max=2500
   //% color="#d400d4"
 
   export function setBuzzerPitch(

@@ -92,7 +92,7 @@ export default function PromptModal() {
                         {isNumber ? (
                             <NumberInput
                                 aria-label='Demo number input'
-                                placeholder='Type a number…'
+                                aria-placeholder='Type a number…'
                                 style={{
                                     fontFamily: 'Nunito',
                                 }}
