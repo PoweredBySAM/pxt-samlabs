@@ -1,16 +1,13 @@
-
 /// <reference path="../libs/core/enums.d.ts"/>
 
-
 async function delay<T>(duration: number, value: T | Promise<T>): Promise<T>;
-async function delay(duration: number): Promise<void>
+async function delay(duration: number): Promise<void>;
 async function delay<T>(duration: number, value?: T | Promise<T>): Promise<T> {
-    // eslint-disable-next-line
-    const output = await value;
-    await new Promise<void>(resolve => setTimeout(() => resolve(), duration));
-    return output;
+  // eslint-disable-next-line
+  const output = await value;
+  await new Promise<void>((resolve) => setTimeout(() => resolve(), duration));
+  return output;
 }
-
 
 // namespace pxsim.hare {
 //     /**
@@ -71,90 +68,86 @@ async function delay<T>(duration: number, value?: T | Promise<T>): Promise<T> {
 // }
 
 namespace pxsim.loops {
+  // /**
+  //  * Repeats the code forever in the background. On each iteration, allows other code to run.
+  //  * @param body the code to repeat
+  //  */
+  // //% help=functions/forever weight=55 blockGap=8
+  // //% blockId=device_forever block="forever"
+  // export function forever(body: RefAction): void {
+  //     thread.forever(body)
+  // }
 
-    // /**
-    //  * Repeats the code forever in the background. On each iteration, allows other code to run.
-    //  * @param body the code to repeat
-    //  */
-    // //% help=functions/forever weight=55 blockGap=8
-    // //% blockId=device_forever block="forever"
-    // export function forever(body: RefAction): void {
-    //     thread.forever(body)
-    // }
-
-    /**
-     * Pause for the specified time in milliseconds
-     * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
-     */
-    //% help=functions/pause weight=54
-    //% block="pause (ms) %pause" blockId=device_pause
-    export function pauseAsync(ms: number) {
-        return delay(ms)
-    }
+  /**
+   * Pause for the specified time in milliseconds
+   * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
+   */
+  //% help=functions/pause weight=54
+  //% block="pause (ms) %pause" blockId=device_pause
+  export function pauseAsync(ms: number) {
+    return delay(ms);
+  }
 }
 
-function logMsg(m:string) { console.log(m,"msg in api.ts") }
+function logMsg(m: string) {
+  console.log(m, "msg in api.ts");
+}
 
 namespace pxsim.console {
-    /**
-     * Print out message
-     */
-    //%
-    export function log(msg:string,testString?:string) {
-        logMsg("CONSOLE: " + msg + " " + testString)
-        // why doesn't that work?
-        board().writeSerial(msg + "\n")
-    }
+  /**
+   * Print out message
+   */
+  //%
+  export function log(msg: string, testString?: string) {
+    logMsg("CONSOLE: " + msg + " " + testString);
+    // why doesn't that work?
+    board().writeSerial(msg + "\n");
+  }
 }
 
 namespace pxsim {
+  /**
+   * A ghost on the screen.
+   */
+  //%
+  export class Sprite {
     /**
-     * A ghost on the screen.
+     * The X-coordiante
      */
     //%
-    export class Sprite {
-        /**
-         * The X-coordiante
-         */
-        //%
-        public x = 100;
-         /**
-         * The Y-coordiante
-         */
-        //%
-        public y = 100;
-        public angle = 90;
+    public x = 100;
+    /**
+     * The Y-coordiante
+     */
+    //%
+    public y = 100;
+    public angle = 90;
 
-        constructor() {
-        }
+    constructor() {}
 
-        private foobar() {}
+    private foobar() {}
 
-        /**
-         * Move the thing forward
-         */
-        //%
-        public forwardAsync(steps: number) {
-            let deg = this.angle / 180 * Math.PI;
-            this.x += Math.cos(deg) * steps * 10;
-            this.y += Math.sin(deg) * steps * 10;
-            board().updateView();
+    /**
+     * Move the thing forward
+     */
+    //%
+    public forwardAsync(steps: number) {
+      let deg = (this.angle / 180) * Math.PI;
+      this.x += Math.cos(deg) * steps * 10;
+      this.y += Math.sin(deg) * steps * 10;
+      board().updateView();
 
-            if (this.x < 0 || this.y < 0)
-                board().bus.queue("TURTLE", "BUMP");
+      if (this.x < 0 || this.y < 0) board().bus.queue("TURTLE", "BUMP");
 
-            return delay(400)
-        }
+      return delay(400);
     }
+  }
 
-    export enum MotorProperties {
-        Speed = "speed",
-        Direction = "direction",
-        // Add more properties as required
-    }
-
-
-
+  export enum MotorProperties {
+    Speed = "speed",
+    Direction = "direction",
+    // Add more properties as required
+  }
 }
 // namespace pxsim.sprites {
 //     /**
@@ -166,105 +159,104 @@ namespace pxsim {
 //     }
 // }
 
-
-
-namespace samlabs{
-    export enum samSimEvents{
-        FROMSIM_EDITOR_GOT_PROMOPT="FROMSIM_EDITOR_GOT_PROMOPT",
-        TOSIM_EDITOR_GENERAL_STORE_CREATED="TOSIM_EDITOR_GENERAL_STORE_CREATED",
-        TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
-        TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
-        FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
-    }
-    export class SimulatorQueue {
-        private items: any[];
-        constructor() {
-            this.items = [];
-        }
-
-        enqueue(element:string) {
-            this.items.push(element);
-        }
-
-        dequeue() {
-            if(this.isEmpty())
-                throw "Underflow";
-            return this.items.shift();
-        }
-
-        isEmpty() {
-            return this.items.length === 0;
-        }
-
-        peek() {
-            if(this.isEmpty())
-                throw "No elements in Queue";
-            return this.items[0];
-        }
+namespace samlabs {
+  export enum samSimEvents {
+    TOSIM_EDITOR_GOT_CONSOLE_LOG = "TOSIM_EDITOR_GOT_CONSOLE_LOG",
+    FROMSIM_EDITOR_GOT_PROMOPT = "FROMSIM_EDITOR_GOT_PROMOPT",
+    TOSIM_EDITOR_GENERAL_STORE_CREATED = "TOSIM_EDITOR_GENERAL_STORE_CREATED",
+    TOSIM_DEVICE_VALUE_CHANGED = "TOSIM_DEVICE_VALUE_CHANGED",
+    TOSIM_DEVICE_CREATED = "TOSIM_EDITOR_DEVICE_CREATED",
+    FROMSIM_DEVICE_VALUE_CHANGED = "FROMSIM_DEVICE_VALUE_CHANGED",
+  }
+  export class SimulatorQueue {
+    private items: any[];
+    constructor() {
+      this.items = [];
     }
 
-export class WindowEventService {
+    enqueue(element: string) {
+      this.items.push(element);
+    }
 
+    dequeue() {
+      if (this.isEmpty()) throw "Underflow";
+      return this.items.shift();
+    }
+
+    isEmpty() {
+      return this.items.length === 0;
+    }
+
+    peek() {
+      if (this.isEmpty()) throw "No elements in Queue";
+      return this.items[0];
+    }
+  }
+
+  export class WindowEventService {
     private static instance: WindowEventService;
 
     private constructor() {}
 
     sendEvent(eventName: any, payload: any) {
-        const event = new CustomEvent(eventName, {
-            detail: {...payload,},
-            bubbles: true,
-            cancelable: true,
-
-        });
-        window.dispatchEvent(event);
+      console.log("sendEvent", eventName);
+      const event = new CustomEvent(eventName, {
+        detail: { ...payload },
+        bubbles: true,
+        cancelable: true,
+      });
+      window.dispatchEvent(event);
     }
 
-    receiveEvent(eventName: any, callback: (detail ?: any) => void) {
-        window.addEventListener(eventName, (event: CustomEvent) => {
-            callback(event);
-        });
+    receiveEvent(eventName: any, callback: (detail?: any) => void) {
+      window.addEventListener(eventName, (event: CustomEvent) => {
+        callback(event);
+      });
     }
 
     public static getInstance(): WindowEventService {
-        if (!WindowEventService.instance) {
-            WindowEventService.instance = new WindowEventService();
-        }
-        return WindowEventService.instance;
-    }
-}
-export function uuidv4() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    let r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-export function hexColorFromCode(colorCode: number) {
-    switch(colorCode) {
-      case 1:
-        return '#FF0000'; // Red
-      case 2:
-        return '#00FF00'; // Green
-      case 3:
-        return '#0000FF'; // Blue
-      case 4:
-        return '#FFFF00'; // Yellow
-      case 5:
-        return '#FFA500'; // Orange
-      case 6:
-        return '#800080'; // Purple
-      case 7:
-        return '#FFFFFF'; // White
-      case 8:
-        return '#000000'; // Black
-      default:
-        return '#ffffff';
+      if (!WindowEventService.instance) {
+        WindowEventService.instance = new WindowEventService();
+      }
+      return WindowEventService.instance;
     }
   }
-export function buildEventName(eventName: string, deviceId: string) {
-  return `${eventName}_${deviceId}`;
-}
-export class SamSimDataService {
+  export function uuidv4() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        let r = (Math.random() * 16) | 0,
+          v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
+  }
+  export function hexColorFromCode(colorCode: number) {
+    switch (colorCode) {
+      case 1:
+        return "#FF0000"; // Red
+      case 2:
+        return "#00FF00"; // Green
+      case 3:
+        return "#0000FF"; // Blue
+      case 4:
+        return "#FFFF00"; // Yellow
+      case 5:
+        return "#FFA500"; // Orange
+      case 6:
+        return "#800080"; // Purple
+      case 7:
+        return "#FFFFFF"; // White
+      case 8:
+        return "#000000"; // Black
+      default:
+        return "#ffffff";
+    }
+  }
+  export function buildEventName(eventName: string, deviceId: string) {
+    return `${eventName}_${deviceId}`;
+  }
+  export class SamSimDataService {
     private devicesKey: string = "sam_devices_state";
     public static instance: SamSimDataService;
 
@@ -283,19 +275,8 @@ export class SamSimDataService {
     }
 
     public getDeviceProps(id: string): any {
-        const devices = this.loadDevices();
-        return devices.find((device) => device.deviceId === id);
+      const devices = this.loadDevices();
+      return devices.find((device) => device.deviceId === id);
     }
   }
-
-
 }
-
-
-
-
-
-
-
-
-

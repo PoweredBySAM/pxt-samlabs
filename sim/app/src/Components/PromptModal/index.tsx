@@ -40,7 +40,6 @@ export default function PromptModal() {
         const generalStoreCreated = CustomEventGenerator.getInstance().receiveEvent(
             samSimEvents.TOSIM_EDITOR_GENERAL_STORE_CREATED,
             (event: CustomEvent) => {
-                console.log(event.detail.type === 'number');
                 setName('');
 
                 if (event.detail.type === 'number') {

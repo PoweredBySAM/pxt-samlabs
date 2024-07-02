@@ -10,6 +10,7 @@ import PromptModal from 'src/Components/PromptModal';
 import ConsoleWrapper from 'src/Components/ConsoleView/ConsoleWrapper';
 
 export enum samSimEvents {
+    TOSIM_EDITOR_GOT_CONSOLE_LOG = 'TOSIM_EDITOR_GOT_CONSOLE_LOG',
     FROMSIM_EDITOR_GOT_PROMOPT = 'FROMSIM_EDITOR_GOT_PROMOPT',
     TOSIM_EDITOR_GENERAL_STORE_CREATED = 'TOSIM_EDITOR_GENERAL_STORE_CREATED',
     TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
@@ -21,7 +22,7 @@ export type AllSamSimEvents = (typeof samSimEvents)[keyof typeof samSimEvents];
 const App: React.FC = observer(() => {
     const {devicesStore} = useStores();
     const [showActiveDevices, setShowActiveDevices] = React.useState(true);
-    const [showConsole, setShowConsole] = React.useState(false);
+    const [showConsole, setShowConsole] = React.useState(true);
 
     const {addNewDeviceEventHandler} = useAddNewDeviceEventHandler();
 

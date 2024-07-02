@@ -103,6 +103,7 @@
   "buzzer.setBuzzerVolume|block": "Set Buzzer $variable volume to $volume",
   "buzzer|block": "buzzer",
   "console|block": "console",
+  "general.onPrintInput|block": "Print $printValue",
   "general.onPromptInputDisplay|block": "Prompt for text with message $word",
   "general.onPromptInputNumberDisplay|block": "Prompt for number with message $numPrompt",
   "loops.pause|block": "pause (ms) %pause",
