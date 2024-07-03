@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import MuiThemeLayout from './Layouts/MuiThemeLayout';
 import ActiveDevices from './Components/ActiveDevices/ActiveDevices';
-import {Box, Button} from '@mui/material';
 import {observer} from 'mobx-react-lite';
 import {useStores} from './Hooks/useStores';
 import {CustomEventGenerator} from './Features/CustomEventGenerator';
@@ -22,7 +21,7 @@ export type AllSamSimEvents = (typeof samSimEvents)[keyof typeof samSimEvents];
 const App: React.FC = observer(() => {
     const {devicesStore} = useStores();
     const [showActiveDevices, setShowActiveDevices] = React.useState(true);
-    const [showConsole, setShowConsole] = React.useState(true);
+    const [showConsole, setShowConsole] = React.useState(false);
 
     const {addNewDeviceEventHandler} = useAddNewDeviceEventHandler();
 
@@ -35,6 +34,10 @@ const App: React.FC = observer(() => {
             const {data} = event;
             if (data.type === 'run') {
                 devicesStore.emptyDevicesStore();
+                return;
+            }
+            if (data.type === 'CONSOLE_CALLED') {
+                setShowConsole(data.value);
             }
         };
 
@@ -65,26 +68,19 @@ const App: React.FC = observer(() => {
     return (
         <MuiThemeLayout>
             <PromptModal />
-            <Button
-                variant={showConsole ? 'contained' : 'outlined'}
-                onClick={() => setShowConsole(!showConsole)}
-            >
-                Console
-            </Button>
-            <Box
-                sx={{
+            <div
+                className={'invisibleScrollbar'}
+                style={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    m: 2,
+                    overflowY: 'scroll',
+                    height: '100vh',
                 }}
             >
-                {showConsole ? (
-                    <ConsoleWrapper />
-                ) : (
-                    <ActiveDevices showActiveDevices={showActiveDevices} />
-                )}
-            </Box>
+                <ConsoleWrapper showConsole={showConsole} />
+                <ActiveDevices showActiveDevices={showActiveDevices} />
+            </div>
         </MuiThemeLayout>
     );
 });
