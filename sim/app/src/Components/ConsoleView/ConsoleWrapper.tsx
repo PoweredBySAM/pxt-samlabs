@@ -61,11 +61,14 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
                         display: 'flex',
                         flexDirection: 'column',
                         width: '100%',
+                        height: '100%',
                     }}
                 >
                     <div
                         style={{
                             padding: '10px',
+                            height: '100%',
+                            overflowY: 'scroll',
                         }}
                     >
                         {logs.map((log, index) => (
@@ -84,8 +87,6 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
                         style={{
                             display: 'flex',
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: 'auto',
                             padding: 12,
                         }}
                     >
