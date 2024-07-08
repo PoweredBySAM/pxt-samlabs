@@ -79,7 +79,7 @@ const App: React.FC = observer(() => {
                 }}
             >
                 <ConsoleWrapper showConsole={showConsole} />
-                <ActiveDevices showActiveDevices={showActiveDevices} />
+                {!showConsole && <ActiveDevices showActiveDevices={showActiveDevices} />}
             </div>
         </MuiThemeLayout>
     );

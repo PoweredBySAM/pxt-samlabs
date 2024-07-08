@@ -199,7 +199,6 @@ namespace samlabs {
     private constructor() {}
 
     sendEvent(eventName: any, payload: any) {
-      console.log("sendEvent", eventName);
       const event = new CustomEvent(eventName, {
         detail: { ...payload },
         bubbles: true,
