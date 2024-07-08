@@ -9,9 +9,13 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
         const logToConsole = (event: CustomEvent) => {
             let value: string;
             const {printValue} = event.detail;
+
             value = printValue;
             if (typeof printValue === 'boolean') {
                 value = printValue ? 'true' : 'false';
+            }
+            if (typeof printValue === 'object') {
+                value = printValue.constructor.name;
             }
             setLogs((prevLogs) => [...prevLogs, value]);
         };

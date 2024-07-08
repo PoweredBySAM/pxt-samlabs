@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "mobx-react": "^7.6.0",
-    "pxt-core": "9.1.5",
+    "pxt-core": "github:PoweredBySAM/pxt#develop",
     "pxt": "^0.5.1",
     "pxt-common-packages": "10.1.1",
     "uuid": "^9.0.0"
