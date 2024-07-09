@@ -1,74 +1,65 @@
 import React, {useEffect} from 'react';
-// import SelectorComponent from "./Components/selector/SelectorComponent";
 import MuiThemeLayout from './Layouts/MuiThemeLayout';
-import SAMDeviceBuilder from './SAMDevices/SAMDeviceBuilder';
 import ActiveDevices from './Components/ActiveDevices/ActiveDevices';
-import {Box} from '@mui/material';
 import {observer} from 'mobx-react-lite';
 import {useStores} from './Hooks/useStores';
-import {DeviceMenuItemType, IBuiltDevice} from './SAMDevices/Types/SAMDeviceTypes';
 import {CustomEventGenerator} from './Features/CustomEventGenerator';
-import {deviceNameType} from './SAMDevices/Icons/deviceIconTypes';
-import {deviceLabels} from './Constants/DeviceLabel';
-import {getDeviceIcon} from './SAMDevices/Icons';
 import useAddNewDeviceEventHandler from './Hooks/useAddNewDeviceEventHandler';
 import PromptModal from 'src/Components/PromptModal';
+import ConsoleWrapper from 'src/Components/ConsoleView/ConsoleWrapper';
 
 export enum samSimEvents {
+    TOSIM_EDITOR_GOT_CONSOLE_LOG = 'TOSIM_EDITOR_GOT_CONSOLE_LOG',
     FROMSIM_EDITOR_GOT_PROMOPT = 'FROMSIM_EDITOR_GOT_PROMOPT',
     TOSIM_EDITOR_GENERAL_STORE_CREATED = 'TOSIM_EDITOR_GENERAL_STORE_CREATED',
     TOSIM_DEVICE_VALUE_CHANGED = 'TOSIM_DEVICE_VALUE_CHANGED',
     TOSIM_DEVICE_CREATED = 'TOSIM_EDITOR_DEVICE_CREATED',
     FROMSIM_DEVICE_VALUE_CHANGED = 'FROMSIM_DEVICE_VALUE_CHANGED',
 }
+export type AllSamSimEvents = (typeof samSimEvents)[keyof typeof samSimEvents];
 
 const App: React.FC = observer(() => {
     const {devicesStore} = useStores();
     const [showActiveDevices, setShowActiveDevices] = React.useState(true);
-    const deviceKeys: deviceNameType[] = Object.keys(deviceLabels) as deviceNameType[];
+    const [showConsole, setShowConsole] = React.useState(false);
+
     const {addNewDeviceEventHandler} = useAddNewDeviceEventHandler();
-    const menuItemData: DeviceMenuItemType[] = deviceKeys.map((key: deviceNameType) => {
-        return {
-            label: deviceLabels[key],
-            icon: getDeviceIcon(key),
-        };
-    });
-
-    const addDeviceHandler = (device: DeviceMenuItemType): void => {
-        const newDevice: SAMDeviceBuilder = new SAMDeviceBuilder(device);
-        const builtDevice: IBuiltDevice = newDevice.build();
-        devicesStore.addDevice(builtDevice);
-    };
-
-    const toggleActiveDevicesVisibility = (): void => {
-        setShowActiveDevices((prev) => !prev);
-    };
 
     useEffect(() => {
-        const createdEvent = CustomEventGenerator.getInstance().receiveEvent(
-            'TOSIM_EDITOR_DEVICE_CREATED',
-            (event: CustomEvent) => {
-                addNewDeviceEventHandler(event.detail);
+        const createdEventHandler = (event: CustomEvent) => {
+            addNewDeviceEventHandler(event.detail);
+        };
+
+        const simMessageEventHandler = (event: MessageEvent) => {
+            const {data} = event;
+            if (data.type === 'run') {
+                devicesStore.emptyDevicesStore();
+                return;
             }
+            if (data.type === 'CONSOLE_CALLED') {
+                setShowConsole(data.value);
+            }
+        };
+
+        CustomEventGenerator.getInstance().receiveEvent(
+            samSimEvents.TOSIM_DEVICE_CREATED,
+            createdEventHandler
         );
-        const simMessageEvent = CustomEventGenerator.getInstance().receiveEvent(
+
+        CustomEventGenerator.getInstance().receiveEvent(
             'message',
-            (event: any) => {
-                const {data}: {data: any} = event;
-                if (data.type === 'run') {
-                    devicesStore.emptyDevicesStore();
-                }
-            }
+            simMessageEventHandler
         );
+
         const eventsArr = [
-            {event: createdEvent, name: samSimEvents.TOSIM_DEVICE_CREATED},
-            {event: simMessageEvent, name: 'message'},
+            {name: samSimEvents.TOSIM_DEVICE_CREATED, handler: createdEventHandler},
+            {name: 'message', handler: simMessageEventHandler as EventListener},
         ];
         return () => {
-            eventsArr.forEach((event: any) => {
+            eventsArr.forEach((eventItem) => {
                 CustomEventGenerator.getInstance().unregisterEvent(
-                    event.name,
-                    event.event
+                    eventItem.name,
+                    eventItem.handler as EventListener
                 );
             });
         };
@@ -77,20 +68,19 @@ const App: React.FC = observer(() => {
     return (
         <MuiThemeLayout>
             <PromptModal />
-            <Box
-                sx={{
+            <div
+                className={'invisibleScrollbar'}
+                style={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    m: 2,
+                    overflowY: 'scroll',
+                    height: '100vh',
                 }}
             >
-                {/*<SelectorComponent*/}
-                {/*  addDevice={addDeviceHandler}*/}
-                {/*  toggleActiveDevicesVisibility={toggleActiveDevicesVisibility}*/}
-                {/*/>*/}
-                {<ActiveDevices showActiveDevices={showActiveDevices} />}
-            </Box>
+                <ConsoleWrapper showConsole={showConsole} />
+                {!showConsole && <ActiveDevices showActiveDevices={showActiveDevices} />}
+            </div>
         </MuiThemeLayout>
     );
 });

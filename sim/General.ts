@@ -72,6 +72,12 @@ namespace pxsim {
       }
       return 0;
     }
+    public printInput(printValue: any): void {
+      this._dispatch(
+        { printValue: printValue },
+        samlabs.samSimEvents.TOSIM_EDITOR_GOT_CONSOLE_LOG
+      );
+    }
     _dispatch(payload: any, type: string) {
       samlabs.WindowEventService.getInstance().sendEvent(type, {
         ...payload,
@@ -91,5 +97,10 @@ namespace pxsim.general {
     numPrompt: string
   ): Promise<number> {
     return instance.promptNumberInputDisplay(numPrompt);
+  }
+
+  //% block="on_print_input" block="Print $printValue"
+  export function onPrintInput(printValue: any) {
+    instance.printInput(printValue);
   }
 }
