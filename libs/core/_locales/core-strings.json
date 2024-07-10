@@ -106,6 +106,7 @@
   "general.onPrintInput|block": "Print $printValue",
   "general.onPromptInputDisplay|block": "Prompt for text with message $word",
   "general.onPromptInputNumberDisplay|block": "Prompt for number with message $numPrompt",
+  "general.textVariable|block": "\" $word \"",
   "loops.pause|block": "pause (ms) %pause",
   "loops|block": "loops",
   "parseFloat|block": "parse to number %text",

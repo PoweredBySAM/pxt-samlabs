@@ -103,4 +103,8 @@ namespace pxsim.general {
   export function onPrintInput(printValue: any) {
     instance.printInput(printValue);
   }
+  //% blockId="text_variable" block='" $word "'
+  export function textVariable(word: string): string {
+    return word;
+  }
 }
