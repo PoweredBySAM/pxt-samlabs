@@ -8,4 +8,5 @@ temp/
 projects/
 packaged
 gh-pages
+package-lock.json
 sim/public
