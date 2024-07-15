@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {CustomEventGenerator} from 'src/Features/CustomEventGenerator';
 import {samSimEvents} from 'src/App';
-import {Button} from '@mui/material';
 
 const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
     const [logs, setLogs] = React.useState<string[]>([]);
@@ -19,6 +18,12 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
             }
             setLogs((prevLogs) => [...prevLogs, value]);
         };
+        const simMessageEventHandler = (event: MessageEvent) => {
+            const {data} = event;
+            if (data.type === 'CLEAR_CONSOLE_CALLED') {
+                setLogs([]);
+            }
+        };
 
         const receiveConsoleLog = CustomEventGenerator.getInstance().receiveEvent(
             samSimEvents.TOSIM_EDITOR_GOT_CONSOLE_LOG,
@@ -34,11 +39,24 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
                 logToConsole(event);
             }
         );
+        CustomEventGenerator.getInstance().receiveEvent(
+            'message',
+            simMessageEventHandler
+        );
+        const eventsArr = [
+            {
+                name: samSimEvents.TOSIM_EDITOR_GOT_CONSOLE_LOG,
+                handler: () => receiveConsoleLog,
+            },
+            {name: 'message', handler: simMessageEventHandler as EventListener},
+        ];
         return () => {
-            CustomEventGenerator.getInstance().unregisterEvent(
-                samSimEvents.TOSIM_EDITOR_GOT_CONSOLE_LOG,
-                () => receiveConsoleLog
-            );
+            eventsArr.forEach((eventItem) => {
+                CustomEventGenerator.getInstance().unregisterEvent(
+                    eventItem.name,
+                    eventItem.handler as EventListener
+                );
+            });
         };
     }, []);
 
@@ -82,34 +100,6 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
                                 {log}
                             </div>
                         ))}
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            padding: 12,
-                        }}
-                    >
-                        <Button
-                            style={{
-                                width: '100%',
-                                padding: 10,
-                            }}
-                            variant='contained'
-                            sx={{
-                                fontSize: '1rem',
-                                textTransform: 'none',
-                                backgroundColor: '#26D0C4',
-                                '&:hover': {
-                                    backgroundColor: '#21B8A8',
-                                },
-                            }}
-                            onClick={() => {
-                                setLogs([]);
-                            }}
-                        >
-                            Clear Console
-                        </Button>
                     </div>
                 </div>
             )}
