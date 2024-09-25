@@ -35,9 +35,9 @@
 @grey             : #636e72;
 @orange           : #fab1a0;
 @pink             : #fd79a8;
-@purple           : #26d0c4;
+@purple           : #00AEC7;
 @red              : #ff7675;
-@teal             : #26d0c4;
+@teal             : #00AEC7;
 @yellow           : #ffeaa7;
 
 /*-------------------

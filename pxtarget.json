@@ -1,8 +1,8 @@
 {
 
     "id": "samlabs-pxt-target",
-    "name": "SAM Script",
-    "title": "SAM Script- Blocks / Javascript and Python editor",
+    "name": "Woz Script",
+    "title": "Woz Script- Blocks / Javascript and Python editor",
     "description": "A Custom Blocks / JavaScript and Python code editor based on MakeCode for SAMLabs Devices",
     "corepkg": "core",
     "cloud": {
