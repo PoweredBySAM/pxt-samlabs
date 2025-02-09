@@ -70,6 +70,14 @@ declare namespace general {
     //% shim=general::onPromptInputNumberDisplayAsync promise
     function onPromptInputNumberDisplay(numPrompt: string): number;
 
+    //% block="on_print_input" block="Print $printValue"
+    //% shim=general::onPrintInput
+    function onPrintInput(printValue: any): void;
+
+    //% blockId="text_variable" block='" $word "'
+    //% shim=general::textVariable
+    function textVariable(word: string): string;
+
 }
 declare namespace Microbit {
     //:TODO: This block is Correct but since Microbit pins functionality not finalized, it is commented out
