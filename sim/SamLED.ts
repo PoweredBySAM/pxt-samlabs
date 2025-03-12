@@ -93,7 +93,7 @@ namespace pxsim.RGB_LED {
     return variable.isLEDOn();
   }
 
-  //% blockId="create_led" block="create new SAM RGB Light"
+  //% blockId="create_led" block="new SAM RGB Light"
   //% blockSetVariable="RGB LED"
   //% color="#4169e1"
   export function createLED(): pxsim.SamLED {

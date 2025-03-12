@@ -27,7 +27,7 @@ namespace pxsim.TiltSensor {
     return variable.IsTiltValueChanged();
   }
 
-  //% blockId="create_tilt_sensor" block="create new SAM Tilt Sensor"
+  //% blockId="create_tilt_sensor" block="new SAM Tilt Sensor"
   //% blockSetVariable="Tilt Sensor"
   //% color="#9400d3"
   export function createTiltSensor(): pxsim.SamTiltSensor {

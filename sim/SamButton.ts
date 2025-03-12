@@ -17,7 +17,7 @@ namespace pxsim.button {
     return variable.getIsPressed();
   }
 
-  //% blockId="create_button" block="create new SAM Button"
+  //% blockId="create_button" block="new SAM Button"
   //% blockSetVariable="Button"
   export function createNewButton(): pxsim.SamButton {
     return new pxsim.SamButton();

@@ -30,7 +30,7 @@ namespace pxsim.PressureSensor {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_pressure_sensor" block="create new SAM Pressure Sensor"
+  //% blockId="create_pressure_sensor" block="new SAM Pressure Sensor"
   //% blockSetVariable="Pressure Sensor"
   //% color="#00aa00"
   export function createPressureSensor(): pxsim.SamPressureSensor {

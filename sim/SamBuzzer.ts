@@ -80,7 +80,7 @@ namespace pxsim.buzzer {
     variable.setColor(color);
   }
 
-  //% blockId="createBuzzer" block="create new SAM Buzzer"
+  //% blockId="createBuzzer" block="new SAM Buzzer"
   //% blockSetVariable="Buzzer"
   export function createBuzzer(): pxsim.SamBuzzer {
     return new pxsim.SamBuzzer();

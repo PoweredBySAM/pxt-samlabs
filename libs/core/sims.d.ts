@@ -242,7 +242,7 @@ declare namespace button {
     //% shim=button::buttonIsPressed
     function buttonIsPressed(variable: SamButton): boolean;
 
-    //% blockId="create_button" block="create new SAM Button"
+    //% blockId="create_button" block="new SAM Button"
     //% blockSetVariable="Button"
     //% shim=button::createNewButton
     function createNewButton(): SamButton;
@@ -320,7 +320,7 @@ declare namespace buzzer {
     //% shim=buzzer::setBuzzerColor
     function setBuzzerColor(variable: SamBuzzer, color: samLedColors): void;
 
-    //% blockId="createBuzzer" block="create new SAM Buzzer"
+    //% blockId="createBuzzer" block="new SAM Buzzer"
     //% blockSetVariable="Buzzer"
     //% shim=buzzer::createBuzzer
     function createBuzzer(): SamBuzzer;
@@ -356,7 +356,7 @@ declare namespace DCMotor {
     //% shim=DCMotor::setSamMotorColor
     function setSamMotorColor(variable: SamDCMotor, value: samLedColors): void;
 
-    //% blockId="create_motor" block="create new SAM DC Motor"
+    //% blockId="create_motor" block="new SAM DC Motor"
     //% blockSetVariable="DC Motor"
     //% color.shadow="1"
     //% color="#32cd32"
@@ -392,7 +392,7 @@ declare namespace HeatSensor {
     //% shim=HeatSensor::isSamHeatSensorValueChanged
     function isSamHeatSensorValueChanged(variable: SamHeatSensor): boolean;
 
-    //% blockId="create_heat_sensor" block="create new SAM Heat Sensor"
+    //% blockId="create_heat_sensor" block="new SAM Heat Sensor"
     //% blockSetVariable="Heat Sensor"
     //% color="#3455db"
     //% shim=HeatSensor::createHeatSensor
@@ -490,7 +490,7 @@ declare namespace RGB_LED {
     //% shim=RGB_LED::isLEDOn
     function isLEDOn(variable: SamLED): boolean;
 
-    //% blockId="create_led" block="create new SAM RGB Light"
+    //% blockId="create_led" block="new SAM RGB Light"
     //% blockSetVariable="RGB LED"
     //% color="#4169e1"
     //% shim=RGB_LED::createLED
@@ -531,7 +531,7 @@ declare namespace LightSensor {
      * @param variable The  LED to set the Body color for
      * @param color The new color for the LED
      */
-    //% blockId="create_light_sensor" block="create new SAM Light Sensor"
+    //% blockId="create_light_sensor" block="new SAM Light Sensor"
     //% blockSetVariable="Light Sensor"
     //% color="#FF5733"
     //% shim=LightSensor::createLightSensor
@@ -566,7 +566,7 @@ declare namespace PressureSensor {
     //% shim=PressureSensor::setSamPressureSensorColor
     function setSamPressureSensorColor(variable: SamPressureSensor, value: samLedColors): void;
 
-    //% blockId="create_pressure_sensor" block="create new SAM Pressure Sensor"
+    //% blockId="create_pressure_sensor" block="new SAM Pressure Sensor"
     //% blockSetVariable="Pressure Sensor"
     //% color="#00aa00"
     //% shim=PressureSensor::createPressureSensor
@@ -602,7 +602,7 @@ declare namespace ProximitySensor {
     //% shim=ProximitySensor::setSamProximitySensorColor
     function setSamProximitySensorColor(variable: SamProximitySensor, value: samLedColors): void;
 
-    //% blockId="create_proximity_sensor" block="create new SAM Proximity Sensor"
+    //% blockId="create_proximity_sensor" block="new SAM Proximity Sensor"
     //% blockSetVariable="Proximity Sensor"
     //% color="#1e90ff"
     //% shim=ProximitySensor::createProximitySensor
@@ -638,7 +638,7 @@ declare namespace ServoMotor {
     //% shim=ServoMotor::setServoMotorColor
     function setServoMotorColor(variable: SamServoMotor, value: samLedColors): void;
 
-    //% blockId="create_servo_motor" block="create new SAM Servo Motor"
+    //% blockId="create_servo_motor" block="new SAM Servo Motor"
     //% blockSetVariable="Servo Motor"
     //% color="#ff69b4"
     //% shim=ServoMotor::createServoMotor
@@ -674,7 +674,7 @@ declare namespace Slider {
     //% shim=Slider::setSamSliderColor
     function setSamSliderColor(variable: SamSlider, value: samLedColors): void;
 
-    //% blockId="create_slider" block="create new SAM Slider"
+    //% blockId="create_slider" block="new SAM Slider"
     //% blockSetVariable="Slider"
     //% color="#ff4500"
     //% shim=Slider::createSlider
@@ -710,7 +710,7 @@ declare namespace TiltSensor {
     //% shim=TiltSensor::IsTiltValueChanged
     function IsTiltValueChanged(variable: SamTiltSensor): boolean;
 
-    //% blockId="create_tilt_sensor" block="create new SAM Tilt Sensor"
+    //% blockId="create_tilt_sensor" block="new SAM Tilt Sensor"
     //% blockSetVariable="Tilt Sensor"
     //% color="#9400d3"
     //% shim=TiltSensor::createTiltSensor

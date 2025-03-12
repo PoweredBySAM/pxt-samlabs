@@ -36,7 +36,7 @@ namespace pxsim.LightSensor {
    * @param variable The  LED to set the Body color for
    * @param color The new color for the LED
    */
-  //% blockId="create_light_sensor" block="create new SAM Light Sensor"
+  //% blockId="create_light_sensor" block="new SAM Light Sensor"
   //% blockSetVariable="Light Sensor"
   //% color="#FF5733"
   export function createLightSensor(): pxsim.SamLightSensor {

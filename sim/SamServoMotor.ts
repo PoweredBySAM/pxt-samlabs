@@ -30,7 +30,7 @@ namespace pxsim.ServoMotor {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_servo_motor" block="create new SAM Servo Motor"
+  //% blockId="create_servo_motor" block="new SAM Servo Motor"
   //% blockSetVariable="Servo Motor"
   //% color="#ff69b4"
   export function createServoMotor(): pxsim.SamServoMotor {

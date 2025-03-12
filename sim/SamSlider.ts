@@ -27,7 +27,7 @@ namespace pxsim.Slider {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_slider" block="create new SAM Slider"
+  //% blockId="create_slider" block="new SAM Slider"
   //% blockSetVariable="Slider"
   //% color="#ff4500"
   export function createSlider(): pxsim.SamSlider {

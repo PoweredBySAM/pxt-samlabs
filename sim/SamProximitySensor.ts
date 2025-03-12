@@ -31,7 +31,7 @@ namespace pxsim.ProximitySensor {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_proximity_sensor" block="create new SAM Proximity Sensor"
+  //% blockId="create_proximity_sensor" block="new SAM Proximity Sensor"
   //% blockSetVariable="Proximity Sensor"
   //% color="#1e90ff"
   export function createProximitySensor(): pxsim.SamProximitySensor {

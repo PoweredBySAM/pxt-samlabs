@@ -30,7 +30,7 @@ namespace pxsim.DCMotor {
     variable.setMotorColor(value);
   }
 
-  //% blockId="create_motor" block="create new SAM DC Motor"
+  //% blockId="create_motor" block="new SAM DC Motor"
   //% blockSetVariable="DC Motor"
   //% color.shadow="1"
   //% color="#32cd32"

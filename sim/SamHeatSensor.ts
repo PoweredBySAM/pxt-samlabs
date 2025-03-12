@@ -29,7 +29,7 @@ namespace pxsim.HeatSensor {
     return variable.isSamHeatSensorValueChanged();
   }
 
-  //% blockId="create_heat_sensor" block="create new SAM Heat Sensor"
+  //% blockId="create_heat_sensor" block="new SAM Heat Sensor"
   //% blockSetVariable="Heat Sensor"
   //% color="#3455db"
   export function createHeatSensor(): pxsim.SamHeatSensor {
