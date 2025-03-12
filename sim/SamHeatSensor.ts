@@ -1,25 +1,27 @@
 namespace pxsim.HeatSensor {
-  //% blockId="get_heat_sensor_value_celsius" block="get heat %variable sensor value in Celsius"
+  //% blockId="get_heat_sensor_value_celsius" block="%variable temperature in Celsius"
   //% variable.shadow=variables_get
-  //% variable.defl="Heat_Sensor_1"
+  //% variable.defl="Heat Sensor"
   //% color="#3455db"
   export function getSamHeatSensorValueCelsius(
     variable: pxsim.SamHeatSensor
   ): any {
     return variable.getValueCelsius();
   }
-  //% blockId="get_heat_sensor_value_fahrenheit" block="get heat sensor  %variable value in Fahrenheit"
+
+  //% blockId="get_heat_sensor_value_fahrenheit" block="%variable temperature in Fahrenheit"
   //% variable.shadow=variables_get
-  //% variable.defl="Heat_Sensor_1"
+  //% variable.defl="Heat Sensor"
   //% color="#3455db"
   export function getSamHeatSensorValueFahrenheit(
     variable: pxsim.SamHeatSensor
   ): any {
     return variable.getValueFahrenheit();
   }
-  //% blockId="heat_sensor_value_change" block="is %variable value changed"
+
+  //% blockId="heat_sensor_value_change" block="is %variable temperature changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Heat_Sensor_1"
+  //% variable.defl="Heat Sensor"
   //% color="#3455db"
   export function isSamHeatSensorValueChanged(
     variable: pxsim.SamHeatSensor
@@ -27,8 +29,8 @@ namespace pxsim.HeatSensor {
     return variable.isSamHeatSensorValueChanged();
   }
 
-  //% blockId="create_heat_sensor" block="Create new heat sensor"
-  //% variable.defl="Heat_Sensor_1"
+  //% blockId="create_heat_sensor" block="create new SAM Heat Sensor"
+  //% blockSetVariable="Heat Sensor"
   //% color="#3455db"
   export function createHeatSensor(): pxsim.SamHeatSensor {
     return new pxsim.SamHeatSensor();

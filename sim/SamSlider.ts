@@ -1,24 +1,24 @@
 namespace pxsim.Slider {
-  //% blockId="get_slider_value" block="get slider %variable value"
+  //% blockId="get_slider_value" block="%variable position"
   //% variable.shadow=variables_get
-  //% variable.defl="Slider_1"
+  //% variable.defl="Slider"
   //% color="#ff4500"
   export function getSamSliderValue(variable: pxsim.SamSlider): number {
     return variable.getValue();
   }
 
-  //% blockId="get_slider_value_equals" block="is %variable value changed"
+  //% blockId="get_slider_value_equals" block="is %variable position changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Slider_1"
+  //% variable.defl="Slider"
   //% number.min=0 number.max=100
   //% color="#ff4500"
   export function isSliderValueChanged(variable: pxsim.SamSlider): boolean {
     return variable.isSliderValueChanged();
   }
 
-  //% blockId="set_slider_color" block="set slider %variable color to %value"
+  //% blockId="set_slider_color" block="set %variable color to %value"
   //% variable.shadow=variables_get
-  //% variable.defl="Slider_1"
+  //% variable.defl="Slider"
   //% color="#ff4500"
   export function setSamSliderColor(
     variable: pxsim.SamSlider,
@@ -27,8 +27,8 @@ namespace pxsim.Slider {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_slider" block="Create new slider"
-  //% variable.defl="Slider_1"
+  //% blockId="create_slider" block="create new SAM Slider"
+  //% blockSetVariable="Slider"
   //% color="#ff4500"
   export function createSlider(): pxsim.SamSlider {
     return new pxsim.SamSlider();

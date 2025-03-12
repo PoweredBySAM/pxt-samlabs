@@ -1,7 +1,7 @@
 namespace pxsim.button {
-  //% blockId="set_button_color" block="Set Button $variable color to %color"
+  //% blockId="set_button_color" block="set $variable color to %color"
   //% variable.shadow=variables_get
-  //% variable.defl="Button_1"
+  //% variable.defl="Button"
   //% color.shadow="1" //% weight=2
   export function setButtonColor(
     variable: pxsim.SamButton,
@@ -10,16 +10,15 @@ namespace pxsim.button {
     variable.setButtonColor(color);
   }
 
-  //% blockId="get_is_pressed" block="$variable is pressed"
+  //% blockId="get_is_pressed" block="is $variable is pressed"
   //% variable.shadow=variables_get
-  //% variable.defl="Button_1"  //% weight=2
+  //% variable.defl="Button"  //% weight=2
   export function buttonIsPressed(variable: SamButton): boolean {
     return variable.getIsPressed();
   }
 
-  //% blockId="create_button" block="Create new button"
-  //% variable.shadow=variables_get
-  //% variable.defl="Button_1"  //% weight=2
+  //% blockId="create_button" block="create new SAM Button"
+  //% blockSetVariable="Button"
   export function createNewButton(): pxsim.SamButton {
     return new pxsim.SamButton();
   }

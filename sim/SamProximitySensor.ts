@@ -1,7 +1,7 @@
 namespace pxsim.ProximitySensor {
-  //% blockId="get_proximity_sensor_value" block="get proximity sensor %variable value"
+  //% blockId="get_proximity_sensor_value" block="%variable value"
   //% variable.shadow=variables_get
-  //% variable.defl="Proximity_Sensor_1"
+  //% variable.defl="Proximity Sensor"
   //% color="#1e90ff"
   export function getSamProximitySensorValue(
     variable: pxsim.SamProximitySensor
@@ -11,7 +11,7 @@ namespace pxsim.ProximitySensor {
 
   //% blockId="proximity_sensor_value_change" block="is %variable value changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Proximity_Sensor_1"
+  //% variable.defl="Proximity Sensor"
   //% color="#1e90ff"
   export function isSamProximitySensorValueChanged(
     variable: pxsim.SamProximitySensor
@@ -19,9 +19,9 @@ namespace pxsim.ProximitySensor {
     return variable.isSamProximitySensorValueChanged();
   }
 
-  //% blockId="set_proximity_sensor_color" block="set proximity sensor %variable  color to %value"
+  //% blockId="set_proximity_sensor_color" block="set %variable color to %value"
   //% variable.shadow=variables_get
-  //% variable.defl="Proximity_Sensor_1"
+  //% variable.defl="Proximity Sensor"
   //% value.shadow="1"
   //% color="#1e90ff"
   export function setSamProximitySensorColor(
@@ -31,8 +31,8 @@ namespace pxsim.ProximitySensor {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_proximity_sensor" block="Create new proximity sensor"
-  //% variable.defl="Proximity_Sensor_1"
+  //% blockId="create_proximity_sensor" block="create new SAM Proximity Sensor"
+  //% blockSetVariable="Proximity Sensor"
   //% color="#1e90ff"
   export function createProximitySensor(): pxsim.SamProximitySensor {
     return new pxsim.SamProximitySensor();

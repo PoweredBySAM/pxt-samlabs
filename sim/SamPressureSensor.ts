@@ -1,7 +1,7 @@
 namespace pxsim.PressureSensor {
-  //% blockId="get_pressure_sensor_value" block="get pressure %variable sensor value"
+  //% blockId="get_pressure_sensor_value" block="%variable sensor value"
   //% variable.shadow=variables_get
-  //% variable.defl="Pressure_Sensor_1"
+  //% variable.defl="Pressure Sensor"
   //% color="#00aa00"
   export function getSamPressureSensorValue(
     variable: pxsim.SamPressureSensor
@@ -11,7 +11,7 @@ namespace pxsim.PressureSensor {
 
   //% blockId="pressure_sensor_value_change" block="is %variable value changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Pressure_Sensor_1"
+  //% variable.defl="Pressure Sensor"
   //% color="#00aa00"
   export function isSamPressureSensorValueChanged(
     variable: pxsim.SamPressureSensor
@@ -19,9 +19,9 @@ namespace pxsim.PressureSensor {
     return variable.isSamPressureSensorValueChanged();
   }
 
-  //% blockId="set_pressure_sensor_color" block="set pressure sensor %variable  color to %value"
+  //% blockId="set_pressure_sensor_color" block="set %variable color to %value"
   //% variable.shadow=variables_get
-  //% variable.defl="Pressure_Sensor_1"
+  //% variable.defl="Pressure Sensor"
   //% color="#00aa00"
   export function setSamPressureSensorColor(
     variable: pxsim.SamPressureSensor,
@@ -30,9 +30,8 @@ namespace pxsim.PressureSensor {
     variable.setDeviceColor(value);
   }
 
-  //% blockId="create_pressure_sensor" block="Create new pressure sensor"
-  //% variable.shadow=variables_get
-  //% variable.defl="Pressure_Sensor_1"
+  //% blockId="create_pressure_sensor" block="create new SAM Pressure Sensor"
+  //% blockSetVariable="Pressure Sensor"
   //% color="#00aa00"
   export function createPressureSensor(): pxsim.SamPressureSensor {
     return new pxsim.SamPressureSensor();

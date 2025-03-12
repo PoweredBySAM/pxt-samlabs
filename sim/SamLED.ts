@@ -3,34 +3,36 @@ namespace pxsim.RGB_LED {
    * Turn the LED with the given ID off
    * @param variable The  LED to turn on
    */
-  //% blockId="turn_led_on" block="turn $variable LED off"
+  //% blockId="turn_led_off" block="turn off $variable"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% color="#4169e1"
   export function turnLEDOff(variable: SamLED): void {
     variable.turnOff();
   }
+
   /**
    * Set the color of the LED with the given ID
    * @param variable The LED to set the color for
    * @param color The new color for the LED
    */
-  //% blockId="set_led_color" block="set color of LED %variable to %color"
+  //% blockId="set_led_color" block="set %variable LED color to %color"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% color.shadow="1"
   //% color="#4169e1"
   export function setLEDColor(variable: SamLED, color: samLedColors): void {
     variable.setLEDColor(color);
   }
+
   /**
    * Set the body color of the LED with the given ID
    * @param variable The  LED to set the Body color for
    * @param color The new color for the LED
    */
-  //% blockId="set_led_body_color" block="set body color of %variable to %color"
+  //% blockId="set_led_body_color" block="set %variable body color to %color"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% color.shadow="1"
   //% color="#4169e1"
   export function setLEDBodyColor(variable: SamLED, color: samLedColors): void {
@@ -42,9 +44,9 @@ namespace pxsim.RGB_LED {
    * @param ledId The ID of the LED to change the brightness for
    * @param brightness The new brightness for the LED (0 to 100)
    */
-  //% blockId="change_led_brightness" block="change LED brightness of %variable to $brightness"
+  //% blockId="change_led_brightness" block="set %variable brightness to $brightness"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% brightness.min=0 brightness.max=100
   //% color="#4169e1"
   export function changeLEDBrightness(
@@ -58,20 +60,21 @@ namespace pxsim.RGB_LED {
    * Get the brightness of the LED with the given ID
    * @param ledId The ID of the LED to get the brightness of
    */
-  //% blockId="get_led_brightness" block="get $variable LED brightness"
+  //% blockId="get_led_brightness" block="$variable brightness"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% color="#4169e1"
   export function getLEDBrightness(variable: SamLED): number {
     return variable.getLEDBrightness();
   }
+
   /**
-   * Get the brightness of the LED with the given ID
+   * Get the color of the LED with the given ID
    * @param variable The LED to get the brightness of
    */
-  //% blockId="get_led_color" block="get $variable LED color"
+  //% blockId="get_led_color" block="$variable color"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% color="#4169e1"
   export function getLEDColor(variable: SamLED): number {
     return variable.getLEDColor();
@@ -81,17 +84,17 @@ namespace pxsim.RGB_LED {
    * Check if the LED with the given ID is on
    * @param ledId The ID of the LED to check if it's on
    */
-  //% blockId="is_led_on" block="is $variable LED on"
+  //% blockId="is_led_on" block="is $variable on"
   //% variable.shadow=variables_get
-  //% variable.defl="RGB_LED_1"
+  //% variable.defl="RGB LED"
   //% ledId.defl=0
   //% color="#4169e1"
   export function isLEDOn(variable: SamLED): boolean {
     return variable.isLEDOn();
   }
 
-  //% blockId="create_led" block="Create new RGB Light"
-  //% variable.defl="RGB_LED_1"
+  //% blockId="create_led" block="create new SAM RGB Light"
+  //% blockSetVariable="RGB LED"
   //% color="#4169e1"
   export function createLED(): pxsim.SamLED {
     return new pxsim.SamLED();
