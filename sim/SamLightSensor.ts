@@ -1,7 +1,7 @@
 namespace pxsim.LightSensor {
-  //% blockId="get_light_sensor_value" block="get %variable value "
+  //% blockId="get_light_sensor_value" block="%variable value"
   //% variable.shadow=variables_get
-  //% variable.defl="Light_Sensor_1"
+  //% variable.defl="Light Sensor"
   //% color="#FF5733"
   export function getSamLightSensorValue(
     variable: pxsim.SamLightSensor
@@ -11,7 +11,7 @@ namespace pxsim.LightSensor {
 
   //% blockId="get_light_sensor_color" block="is %variable value changed"
   //% variable.shadow=variables_get
-  //% variable.defl="Light_Sensor_1"
+  //% variable.defl="Light Sensor"
   //% color="#FF5733"
   export function isSamLightSensorValueChanged(
     variable: pxsim.SamLightSensor
@@ -19,9 +19,9 @@ namespace pxsim.LightSensor {
     return variable.isSamLightSensorValueChanged();
   }
 
-  //% blockId="set_light_sensor_color" block="set color of light sensor %variable to $value"
+  //% blockId="set_light_sensor_color" block="set %variable color to $value"
   //% variable.shadow=variables_get
-  //% variable.defl="Light_Sensor_1"
+  //% variable.defl="Light Sensor"
   //% color.shadow="1"
   //% color="#FF5733"
   export function setSamLightSensorColor(
@@ -30,14 +30,14 @@ namespace pxsim.LightSensor {
   ): void {
     variable.setDeviceColor(value);
   }
+
   /**
    * Set the body color of the Light Sensor with the given ID
    * @param variable The  LED to set the Body color for
    * @param color The new color for the LED
    */
-
-  //% blockId="create_light_sensor" block="Create new light sensor"
-  //% variable.defl="Light_Sensor_1"
+  //% blockId="create_light_sensor" block="new SAM Light Sensor"
+  //% blockSetVariable="Light Sensor"
   //% color="#FF5733"
   export function createLightSensor(): pxsim.SamLightSensor {
     return new pxsim.SamLightSensor();

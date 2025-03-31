@@ -64,7 +64,7 @@ class DevicesStore {
       const deviceType = device.constructor.name;
       const count = counts[deviceType] || 0;
       counts[deviceType] = count + 1;
-      device.assignedName = `${deviceType} ${count + 1}`;
+      device.assignedName = `${deviceType} ${count === 0 ? '' : count + 1}`;
     });
   }
 

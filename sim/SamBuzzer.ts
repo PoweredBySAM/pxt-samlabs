@@ -1,28 +1,29 @@
 //% color=190 weight=100 icon="\uf025" block="Sam Labs" group="Buzzer"
 namespace pxsim.buzzer {
-  //% blockId="get_buzzer_volume_pitch" block="get Buzzer %variable pitch"
+  //% blockId="get_buzzer_volume_pitch" block="%variable pitch"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+  //% variable.defl="Buzzer"
   //% color="#d400d4"
   export function getBuzzerPitch(variable: pxsim.SamBuzzer): number {
     return variable.getPitch();
   }
 
-  //% blockId="get_buzzer_volume_value" block="get Buzzer %variable volume"
+  //% blockId="get_buzzer_volume_value" block="%variable volume"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+  //% variable.defl="Buzzer"
   //% color="#d400d4"
   export function getBuzzerVolume(variable: pxsim.SamBuzzer): number {
     return variable.getVolume();
   }
+
   /**
    * Set the volume of the buzzer with the given ID
    * @param variable The buzzer instance to set the volume for
    * @param volume The new volume for the buzzer (0-100)
    */
-  //% blockId="set_buzzer_volume" block="Set Buzzer $variable volume to $volume"
+  //% blockId="set_buzzer_volume" block="set $variable volume to $volume"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+  //% variable.defl="Buzzer"
   //% volume.min=0 volume.max=100
   //% color="#d400d4"
   export function setBuzzerVolume(
@@ -31,18 +32,18 @@ namespace pxsim.buzzer {
   ): void {
     variable.setVolume(volume);
   }
+
   /**
    * Set the pitch of the buzzer with the given ID
    * @param buzzerId The ID of the buzzer to set the pitch for
    * @param pitch The new pitch for the buzzer (in Hz)
    */
-  //% blockId="set_buzzer_pitch" block="Set Buzzer $variable pitch to $pitch Hz"
+  //% blockId="set_buzzer_pitch" block="set $variable pitch to $pitch Hz"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+  //% variable.defl="Buzzer"
   //% volume.min=0 volume.max=100
   //% pitch.min=20 pitch.max=2500
   //% color="#d400d4"
-
   export function setBuzzerPitch(
     variable: pxsim.SamBuzzer,
     pitch: number
@@ -51,24 +52,25 @@ namespace pxsim.buzzer {
   }
 
   /**
-   * Clear the buzzer with the given ID by setting its volume and pitch to zero
+   * Stop the buzzer with the given ID by setting its volume and pitch to zero
    * @param variable The buzzer instance to clear
    */
-  //% blockId="clear_buzzer" block="clear Buzzer $variable"
+  //% blockId="clear_buzzer" block="stop $variable"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+  //% variable.defl="Buzzer"
   //% color="#d400d4"
   export function clearBuzzer(variable: pxsim.SamBuzzer): void {
     variable.clear();
   }
+
   /**
    * Set the color of the buzzer with the given ID
    * @param buzzerId The ID of the buzzer to set the color for
    * @param color The new color for the buzzer
    */
-  //% blockId="set_buzzer_color" block="Set Buzzer $variable color to $color"
+  //% blockId="set_buzzer_color" block="set $variable color to $color"
   //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+  //% variable.defl="Buzzer"
   //% color.shadow="colorNumberPicker"
   //% color="#d400d4"
   export function setBuzzerColor(
@@ -77,9 +79,9 @@ namespace pxsim.buzzer {
   ): void {
     variable.setColor(color);
   }
-  //% blockId="createBuzzer" block="Create new Buzzer"
-  //% variable.shadow=variables_get
-  //% variable.defl="Buzzer_1"
+
+  //% blockId="createBuzzer" block="new SAM Buzzer"
+  //% blockSetVariable="Buzzer"
   export function createBuzzer(): pxsim.SamBuzzer {
     return new pxsim.SamBuzzer();
   }
