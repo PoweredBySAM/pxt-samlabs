@@ -130,7 +130,7 @@ function CompactSimDevice({
                             onConnect={handleConnect}
                             onDisconnect={handleDisconnect}
                         />
-                        {!isConnected ? (
+                        {!isConnected && !device.assignedName.startsWith('Microbit') ? (
                             <>
                                 <Box
                                     sx={{
@@ -160,12 +160,12 @@ function CompactSimDevice({
                                     }}
                                 />
                             </>
-                        ) : (
+                        ) : !device.assignedName.startsWith('Microbit') ? (
                             <BlockHexDisplay
                                 value={blockHexValue}
                                 onClick={() => setShowPairInfo(true)}
                             />
-                        )}
+                        ) : null}
                     </Box>
                 </Grid>
                 <VisibilityControl
