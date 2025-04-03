@@ -2,7 +2,6 @@ import Controller from "./Controller";
 import BaseController from "src/Utils/Controllers/BaseController";
 import VirtualController from "src/Utils/Controllers/VirtualController";
 import Button from "./Button";
-// import VirtualInteraction from './VirtualInteraction'
 
 interface IButtonInit {
   id: string;
