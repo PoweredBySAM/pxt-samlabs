@@ -19,6 +19,14 @@ const DeviceIcon = ({
             justifyContent: 'center',
             borderRadius: '5px',
             color: '#ffffff !important',
+            '& svg': {
+                filter: 'none !important',
+                WebkitFilter: 'none !important',
+                transform: 'translateZ(0)',
+                WebkitTransform: 'translateZ(0)',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+            }
         }}
     >
         <Box>{Icon}</Box>
