@@ -1,6 +1,4 @@
-import { createContext } from 'react';
+import {createContext} from 'react';
 import DevicesStore from './DevicesStore';
 
-const devicesStore =  DevicesStore;
-
-export const StoreContext = createContext(devicesStore);
+export const StoreContext = createContext(DevicesStore);
