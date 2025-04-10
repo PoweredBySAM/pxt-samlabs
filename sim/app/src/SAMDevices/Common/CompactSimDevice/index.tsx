@@ -9,22 +9,22 @@ import DeviceIcon from './DeviceIcon';
 import BlockHexDisplay from './BlockHexDisplay';
 
 const SquareAsteriskIcon = () => (
-  <svg 
-    width="16" 
-    height="16" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="#8C8C8C" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className="text-[16px] text-[#8C8C8C]"
-  >
-    <rect width="18" height="18" x="3" y="3" rx="2" />
-    <path d="M12 8v8" />
-    <path d="m8.5 14 7-4" />
-    <path d="m8.5 10 7 4" />
-  </svg>
+    <svg
+        width='16'
+        height='16'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='#8C8C8C'
+        strokeWidth='2'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        className='text-[16px] text-[#8C8C8C]'
+    >
+        <rect width='18' height='18' x='3' y='3' rx='2' />
+        <path d='M12 8v8' />
+        <path d='m8.5 14 7-4' />
+        <path d='m8.5 10 7 4' />
+    </svg>
 );
 
 interface BluetoothEventData {
@@ -33,7 +33,6 @@ interface BluetoothEventData {
 }
 
 type EventHandler = (data: BluetoothEventData) => void;
-
 
 function CompactSimDevice({
     device,
@@ -93,7 +92,7 @@ function CompactSimDevice({
         const listenerEvent = (event: MessageEvent<BluetoothEventData>) => {
             const eventHandlers: Record<string, EventHandler> = {
                 [`itsCordovaEnvironment`]: () => {
-                    console.log("Cordova detected in compact sim device");
+                    console.log('Cordova detected in compact sim device');
                     setIsCordova(true);
                 },
                 [`${device.assignedName} hexValueError`]: () => {
@@ -141,22 +140,14 @@ function CompactSimDevice({
 
     return (
         <div className={`${styles.option} my-2 mx-1`}>
-            <div className="grid grid-cols-12 gap-0 m-1">
+            <div className='grid grid-cols-12 gap-0 m-1'>
                 <DeviceIcon isInTestMode={isInTestMode} Icon={Icon} />
-                <div className="col-span-1" />
-                <div
-                    className="col-span-7 flex flex-col content-between"
-                >
-                    <p className="text-sm p-0">
-                        {device.assignedName}
-                    </p>
-                    <p
-                        className="text-sm text-[#d7d7d7] p-0"
-                    >
-                        {labels?.maker}
-                    </p>
-            
-                    <div className="flex">
+                <div className='col-span-1' />
+                <div className='col-span-7 flex flex-col content-between'>
+                    <p className='text-sm p-0'>{device.assignedName}</p>
+                    <p className='text-sm text-[#d7d7d7] p-0'>{labels?.maker}</p>
+
+                    <div className='flex'>
                         <ConnectButton
                             isConnected={isConnected}
                             isConnecting={isConnecting}
@@ -176,7 +167,7 @@ function CompactSimDevice({
                             ) : !isConnected ? (
                                 <>
                                     <div
-                                        className="flex items-center gap-0.5 text-[#8C8C8C] text-sm font-bold cursor-pointer mx-1"
+                                        className='flex items-center gap-0.5 text-[#8C8C8C] text-sm font-bold cursor-pointer mx-1'
                                         onClick={() => setShowPairInfo(true)}
                                     >
                                         <SquareAsteriskIcon />
@@ -216,9 +207,7 @@ function CompactSimDevice({
                             is yours. Enter the code before pairing, and you will only see
                             your block!
                         </p>
-                        <aside
-                            className="bg-[#F5F5F5] p-3 rounded-lg mt-4"
-                        >
+                        <aside className='bg-[#F5F5F5] p-3 rounded-lg mt-4'>
                             Teacher Tip: You may write the Pairing ID on your block with a
                             marker or sticker so it is always easy to find
                         </aside>
