@@ -17,6 +17,7 @@ interface BluetoothEventData {
 
 type EventHandler = (data: BluetoothEventData) => void;
 
+
 function CompactSimDevice({
     device,
     Icon,
@@ -75,6 +76,7 @@ function CompactSimDevice({
         const listenerEvent = (event: MessageEvent<BluetoothEventData>) => {
             const eventHandlers: Record<string, EventHandler> = {
                 [`itsCordovaEnvironment`]: () => {
+                    console.log("Cordova detected in compact sim device");
                     setIsCordova(true);
                 },
                 [`${device.assignedName} hexValueError`]: () => {
@@ -143,6 +145,7 @@ function CompactSimDevice({
                     >
                         {labels?.maker}
                     </Typography>
+            
                     <Box sx={{display: 'flex'}}>
                         <ConnectButton
                             isConnected={isConnected}
