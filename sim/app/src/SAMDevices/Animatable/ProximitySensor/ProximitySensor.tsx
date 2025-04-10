@@ -6,7 +6,6 @@ import { useSingleDeviceStore } from "../../../Hooks/useSingleDeviceStore";
 import useEventsController from "../../../Hooks/useEventsController";
 import { observer } from "mobx-react";
 import SliderWithDisplayHOC from "../../Common/SliderWithDisplayHOC";
-import { Box } from "@mui/material";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 import { hexToRGBA } from "src/SAMDevices/Animatable";
 
@@ -48,13 +47,13 @@ function ProximitySensor({ device }: { device: PressureSensorDevice }) {
         controlsVisibility={singleDeviceStore.blockVisibility}
       >
         {singleDeviceStore.blockVisibility && (
-          <Box sx={{ display: "flex", justifyItems: "center" }}>
+          <div className="flex justify-center">
             <SamProximitySensor
               getColor={() =>
                 device.Color ? hexToRGBA(device.Color) : undefined
               }
             />
-          </Box>
+          </div>
         )}
       </SliderWithDisplayHOC>
     </>

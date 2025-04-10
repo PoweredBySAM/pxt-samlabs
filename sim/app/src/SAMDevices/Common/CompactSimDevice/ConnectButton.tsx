@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, CircularProgress} from '@mui/material';
 
 const ConnectButton = ({
     isConnected,
@@ -16,38 +15,16 @@ const ConnectButton = ({
     onConnect: () => void;
     onDisconnect: () => void;
 }) => (
-    <Button
+    <button
         id='composition-button'
         onClick={isConnected ? onDisconnect : onConnect}
-        disableElevation
         disabled={isInTestMode || isConnecting}
-        variant='contained'
-        sx={{
-            width: '88px',
-            padding: '6px 14px',
-            textTransform: 'none',
-            backgroundColor: isConnected ? '#FF0000' : '#26D0C4',
-            '&:hover': {
-                backgroundColor: isConnected ? '#cc0101' : '#21B8A8',
-            },
-            '&.Mui-disabled': {
-                backgroundColor: isConnected ? '#FF0000' : '#26D0C4',
-            },
-        }}
+        className={`w-[88px] py-1.5 px-3.5 normal-case rounded shadow-none font-medium text-white 
+        ${isConnected ? 'bg-[#FF0000] hover:bg-[#cc0101]' : 'bg-[#26D0C4] hover:bg-[#21B8A8]'} 
+        ${(isInTestMode || isConnecting) ? 'opacity-70 cursor-not-allowed' : ''}`}
     >
         {isConnecting ? (
-            <CircularProgress
-                size={20}
-                sx={{
-                    color: '#ffffff',
-                    '& .MuiCircularProgress-circle': {
-                        strokeLinecap: 'round',
-                    },
-                    '& .MuiCircularProgress-track': {
-                        stroke: '#26D0C4',
-                    },
-                }}
-            />
+            <div className="w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin" />
         ) : bleError ? (
             'Error Connecting this device'
         ) : isConnected ? (
@@ -55,7 +32,7 @@ const ConnectButton = ({
         ) : (
             'Connect'
         )}
-    </Button>
+    </button>
 );
 
 export default ConnectButton;

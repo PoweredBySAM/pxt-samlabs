@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import React from "react";
 import { getVirtualDevice } from "src/SAMDevices/Animatable";
 import FullSimDeviceWrapper from "src/SAMDevices/Common/FullSimDeviceWrapper";
@@ -21,13 +20,13 @@ function ActiveDeviceItem({ device }: { device: SamDeviceStoreType }) {
     <>
       {!singleDeviceStore.deleted && (
         <FullSimDeviceWrapper device={device}>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <div className="flex justify-center">
             <div>
               {virtualInteractionComponentName && (
                 <VirtualInteractionComponent device={device} />
               )}
             </div>
-          </Box>
+          </div>
         </FullSimDeviceWrapper>
       )}
     </>

@@ -5,7 +5,6 @@ import LEDDevice from "src/Store/LEDDevice";
 import useBasicEvents from "src/Hooks/useBasicEvents";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
-import { Box } from "@mui/material";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
@@ -35,8 +34,8 @@ function LED({ device }: { device: LEDDevice }) {
   return (
     <>
       {blockVisibility && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-          <Box>
+        <div className="flex justify-center mt-5">
+          <div>
             <SamLED
               colorIndicator={{
                 color: ledColor,
@@ -46,8 +45,8 @@ function LED({ device }: { device: LEDDevice }) {
                 device.Color ? hexToRGBA(device.Color) : undefined
               }
             />
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
     </>
   );

@@ -1,12 +1,12 @@
 import React from 'react';
-import {Box, Slider, Typography} from '@mui/material';
 import toFixify from 'src/Utils/toFixify';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
+import CustomSlider from './CustomSlider';
 
 export type SetHOCSliderValue = (
-    event: Event,
+    event: Event | React.ChangeEvent<HTMLInputElement>,
     value: number | number[],
-    activeThumb: number
+    activeThumb?: number
 ) => void;
 
 const DoubleSliderWithHoc = ({
@@ -24,125 +24,60 @@ const DoubleSliderWithHoc = ({
     children: any;
     controlsVisibility: boolean;
 }) => {
-    const customSliderStyle = {
-        minWidth: '10rem !important',
-        '& .MuiSlider-thumb': {
-            color: '#101010',
-        },
-        '& .MuiSlider-track': {
-            color: '#101010',
-        },
-        '& .MuiSlider-rail': {
-            color: '#acc4e4',
-        },
-        '& .MuiSlider-active': {
-            color: 'green',
-        },
-    };
     return (
-        <Box sx={{width: '100% !important'}}>
-            <Box sx={{display: 'flex', justifyContent: 'center'}}>{children}</Box>
-            <Box sx={{width: '100% '}}>
+        <div className="w-full">
+            <div className="flex justify-center">{children}</div>
+            <div className="w-full">
                 {controlsVisibility && (
-                    <Slider
-                        size='small'
+                    <CustomSlider
                         min={20}
                         max={14000}
-                        aria-label='Buzzer Pitch'
                         value={currentSliderOnValue}
-                        onChange={setSliderOneValue}
-                        sx={customSliderStyle}
+                        onChange={(e, val) => setSliderOneValue(e, val, 0)}
+                        ariaLabel="Buzzer Pitch"
+                        size="small"
                     />
                 )}
-            </Box>
+            </div>
 
             {controlsVisibility && (
                 <>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography
-                            variant='h6'
-                            sx={{
-                                width: '5rem',
-                                fontWeight: 400,
-                                mx: 2,
-                                my: 1,
-                                px: 2,
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
+                    <div className="flex justify-center">
+                        <div className="w-20 font-normal mx-2 my-1 px-2 flex justify-center text-lg">
                             Pitch:
-                        </Typography>
-                        <Typography
-                            variant='h6'
-                            sx={{
-                                fontFamily: 'Nunito',
-                                width: '7rem',
-                                fontWeight: 400,
-                                m: 1,
-                                border: 'solid 1px #c4c4c4',
-                                borderRadius: '5px',
-                                backgroundColor: '#d7d7d7',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
+                        </div>
+                        <div className="font-nunito w-28 font-normal m-1 border border-[#c4c4c4] rounded bg-[#d7d7d7] flex justify-center text-lg">
                             {`${toFixify(currentSliderOnValue)} Hz`}
-                        </Typography>
-                    </Box>
+                        </div>
+                    </div>
                 </>
             )}
-            <Box sx={{width: '100% '}}>
+            <div className="w-full">
                 {controlsVisibility && (
-                    <Slider
-                        size='small'
+                    <CustomSlider
                         min={0}
                         max={100}
-                        aria-label='Buzzer Volume'
                         value={currentSliderTwoValue}
-                        onChange={setSliderTwoValue}
-                        sx={customSliderStyle}
+                        onChange={(e, val) => setSliderTwoValue(e, val, 0)}
+                        ariaLabel="Buzzer Volume"
+                        size="small"
                     />
                 )}
-            </Box>
+            </div>
 
             {controlsVisibility && (
                 <>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Typography
-                            variant='h6'
-                            sx={{
-                                width: '5rem',
-                                fontWeight: 400,
-                                m: 1,
-                                px: 2,
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
+                    <div className="flex justify-center">
+                        <div className="w-20 font-normal m-1 px-2 flex justify-center text-lg">
                             Volume:
-                        </Typography>
-                        <Typography
-                            variant='h6'
-                            sx={{
-                                fontFamily: 'Nunito',
-                                width: '5rem',
-                                fontWeight: 400,
-                                m: 1,
-                                border: 'solid 1px #c4c4c4',
-                                px: 2,
-                                borderRadius: '5px',
-                                backgroundColor: '#d7d7d7',
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
+                        </div>
+                        <div className="font-nunito w-20 font-normal m-1 border border-[#c4c4c4] px-2 rounded bg-[#d7d7d7] flex justify-center text-lg">
                             {toFixify(currentSliderTwoValue)}
-                        </Typography>
-                    </Box>
+                        </div>
+                    </div>
                 </>
             )}
-        </Box>
+        </div>
     );
 };
 

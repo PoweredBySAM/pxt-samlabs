@@ -30,6 +30,8 @@ module.exports = {
               plugins: [
                 ["@babel/plugin-proposal-decorators", { legacy: true }],
                 ["@babel/plugin-proposal-class-properties", { loose: true }],
+                ["@babel/plugin-transform-private-property-in-object", { loose: true }],
+                ["@babel/plugin-transform-private-methods", { loose: true }],
               ],
             },
           },
@@ -37,7 +39,26 @@ module.exports = {
         ],
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.module\.css$/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]__[local]__[hash:base64:5]",
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(sa|sc)ss$/,
         use: [
           "style-loader",
           {

@@ -62,39 +62,23 @@ const ConsoleWrapper = ({showConsole}: {showConsole: boolean}) => {
 
     return (
         <div
-            style={{
-                display: showConsole ? 'flex' : 'none',
-                marginBottom: 'auto',
-                height: '100%',
-            }}
+            className={`${showConsole ? 'flex' : 'hidden'} mb-auto h-full`}
         >
             {logs.length === 0 ? (
-                <section style={{padding: 12, paddingTop: 36}}>
+                <section className="p-3 pt-9">
                     No program output to show. Use the <strong>"Print"</strong> block
                     under <strong>"General"</strong> to start debugging your program.
                 </section>
             ) : (
                 <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%',
-                        height: '100%',
-                    }}
+                    className="flex flex-col w-full h-full"
                 >
                     <div
-                        style={{
-                            padding: '10px',
-                            height: '100%',
-                            overflowY: 'scroll',
-                        }}
+                        className="p-2.5 h-full overflow-y-scroll"
                     >
                         {logs.map((log, index) => (
                             <div
-                                style={{
-                                    borderBottom: '1px solid rgb(219, 219, 219)',
-                                    width: '100%',
-                                }}
+                                className="border-b border-[#dbdbdb] w-full"
                                 key={index}
                             >
                                 {log}

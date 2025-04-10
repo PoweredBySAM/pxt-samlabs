@@ -5,9 +5,6 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
-import { Box } from "@mui/material";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 
@@ -45,20 +42,16 @@ function Servo({ device }: { device: ServoMotorDevice }) {
   };
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box>
+      <div className="flex justify-center">
+        <div>
           <span onClick={() => handleStep(-10)}>
-            <SkipPreviousIcon
-              sx={{ fontSize: "1.6rem", mr: 1, cursor: "pointer" }}
-            />
+            <div className="inline-block text-2xl mr-4 cursor-pointer">⏮</div>
           </span>
           <span onClick={() => handleStep(10)}>
-            <SkipNextIcon
-              sx={{ fontSize: "1.6rem", ml: 1, cursor: "pointer" }}
-            />
+            <div className="inline-block text-2xl ml-4 cursor-pointer">⏭</div>
           </span>
-        </Box>
-      </Box>
+        </div>
+      </div>
       {singleDeviceStore.blockVisibility && showMotor && (
         <div>
           <SamServo

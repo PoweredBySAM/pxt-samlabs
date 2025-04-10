@@ -1,13 +1,21 @@
 import React from 'react';
-import { SvgIcon, SvgIconProps } from '@mui/material';
 
-export function SquareAsteriskIcon(props: SvgIconProps) {
-    return (
-        <SvgIcon {...props} viewBox="0 0 24 24">
-            <rect width="18" height="18" x="3" y="3" rx="2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M12 8v8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="m8.5 14 7-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="m8.5 10 7 4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </SvgIcon>
-    );
+interface IconProps {
+  sx?: React.CSSProperties;
+  className?: string;
 }
+
+export const SquareAsteriskIcon: React.FC<IconProps> = ({ sx, className }) => {
+  return (
+    <svg
+      style={sx}
+      className={`inline-block ${className || ''}`}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z" />
+    </svg>
+  );
+};

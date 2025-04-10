@@ -5,7 +5,6 @@ import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
 import SliderDevice from "src/Store/SliderDevice";
-import { Box } from "@mui/material";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
@@ -50,14 +49,14 @@ function Slider({ device }: { device: SliderDevice }) {
         controlsVisibility={singleDeviceStore.blockVisibility}
       >
         {singleDeviceStore.blockVisibility && (
-          <Box sx={{ mt: 4 }}>
+          <div className="mt-16">
             <SamSlider
               getValue={() => singleDeviceStore.value}
               getColor={() =>
                 device.Color ? hexToRGBA(device.Color) : undefined
               }
             />
-          </Box>
+          </div>
         )}
       </SliderWithDisplayHOC>
     </>

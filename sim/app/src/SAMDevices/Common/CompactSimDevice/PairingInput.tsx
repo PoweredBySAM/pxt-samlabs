@@ -1,6 +1,20 @@
 import React from 'react';
-import {Box, IconButton} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+
+const CloseIcon = () => (
+  <svg 
+    width="12" 
+    height="12" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="#8C8C8C" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
 
 const PairInput = ({
     value,
@@ -11,16 +25,8 @@ const PairInput = ({
     onChange: (value: string) => void;
     onClear: () => void;
 }) => (
-    <Box
-        sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            border: '2px solid #25cfc3',
-            borderRadius: '8px',
-            width: '88px',
-            padding: '2px 4px 2px 6px',
-        }}
+    <div
+        className="flex justify-between items-center border-2 border-[#25cfc3] rounded-lg w-[88px] py-0.5 px-1.5 pl-1.5"
     >
         <input
             type='text'
@@ -30,34 +36,16 @@ const PairInput = ({
                 const newValue = e.target.value.replace(/[oO]/g, '0');
                 onChange(newValue);
             }}
-            style={{
-                width: '55px',
-                fontSize: '15px',
-                fontWeight: 'bold',
-                border: 'none',
-                padding: 0,
-                color: '#595959',
-                background: 'transparent',
-                outline: 'none',
-                fontFamily:'Nunito'
-            }}
+            className="w-[55px] text-[15px] font-bold border-none p-0 text-[#595959] bg-transparent outline-none font-sans"
             placeholder=''
         />
-        <IconButton
-            size='small'
+        <button
             onClick={onClear}
-            sx={{
-                padding: 0,
-                width: '12px',
-                height: '12px',
-                '&:hover': {
-                    backgroundColor: 'transparent',
-                },
-            }}
+            className="p-0 w-3 h-3 flex items-center justify-center hover:bg-transparent"
         >
-            <CloseIcon sx={{fontSize: '12px', color: '#8C8C8C'}} />
-        </IconButton>
-    </Box>
+            <CloseIcon />
+        </button>
+    </div>
 );
 
 export default PairInput;

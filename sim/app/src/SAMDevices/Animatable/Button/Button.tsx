@@ -2,7 +2,6 @@ import { Button as SamButton } from "@samlabs/samblocks";
 import { observer } from "mobx-react"; // Import the observer
 import React, { useEffect } from "react";
 import useEventsController from "src/Hooks/useEventsController";
-import { Box, Typography } from "@mui/material";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import ButtonDevice from "src/Store/ButtonDevice";
 import useBasicEvents from "src/Hooks/useBasicEvents";
@@ -43,25 +42,21 @@ function Button({ device }: { device: ButtonDevice }) {
   return (
     <>
       {blockVisibility && deviceInTestMode && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
+        <div className="flex justify-center">
+          <div className="text-sm font-semibold">
             {`${device.currentState === "pressed" ? "Pressed" : "Released"} `}
-          </Typography>
-          {/* <Box sx={{width:"1rem",height:"1rem",borderRadius:"50%",border:"solid 1px #c4c4c4"}}></Box> */}
-        </Box>
+          </div>
+          {/* <div className="w-4 h-4 rounded-full border border-[#c4c4c4]"></div> */}
+        </div>
       )}
       {blockVisibility && (
-        <Box
+        <div
           onPointerDown={handleButtonPress}
           onPointerLeave={handleButtonRelease}
           onPointerUp={handleButtonRelease}
-          sx={{
-            my: 2,
-            display: "flex",
-            justifyContent: "center",
-          }}
+          className="my-8 flex justify-center"
         >
-          <Box>
+          <div>
             <SamButton
               buttonPressed={device.currentState === "pressed"}
               // wireFrame
@@ -69,8 +64,8 @@ function Button({ device }: { device: ButtonDevice }) {
                 device.Color ? hexToRGBA(device.Color) : undefined
               }
             />
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
     </>
   );

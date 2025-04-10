@@ -1,6 +1,5 @@
 import React from "react";
 import CompactSimDevice from "./CompactSimDevice";
-import { Box, Card } from "@mui/material";
 import { getDeviceIcon } from "../Icons";
 import { deviceNameType } from "../Icons/deviceIconTypes";
 import { observer } from "mobx-react";
@@ -19,16 +18,14 @@ const FullSimDeviceWrapper = observer(
     };
 
     return (
-      <Card
-        elevation={1}
-        style={{ marginBottom: 10 }}
-        sx={
+      <div
+        className={`mb-2.5 shadow rounded p-4 ${
           device.deviceInTestMode
-            ? { border: "1px solid #D04226" }
-            : { border: "1px solid #d7d7d7" }
-        }
+            ? "border border-[#D04226]"
+            : "border border-[#d7d7d7]"
+        }`}
       >
-        <Box>
+        <div>
           <CompactSimDevice
             device={device}
             labels={device.restProps?.labels}
@@ -37,9 +34,9 @@ const FullSimDeviceWrapper = observer(
             visibility={device.blockVisibility}
             isInTestMode={device.deviceInTestMode}
           />
-        </Box>
-        <Box sx={{ width: "100%" }}>{children}</Box>
-      </Card>
+        </div>
+        <div className="w-full">{children}</div>
+      </div>
     );
   }
 );

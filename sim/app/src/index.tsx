@@ -1,4 +1,5 @@
 import './Config/persistConfig';
+import './Styles/tailwind.css';
 import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

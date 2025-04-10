@@ -5,7 +5,6 @@ import useEventsController from "src/Hooks/useEventsController";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useBasicEvents from "src/Hooks/useBasicEvents";
 import { observer } from "mobx-react";
-import { Box } from "@mui/material";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
 import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
@@ -51,14 +50,14 @@ function DCMotor({ device }: { device: DCMotorDevice }) {
         controlsVisibility={singleDeviceStore.blockVisibility}
       >
         {blockVisibility && (
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <div className="flex justify-center">
             <div>
               <SamDCMotor
                 getMotorSpeed={() => singleDeviceStore.speed}
                 getColor={() => hexToRGBA(device.Color)}
               />
             </div>
-          </Box>
+          </div>
         )}
       </SliderWithDisplayHOC>
     </>

@@ -5,9 +5,9 @@ import { bluetoothEvents } from "../index";
 import useBasicEvents from "src/Hooks/useBasicEvents";
 import useEventsController from "src/Hooks/useEventsController";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
-import { Box } from "@mui/material";
 import MicrobitDevice from "src/Store/MicrobitDevice";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
+
 const Microbit = ({ device }: { device: MicrobitDevice }) => {
   const { handleBasicControllerEvents } = useBasicEvents(device);
   const { addEvents } = useEventsController(
@@ -32,15 +32,7 @@ const Microbit = ({ device }: { device: MicrobitDevice }) => {
   return (
     <div>
       {blockVisibility && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            pl: 2,
-            pr: 2,
-            pb: 2,
-          }}
-        >
+        <div className="flex justify-center pl-8 pr-8 pb-8">
           <BBCMicrobit
             ledArray={device.ledMatrix}
             aPressed={device.aDown}
@@ -55,7 +47,7 @@ const Microbit = ({ device }: { device: MicrobitDevice }) => {
             onBButtonDown={device.onBButtonDown}
             onBButtonUp={device.onBButtonUp}
           />
-        </Box>
+        </div>
       )}
     </div>
   );

@@ -1,26 +1,9 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import {useEffect} from 'react';
 import {CustomEventGenerator} from 'src/Features/CustomEventGenerator';
 import {samSimEvents} from 'src/App';
 import NumberInput from './NumberInput';
 import Input from 'src/Components/PromptModal/TextInput';
-
-const style = {
-    display: 'flex',
-    flexDirection: 'column' as 'column',
-    position: 'fixed' as 'fixed',
-    top: '0%',
-    left: '50%',
-    transform: 'translate(-50%, 0%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-};
 
 export default function PromptModal() {
     const [open, setOpen] = React.useState(false);
@@ -60,89 +43,59 @@ export default function PromptModal() {
         };
     }, []);
 
+    if (!open) return null;
+
     return (
-        <div>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby='modal-modal-title'
-                aria-describedby='modal-modal-description'
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50">
+            <div 
+                className="fixed top-0 left-1/2 transform -translate-x-1/2 w-[400px] bg-white shadow-lg p-4 flex flex-col"
             >
-                <Box sx={style}>
-                    <Typography
-                        style={{
-                            fontFamily: 'Nunito',
-                            padding: '10px',
-                        }}
-                        id='modal-modal-title'
-                        variant='h6'
-                        component='h2'
-                    >
-                        {prompt}
-                    </Typography>
+                <h2 className="font-sans text-xl mb-4 p-2.5">
+                    {prompt}
+                </h2>
 
-                    <Box
-                        style={{
-                            fontFamily: 'Nunito',
-                            display: 'flex',
-                            margin: 'auto',
-                        }}
-                    >
-                        {isNumber ? (
-                            <NumberInput
-                                aria-label='Demo number input'
-                                aria-placeholder='Type a number…'
-                                style={{
-                                    fontFamily: 'Nunito',
-                                }}
-                                value={name as number}
-                                onChange={(event, val) => setName(val as number)}
-                            />
-                        ) : (
-                            <Input
-                                // id='outlined-controlled'
-                                placeholder={'Enter your text response here'}
-                                value={name}
-                                style={{
-                                    fontFamily: 'Nunito',
-                                }}
-                                onChange={(
-                                    event: React.ChangeEvent<HTMLInputElement>
-                                ) => {
-                                    setName(event.target.value);
-                                }}
-                            />
-                        )}
-
-                        <Button
+                <div className="font-sans flex m-auto">
+                    {isNumber ? (
+                        <NumberInput
+                            aria-label='Demo number input'
+                            aria-placeholder='Type a number…'
                             style={{
-                                marginLeft: '10px',
                                 fontFamily: 'Nunito',
                             }}
-                            disableElevation
-                            variant='contained'
-                            sx={{
-                                textTransform: 'none',
-                                backgroundColor: '#26D0C4',
-                                '&:hover': {
-                                    backgroundColor: '#21B8A8',
-                                },
+                            value={name as number}
+                            onChange={(event, val) => setName(val as number)}
+                        />
+                    ) : (
+                        <Input
+                            placeholder={'Enter your text response here'}
+                            value={name}
+                            style={{
+                                fontFamily: 'Nunito',
                             }}
-                            onClick={() => {
-                                CustomEventGenerator.getInstance().dispatchEvent(
-                                    samSimEvents.FROMSIM_EDITOR_GOT_PROMOPT,
-                                    {
-                                        name: name,
-                                    }
-                                );
-                                handleClose();
+                            onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                            ) => {
+                                setName(event.target.value);
                             }}
-                        >
-                            Submit
-                        </Button>
-                    </Box>
-                </Box>
-            </Modal>
+                        />
+                    )}
+
+                    <button
+                        className="ml-2.5 font-sans bg-[#26D0C4] hover:bg-[#21B8A8] text-white py-2 px-4 rounded normal-case"
+                        onClick={() => {
+                            CustomEventGenerator.getInstance().dispatchEvent(
+                                samSimEvents.FROMSIM_EDITOR_GOT_PROMOPT,
+                                {
+                                    name: name,
+                                }
+                            );
+                            handleClose();
+                        }}
+                    >
+                        Submit
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

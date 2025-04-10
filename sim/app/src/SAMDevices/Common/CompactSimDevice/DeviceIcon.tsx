@@ -1,5 +1,4 @@
 import React from 'react';
-import {Box, Grid} from '@mui/material';
 
 const DeviceIcon = ({
     isInTestMode,
@@ -8,29 +7,11 @@ const DeviceIcon = ({
     isInTestMode: boolean;
     Icon: React.ReactNode;
 }) => (
-    <Grid
-        item
-        xs={3}
-        sx={{
-            backgroundColor: isInTestMode ? '#c4c4c4' : '#26D0C4',
-            p: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '5px',
-            color: '#ffffff !important',
-            '& svg': {
-                filter: 'none !important',
-                WebkitFilter: 'none !important',
-                transform: 'translateZ(0)',
-                WebkitTransform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
-            }
-        }}
+    <div
+        className={`col-span-3 ${isInTestMode ? 'bg-[#c4c4c4]' : 'bg-[#26D0C4]'} p-1 flex items-center justify-center rounded-md text-white [&>svg]:filter-none [&>svg]:webkit-filter-none [&>svg]:transform-gpu [&>svg]:backface-hidden [&>svg]:webkit-backface-hidden`}
     >
-        <Box>{Icon}</Box>
-    </Grid>
+        <div>{Icon}</div>
+    </div>
 );
 
 export default DeviceIcon;

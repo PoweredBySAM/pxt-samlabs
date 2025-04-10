@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './SharedModal.module.css';
 
 interface SharedModalProps {
     onClose?: () => void;
@@ -20,15 +19,15 @@ const SharedModal: React.FC<SharedModalProps> = ({
 
     return (
         <div
-            className={styles.modalOverlay}
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000]"
             onClick={(e) => {
                 if (e.target === e.currentTarget) onClose?.();
             }}
         >
-            <article className={styles.modalWrapper} aria-labelledby='modal-title'>
-                <div className={styles.header}>
+            <article className="bg-white rounded-xl p-5 w-[90%] max-w-[400px] shadow-md" aria-labelledby='modal-title'>
+                <div className="flex justify-end mb-4">
                     <button
-                        className={styles.closeButton}
+                        className="bg-transparent border-none text-[#25cfc3] text-base cursor-pointer font-sans font-bold"
                         onClick={onClose}
                         aria-label='Close modal'
                     >
@@ -38,7 +37,7 @@ const SharedModal: React.FC<SharedModalProps> = ({
 
                 {icon && (
                     <div
-                        className={styles.svgWrapper}
+                        className="w-[60%] h-auto mx-auto mb-5"
                         role='img'
                         aria-label='Modal illustration'
                     >
@@ -46,16 +45,16 @@ const SharedModal: React.FC<SharedModalProps> = ({
                     </div>
                 )}
 
-                <section className={styles.copyWrapper}>
+                <section className="text-left">
                     <span
                         role='heading'
                         aria-level={2}
-                        className={styles.title}
+                        className="block text-xl font-bold text-gray-800 mb-3 font-sans"
                         id='modal-title'
                     >
                         {title}
                     </span>
-                    <div className={styles.description}>
+                    <div className="text-base text-[#595959] leading-relaxed mb-4 font-sans">
                         {description}
                     </div>
                 </section>

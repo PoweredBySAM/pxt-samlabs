@@ -5,7 +5,6 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
-import { Box } from "@mui/material";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
 import SliderWithDisplayHOC from "src/SAMDevices/Common/SliderWithDisplayHOC";
 import usePxtToSimEvents from "src/Hooks/usePxtToSimEvents";
@@ -42,13 +41,13 @@ function PressureSensor({ device }: { device: PressureSensorDevice }) {
         controlsVisibility={singleDeviceStore.blockVisibility}
       >
         {singleDeviceStore.blockVisibility && (
-          <Box sx={{ display: "flex", justifyItems: "center" }}>
+          <div className="flex justify-center">
             <SamPressureSensor
               getColor={() =>
                 device.Color ? hexToRGBA(device.Color) : undefined
               }
             />
-          </Box>
+          </div>
         )}
       </SliderWithDisplayHOC>
     </>

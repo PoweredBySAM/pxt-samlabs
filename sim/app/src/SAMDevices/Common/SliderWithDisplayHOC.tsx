@@ -1,4 +1,3 @@
-import { Box, Slider, Typography } from "@mui/material";
 import React from "react";
 import { observer } from "mobx-react";
 import toFixify from "../../Utils/toFixify";
@@ -20,115 +19,54 @@ const SliderWithDisplayHOC = ({
   controlsVisibility: boolean;
   heatSensor?: boolean;
 }) => {
-  const customSliderStyle = {
-    minWidth: "10rem !important",
-    "& .MuiSlider-thumb": {
-      color: "#101010",
-    },
-    "& .MuiSlider-track": {
-      color: "#101010",
-    },
-    "& .MuiSlider-rail": {
-      color: "#acc4e4",
-    },
-    "& .MuiSlider-active": {
-      color: "green",
-    },
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    setValue(e as unknown as Event, value, 0);
   };
+
   return (
-    <Box sx={{ width: "100% !important" }}>
-      <Box sx={{ width: "100% " }}>
+    <div className="w-full">
+      <div className="w-full">
         {controlsVisibility && (
-          <Slider
-            size="small"
-            min={0}
-            max={100}
+          <input
+            type="range"
+            min="0"
+            max="100"
             aria-label="Temperature"
             value={currentValue}
-            onChange={setValue}
-            sx={customSliderStyle}
+            onChange={handleSliderChange}
+            className="w-full h-2 bg-[#acc4e4] rounded-lg appearance-none cursor-pointer accent-[#101010]"
           />
         )}
-      </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>{children}</Box>
+      </div>
+      <div className="flex justify-center">{children}</div>
       {controlsVisibility && (
         <>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <div className="flex justify-center">
             {heatSensor && (
-              <Typography
-                variant="h6"
-                sx={{
-                  width: "5rem",
-                  fontWeight: 400,
-                  mx: 2,
-                  my: heatSensor ? 1 : 2,
-                  px: 2,
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+              <h6 className="w-20 font-normal mx-2 my-1 px-2 flex justify-center">
                 Celsius:
-              </Typography>
+              </h6>
             )}
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "Nunito",
-                width: "5rem",
-                fontWeight: 400,
-                m: 1,
-                border: "solid 1px #c4c4c4",
-                px: 4,
-                borderRadius: "5px",
-                backgroundColor: "#d7d7d7",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
+            <h6 className="font-sans w-20 font-normal m-1 border border-[#c4c4c4] px-4 rounded-md bg-[#d7d7d7] flex justify-center">
               {toFixify(currentValue)}
-            </Typography>
-          </Box>
+            </h6>
+          </div>
           {heatSensor && (
-            <Box sx={{ display: "flex" }}>
-              {heatSensor && (
-                <Typography
-                  variant="h6"
-                  sx={{
-                    width: "5rem",
-                    fontWeight: 400,
-                    m: 2,
-                    px: 2,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  Fahrenheit:
-                </Typography>
-              )}
-              <Typography
-                variant="h6"
-                sx={{
-                  fontFamily: "Nunito",
-                  width: "5rem",
-                  fontWeight: 400,
-                  m: 2,
-                  border: "solid 1px #c4c4c4",
-                  px: 2,
-                  borderRadius: "5px",
-                  backgroundColor: "#d7d7d7",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+            <div className="flex">
+              <h6 className="w-20 font-normal m-2 px-2 flex justify-center">
+                Fahrenheit:
+              </h6>
+              <h6 className="font-sans w-20 font-normal m-2 border border-[#c4c4c4] px-2 rounded-md bg-[#d7d7d7] flex justify-center">
                 {toFixify(currentValue) === "0.0"
                   ? "0.0"
-                  : (currentValue * 9) / 5 + 32}
-              </Typography>
-            </Box>
+                  : ((currentValue * 9) / 5 + 32).toFixed(1)}
+              </h6>
+            </div>
           )}
         </>
       )}
-    </Box>
+    </div>
   );
 };
 

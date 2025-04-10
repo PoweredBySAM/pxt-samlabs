@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import MuiThemeLayout from './Layouts/MuiThemeLayout';
+import TailwindLayout from './Layouts/TailwindLayout';
 import ActiveDevices from './Components/ActiveDevices/ActiveDevices';
 import {observer} from 'mobx-react-lite';
 import {useStores} from './Hooks/useStores';
@@ -66,22 +66,15 @@ const App: React.FC = observer(() => {
     }, []);
 
     return (
-        <MuiThemeLayout>
+        <TailwindLayout>
             <PromptModal />
             <div
-                className={'invisibleScrollbar'}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    overflowY: 'scroll',
-                    height: '100vh',
-                }}
+                className="invisibleScrollbar flex flex-col justify-center overflow-y-scroll h-screen"
             >
                 <ConsoleWrapper showConsole={showConsole} />
                 {!showConsole && <ActiveDevices showActiveDevices={showActiveDevices} />}
             </div>
-        </MuiThemeLayout>
+        </TailwindLayout>
     );
 });
 

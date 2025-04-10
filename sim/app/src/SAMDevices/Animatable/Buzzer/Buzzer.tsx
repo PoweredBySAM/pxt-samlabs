@@ -4,7 +4,6 @@ import {Buzzer as SamBuzzer} from '@samlabs/samblocks';
 import useEventsController from 'src/Hooks/useEventsController';
 import useBasicEvents from 'src/Hooks/useBasicEvents';
 import {useSingleDeviceStore} from 'src/Hooks/useSingleDeviceStore';
-import {Box} from '@mui/material';
 import BuzzerDevice from 'src/Store/BuzzerDevice';
 import {bluetoothEvents, hexToRGBA} from 'src/SAMDevices/Animatable';
 import usePxtToSimEvents from 'src/Hooks/usePxtToSimEvents';
@@ -53,12 +52,12 @@ function Buzzer({device}: {device: BuzzerDevice}) {
             {/*  controlsVisibility={blockVisibility}*/}
             {/*>*/}
             {/*  {blockVisibility && (*/}
-            <Box sx={{mt: 5}}>
+            <div className="mt-20">
                 <SamBuzzer
                     getIsActive={() => singleDeviceStore.isActive}
                     getColor={() => (device.Color ? hexToRGBA(device.Color) : undefined)}
                 />
-            </Box>
+            </div>
             {/*  )}*/}
             {/*</DoubleSliderWithHoc>*/}
         </>

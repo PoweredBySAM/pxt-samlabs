@@ -4,7 +4,6 @@ import useBasicEvents from "src/Hooks/useBasicEvents";
 import { useSingleDeviceStore } from "src/Hooks/useSingleDeviceStore";
 import useEventsController from "src/Hooks/useEventsController";
 import { observer } from "mobx-react";
-import { Box } from "@mui/material";
 import TiltDevice from "src/Store/TiltDevice";
 import ToggleSwitchHOC from "src/SAMDevices/Common/ToggleSwitchHOC";
 import { bluetoothEvents, hexToRGBA } from "src/SAMDevices/Animatable";
@@ -42,14 +41,14 @@ function Tilt({ device }: { device: TiltDevice }) {
         controlsVisibility={singleDeviceStore.blockVisibility}
       >
         {singleDeviceStore.blockVisibility && (
-          <Box sx={{ mt: 1 }}>
+          <div className="mt-4">
             <SamTilt
               getIsTilted={() => singleDeviceStore.isTilted}
               getColor={() =>
                 device.Color ? hexToRGBA(device.Color) : undefined
               }
             />
-          </Box>
+          </div>
         )}
       </ToggleSwitchHOC>
     </>

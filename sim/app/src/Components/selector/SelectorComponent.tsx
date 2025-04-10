@@ -1,30 +1,12 @@
-import { Box, Typography } from "@mui/material";
 import React from "react";
 import styles from "./SelectorComponent.module.css";
 import { getDeviceIcon } from "../../SAMDevices/Icons";
 import { deviceLabels } from "../../Constants/DeviceLabel";
 import DeviceMenuItem from "./DeviceMenuItem";
-import AddIcon from "@mui/icons-material/Add";
 import {
   DeviceMenuItemType,
 } from "../../SAMDevices/Types/SAMDeviceTypes";
 import { deviceNameType } from "../../SAMDevices/Icons/deviceIconTypes";
-
-const localStyles = () => ({
-  inputToggle: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    borderRadius: 5,
-    border: "solid 1px #c8c8c8",
-    boxShadow: "4px",
-    backgroundColor: "#26D0C4",
-    color: "#ffffff",
-    py: 1,
-    px: 2,
-    alignItems: "center",
-  },
-});
 
 function SelectorComponent({
   addDevice,
@@ -53,13 +35,13 @@ function SelectorComponent({
   return (
     <div className={styles.dropdown}>
       <div className={styles["selected-option"]} onClick={handleshowOptions}>
-        <Box sx={localStyles().inputToggle}>
-          <AddIcon sx={{ fontSize: "1.6rem" }} />
-          <Typography variant="h6">Add Device</Typography>
-        </Box>
+        <div className="flex justify-center w-full rounded border border-[#c8c8c8] shadow-sm bg-[#26D0C4] text-white py-1 px-2 items-center">
+          <div className="text-2xl">+</div>
+          <div className="text-lg ml-2">Add Device</div>
+        </div>
       </div>
       <div className={showOptions ? styles.options : styles["options-none"]}>
-        <Box className={styles.scrollable}>
+        <div className={styles.scrollable}>
           {menuItemData.map((deviceData: DeviceMenuItemType) => (
             <DeviceMenuItem
               deviceData={deviceData}
@@ -68,7 +50,7 @@ function SelectorComponent({
               closeOptions={handleshowOptions}
             />
           ))}
-        </Box>
+        </div>
       </div>
     </div>
   );

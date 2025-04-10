@@ -1,11 +1,9 @@
 import React from 'react'
-import {  Card, Grid, Typography } from '@mui/material'
 import styles from './SelectorComponent.module.css'
 import { DeviceMenuItemType } from '../../SAMDevices/Types/SAMDeviceTypes';
 
-
-function DeviceMenuItem({deviceData, addDevice,closeOptions}:{deviceData?:any, addDevice?:any, closeOptions?:any}) {
-    const {label,icon:Icon} = deviceData;
+function DeviceMenuItem({deviceData, addDevice, closeOptions}:{deviceData?:any, addDevice?:any, closeOptions?:any}) {
+    const {label, icon:Icon} = deviceData;
 
     const handleSelect = (data:DeviceMenuItemType) => {
       addDevice(data);
@@ -13,17 +11,20 @@ function DeviceMenuItem({deviceData, addDevice,closeOptions}:{deviceData?:any, a
     }
 
     return (
-      <Card elevation={1} className={styles.option} sx={{my:2,mx:1}}  onClick={()=>handleSelect(deviceData)} >
-        <Grid container columns={12} spacing={1} sx={{m:1}}>
-          <Grid item xs={4} sx={{backgroundColor:"#26D0C4",p:1,display:"flex",alignItems:"center",borderRadius:"5px"}}>
-          {Icon}
-          </Grid>
-          <Grid item xs={8} sx={{display:"flex",flexDirection:"column",justifyContent:"center"}}>
-            <Typography variant="h6" sx={{p:0}}>{label?.displayName}</Typography>
-            <Typography variant="subtitle2" sx={{color:"#d7d7d7"}}>{label?.maker}</Typography>
-          </Grid>
-        </Grid>
-      </Card>
+      <div 
+        className={`${styles.option} shadow-sm rounded my-8 mx-4 border border-gray-200`}  
+        onClick={()=>handleSelect(deviceData)}
+      >
+        <div className="grid grid-cols-12 gap-4 m-4">
+          <div className="col-span-4 bg-[#26D0C4] p-4 flex items-center rounded">
+            {Icon}
+          </div>
+          <div className="col-span-8 flex flex-col justify-center">
+            <div className="text-lg">{label?.displayName}</div>
+            <div className="text-sm text-[#d7d7d7]">{label?.maker}</div>
+          </div>
+        </div>
+      </div>
     )  
 }
 

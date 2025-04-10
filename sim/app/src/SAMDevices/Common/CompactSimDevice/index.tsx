@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Grid, Typography} from '@mui/material';
 import styles from 'src/Components/selector/SelectorComponent.module.css';
-import {SquareAsteriskIcon} from 'src/SAMDevices/Icons/SquareAsteriskIcon';
 import {ReactComponent as PairCodeIcon} from '../../../Components/SharedModal/pair-code.svg';
 import ConnectButton from 'src/SAMDevices/Common/CompactSimDevice/ConnectButton';
 import PairInput from 'src/SAMDevices/Common/CompactSimDevice/PairingInput';
@@ -9,6 +7,25 @@ import VisibilityControl from 'src/SAMDevices/Common/CompactSimDevice/Visibility
 import SharedModal from '../../../Components/SharedModal';
 import DeviceIcon from './DeviceIcon';
 import BlockHexDisplay from './BlockHexDisplay';
+
+const SquareAsteriskIcon = () => (
+  <svg 
+    width="16" 
+    height="16" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="#8C8C8C" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className="text-[16px] text-[#8C8C8C]"
+  >
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="M12 8v8" />
+    <path d="m8.5 14 7-4" />
+    <path d="m8.5 10 7 4" />
+  </svg>
+);
 
 interface BluetoothEventData {
     type: string;
@@ -123,30 +140,23 @@ function CompactSimDevice({
     }, []);
 
     return (
-        <Box className={styles.option} sx={{my: 2, mx: 1}}>
-            <Grid container columns={12} spacing={0} sx={{m: 1}}>
+        <div className={`${styles.option} my-2 mx-1`}>
+            <div className="grid grid-cols-12 gap-0 m-1">
                 <DeviceIcon isInTestMode={isInTestMode} Icon={Icon} />
-                <Grid item xs={1} />
-                <Grid
-                    item
-                    xs={7}
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignContent: 'space-between',
-                    }}
+                <div className="col-span-1" />
+                <div
+                    className="col-span-7 flex flex-col content-between"
                 >
-                    <Typography variant='body2' sx={{padding: '0 !important'}}>
+                    <p className="text-sm p-0">
                         {device.assignedName}
-                    </Typography>
-                    <Typography
-                        variant='body2'
-                        sx={{color: '#d7d7d7', padding: '0 !important'}}
+                    </p>
+                    <p
+                        className="text-sm text-[#d7d7d7] p-0"
                     >
                         {labels?.maker}
-                    </Typography>
+                    </p>
             
-                    <Box sx={{display: 'flex'}}>
+                    <div className="flex">
                         <ConnectButton
                             isConnected={isConnected}
                             isConnecting={isConnecting}
@@ -165,23 +175,12 @@ function CompactSimDevice({
                                 )
                             ) : !isConnected ? (
                                 <>
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 0.5,
-                                            color: '#8C8C8C',
-                                            fontSize: '14px',
-                                            fontWeight: 'bold',
-                                            cursor: 'pointer',
-                                            margin: '0 4px',
-                                        }}
+                                    <div
+                                        className="flex items-center gap-0.5 text-[#8C8C8C] text-sm font-bold cursor-pointer mx-1"
                                         onClick={() => setShowPairInfo(true)}
                                     >
-                                        <SquareAsteriskIcon
-                                            sx={{fontSize: '16px', color: '#8C8C8C'}}
-                                        />
-                                    </Box>
+                                        <SquareAsteriskIcon />
+                                    </div>
 
                                     <PairInput
                                         value={hexValue}
@@ -199,13 +198,13 @@ function CompactSimDevice({
                                     onClick={() => setShowPairInfo(true)}
                                 />
                             ))}
-                    </Box>
-                </Grid>
+                    </div>
+                </div>
                 <VisibilityControl
                     visibility={visibility}
                     onToggle={toggleVisibility || (() => {})}
                 />
-            </Grid>
+            </div>
             <SharedModal
                 isVisible={showPairInfo}
                 onClose={() => setShowPairInfo(false)}
@@ -218,12 +217,7 @@ function CompactSimDevice({
                             your block!
                         </p>
                         <aside
-                            style={{
-                                backgroundColor: '#F5F5F5',
-                                padding: '12px',
-                                borderRadius: '8px',
-                                marginTop: '16px',
-                            }}
+                            className="bg-[#F5F5F5] p-3 rounded-lg mt-4"
                         >
                             Teacher Tip: You may write the Pairing ID on your block with a
                             marker or sticker so it is always easy to find
@@ -246,7 +240,7 @@ function CompactSimDevice({
                     </p>
                 }
             />
-        </Box>
+        </div>
     );
 }
 
