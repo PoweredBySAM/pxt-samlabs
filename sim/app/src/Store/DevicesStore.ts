@@ -1,5 +1,5 @@
-import type {IBuiltDevice} from '../SAMDevices/Types/SAMDeviceTypes';
-import {observable, action, makeAutoObservable} from 'mobx';
+import type {IBuiltDevice, SamDeviceStoreType} from '../SAMDevices/Types/SAMDeviceTypes';
+import {observable, action, makeAutoObservable, runInAction} from 'mobx';
 
 import ButtonDevice from './ButtonDevice';
 import BuzzerDevice from './BuzzerDevice';
@@ -30,125 +30,75 @@ export const storeMap = {
     'BBC Microbit': MicrobitDevice,
 };
 
-const isWKWebView = () => {
-    if (!!(window as any).webkit && !!(window as any).webkit.messageHandlers) {
-        return true;
-    }
-    // Check the user agent string
-    if (/WKWebView/i.test(navigator.userAgent)) {
-        return true;
-    }
-    // Check for iOS and WebKit
-    return (
-        /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-        /WebKit/i.test(navigator.userAgent) &&
-        !/CriOS/i.test(navigator.userAgent)
-    );
-};
-
-const isItWKWebView = isWKWebView();
-
 class DevicesStore {
-    @observable devices: any[] = [];
-    lsStateStore: any;
-    private operationQueue: Array<() => void> = [];
-    private isProcessingQueue: boolean = false;
-    private pendingDevices: IBuiltDevice[] = [];
+    @observable devices: SamDeviceStoreType[] = [];
+    @observable isSynchronizing: boolean = false;
+    lsStateStore: SamDeviceManager;
+    private deviceOperationsQueue: Array<IBuiltDevice> = [];
 
     constructor() {
         makeAutoObservable(this);
         this.lsStateStore = SamDeviceManager.getInstance();
     }
 
-    private processQueue() {
-        if (this.isProcessingQueue || this.operationQueue.length === 0) {
+    @action addDevice(deviceData: IBuiltDevice) {
+        if (this.isSynchronizing) {
+            this.deviceOperationsQueue.push(deviceData);
             return;
         }
 
-        this.isProcessingQueue = true;
-        const operation = this.operationQueue.shift();
-
-        if (operation) {
-            operation();
-        }
-
-        this.isProcessingQueue = false;
-
-        // Process next operation if any
-        if (this.operationQueue.length > 0) {
-            setTimeout(() => this.processQueue(), 0);
-        }
+        this.processDeviceImmediate(deviceData);
     }
 
-    private queueOperation(operation: () => void) {
-        this.operationQueue.push(operation);
-        this.processQueue();
-    }
-
-    @action addDevice(deviceData: IBuiltDevice) {
-        if (isItWKWebView) {
-            this.pendingDevices.push(deviceData);
-        } else {
-            const device = this.buildStore(deviceData);
-            this.devices = [...this.devices, device];
-            this.updateAssignedNames();
-
-            this.devices.forEach((device) => {
-                window.parent.postMessage(
-                    {
-                        type: device.createMessageType,
-                        id: device.assignedName,
-                    },
-                    window.location.origin
-                );
-            });
-        }
+    @action private processDeviceImmediate(deviceData: IBuiltDevice) {
+        const device = this.buildStore(deviceData);
+        this.updateDevicesArray([...this.devices, device]);
+        this.updateAssignedNames();
+        this.notifyParentAboutDevices([device]);
     }
 
     @action emptyDevicesStore() {
-        this.queueOperation(() => {
-            this.devices = [];
-            this.lsStateStore.emptySamSimState();
+        this.isSynchronizing = true;
 
-            if (isItWKWebView) {
-                // Cordova: Process pending devices after emptying the store
-                if (this.pendingDevices.length > 0) {
-                    // Process pending devices in the next tick to ensure proper order
-                    this.queueOperation(() => {
-                        this.processPendingDevices();
-                    });
+        return new Promise<void>((resolve) => {
+            runInAction(() => {
+                this.updateDevicesArray([]);
+                this.lsStateStore.emptySamSimState();
+
+                if (this.deviceOperationsQueue.length > 0) {
+                    const devicesToProcess = [...this.deviceOperationsQueue];
+                    this.deviceOperationsQueue = [];
+
+                    const processedDevices = devicesToProcess.map((deviceData) =>
+                        this.buildStore(deviceData)
+                    );
+
+                    this.updateDevicesArray(processedDevices);
+                    this.updateAssignedNames();
+
+                    this.notifyParentAboutDevices(this.devices);
                 }
-            }
+
+                this.isSynchronizing = false;
+                resolve();
+            });
         });
     }
 
-    @action private processPendingDevices() {
-        if (this.pendingDevices.length === 0) {
-            return;
-        }
+    private notifyParentAboutDevices(devicesToNotify: SamDeviceStoreType[]) {
+        devicesToNotify.forEach((device) => {
+            window.parent.postMessage(
+                {
+                    type: device.createMessageType,
+                    id: device.assignedName,
+                },
+                window.location.origin
+            );
+        });
+    }
 
-        const deviceData = this.pendingDevices.shift();
-        if (deviceData) {
-            const device = this.buildStore(deviceData);
-            this.devices = [...this.devices, device];
-            this.updateAssignedNames();
-
-            this.devices.forEach((device) => {
-                window.parent.postMessage(
-                    {
-                        type: device.createMessageType,
-                        id: device.assignedName,
-                    },
-                    window.location.origin
-                );
-            });
-
-            if (this.pendingDevices.length > 0) {
-                this.queueOperation(() => {
-                    this.processPendingDevices();
-                });
-            }
-        }
+    @action updateDevicesArray(newDevices: SamDeviceStoreType[]) {
+        this.devices = newDevices;
     }
 
     @action updateAssignedNames() {
