@@ -24,7 +24,8 @@
     },
     "simulator": {
         "autoRun": false,
-        "aspectRatio": 1
+        "aspectRatio": 1,
+        "allowParentController": true
     },
     "compile": {
         "isNative": false,

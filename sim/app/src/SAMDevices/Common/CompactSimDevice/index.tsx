@@ -10,6 +10,13 @@ import SharedModal from '../../../Components/SharedModal';
 import DeviceIcon from './DeviceIcon';
 import BlockHexDisplay from './BlockHexDisplay';
 
+interface BluetoothEventData {
+    type: string;
+    value?: string;
+}
+
+type EventHandler = (data: BluetoothEventData) => void;
+
 function CompactSimDevice({
     device,
     Icon,
@@ -36,7 +43,7 @@ function CompactSimDevice({
     const [isConnecting, setIsConnecting] = React.useState(false);
     const [showPairInfo, setShowPairInfo] = React.useState(false);
     const [isHexErrorVisible, setIsHexErrorVisible] = useState(false);
-
+    const [isCordova, setIsCordova] = useState(false);
     const handleConnect = () => {
         setIsConnecting(true);
         window.parent.postMessage(
@@ -65,32 +72,55 @@ function CompactSimDevice({
             window.location.origin
         );
 
-        const listenerEvent = (event: MessageEvent) => {
-            if (event.data.type === `${device.assignedName} hexValueError`) {
-                setIsConnecting(false);
-                setIsHexErrorVisible(true);
-            }
-            if (event.data.type === `${device.assignedName} bluetoothConnectionErr`) {
-                setBleError(true);
-                setIsConnecting(false);
-            }
-            if (event.data.type === `${device.assignedName} bluetoothCancelled`) {
-                setIsConnecting(false);
-            }
-            if (
-                event.data.type === `${device.assignedName} bluetoothConnected` ||
-                event.data.type === `${device.assignedName} bluetoothIsConnected`
-            ) {
-                setBlockHexValue(event.data.value);
-                setIsConnected(true);
-                setIsConnecting(false);
-            }
-            if (event.data.type === `${device.assignedName} bluetoothDisconnected`) {
-                if (!device.assignedName.startsWith('Microbit')) {
-                    device.updateColor('#FFFFFF');
-                }
-                setIsConnected(false);
-                setIsConnecting(false);
+        const listenerEvent = (event: MessageEvent<BluetoothEventData>) => {
+            const eventHandlers: Record<string, EventHandler> = {
+                [`itsCordovaEnvironment`]: () => {
+                    setIsCordova(true);
+                },
+                [`${device.assignedName} hexValueError`]: () => {
+                    setIsConnecting(false);
+                    setIsHexErrorVisible(true);
+                },
+                [`${device.assignedName} bluetoothConnectionErr`]: () => {
+                    setBleError(true);
+                    setIsConnecting(false);
+                },
+                [`${device.assignedName} bluetoothCancelled`]: () => {
+                    setIsConnecting(false);
+                },
+                cordovaModalClosed: () => {
+                    setIsConnecting(false);
+                },
+                [`${device.assignedName} bluetoothConnected`]: (data) => {
+                    setBlockHexValue(data.value);
+                    setIsConnected(true);
+                    setIsConnecting(false);
+                    window.parent.postMessage(
+                        {
+                            type: 'simulator',
+                            command: 'restart',
+                            source: 'pxtdriver',
+                        },
+                        window.location.origin
+                    );
+                },
+                [`${device.assignedName} bluetoothIsConnected`]: (data) => {
+                    setBlockHexValue(data.value);
+                    setIsConnected(true);
+                    setIsConnecting(false);
+                },
+                [`${device.assignedName} bluetoothDisconnected`]: () => {
+                    if (!device.assignedName.startsWith('Microbit')) {
+                        device.updateColor('#FFFFFF');
+                    }
+                    setIsConnected(false);
+                    setIsConnecting(false);
+                },
+            };
+
+            const handler = eventHandlers[event.data.type];
+            if (handler) {
+                handler(event.data);
             }
         };
 
@@ -121,6 +151,7 @@ function CompactSimDevice({
                     >
                         {labels?.maker}
                     </Typography>
+
                     <Box sx={{display: 'flex'}}>
                         <ConnectButton
                             isConnected={isConnected}
@@ -130,42 +161,50 @@ function CompactSimDevice({
                             onConnect={handleConnect}
                             onDisconnect={handleDisconnect}
                         />
-                        {!isConnected && !device.assignedName.startsWith('Microbit') ? (
-                            <>
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 0.5,
-                                        color: '#8C8C8C',
-                                        fontSize: '14px',
-                                        fontWeight: 'bold',
-                                        cursor: 'pointer',
-                                        margin: '0 4px',
-                                    }}
-                                    onClick={() => setShowPairInfo(true)}
-                                >
-                                    <SquareAsteriskIcon
-                                        sx={{fontSize: '16px', color: '#8C8C8C'}}
+                        {!device.assignedName.startsWith('Microbit') &&
+                            (isCordova ? (
+                                isConnected && (
+                                    <BlockHexDisplay
+                                        value={blockHexValue}
+                                        onClick={() => setShowPairInfo(true)}
                                     />
-                                </Box>
+                                )
+                            ) : !isConnected ? (
+                                <>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 0.5,
+                                            color: '#8C8C8C',
+                                            fontSize: '14px',
+                                            fontWeight: 'bold',
+                                            cursor: 'pointer',
+                                            margin: '0 4px',
+                                        }}
+                                        onClick={() => setShowPairInfo(true)}
+                                    >
+                                        <SquareAsteriskIcon
+                                            sx={{fontSize: '16px', color: '#8C8C8C'}}
+                                        />
+                                    </Box>
 
-                                <PairInput
-                                    value={hexValue}
-                                    onChange={(newValue) => {
-                                        setHexValue(newValue);
-                                    }}
-                                    onClear={() => {
-                                        setHexValue('');
-                                    }}
+                                    <PairInput
+                                        value={hexValue}
+                                        onChange={(newValue) => {
+                                            setHexValue(newValue);
+                                        }}
+                                        onClear={() => {
+                                            setHexValue('');
+                                        }}
+                                    />
+                                </>
+                            ) : (
+                                <BlockHexDisplay
+                                    value={blockHexValue}
+                                    onClick={() => setShowPairInfo(true)}
                                 />
-                            </>
-                        ) : !device.assignedName.startsWith('Microbit') ? (
-                            <BlockHexDisplay
-                                value={blockHexValue}
-                                onClick={() => setShowPairInfo(true)}
-                            />
-                        ) : null}
+                            ))}
                     </Box>
                 </Grid>
                 <VisibilityControl
