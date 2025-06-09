@@ -69,5 +69,6 @@
     "SamLabs_Buzzer_Set_Pitch": "set {device} pitch to {pitch}",
     "SamLabs_Buzzer_Clear": "clear {device}",
     "SamLabs_Buzzer_Get_Volume": "get {device} volume",
-    "SamLabs_Buzzer_Get_Pitch": "get {device} pitch"
+    "SamLabs_Buzzer_Get_Pitch": "get {device} pitch",
+    "Pairing_ID_Invalid_Characters": "The Pairing ID entered is invalid. Pairing IDs only contain the digits 0-9 or letters a-f."
 }

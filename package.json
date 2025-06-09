@@ -29,7 +29,7 @@
     "serve": "pxt serve",
     "link-pxt-core": "pxt link ./custom-core",
     "buildsim": "cd sim/app &&  npm run build",
-    "pxt-build":"pxt staticpkg",
+    "pxt-build": "pxt staticpkg",
     "start": "npm-run-all -s buildsim serve",
     "build-from-custom": "cd custom-core && git pull origin sam-develop && cd .. && npm-run-all -s build-pxt-core link-pxt-core buildsim pxt-build"
   },
@@ -41,13 +41,13 @@
     "@types/web-bluetooth": "0.0.4",
     "npm-run-all": "^4.1.5",
     "semantic-ui-less": "2.4.1",
-    "typescript": "^5.1.6"
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "mobx-react": "^7.6.0",
-    "pxt-core": "github:PoweredBySAM/pxt#develop",
     "pxt": "^0.5.1",
     "pxt-common-packages": "10.1.1",
+    "pxt-core": "7.4.21",
     "uuid": "^9.0.0"
   }
 }
