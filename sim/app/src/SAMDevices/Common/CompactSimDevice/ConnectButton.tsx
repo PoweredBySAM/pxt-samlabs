@@ -6,6 +6,7 @@ const ConnectButton = ({
     isConnecting,
     isInTestMode,
     bleError,
+    isInputValid = true,
     onConnect,
     onDisconnect,
 }: {
@@ -13,6 +14,7 @@ const ConnectButton = ({
     isConnecting: boolean;
     isInTestMode: boolean;
     bleError: boolean;
+    isInputValid?: boolean;
     onConnect: () => void;
     onDisconnect: () => void;
 }) => (
@@ -20,18 +22,23 @@ const ConnectButton = ({
         id='composition-button'
         onClick={isConnected ? onDisconnect : onConnect}
         disableElevation
-        disabled={isInTestMode || isConnecting}
+        disabled={isInTestMode || isConnecting || (!isConnected && !isInputValid)}
         variant='contained'
         sx={{
             width: '88px',
             padding: '6px 14px',
             textTransform: 'none',
             backgroundColor: isConnected ? '#FF0000' : '#26D0C4',
+            color: '#ffffff',
+            fontFamily: 'Nunito',
+            fontWeight: 'bold',
             '&:hover': {
                 backgroundColor: isConnected ? '#cc0101' : '#21B8A8',
             },
             '&.Mui-disabled': {
-                backgroundColor: isConnected ? '#FF0000' : '#26D0C4',
+                backgroundColor: '#E0E0E0',
+                color: '#9E9E9E',
+                cursor: 'not-allowed',
             },
         }}
     >

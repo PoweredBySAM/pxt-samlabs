@@ -4,11 +4,12 @@ import styles from 'src/Components/selector/SelectorComponent.module.css';
 import {SquareAsteriskIcon} from 'src/SAMDevices/Icons/SquareAsteriskIcon';
 import {ReactComponent as PairCodeIcon} from '../../../Components/SharedModal/pair-code.svg';
 import ConnectButton from 'src/SAMDevices/Common/CompactSimDevice/ConnectButton';
-import PairInput from 'src/SAMDevices/Common/CompactSimDevice/PairingInput';
+import PairInput from 'src/SAMDevices/Common/CompactSimDevice/PairInput';
 import VisibilityControl from 'src/SAMDevices/Common/CompactSimDevice/VisibilityControl';
 import SharedModal from '../../../Components/SharedModal';
 import DeviceIcon from './DeviceIcon';
 import BlockHexDisplay from './BlockHexDisplay';
+import translations from '../../Animatable/Translations';
 
 interface BluetoothEventData {
     type: string;
@@ -44,6 +45,7 @@ function CompactSimDevice({
     const [showPairInfo, setShowPairInfo] = React.useState(false);
     const [isHexErrorVisible, setIsHexErrorVisible] = useState(false);
     const [isCordova, setIsCordova] = useState(false);
+    const [isPairingIdValid, setIsPairingIdValid] = useState(true);
     const handleConnect = () => {
         setIsConnecting(true);
         window.parent.postMessage(
@@ -158,6 +160,7 @@ function CompactSimDevice({
                             isConnecting={isConnecting}
                             isInTestMode={isInTestMode}
                             bleError={bleError}
+                            isInputValid={isPairingIdValid}
                             onConnect={handleConnect}
                             onDisconnect={handleDisconnect}
                         />
@@ -197,6 +200,8 @@ function CompactSimDevice({
                                         onClear={() => {
                                             setHexValue('');
                                         }}
+                                        onValidationChange={setIsPairingIdValid}
+                                        errorMessage={translations.en.Pairing_ID_Invalid_Characters}
                                     />
                                 </>
                             ) : (

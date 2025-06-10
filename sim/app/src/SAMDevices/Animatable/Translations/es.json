@@ -66,5 +66,6 @@
     "SamLabs_Buzzer_Set_Pitch": "set {device} pitch to {pitch}(spanish)",
     "SamLabs_Buzzer_Clear": "clear {device}(spanish)",
     "SamLabs_Buzzer_Get_Volume": "get {device} volume(spanish)",
-    "SamLabs_Buzzer_Get_Pitch": "get {device} pitch(spanish)"
+    "SamLabs_Buzzer_Get_Pitch": "get {device} pitch(spanish)",
+    "Pairing_ID_Invalid_Characters": "El ID de emparejamiento ingresado no es válido. Los IDs de emparejamiento solo contienen los dígitos 0-9 o las letras a-f."
 }
